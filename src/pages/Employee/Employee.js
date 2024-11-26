@@ -4,6 +4,21 @@ import React, { useState } from 'react'
 export const Employee = () => {
 
   const [name, setName] = useState('')
+  const [fname, setFName] = useState('')
+  const [mname, setMotherName] = useState('')
+  const [nid, setNID] = useState('')
+  const [Presentaddrss, setPresentaddrss] = useState('')
+
+  const [division, setdivision] = useState('')
+
+  const [divisions, setdivisions] = useState([
+    {
+        name: 'Male',
+    },
+    {
+        name: 'Female',
+    }
+])
 
   const addData = e => {
     e.preventDefault()
@@ -33,7 +48,35 @@ export const Employee = () => {
                 </div>
 
                 <form>
-                    <label>Name:</label>
+                    <label> Employee Name:</label>
+                    <input value={name} onChange={e => setName(e.target.value)} className='input' type='text'/>
+
+                    <label> Father Name:</label>
+                    <input value={fname} onChange={e => setName(e.target.value)} className='input' type='text'/>
+
+                    <label> Mother Name:</label>
+                    <input value={mname} onChange={e => setName(e.target.value)} className='input' type='text'/>
+
+                    <label> NID:</label>
+                    <input value={nid} onChange={e => setName(e.target.value)} className='input' type='text'/>
+
+                    <label> Present Address:</label>
+                    <input value={Presentaddrss} onChange={e => setName(e.target.value)} className='input' type='text'/>
+
+                    <label> Permanent Address:</label>
+                    <select value={division} onChange={e => {
+                            
+                            setdivision(e.target.value)
+                        }} className='select' >
+                            <option >Select</option>
+                            {
+                                divisions.map(item => (
+                                    <option value={item.name}>{item.name}</option>
+                                ))
+                            }
+                        </select>
+                    
+                    <label> Blood Group:</label>
                     <input value={name} onChange={e => setName(e.target.value)} className='input' type='text'/>
 
                     <button onClick={addData} className='button'>Submit</button>

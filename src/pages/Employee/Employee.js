@@ -8,7 +8,7 @@ export const Employee = () => {
 
   return (
 
-<div className='details'>
+        <div className='details'>
                 {/* <h2>Cow Purchase</h2> */}
                 <div className="container-fluid px-5 d-none d-lg-block">
                     <div className="row gx-5 py-3 align-items-center">

@@ -7,23 +7,23 @@ import { Home } from './pages/Home';
 
 function App() {
   return (
-    
+
     <BrowserRouter>
-    
-    <Routes>
-    <Route element={<Employee/>} exact path='/employee/'/>
 
-    <Route element={<Home/>} exact path='/' />
-    {/* <Route element={<Employeelayout/>} exact path='/employee'> */}
-    {/* <Route element={<Employee/>} exact path='/employee/genaral'/> */}
+      <Routes>
+        {/* <Route element={<Employee />} exact path='/employee/' /> */}
 
-
+        <Route element={<Home />} exact path='/' />
+        <Route element={<Employeelayout />} path='/employee'>
+          <Route element={<Employee />} exact path='/employee/general' />
 
 
-       {/* </Route> */}
 
-    </Routes>
-    
+
+        </Route>
+
+      </Routes>
+
     </BrowserRouter>
 
   );

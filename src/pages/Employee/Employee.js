@@ -1,10 +1,13 @@
-import React from 'react'
 import React, { useState } from 'react'
 
 
 export const Employee = () => {
 
   const [name, setName] = useState('')
+
+  const addData = e => {
+    e.preventDefault()
+  }
 
   return (
 
@@ -21,7 +24,7 @@ export const Employee = () => {
                         <div className="col-lg-6">
                             <div className="d-flex align-items-center justify-content-center">
                                 <a href="#" className="navbar-brand ms-lg-5">
-                                    <h1 className="m-2 display-4 text-success2"><span className="text-success2">Cow</span> Feeding</h1>
+                                    <h1 className="m-2 display-4 text-success2"><span className="text-success2">Employee</span> Information</h1>
                                 </a>
                             </div>
                         </div>

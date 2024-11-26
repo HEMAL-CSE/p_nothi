@@ -4,6 +4,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Employeelayout from './pages/Employee/Employeelayout';
 import { Employee } from './pages/Employee/Employee';
 import { Home } from './pages/Home';
+import Register from './pages/Auth/Register';
+import Login from './pages/Auth/Login';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -14,6 +18,9 @@ function App() {
         {/* <Route element={<Employee />} exact path='/employee/' /> */}
 
         <Route element={<Home />} exact path='/' />
+        <Route element={<Register />} exact path='/register' />
+        <Route element={<Login />} exact path='/login' />
+
         <Route element={<Employeelayout />} path='/employee'>
         <Route element={<Employee />} exact path='/employee/general' />
 

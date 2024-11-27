@@ -7,6 +7,7 @@ import { Home } from './pages/Home';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import 'react-toastify/dist/ReactToastify.css';
+import { Education } from './pages/Education/Education';
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
 
         <Route element={<Employeelayout />} path='/employee'>
         <Route element={<Employee />} exact path='/employee/general' />
+        <Route element={<Education />} exact path='/employee/education' />
+
 
 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { BsInfo, BsPeople, BsSpeedometer } from 'react-icons/bs'
+import { BsInfo, BsMenuUp, BsPeople, BsSpeedometer } from 'react-icons/bs'
 import { BiArrowFromBottom, BiArrowToBottom, BiBook, BiBookAlt, BiChart, BiHealth, BiMoney, BiPencil, BiPlus, BiSolidArrowToBottom } from 'react-icons/bi'
 import { FaCow, FaSeedling, FaUserDoctor } from 'react-icons/fa6'
 import { GiBottomRight3dArrow, GiDoctorFace, GiPaper } from 'react-icons/gi'
@@ -23,6 +23,14 @@ const Employeelayout = ({children}) => {
             icon: MdDashboard,
             submenu: []
         },
+
+        {
+          name: 'Profile',
+          pathname: '/employee/job',
+          icon: BsMenuUp,
+          submenu: []
+      },
+
         {
             name: 'Job Info',
             pathname: '/employee/job',

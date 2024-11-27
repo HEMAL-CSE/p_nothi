@@ -4,6 +4,12 @@ import React, { useState } from 'react'
 
 export const Education = () => {
 
+  const [iname, setIname] = useState('')
+  const [subject, setsubject] = useState('')
+  const [cgpa, setcgpa] = useState('')
+
+
+
   const [bsc, setbsc] = useState('')
   const [bscs, setbscs] = useState([
     {
@@ -17,6 +23,25 @@ export const Education = () => {
     }
 ])
 
+const [passyear, setpassyear] = useState('')
+const [passyears, setpassyears] = useState([
+  {
+      name: '2019',
+  },
+  {
+      name: '2021',
+  },
+  {
+      name: '2022',
+  },
+  {
+      name: '2023',
+  }
+])
+
+const addData = e => {
+  e.preventDefault()
+}
 
   return (
 
@@ -55,6 +80,31 @@ export const Education = () => {
                                 ))
                             }
                     </select>
+                    <label> Institute Name:</label>
+                    <input value={iname} onChange={e => setIname(e.target.value)} className='input' type='text'/>
+
+
+                    <label> Select Passing Year:</label>
+                    <select value={passyear} onChange={e => {
+                            
+                            setpassyear(e.target.value)
+                        }} className='select' >
+                            <option >Select</option>
+                            {
+                                passyears.map(item => (
+                                    <option value={item.name}>{item.name}</option>
+                                ))
+                            }
+                    </select>
+
+                    <label> Enter Your Subject:</label>
+                    <input value={subject} onChange={e => setsubject(e.target.value)} className='input' type='text'/>
+
+                    <label> Enter Your CGPA:</label>
+                    <input value={cgpa} onChange={e => setcgpa(e.target.value)} className='input' type='text'/>
+
+                    <button onClick={addData} className='button'>Submit</button>
+                    
                   </form>
 
 

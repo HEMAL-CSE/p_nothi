@@ -65,6 +65,20 @@ const Employeelayout = ({children}) => {
             submenu: []
         },
 
+        {
+          name: 'Pay Roll',
+          pathname: '/employee/responsibility',
+          icon: BiBook,
+          submenu: []
+      },
+
+      {
+        name: 'Leave Information',
+        pathname: '/employee/leave',
+        icon: BiBook,
+        submenu: []
+    },
+
 
         
         

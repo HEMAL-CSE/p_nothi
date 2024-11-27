@@ -36,6 +36,8 @@ const Login = () => {
 
                 axios.get(`http://68.178.163.174:5012/employees/?user_id=${res.data.user_id}`).then(res2 => {
                     localStorage.setItem('employee_id',res2.data[0].id )
+                    console.log(res2.data);
+                    
 
                     navigator('/employee/general')
                 })

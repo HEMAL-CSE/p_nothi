@@ -3,12 +3,13 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Employeelayout from './pages/Employee/Employeelayout';
 import { Employee } from './pages/Employee/Employee';
-import { Home } from './pages/Home';
+import  Home  from './pages/Home';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import 'react-toastify/dist/ReactToastify.css';
 import { Education } from './pages/Education/Education';
 import Profile from './pages/Profile/Profile';
+import { Jobinfo } from './pages/Job Info/Jobinfo';
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
         <Route element={<Employee />} exact path='/employee/general' />
         <Route element={<Education />} exact path='/employee/education' />
         <Route element={<Profile />} exact path='/employee/profile' />
-
+        <Route element={<Jobinfo/>} exact path='/employee/job' />
 
 
 

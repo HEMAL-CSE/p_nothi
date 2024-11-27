@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 
@@ -6,6 +7,8 @@ const Profile = () => {
     const [employee, setEmployee] = useState({})
 
     const [education, setEducation] = useState([])
+
+    const [job_info, setJob_info] = useState({})
 
     useEffect(() => {
 
@@ -18,6 +21,12 @@ const Profile = () => {
 
         axios.get(`http://68.178.163.174:5012/employees/education?employee_id=${employee_id}`).then(res => {
             setEducation(res.data)
+        })
+
+        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+            // setJob_info(res.data[0])
+            console.log(res.data[0]);
+            
         })
     }, [])
 
@@ -115,6 +124,35 @@ const Profile = () => {
                     ))
                 }
             </div>
+            <h2 className='mt-3'>Job Info</h2>
+
+            {
+                Object.keys(job_info).length != 0 && job_info != undefined &&
+                <div className='d-flex p-3 flex-column bg-card align-items-start'>
+                    <div className='m-2'>
+                        <span className='fw-bold'>Job Title:</span> {job_info.title}
+                    </div>
+
+                    <div className='m-2'>
+                        <span className='fw-bold'>Job Department:</span> {job_info.department}
+                    </div>
+
+                    <div className='m-2'>
+                        <span className='fw-bold'>Job Designation:</span> {job_info.designation}
+                    </div>
+
+                    <div className='m-2'>
+                        <span className='fw-bold'>Job Type:</span> {job_info.type}
+                    </div>
+                    <div className='m-2'>
+                        <span className='fw-bold'>Joining Date:</span> {moment(job_info.joining_date).format('DD/MM/yyyy')}
+                    </div>
+                    <div className='m-2'>
+                        <span className='fw-bold'>Location:</span> {job_info.location}
+
+                    </div>
+                </div>
+            }
 
 
         </div>

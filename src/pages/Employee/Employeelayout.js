@@ -26,7 +26,7 @@ const Employeelayout = ({children}) => {
 
         {
           name: 'Profile',
-          pathname: '/employee/job',
+          pathname: '/employee/profile',
           icon: BsMenuUp,
           submenu: []
       },

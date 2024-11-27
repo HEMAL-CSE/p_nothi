@@ -1,4 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import divisionsdata from '../../assets/divisions.json'
+import districtsdata from '../../assets/districts.json'
+import upazilasdata from '../../assets/upazilas.json'
+import axios from 'axios'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 export const Employee = () => {
@@ -12,43 +17,13 @@ export const Employee = () => {
 
 
   const [division, setdivision] = useState('')
-  const [divisions, setdivisions] = useState([
-    {
-        name: 'Dhaka',
-    },
-    {
-        name: 'Rajshahi',
-    },
-    {
-        name: 'Barisal',
-    }
-])
+  const [divisions, setdivisions] = useState([])
 
 const [district, setdistrict] = useState('')
-  const [districts, setdistricts] = useState([
-    {
-        name: 'Narsingdi',
-    },
-    {
-        name: 'Gazipur',
-    },
-    {
-        name: 'Tangail',
-    }
-])
+  const [districts, setdistricts] = useState([])
 
 const [upazila, setupazila] = useState('')
-  const [upazilas, setupazilas] = useState([
-    {
-        name: 'Shibpur',
-    },
-    {
-        name: 'Polash',
-    },
-    {
-        name: 'Monohordi',
-    }
-])
+  const [upazilas, setupazilas] = useState([])
 
 const [blood, setblood] = useState('')
   const [bloods, setbloods] = useState([
@@ -75,14 +50,45 @@ const [blood, setblood] = useState('')
     }
 ])
 
+useEffect(() => {
+
+    setdivisions(divisionsdata)
+}, [])
+
   const addData = e => {
     e.preventDefault()
+
+    const user_id = localStorage.getItem('user_id')
+
+    axios.put(`http://68.178.163.174:5012/employees/edit?user_id=${user_id}`, {
+        father_name: fname,
+        mother_name: mname,
+        nid: nid,
+        present_address:Presentaddrss,
+        division,
+        district,
+        upazila,
+        village: villagename,
+        blood_group: blood
+    }).then(res => {
+        toast('Profile Updated')
+        setFName('')
+        setMotherName('')
+        setNID('')
+        setPresentaddrss('')
+        setdivision('')
+        setdistrict('')
+        setupazila('')
+        setvillagename('')
+        setblood('')
+    })
   }
 
   return (
 
         <div className='details'>
                 {/* <h2>Cow Purchase</h2> */}
+                <ToastContainer />
                 <div className="container-fluid px-5 d-none d-lg-block">
                     <div className="row gx-5 py-3 align-items-center">
                         <div className="col-lg-3">
@@ -94,7 +100,7 @@ const [blood, setblood] = useState('')
                         <div className="col-lg-6">
                             <div className="d-flex align-items-center justify-content-center">
                                 <a href="#" className="navbar-brand ms-lg-5">
-                                    <h1 className="m-2 display-4 text-success2"><span className="text-success2">Employee</span> Information</h1>
+                                    <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Employee</span> Information</h1>
                                 </a>
                             </div>
                         </div>
@@ -103,9 +109,7 @@ const [blood, setblood] = useState('')
                 </div>
 
                 <form>
-                    <label> Employee Name:</label>
-                    <input value={name} onChange={e => setName(e.target.value)} className='input' type='text'/>
-
+                
                     <label> Father Name:</label>
                     <input value={fname} onChange={e => setFName(e.target.value)} className='input' type='text'/>
 
@@ -122,11 +126,15 @@ const [blood, setblood] = useState('')
                     <select value={division} onChange={e => {
                             
                             setdivision(e.target.value)
+                            let districtsx = districtsdata.filter(x => x.division_id == e.target.value)
+                            console.log(districtsx);
+
+                            setdistricts(districtsx)
                         }} className='select' >
                             <option >Select</option>
                             {
                                 divisions.map(item => (
-                                    <option value={item.name}>{item.name}</option>
+                                    <option value={item.id}>{item.bn_name}</option>
                                 ))
                             }
                         </select>
@@ -135,11 +143,13 @@ const [blood, setblood] = useState('')
                     <select value={district} onChange={e => {
                             
                             setdistrict(e.target.value)
+                            let upazialasx = upazilasdata.filter(x => x.district_id == e.target.value)
+                            setupazilas(upazialasx)
                         }} className='select' >
                             <option >Select</option>
                             {
                                 districts.map(item => (
-                                    <option value={item.name}>{item.name}</option>
+                                    <option value={item.id}>{item.bn_name}</option>
                                 ))
                             }
                         </select>
@@ -152,7 +162,7 @@ const [blood, setblood] = useState('')
                             <option >Select</option>
                             {
                                 upazilas.map(item => (
-                                    <option value={item.name}>{item.name}</option>
+                                    <option value={item.id}>{item.bn_name}</option>
                                 ))
                             }
                         </select>

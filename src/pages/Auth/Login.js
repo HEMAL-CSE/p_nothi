@@ -33,6 +33,13 @@ const Login = () => {
             }).then(res => {
                 localStorage.setItem('role', res.data.role)
                 localStorage.setItem('user_id', res.data.user_id)
+
+                axios.get(`http://68.178.163.174:5012/employees/?user_id=${res.data.user_id}`).then(res2 => {
+                    localStorage.setItem('employee_id',res2.data[0].id )
+
+                    navigator('/employee/general')
+                })
+
                 toast('Logged In')
             })
         }

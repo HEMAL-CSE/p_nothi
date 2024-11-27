@@ -1,5 +1,7 @@
 // import React from 'react'
+import axios from 'axios'
 import React, { useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 export const Education = () => {
@@ -10,10 +12,10 @@ export const Education = () => {
 
 
 
-  const [bsc, setbsc] = useState('')
+  const [bsc, setbsc] = useState('Bachelor’s Degree')
   const [bscs, setbscs] = useState([
     {
-        name: 'Bachelor’s Degree ',
+        name: 'Bachelor’s Degree',
     },
     {
         name: 'Higher Secondary Certificate (HSC)',
@@ -41,12 +43,31 @@ const [passyears, setpassyears] = useState([
 
 const addData = e => {
   e.preventDefault()
+
+  const employee_id = localStorage.getItem('employee_id')
+
+  axios.post(`http://68.178.163.174:5012/employees/education/add`, {
+    employee_id,
+    degree: bsc,
+    passing_year: passyear,
+    gpa: cgpa,
+    institution: iname,
+    subject
+  }).then(res => {
+    toast('Profile Updated')
+    setpassyear('')
+    setcgpa('')
+    setIname('')
+    setsubject('')
+  })
+
 }
 
   return (
 
     <div className='details'>
                 {/* <h2>Cow Purchase</h2> */}
+                <ToastContainer />
                 <div className="container-fluid px-5 d-none d-lg-block">
                     <div className="row gx-5 py-3 align-items-center">
                         <div className="col-lg-3">
@@ -58,7 +79,7 @@ const addData = e => {
                         <div className="col-lg-6">
                             <div className="d-flex align-items-center justify-content-center">
                                 <a href="#" className="navbar-brand ms-lg-5">
-                                    <h1 className="m-2 display-4 text-success2"><span className="text-success2">Educational</span> Qualification</h1>
+                                    <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Educational</span> Qualification</h1>
                                 </a>
                             </div>
                         </div>
@@ -97,10 +118,10 @@ const addData = e => {
                             }
                     </select>
 
-                    <label> Enter Your Subject:</label>
+                    <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'Subject' : 'Group'}:</label>
                     <input value={subject} onChange={e => setsubject(e.target.value)} className='input' type='text'/>
 
-                    <label> Enter Your CGPA:</label>
+                    <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'CGPA' : 'GPA'}:</label>
                     <input value={cgpa} onChange={e => setcgpa(e.target.value)} className='input' type='text'/>
 
                     <button onClick={addData} className='button'>Submit</button>

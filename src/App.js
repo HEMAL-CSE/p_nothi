@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Education } from './pages/Education/Education';
 import Profile from './pages/Profile/Profile';
 import { Jobinfo } from './pages/Job Info/Jobinfo';
+import { Experience } from './pages/Experience/Experience';
 
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
         <Route element={<Education />} exact path='/employee/education' />
         <Route element={<Profile />} exact path='/employee/profile' />
         <Route element={<Jobinfo/>} exact path='/employee/job' />
+        <Route element={<Experience/>} exact path='/employee/experience' />
+
 
 
 

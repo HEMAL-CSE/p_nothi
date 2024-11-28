@@ -2,11 +2,10 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 
-export const Jobinfo = () => {
+export const Experience = () => {
     const [jobtittle, setJobtittle] = useState('')
     const [jobdeg, setJobdef] = useState('')
     const [dept, setdept] = useState('')
-    const [jobtype, setjobtype] = useState('')
     const [joining, setjoining] = useState('')
     const [joblocation, setjoblocation] = useState('')
 
@@ -19,7 +18,6 @@ export const Jobinfo = () => {
             title: jobtittle,
             department: dept,
             designation: jobdeg,
-            type: jobtype,
             joining_date: joining,
             location: joblocation
         }).then(res => {
@@ -42,7 +40,7 @@ export const Jobinfo = () => {
                         <div className="col-lg-6">
                             <div className="d-flex align-items-center justify-content-center">
                                 <a href="#" className="navbar-brand ms-lg-5">
-                                    <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Job</span> Info</h1>
+                                    <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Experiences</span></h1>
                                 </a>
                             </div>
                         </div>
@@ -54,14 +52,11 @@ export const Jobinfo = () => {
                <label> Job Title: </label>
                <input value={jobtittle} onChange={e => setJobtittle(e.target.value)} className='input' type='text'/>
 
-                <label> Job Designation: </label>
+                <label> Company Name: </label>
                <input value={jobdeg} onChange={e => setJobdef(e.target.value)} className='input' type='text'/>
 
                <label> Department:</label>
                <input value={dept} onChange={e => setdept(e.target.value)} className='input' type='text'/>
-
-               <label> Job Type:</label>
-               <input value={jobtype} onChange={e => setjobtype(e.target.value)} className='input' type='text'/>
 
                <label> Joining Date:</label>
                <input value={joining} onChange={e => setjoining(e.target.value)} className='input' type='date'/>
@@ -70,6 +65,8 @@ export const Jobinfo = () => {
                <input value={joblocation} onChange={e => setjoblocation(e.target.value)} className='input' type='text'/>
 
                <button onClick={addData} className='button'>Submit</button>
+
+
 
               </form> 
     </div>            

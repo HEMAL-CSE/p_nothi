@@ -5,9 +5,10 @@ import { toast, ToastContainer } from 'react-toastify'
 export const Experience = () => {
     const [jobtittle, setJobtittle] = useState('')
     const [jobdeg, setJobdef] = useState('')
-    const [dept, setdept] = useState('')
+    const [des, setdes] = useState('')
     const [joining, setjoining] = useState('')
-    const [joblocation, setjoblocation] = useState('')
+    const [end_date, setend_date] = useState('')
+    const [acheivement, setacheivement] = useState('')
 
     const addData = e => {
         e.preventDefault()
@@ -16,10 +17,11 @@ export const Experience = () => {
         axios.post(`http://68.178.163.174:5012/employees/job_info/add`, {
             employee_id,
             title: jobtittle,
-            department: dept,
+            // department: dept,
             designation: jobdeg,
-            joining_date: joining,
-            location: joblocation
+            start_date: joining,
+            end_date: joining,
+            acheivement: acheivement
         }).then(res => {
             toast('Profile Updated')
         })
@@ -55,14 +57,18 @@ export const Experience = () => {
                 <label> Company Name: </label>
                <input value={jobdeg} onChange={e => setJobdef(e.target.value)} className='input' type='text'/>
 
-               <label> Department:</label>
-               <input value={dept} onChange={e => setdept(e.target.value)} className='input' type='text'/>
-
-               <label> Joining Date:</label>
+               <label> Start Date:</label>
                <input value={joining} onChange={e => setjoining(e.target.value)} className='input' type='date'/>
 
-               <label> Job Location:</label>
-               <input value={joblocation} onChange={e => setjoblocation(e.target.value)} className='input' type='text'/>
+               <label> End Date:</label>
+               <input value={end_date} onChange={e => setend_date(e.target.value)} className='input' type='date'/>
+
+               <label> Job Description: </label>
+               <input value={des} onChange={e => setdes(e.target.value)} className='input' type='text'/>
+
+
+               <label> Achievements:</label>
+               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text'/>
 
                <button onClick={addData} className='button'>Submit</button>
 

@@ -66,7 +66,6 @@ export const Experience = () => {
                <label> Job Description: </label>
                <input value={des} onChange={e => setdes(e.target.value)} className='input' type='text'/>
 
-
                <label> Achievements:</label>
                <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text'/>
 

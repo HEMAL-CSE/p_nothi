@@ -24,6 +24,13 @@ export const Jobinfo = () => {
             location: joblocation
         }).then(res => {
             toast('Profile Updated')
+            setJobtittle('')
+            setdept('')
+            setJobdef('')
+            setjobtype('')
+            setjoining('')
+            setjoblocation('')
+            
         })
       }
 

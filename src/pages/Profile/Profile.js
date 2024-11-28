@@ -10,6 +10,8 @@ const Profile = () => {
 
     const [job_info, setJob_info] = useState({})
 
+    const [experience, setExperience] = useState([])
+
     useEffect(() => {
 
         const employee_id = localStorage.getItem('employee_id')
@@ -23,10 +25,14 @@ const Profile = () => {
             setEducation(res.data)
         })
 
+        axios.get(`http://68.178.163.174:5012/employees/experience?employee_id=${employee_id}`).then(res => {
+            setExperience(res.data)
+        })
+
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
-            // setJob_info(res.data[0])
+            setJob_info(res.data[0])
             console.log(res.data[0]);
-            
+
         })
     }, [])
 
@@ -103,24 +109,24 @@ const Profile = () => {
                     education.map(item => (
                         <div className='d-flex p-3 flex-column bg-card align-items-start'>
                             <div className='m-2'>
-                        <span className='fw-bold'>Degree:</span> {item.degree}
-                    </div>
-
-                    <div className='m-2'>
-                        <span className='fw-bold'>Institution:</span> {item.institution}
-                    </div>
-
-                    <div className='m-2'>
-                        <span className='fw-bold'>Subject:</span> {item.subject}
-                    </div>
-
-                    <div className='m-2'>
-                        <span className='fw-bold'>Passing Year:</span> {item.passing_year}
-                    </div>
-                    <div className='m-2'>
-                        <span className='fw-bold'>GPA/CGPA:</span> {item.gpa}
-                    </div>
+                                <span className='fw-bold'>Degree:</span> {item.degree}
                             </div>
+
+                            <div className='m-2'>
+                                <span className='fw-bold'>Institution:</span> {item.institution}
+                            </div>
+
+                            <div className='m-2'>
+                                <span className='fw-bold'>Subject:</span> {item.subject}
+                            </div>
+
+                            <div className='m-2'>
+                                <span className='fw-bold'>Passing Year:</span> {item.passing_year}
+                            </div>
+                            <div className='m-2'>
+                                <span className='fw-bold'>GPA/CGPA:</span> {item.gpa}
+                            </div>
+                        </div>
                     ))
                 }
             </div>
@@ -153,6 +159,37 @@ const Profile = () => {
                     </div>
                 </div>
             }
+
+            <div>
+                <h2 className='mt-3'>Experience</h2>
+                {
+                    experience.map(item => (
+                        <div className='d-flex p-3 flex-column bg-card align-items-start'>
+                            <div className='m-2'>
+                                <span className='fw-bold'>Job Title:</span> {item.title}
+                            </div>
+
+                            <div className='m-2'>
+                                <span className='fw-bold'>Company Name:</span> {item.company_name}
+                            </div>
+
+                            <div className='m-2'>
+                                <span className='fw-bold'>Start Date:</span> {moment(item.start_date).format('DD/MM/yyyy')}
+                            </div>
+
+                            <div className='m-2'>
+                                <span className='fw-bold'>End Date:</span> {moment(item.end_date).format('DD/MM/yyyy')}
+                            </div>
+                            <div className='m-2'>
+                                <span className='fw-bold'>Description:</span> {item.description}
+                            </div>
+                            <div className='m-2'>
+                                <span className='fw-bold'>Achievements:</span> {item.achievements}
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
 
 
         </div>

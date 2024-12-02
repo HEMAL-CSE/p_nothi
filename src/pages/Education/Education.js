@@ -27,6 +27,33 @@ export const Education = () => {
 
 const [passyear, setpassyear] = useState('')
 const [passyears, setpassyears] = useState([
+    {
+        name: '2010',
+    },
+    {
+        name: '2011',
+    },
+    {
+        name: '2012',
+    },
+    {
+        name: '2013',
+    },
+    {
+        name: '2014',
+    },
+    {
+        name: '2015',
+    },
+    {
+        name: '2016',
+    },
+    {
+        name: '2017',
+    },
+    {
+        name: '2018',
+    },
   {
       name: '2019',
   },
@@ -38,7 +65,10 @@ const [passyears, setpassyears] = useState([
   },
   {
       name: '2023',
-  }
+  },
+  {
+    name: '2024',
+}
 ])
 
 const addData = e => {

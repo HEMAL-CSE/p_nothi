@@ -122,8 +122,7 @@ export const Responsibilities = () => {
                 <input value={res} onChange={e => setres(e.target.value)} className='input' type='text'/>
 
                 <button onClick={addData} className='button'>Submit</button>
-
-
+                
     </div>
     
   )

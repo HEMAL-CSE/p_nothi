@@ -12,6 +12,7 @@ import Profile from './pages/Profile/Profile';
 import { Jobinfo } from './pages/Job Info/Jobinfo';
 import { Experience } from './pages/Experience/Experience';
 import { Responsibilities } from './pages/Responsibilities/Responsibilities';
+import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
 
 function App() {
@@ -33,8 +34,7 @@ function App() {
         <Route element={<Jobinfo/>} exact path='/employee/job' />
         <Route element={<Experience/>} exact path='/employee/experience' />
         <Route element={<Responsibilities/>} exact path='/employee/responsibility'/>
-
-
+        <Route element={<Leaveinfo/>} exact path='/employee/leave'/>
 
 
 

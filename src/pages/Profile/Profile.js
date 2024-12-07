@@ -18,7 +18,9 @@ const Profile = () => {
         const user_id = localStorage.getItem('user_id')
 
         axios.get(`http://68.178.163.174:5012/employees/?user_id=${user_id}`).then(res => {
+           if(res.data.length > 0){
             setEmployee(res.data[0])
+           }
         })
 
         axios.get(`http://68.178.163.174:5012/employees/education?employee_id=${employee_id}`).then(res => {
@@ -30,7 +32,9 @@ const Profile = () => {
         })
 
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
-            setJob_info(res.data[0])
+            if(res.data.length > 0){
+                setJob_info(res.data[0])
+            }
             console.log(res.data[0]);
 
         })

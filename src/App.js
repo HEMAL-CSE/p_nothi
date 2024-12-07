@@ -13,6 +13,7 @@ import { Jobinfo } from './pages/Job Info/Jobinfo';
 import { Experience } from './pages/Experience/Experience';
 import { Responsibilities } from './pages/Responsibilities/Responsibilities';
 import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
+import AllEmployeeInfo from './pages/AllEmployeeInfo/AllEmployeeInfo';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
@@ -37,6 +38,7 @@ function App() {
         <Route element={<Experience/>} exact path='/employee/experience' />
         <Route element={<Responsibilities/>} exact path='/employee/responsibility'/>
         <Route element={<Leaveinfo/>} exact path='/employee/leave'/>
+        <Route element={<AllEmployeeInfo/>} exact path='/employee/all_employee_info'/>
 
 
 

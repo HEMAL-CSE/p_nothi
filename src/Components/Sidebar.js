@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 const Sidebar = ({ elements, name }) => {
     const location = useLocation();
     const { hash, pathname, search } = location;
+
     const navigator = useNavigate();
     return (
         <div className='w-25 '>
@@ -25,14 +26,14 @@ const Sidebar = ({ elements, name }) => {
                     <hr className='text-secondary' />
                     <ul className='nav nav-pills flex-column' id='parentM'>
                         <li className='nav-item text-white fs-4 my-1'>
-                            <a href='/farmar' className={`nav-link text-white`}>
+                            <a href='/' className={`nav-link text-white`}>
                                 <BiHome />
                                 <span className='ms-2 d-none d-sm-inline'>Home</span>
                             </a>
                         </li>
                         {
                             elements.map(element => (
-                                <li  onClick={ () => {
+                               element.roles.includes(localStorage.getItem('role')) && <li  onClick={ () => {
                                     if(element.submenu.length == 0){
                                         console.log('hello');
                                         

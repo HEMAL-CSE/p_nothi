@@ -123,6 +123,7 @@ export const Leaveinfo = () => {
       </table>
       <p className="leave-footer">Last Leave Taken on: __________________________</p>
       <p className="leave-footer">Joining Date: ______________________________</p>
+      <p className="leave-footer">Joining Date: ______________________________</p>
     </div>
 
 

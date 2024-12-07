@@ -15,9 +15,9 @@ import { Responsibilities } from './pages/Responsibilities/Responsibilities';
 import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 import AllEmployeeInfo from './pages/AllEmployeeInfo/AllEmployeeInfo';
 import { Application } from './pages/Application/Application';
+import Hierarchy from './pages/Hierarchy/Hierarchy';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
-
 
 function App() {
   return (
@@ -40,10 +40,9 @@ function App() {
         <Route element={<Responsibilities/>} exact path='/employee/responsibility'/>
         <Route element={<Leaveinfo/>} exact path='/employee/leave'/>
         <Route element={<AllEmployeeInfo/>} exact path='/employee/all_employee_info'/>
+
         <Route element={<Application/>} exact path='/employee/application'/>
-
-
-
+        <Route element={<Hierarchy/>} exact path='/employee/hierarchy'/>
         </Route>
 
       </Routes>

@@ -78,9 +78,6 @@ const Employeelayout = ({children}) => {
         icon: BiBook,
         submenu: []
     },
-
-
-        
         
       ]
       

@@ -14,6 +14,8 @@ import { Experience } from './pages/Experience/Experience';
 import { Responsibilities } from './pages/Responsibilities/Responsibilities';
 import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
+// import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
+
 
 function App() {
   return (

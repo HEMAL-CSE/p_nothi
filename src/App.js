@@ -14,6 +14,7 @@ import { Experience } from './pages/Experience/Experience';
 import { Responsibilities } from './pages/Responsibilities/Responsibilities';
 import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 import AllEmployeeInfo from './pages/AllEmployeeInfo/AllEmployeeInfo';
+import { Application } from './pages/Application/Application';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
@@ -39,7 +40,7 @@ function App() {
         <Route element={<Responsibilities/>} exact path='/employee/responsibility'/>
         <Route element={<Leaveinfo/>} exact path='/employee/leave'/>
         <Route element={<AllEmployeeInfo/>} exact path='/employee/all_employee_info'/>
-
+        <Route element={<Application/>} exact path='/employee/application'/>
 
 
 

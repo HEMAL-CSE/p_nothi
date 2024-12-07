@@ -12,7 +12,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Sidebar from '../../Components/Sidebar'
 import { IoInformation } from 'react-icons/io5'
 import { LuSheet } from 'react-icons/lu'
-import { GrDocument } from 'react-icons/gr'
+import { GrDocument, GrDocumentConfig } from 'react-icons/gr'
 import { FaHandHoldingUsd } from 'react-icons/fa'
 import { HiDocumentSearch } from 'react-icons/hi'
 import { TbHierarchy } from 'react-icons/tb'
@@ -104,7 +104,13 @@ const Employeelayout = ({ children }) => {
       icon: TbHierarchy,
       submenu: []
     },
-
+    {
+      name: 'Application/Requsition',
+      pathname: '/employee/application',
+      roles: [ 'admin', 'employee'],
+      icon: GrDocumentConfig,
+      submenu: []
+    },
   ]
 
   return (

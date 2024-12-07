@@ -75,12 +75,20 @@ export const Leaveinfo = () => {
                <input value={des} onChange={e => setdes(e.target.value)} className='input' type='text'/>
 
                <label> Number of Days:</label>
+               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text'/>
+
+               <label> Specific Mention the Date From:</label>
+               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='date'/>
+                
+               <label> To:</label>
                <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='date'/>
 
-               <label> Number of Days:</label>
-               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='checkbox'/>
-                
-                
+               <label> Next Joining:</label>
+               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='date'/>
+
+               <label> Address During Leave & contact number:</label>
+               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text'/>
+
                <button onClick={addData} className='button'>Submit</button>
 
               </form>

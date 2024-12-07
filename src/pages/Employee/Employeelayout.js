@@ -99,7 +99,7 @@ const Employeelayout = ({ children }) => {
     },
     {
       name: 'Hierarchy',
-      pathname: '/employee/leave',
+      pathname: '/employee/hierarchy',
       roles: [ 'admin'],
       icon: TbHierarchy,
       submenu: []

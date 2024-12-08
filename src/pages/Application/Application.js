@@ -28,7 +28,35 @@ export const Application = () => {
   ])
 
   const [position, setposition] = useState('')
-    const [positions, setpositions] = useState([
+  const [positions, setpositions] = useState([
+      {
+          name: 'Chief Executive Officer (CEO)',
+      },
+      {
+          name: 'General Manager (GM)',
+      },
+      {
+          name: 'Deputy General Manager (DGM)',
+      },
+      {
+          name: 'HR & Admin',
+      },
+      {
+          name: 'Accountant',
+      },
+      {
+          name: 'Senior Executive',
+      },
+      {
+        name: 'Executive',
+      },
+      {
+        name: 'Junior Executive',
+      }   
+  ])
+
+  const [itemdetail, setitemdetail] = useState('')
+  const [itemdetails, setitemdetails] = useState([
       {
           name: 'Chief Executive Officer (CEO)',
       },
@@ -103,6 +131,18 @@ export const Application = () => {
                 </select>
 
                 <label> Select Items:</label>
+                <select value={position} onChange={e => {        
+                    setposition(e.target.value)
+                        }} className='select' >
+                            <option >Select</option>
+                            {
+                                positions.map(item => (
+                                    <option value={item.name}>{item.name}</option>
+                                ))
+                            }
+                </select>
+
+                <label> Select Item Details:</label>
                 <select value={position} onChange={e => {        
                     setposition(e.target.value)
                         }} className='select' >

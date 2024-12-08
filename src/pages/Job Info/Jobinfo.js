@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 
 export const Jobinfo = () => {
@@ -9,6 +9,8 @@ export const Jobinfo = () => {
     const [jobtype, setjobtype] = useState('')
     const [joining, setjoining] = useState('')
     const [joblocation, setjoblocation] = useState('')
+
+    const [departments, setDepartments] = useState([])
 
     const addData = e => {
         e.preventDefault()
@@ -33,6 +35,12 @@ export const Jobinfo = () => {
             
         })
       }
+
+      useEffect(() => {
+        axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
+            setDepartments(res.data)
+        })
+      }, [])
 
   return (
     <div className='details'>
@@ -63,10 +71,20 @@ export const Jobinfo = () => {
 
                 <label> Job Designation: </label>
                <input value={jobdeg} onChange={e => setJobdef(e.target.value)} className='input' type='text'/>
+                
+               <label> Job Department: </label>
 
-               <label> Department:</label>
-               <input value={dept} onChange={e => setdept(e.target.value)} className='input' type='text'/>
-
+                <select onChange={e => {
+                    setdept(e.target.value)
+                }} className='select'>
+                    <option>Select</option>
+                    {
+                        departments.map(item => (
+                            <option value={item.id}>{item.name}</option>
+                        ))
+                    }
+                </select>
+               
                <label> Job Type:</label>
                <input value={jobtype} onChange={e => setjobtype(e.target.value)} className='input' type='text'/>
 

@@ -144,7 +144,7 @@ const Profile = () => {
                     </div>
 
                     <div className='m-2'>
-                        <span className='fw-bold'>Job Department:</span> {job_info.department}
+                        <span className='fw-bold'>Job Department:</span> {job_info.department_name}
                     </div>
 
                     <div className='m-2'>

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 
 const Hierarchy = () => {
     const [data, setData] = useState([])
@@ -23,7 +24,7 @@ const Hierarchy = () => {
             .then(res => {
                 var data = res.data.map(i => {
                     
-                    return {...i, needSave: false}})
+                    return {...i, needSave: false, new_role: '', new_reporting_officer: ''}})
                 setData(data)
 
             })
@@ -33,9 +34,27 @@ const Hierarchy = () => {
         })
     }, [])
 
+    const save = (e, id, role, reporting_officer) => {
+        e.preventDefault()
+
+        axios.put(`http://68.178.163.174:5012/employees/update_role?id=${id}`, {
+            role
+        }).then(res => {
+            toast('Saved')
+        })
+
+        axios.put(`http://68.178.163.174:5012/employees/update_reporting_officer?id=${id}`, {
+            reporting_officer
+        }).then(res => {
+            toast('Saved')
+        })
+        
+    }
+
 
   return (
     <div className='details'>
+        <ToastContainer />
 <div className="container-fluid px-5 d-none d-lg-block">
                     <div className="row gx-5 py-3 align-items-center">
                         <div className="col-lg-3">
@@ -62,6 +81,7 @@ const Hierarchy = () => {
                             <th>Employee ID</th>
                             <th>Role</th>
                             <th>Reporting Officer</th>
+                            <th>Save</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,10 +96,15 @@ const Hierarchy = () => {
                                                 data.map(item2 => {
                                                     if(item2.id == item.id)
                                                     {
-                                                        return {...item2, needSave: true, role: e.target.value}
+                                                        if(item.role == e.target.value) {
+                                                            return {...item2, needSave: false}
+                                                        } else{
+                                                            return {...item2, needSave: true, new_role: e.target.value}
+
+                                                        }
                                                     }
                                                     else {
-                                                        return item2
+                                                        return {...item2}
                                                     }
                                                 })
                                             )
@@ -97,17 +122,31 @@ const Hierarchy = () => {
                                                 setData(
                                                     data.map(item2 => {
                                                         if(item2.id == item.id)
-                                                        {
-                                                            return {...item2, needSave: true, role: e.target.value}
-                                                        }
-                                                        else {
-                                                            return item2
-                                                        }
+                                                            {
+                                                                if(item.reporting_officer == e.target.value) {
+                                                                    return {...item2, needSave: false}
+                                                                } else{
+                                                                    return {...item2, needSave: true, new_reporting_officer: e.target.value}
+        
+                                                                }
+                                                            }
+                                                            else {
+                                                                return {...item2}
+                                                            }
                                                     })
                                                 )
-                                            }} className='select'>
+                                            }} defaultValue={item.reporting_officer} className='select'>
+                                                <option>Select</option>
+                                                {
+                                                    reporting_officers.map(item => (
+                                                        <option value={item.id} >{item.user_name}</option>
+                                                    ))
+                                                }
                                              </select>    
                                         }
+                                    </td>
+                                    <td>
+                                        <button onClick={e => save(e, item.user_id, item.new_role, item.new_reporting_officer)} disabled={!item.needSave} className={`btn ${item.needSave ? 'btn-success' : 'btn-secondary'}`}>Save</button>
                                     </td>
                                 </tr>
                             ))

@@ -7,9 +7,16 @@ export const Leaveinfo = () => {
     const [jobtittle, setJobtittle] = useState('')
     const [jobdeg, setJobdef] = useState('')
     const [des, setdes] = useState('')
+    const [fromdate, setfromdate] = useState('')
+    const [todate, settodate] = useState('')
+    const [nextjoindate, setnextjoindate] = useState('')
     const [joining, setjoining] = useState('')
     const [end_date, setend_date] = useState('')
     const [acheivement, setacheivement] = useState('')
+    const [personres, setpersonres] = useState('')
+    const [persondesignation, setpersondesignation] = useState('')
+    const [address, setaddress] = useState('')
+
 
     const addData = e => {
         // e.preventDefault()
@@ -77,17 +84,23 @@ export const Leaveinfo = () => {
                <label> Number of Days:</label>
                <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text'/>
 
-               <label> Specific Mention the Date From:</label>
-               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='date'/>
+               <label> Select Specific Mention the Date From:</label>
+               <input value={fromdate} onChange={e => setfromdate(e.target.value)} className='input' type='date'/>
                 
-               <label> To:</label>
-               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='date'/>
+               <label>Select Specific Mention the Date To:</label>
+               <input value={todate} onChange={e => settodate(e.target.value)} className='input' type='date'/>
 
-               <label> Next Joining:</label>
-               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='date'/>
+               <label> Next Joining Date:</label>
+               <input value={nextjoindate} onChange={e => setnextjoindate(e.target.value)} className='input' type='date'/>
 
                <label> Address During Leave & contact number:</label>
-               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text'/>
+               <input value={address} onChange={e => setaddress(e.target.value)} className='input' type='text'/>
+
+               <label> Person's to take responsibilities on applicant's behalf that's Person Name:</label>
+               <input value={personres} onChange={e => setpersonres(e.target.value)} className='input' type='text'/>
+
+               <label>Applicant's behalf that's Person Designation:</label>
+               <input value={persondesignation} onChange={e => setpersondesignation(e.target.value)} className='input' type='text'/>
 
                <button onClick={addData} className='button'>Submit</button>
 
@@ -130,7 +143,6 @@ export const Leaveinfo = () => {
         </tbody>
       </table>
       <p className="leave-footer">Last Leave Taken on: __________________________</p>
-      <p className="leave-footer">Joining Date: ______________________________</p>
       <p className="leave-footer">Joining Date: ______________________________</p>
     </div>
 

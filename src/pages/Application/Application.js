@@ -1,24 +1,77 @@
-// import React from 'react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+
 
 export const Application = () => {
+    const [res, setres] = useState('')
 
-    const [bsc, setbsc] = useState('Bachelor’s Degree')
-    const [bscs, setbscs] = useState([
+    const [dept, setdept] = useState('')
+    const [depts, setdepts] = useState([
       {
-          name: 'Bachelor’s Degree',
+          name: 'Promise InfoTech',
       },
       {
-          name: 'Higher Secondary Certificate (HSC)',
+          name: 'Promise Delivery',
       },
       {
-          name: 'Secondary School Certificate (SSC) ',
-      }
+          name: 'Nagathat Ltd',
+      },
+      {
+          name: 'Promise Agency',
+      },
+      {
+          name: 'E-learning',
+      },
+      {
+          name: 'IT Support',
+      }  
   ])
 
+  const [position, setposition] = useState('')
+    const [positions, setpositions] = useState([
+      {
+          name: 'Chief Executive Officer (CEO)',
+      },
+      {
+          name: 'General Manager (GM)',
+      },
+      {
+          name: 'Deputy General Manager (DGM)',
+      },
+      {
+          name: 'HR & Admin',
+      },
+      {
+          name: 'Accountant',
+      },
+      {
+          name: 'Senior Executive',
+      },
+      {
+        name: 'Executive',
+      },
+      {
+        name: 'Junior Executive',
+      }   
+  ])
+
+  const addData = e => {
+    // e.preventDefault()
+
+    // const user_id = localStorage.getItem('user_id')
+
+    // axios.put(`http://68.178.163.174:5012/employees/edit?user_id=${user_id}`, {
+        
+    // }).then(res => {
+        
+    // })
+  }
+
   return (
-    <div>     
-        <div className="container-fluid px-5 d-none d-lg-block">
+
+    <div className='details'>
+                {/* <ToastContainer /> */}
+                <div className="container-fluid px-5 d-none d-lg-block">
                     <div className="row gx-5 py-3 align-items-center">
                         <div className="col-lg-3">
                             {/* <div className="d-flex align-items-center justify-content-start">
@@ -35,27 +88,38 @@ export const Application = () => {
                         </div>
 
                     </div>
-        </div>
+                </div>
 
-        <form>
-        <label> Select Degree:</label>
-                    <select value={bsc} onChange={e => { 
-                            setbsc(e.target.value)
+                <label> Select Department:</label>
+                <select value={dept} onChange={e => {        
+                    setdept(e.target.value)
                         }} className='select' >
                             <option >Select</option>
                             {
-                                bscs.map(item => (
+                                depts.map(item => (
                                     <option value={item.name}>{item.name}</option>
                                 ))
                             }
-                    </select>
+                </select>
 
+                <label> Select Items:</label>
+                <select value={position} onChange={e => {        
+                    setposition(e.target.value)
+                        }} className='select' >
+                            <option >Select</option>
+                            {
+                                positions.map(item => (
+                                    <option value={item.name}>{item.name}</option>
+                                ))
+                            }
+                </select>
 
-        </form>
+                <label> Quantity:</label>
+                <input value={res} onChange={e => setres(e.target.value)} className='input' type='text'/>
 
-{/*  */}
-
-
+                <button onClick={addData} className='button'>Submit</button>
+                
     </div>
+    
   )
 }

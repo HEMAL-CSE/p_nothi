@@ -21,7 +21,6 @@ import Hierarchy from './pages/Hierarchy/Hierarchy';
 
 function App() {
   return (
-
     <BrowserRouter>
 
       <Routes>
@@ -30,7 +29,6 @@ function App() {
         <Route element={<Home />} exact path='/' />
         <Route element={<Register />} exact path='/register' />
         <Route element={<Login />} exact path='/login' />
-
         <Route element={<Employeelayout />} path='/employee'>
         <Route element={<Employee />} exact path='/employee/general' />
         <Route element={<Education />} exact path='/employee/education' />

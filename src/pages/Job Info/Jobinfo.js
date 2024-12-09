@@ -66,7 +66,7 @@ export const Jobinfo = () => {
                 </div>
 
                <form>
-               <label> Job Title: </label>
+               <label> Job Grade: </label>
                <input value={jobtittle} onChange={e => setJobtittle(e.target.value)} className='input' type='text'/>
 
                 <label> Job Designation: </label>

@@ -45,7 +45,7 @@ const Home = () => {
                     <div className="col-lg-3">
                         <div className="d-flex align-items-center justify-content-start">
                             <BsPhoneVibrate className='text-success2 fs-1 me-2' />
-                            <h2 className="mb-0">+01710-951097 </h2>
+                            <h2 className="mb-0">+01550-666800 </h2>
                         </div>
                     </div>
                     <div className="col-lg-6">

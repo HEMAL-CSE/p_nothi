@@ -24,14 +24,14 @@ const Employeelayout = ({ children }) => {
       name: 'Dashboard',
       pathname: '/employee/dashboard',
       icon: MdDashboard,
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       submenu: []
     },
 
     {
       name: 'Profile',
       pathname: '/employee/profile',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: BsMenuUp,
       submenu: []
     },
@@ -39,7 +39,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Job Info',
       pathname: '/employee/job',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: BiBookAlt,
       submenu: []
     },
@@ -47,14 +47,14 @@ const Employeelayout = ({ children }) => {
     {
       name: 'General Info',
       pathname: '/employee/general',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: CgChart,
       submenu: []
     },
     {
       name: 'Education',
       pathname: '/employee/education',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: BiPencil,
       submenu: []
     },
@@ -62,7 +62,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Experience',
       pathname: '/employee/experience',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: GrDocument,
       submenu: []
     },
@@ -70,7 +70,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Job Responsibilty',
       pathname: '/employee/responsibility',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: FaHandHoldingUsd,
       submenu: []
     },
@@ -78,7 +78,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Pay Roll',
       pathname: '/employee/responsibility',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: BiDollar,
       submenu: []
     },
@@ -86,7 +86,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Leave Information',
       pathname: '/employee/leave',
-      roles: ['employee', 'admin'],
+      roles: ['employee', 'admin', 'manager'],
       icon: BiExit,
       submenu: []
     },

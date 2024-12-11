@@ -4,6 +4,8 @@ import axios from 'axios'
 
 export const Application = () => {
     const [res, setres] = useState('')
+    const [item, setitem] = useState('')
+
 
     const [dept, setdept] = useState('')
     const [depts, setdepts] = useState([
@@ -30,58 +32,32 @@ export const Application = () => {
   const [position, setposition] = useState('')
   const [positions, setpositions] = useState([
       {
-          name: 'Chief Executive Officer (CEO)',
+          name: 'Office Equipment',
       },
       {
-          name: 'General Manager (GM)',
+          name: 'Office Furniture',
       },
       {
-          name: 'Deputy General Manager (DGM)',
+          name: 'Stationery',
       },
       {
-          name: 'HR & Admin',
+          name: 'Technology & IT Accessories',
       },
       {
-          name: 'Accountant',
+          name: 'Cleaning and Maintenance Supplies',
       },
       {
-          name: 'Senior Executive',
+          name: 'Office Safety and Security',
       },
       {
-        name: 'Executive',
+        name: 'Kitchen and Breakroom Supplies',
+
       },
       {
-        name: 'Junior Executive',
+        name: 'Others',
       }   
   ])
 
-  const [itemdetail, setitemdetail] = useState('')
-  const [itemdetails, setitemdetails] = useState([
-      {
-          name: 'Chief Executive Officer (CEO)',
-      },
-      {
-          name: 'General Manager (GM)',
-      },
-      {
-          name: 'Deputy General Manager (DGM)',
-      },
-      {
-          name: 'HR & Admin',
-      },
-      {
-          name: 'Accountant',
-      },
-      {
-          name: 'Senior Executive',
-      },
-      {
-        name: 'Executive',
-      },
-      {
-        name: 'Junior Executive',
-      }   
-  ])
 
   const addData = e => {
     // e.preventDefault()
@@ -130,7 +106,7 @@ export const Application = () => {
                             }
                 </select>
 
-                <label> Select Items:</label>
+                <label> Select Item Type:</label>
                 <select value={position} onChange={e => {        
                     setposition(e.target.value)
                         }} className='select' >
@@ -142,17 +118,8 @@ export const Application = () => {
                             }
                 </select>
 
-                <label> Select Item Details:</label>
-                <select value={position} onChange={e => {        
-                    setposition(e.target.value)
-                        }} className='select' >
-                            <option >Select</option>
-                            {
-                                positions.map(item => (
-                                    <option value={item.name}>{item.name}</option>
-                                ))
-                            }
-                </select>
+                <label> Write Item Details:</label>
+                <input value={item} onChange={e => setitem(e.target.value)} className='input' type='text'/>
 
                 <label> Quantity:</label>
                 <input value={res} onChange={e => setres(e.target.value)} className='input' type='text'/>

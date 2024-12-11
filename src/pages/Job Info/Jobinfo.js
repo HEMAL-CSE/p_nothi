@@ -11,7 +11,6 @@ export const Jobinfo = () => {
     const [joblocation, setjoblocation] = useState('')
 
     const [departments, setDepartments] = useState([])
-
     const addData = e => {
         e.preventDefault()
         const employee_id = localStorage.getItem('employee_id')

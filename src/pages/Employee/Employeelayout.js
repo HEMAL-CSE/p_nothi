@@ -107,7 +107,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Application/Requsition',
       pathname: '/employee/application',
-      roles: [ 'admin', 'employee'],
+      roles: [ 'admin', 'employee', 'manager'],
       icon: GrDocumentConfig,
       submenu: []
     },

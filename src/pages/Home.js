@@ -8,16 +8,10 @@ import React, { useState } from 'react'
 import carousel_1 from '../assets/carousel_1.jpeg'
 import carousel_2 from '../assets/carousel_2.jpeg'
 // import feature from './images/feature.png'
-// import footer from './images/footer.png'
-// import fruit from './images/fruit.png'
-// import product_1 from './images/product-1.png'
-// import product_2 from './images/product-2.png'
-// import team_1 from './images/team-1.jpg'
-// import team_2 from './images/team-2.jpg'
-// import team_3 from './images/team-3.jpg'
-// import testimonial from './images/testimonial.jpg'
 // import vegetable from './images/vegetable.png'
 import { BsBucket, BsGeoAlt, BsPhoneVibrate, BsTelephone, BsTwitter } from 'react-icons/bs';
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+
 // import VisibilitySensor from 'react-visibility-sensor';
 
 
@@ -36,7 +30,6 @@ const Home = () => {
 
     const navigator = useNavigate()
     const [ active, setActive ] = useState(false);
-
 
     return (
         <div>
@@ -84,16 +77,6 @@ const Home = () => {
                         <a href="#about" className="nav-item nav-link">About</a>
                         <a href="#" className="nav-item nav-link">Service</a>
                         <a href="#" className="nav-item nav-link">Product</a>
-                        {/* <div className="nav-item dropdown">
-                            <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div className="dropdown-menu m-0">
-                                <a href="blog.html" className="dropdown-item">Blog Grid</a>
-                                <a href="detail.html" className="dropdown-item">Blog Detail</a>
-                                <a href="feature.html" className="dropdown-item">Features</a>
-                                <a href="team.html" className="dropdown-item">The Team</a>
-                                <a href="testimonial.html" className="dropdown-item">Testimonial</a>
-                            </div>
-                        </div> */}
                         <a href="contact.html" className="nav-item nav-link">Contact</a>
                     </div>
                 </div>
@@ -111,7 +94,6 @@ const Home = () => {
                 </div>
             </nav>
             {/* <!-- Navbar End --> */}
-
 
             {/* <!-- Carousel Start --> */}
             <div className="container-fluid p-0">
@@ -154,84 +136,10 @@ const Home = () => {
             </div>
             {/* <!-- Carousel End --> */}
 
+            <div>
+                <h1>3rd Section Start</h1>
+            </div>
 
-            {/* <!-- Banner Start --> */}
-            {/* <div className="container-fluid banner mb-5">
-                <div className="container">
-                    <div className="row gx-0">
-                        <div className="col-md-6">
-                            <div className="bg-success2 bg-vegetable d-flex flex-column justify-content-center p-5" style={{ height: '300px' }}>
-                                <h3 className="text-white mb-3">Organic Vegetables</h3>
-                                <p className="text-white">Dolor magna ipsum elitr sea erat elitr amet ipsum stet justo dolor, amet lorem diam no duo sed dolore amet diam</p>
-                                <a className="text-white fw-bold" href="">Read More<BiArrowToRight className='ms-2' /></a>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="bg-secondary bg-fruit d-flex flex-column justify-content-center p-5" style={{ height: '300px' }}>
-                                <h3 className="text-white mb-3">Organic VermiCompost</h3>
-                                <p className="text-white">Dolor magna ipsum elitr sea erat elitr amet ipsum stet justo dolor, amet lorem diam no duo sed dolore amet diam</p>
-                                <a className="text-white fw-bold" href="">Read More<BiArrowFromRight className='ms-2' /></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-            {/* <!-- Banner Start --> */}
-
-
-            {/* <!-- About Start --> */}
-       
-            {/* <!-- About End --> */}
-
-
-            {/* <!-- Facts Start --> */}
-          
-            {/* <!-- Facts End --> */}
-
-
-            {/* <!-- Services Start --> */}
-          
-            {/* <!-- Services End --> */}
-
-
-            {/* <!-- Features Start --> */}
-           
-            {/* <!-- Features Start --> */}
-
-
-            {/* <!-- Testimonial Start --> */}
-            {/* <div className="container-fluid bg-testimonial py-5 my-5">
-                <div className="container py-5">
-                    <div className="row justify-content-center">
-                        <div className="col-lg-7">
-                            <div className="owl-carousel testimonial-carousel p-5">
-                                <div className="testimonial-item text-center text-white">
-                                    <img className="img-fluid mx-auto p-2 border border-5 border-secondary rounded-circle mb-4" src="img/testimonial-2.jpg" alt="" />
-                                    <p className="fs-5">Dolores sed duo clita justo dolor et stet lorem kasd dolore lorem ipsum. At lorem lorem magna ut et, nonumy labore diam erat. Erat dolor rebum sit ipsum.</p>
-                                    <hr className="mx-auto w-25" />
-                                    <h4 className="text-white mb-0">Client Name</h4>
-                                </div>
-                                <div className="testimonial-item text-center text-white">
-                                    <img className="img-fluid mx-auto p-2 border border-5 border-secondary rounded-circle mb-4" src="img/testimonial-2.jpg" alt="" />
-                                    <p className="fs-5">Dolores sed duo clita justo dolor et stet lorem kasd dolore lorem ipsum. At lorem lorem magna ut et, nonumy labore diam erat. Erat dolor rebum sit ipsum.</p>
-                                    <hr className="mx-auto w-25" />
-                                    <h4 className="text-white mb-0">Client Name</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-            {/* <!-- Testimonial End --> */}
-
-
-            {/* <!-- Contact Start --> */}
-           
-            {/* <!-- Contact End --> */}
-
-
-            {/* <!-- Footer Start --> */}
-           
 
         </div>
     )

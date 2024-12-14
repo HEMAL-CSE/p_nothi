@@ -36,8 +36,16 @@ const Sidebar = ({ elements, name }) => {
                                element.roles.includes(localStorage.getItem('role')) && <li  onClick={ () => {
                                     if(element.submenu.length == 0){
                                         console.log('hello');
-                                        
-                                        navigator(element.pathname)
+                                        if(element.name == 'Log Out'){
+                                            localStorage.removeItem('role')
+                                            localStorage.removeItem('user_id')
+                                            localStorage.removeItem('token')
+                                            navigator(element.pathname)
+
+                                        }else{
+                                            navigator(element.pathname)
+
+                                        }
                                     }
                                    
                                 }} className='nav-item text-white fs-4 my-1'>

@@ -7,11 +7,11 @@ import { GiBottomRight3dArrow, GiDoctorFace, GiPaper } from 'react-icons/gi'
 import { MdDashboard, MdReport } from 'react-icons/md'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
-import { CgArrowBottomLeft, CgChart } from 'react-icons/cg'
+import { CgArrowBottomLeft, CgChart, CgProfile } from 'react-icons/cg'
 import { Outlet, useLocation } from 'react-router-dom'
 import Sidebar from '../../Components/Sidebar'
 import { IoInformation } from 'react-icons/io5'
-import { LuSheet } from 'react-icons/lu'
+import { LuLogOut, LuSheet } from 'react-icons/lu'
 import { GrDocument, GrDocumentConfig } from 'react-icons/gr'
 import { FaHandHoldingUsd } from 'react-icons/fa'
 import { HiDocumentSearch } from 'react-icons/hi'
@@ -29,50 +29,58 @@ const Employeelayout = ({ children }) => {
     },
 
     {
-      name: 'Profile',
-      pathname: '/employee/profile',
+      name: 'User',
+      pathname: '/employee',
       roles: ['employee', 'admin', 'manager'],
-      icon: BsMenuUp,
-      submenu: []
-    },
+      icon: CgProfile,
+      submenu: [
+        {
+          name: 'Profile',
+          pathname: '/employee/profile',
+          roles: ['employee', 'admin', 'manager'],
+          // icon: BsMenuUp,
+          // submenu: []
+        },
 
-    {
-      name: 'Job Info',
-      pathname: '/employee/job',
-      roles: ['employee', 'admin', 'manager'],
-      icon: BiBookAlt,
-      submenu: []
-    },
+        {
+          name: 'Job Info',
+          pathname: '/employee/job',
+          roles: ['employee', 'admin', 'manager'],
+          // icon: BiBookAlt,
+          // submenu: []
+        },
 
-    {
-      name: 'General Info',
-      pathname: '/employee/general',
-      roles: ['employee', 'admin', 'manager'],
-      icon: CgChart,
-      submenu: []
-    },
-    {
-      name: 'Education',
-      pathname: '/employee/education',
-      roles: ['employee', 'admin', 'manager'],
-      icon: BiPencil,
-      submenu: []
-    },
+        {
+          name: 'General Info',
+          pathname: '/employee/general',
+          roles: ['employee', 'admin', 'manager'],
+          // icon: CgChart,
+          // submenu: []
+        },
+        {
+          name: 'Education',
+          pathname: '/employee/education',
+          roles: ['employee', 'admin', 'manager'],
+          // icon: BiPencil,
+          // submenu: []
+        },
 
-    {
-      name: 'Experience',
-      pathname: '/employee/experience',
-      roles: ['employee', 'admin', 'manager'],
-      icon: GrDocument,
-      submenu: []
-    },
+        {
+          name: 'Experience',
+          pathname: '/employee/experience',
+          roles: ['employee', 'admin', 'manager'],
+          // icon: GrDocument,
+          // submenu: []
+        },
 
-    {
-      name: 'Job Responsibilty',
-      pathname: '/employee/responsibility',
-      roles: ['employee', 'admin', 'manager'],
-      icon: FaHandHoldingUsd,
-      submenu: []
+        {
+          name: 'Job Responsibilty',
+          pathname: '/employee/responsibility',
+          roles: ['employee', 'admin', 'manager'],
+          // icon: FaHandHoldingUsd,
+          // submenu: []
+        },
+      ]
     },
 
     {
@@ -93,22 +101,30 @@ const Employeelayout = ({ children }) => {
     {
       name: 'All Employee Info',
       pathname: '/employee/all_employee_info',
-      roles: [ 'admin'],
+      roles: ['admin'],
       icon: HiDocumentSearch,
       submenu: []
     },
     {
       name: 'Hierarchy',
       pathname: '/employee/hierarchy',
-      roles: [ 'admin'],
+      roles: ['admin'],
       icon: TbHierarchy,
       submenu: []
     },
     {
       name: 'Application/Requsition',
       pathname: '/employee/application',
-      roles: [ 'admin', 'employee', 'manager'],
+      roles: ['admin', 'employee', 'manager'],
       icon: GrDocumentConfig,
+      submenu: []
+    },
+
+    {
+      name: 'Log Out',
+      pathname: '/login',
+      roles: ['admin', 'employee', 'manager'],
+      icon: LuLogOut,
       submenu: []
     },
   ]

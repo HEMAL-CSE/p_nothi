@@ -80,7 +80,7 @@ const Home = () => {
                         <a href="contact.html" className="nav-item nav-link">Contact</a>
                     </div>
                 </div>
-                <div className='d-flex align-items-center justify-content-center'>
+                {!localStorage.getItem('token') ? <div className='d-flex align-items-center justify-content-center'>
                     <div onClick={() => {
                         navigator('/login')
                     }} className='mx-3'>
@@ -91,7 +91,14 @@ const Home = () => {
                     }}>
                         <h4 className='bg-register'>Sign Up</h4>
                     </div>
-                </div>
+                </div> : <div className='d-flex align-items-center justify-content-center'>
+                    <div onClick={() => {
+                        navigator('/employee/general')
+                    }} className='mx-3'>
+                        <h4 className='bg-login'>Profile</h4>
+                    </div>
+                   
+                </div>}
             </nav>
             {/* <!-- Navbar End --> */}
 

@@ -1,77 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { toast, ToastContainer } from 'react-toastify'
+import Modal from 'react-modal'
 
 export const Responsibilities = () => {
-    const [fname, setFName] = useState('')
-    const [res, setres] = useState('')
+    const [primary_duties, setPrimary_duties] = useState('')
+    const [key_responsibilities, setKey_responsibilities] = useState('')
 
-    const [dept, setdept] = useState('')
-    const [depts, setdepts] = useState([
-      {
-          name: 'Promise InfoTech',
-      },
-      {
-          name: 'Promise Delivery',
-      },
-      {
-          name: 'Nagathat Ltd',
-      },
-      {
-          name: 'Promise Agency',
-      },
-      {
-          name: 'E-learning',
-      },
-      {
-          name: 'IT Support',
-      }  
-  ])
 
-  const [position, setposition] = useState('')
-    const [positions, setpositions] = useState([
-      {
-          name: 'Chief Executive Officer (CEO)',
-      },
-      {
-          name: 'General Manager (GM)',
-      },
-      {
-          name: 'Deputy General Manager (DGM)',
-      },
-      {
-          name: 'HR & Admin',
-      },
-      {
-          name: 'Accountant',
-      },
-      {
-          name: 'Senior Executive',
-      },
-      {
-        name: 'Executive',
-      },
-      {
-        name: 'Junior Executive',
-      }   
-  ])
+
 
   const addData = e => {
     e.preventDefault()
 
-    const user_id = localStorage.getItem('user_id')
+    const employee_id = localStorage.getItem('employee_id')
 
-    axios.put(`http://68.178.163.174:5012/employees/edit?user_id=${user_id}`, {
-        
+    axios.post(`http://68.178.163.174:5012/employees/job_responsibility/add`, {
+        employee_id,
+        primary_duties,
+        key_responsibilities
     }).then(res => {
-        
+        toast('Submitted')
+        setPrimary_duties('')
+        setKey_responsibilities('')
     })
   }
+
 
   return (
 
     <div className='details'>
-                {/* <ToastContainer /> */}
+                <ToastContainer />
                 <div className="container-fluid px-5 d-none d-lg-block">
                     <div className="row gx-5 py-3 align-items-center">
                         <div className="col-lg-3">
@@ -91,35 +50,15 @@ export const Responsibilities = () => {
                     </div>
                 </div>
 
-                <label> Select Department:</label>
-                <select value={dept} onChange={e => {        
-                    setdept(e.target.value)
-                        }} className='select' >
-                            <option >Select</option>
-                            {
-                                depts.map(item => (
-                                    <option value={item.name}>{item.name}</option>
-                                ))
-                            }
-                </select>
+                
 
-                <label> Select Job Position:</label>
-                <select value={position} onChange={e => {        
-                    setposition(e.target.value)
-                        }} className='select' >
-                            <option >Select</option>
-                            {
-                                positions.map(item => (
-                                    <option value={item.name}>{item.name}</option>
-                                ))
-                            }
-                </select>
+                
 
                 <label> Primary Duties:</label>
-                <input value={fname} onChange={e => setFName(e.target.value)} className='input' type='text'/>
+                <input value={primary_duties} onChange={e => setPrimary_duties(e.target.value)} className='input' type='text'/>
 
                 <label> Key Responsibilities:</label>
-                <input value={res} onChange={e => setres(e.target.value)} className='input' type='text'/>
+                <input value={key_responsibilities} onChange={e => setKey_responsibilities(e.target.value)} className='input' type='text'/>
 
                 <button onClick={addData} className='button'>Submit</button>
                 

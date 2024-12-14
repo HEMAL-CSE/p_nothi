@@ -1,7 +1,12 @@
 import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
-import { ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
+import EditGeneralInfo from './EditGeneralInfo'
+import EditEducation from './EditEducation'
+import EditJobInfo from './EditJobInfo'
+import EditExperience from './EditExperience'
+import EditResponsibility from './EditResponsibility'
 
 const Profile = () => {
     const [employee, setEmployee] = useState({})
@@ -10,36 +15,111 @@ const Profile = () => {
 
     const [job_info, setJob_info] = useState({})
 
+    const [job_responsibility, setJob_responsibility] = useState({})
+
     const [experience, setExperience] = useState([])
 
-    useEffect(() => {
+    const [general_info_open, setGeneral_info_open] = useState(false)
 
-        const employee_id = localStorage.getItem('employee_id')
+    const [education_open, setEducation_open] = useState(false)
+
+    const [experience_open, setExperience_open] = useState(false)
+
+    const [responsibility_open, setResponsibility_open] = useState(false)
+
+    const [edit_education, setEdit_education] = useState({})
+    const [edit_job_info, setEdit_job_info] = useState(false)
+    const [edit_experience, setEdit_experience] = useState({})
+
+    const getGeneralInfo = () => {
         const user_id = localStorage.getItem('user_id')
 
         axios.get(`http://68.178.163.174:5012/employees/?user_id=${user_id}`).then(res => {
-           if(res.data.length > 0){
-            setEmployee(res.data[0])
-           }
+            if (res.data.length > 0) {
+                setEmployee(res.data[0])
+            }
         })
+    }
+
+    const getEducation = () => {
+        const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/education?employee_id=${employee_id}`).then(res => {
             setEducation(res.data)
         })
+    }
+
+    const getExperience = () => {
+        const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/experience?employee_id=${employee_id}`).then(res => {
             setExperience(res.data)
         })
+    }
+
+    const getJobinfo = () => {
+        const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
-            if(res.data.length > 0){
+            if (res.data.length > 0) {
                 setJob_info(res.data[0])
             }
             console.log(res.data[0]);
 
         })
-    }, [])
+    }
 
+    const getResponsibility = () => {
+        const employee_id = localStorage.getItem('employee_id')
+
+        axios.get(`http://68.178.163.174:5012/employees/job_responsibility?employee_id=${employee_id}`).then(res => {
+            if (res.data.length > 0) {
+                setJob_responsibility(res.data[0])
+            }
+
+        })
+    }
+
+    useEffect(() => {
+
+        getGeneralInfo()
+
+        getEducation()
+
+        getExperience()
+
+        getJobinfo()
+
+        getResponsibility()
+
+
+    }, [general_info_open, education_open, edit_job_info, experience_open, responsibility_open])
+
+    const deleteEducation = (e, id) => {
+        e.preventDefault()
+
+        if (window.confirm('Do you want to delete this?')) {
+            axios.delete(`http://68.178.163.174:5012/employees/education/delete?id=${id}`)
+                .then(res => {
+                    toast('Deleted Successfully')
+                    getEducation()
+                })
+        }
+
+    }
+
+    const deleteExperience = (e, id) => {
+        e.preventDefault()
+
+        if (window.confirm('Do you want to delete this?')) {
+            axios.delete(`http://68.178.163.174:5012/employees/experience/delete?id=${id}`)
+                .then(res => {
+                    toast('Deleted Successfully')
+                    getExperience()
+                })
+        }
+
+    }
     return (
         <div className='details'>
             {/* <h2>Cow Purchase</h2> */}
@@ -104,6 +184,11 @@ const Profile = () => {
                         <span className='fw-bold'>Blood Group:</span> {employee.blood_group}
 
                     </div>
+                    <div className='text-center'>
+                        <button onClick={e => {
+                            setGeneral_info_open(true)
+                        }} className='btn btn-secondary text-center'>Edit</button>
+                    </div>
                 </div>
             }
 
@@ -129,6 +214,16 @@ const Profile = () => {
                             </div>
                             <div className='m-2'>
                                 <span className='fw-bold'>GPA/CGPA:</span> {item.gpa}
+                            </div>
+                            <div className='text-center'>
+                                <button onClick={e => {
+                                    setEdit_education(item)
+                                    setEducation_open(true)
+                                }} className='btn btn-secondary text-center'>Edit</button>
+
+                                <button onClick={e => {
+                                    deleteEducation(e, item.id)
+                                }} className='btn btn-danger mx-3 text-center'>Delete</button>
                             </div>
                         </div>
                     ))
@@ -161,6 +256,11 @@ const Profile = () => {
                         <span className='fw-bold'>Location:</span> {job_info.location}
 
                     </div>
+                    <div className='text-center'>
+                        <button onClick={e => {
+                            setEdit_job_info(true)
+                        }} className='btn btn-secondary text-center'>Edit</button>
+                    </div>
                 </div>
             }
 
@@ -190,12 +290,50 @@ const Profile = () => {
                             <div className='m-2'>
                                 <span className='fw-bold'>Achievements:</span> {item.achievements}
                             </div>
+
+                            <div className='text-center m-2'>
+                                <button onClick={e => {
+                                    setEdit_experience(item)
+                                    setExperience_open(true)
+                                }} className='btn btn-secondary text-center'>Edit</button>
+
+                                <button onClick={e => {
+                                    deleteExperience(e, item.id)
+                                }} className='btn btn-danger mx-3 text-center'>Delete</button>
+                            </div>
                         </div>
                     ))
                 }
             </div>
+            <h2 className='mt-3'>Job Reponsibility</h2>
+
+            {
+                Object.keys(job_responsibility).length != 0 && job_responsibility != undefined &&
+                <div className='d-flex p-3 flex-column bg-card align-items-start'>
 
 
+                    <div className='m-2'>
+                        <span className='fw-bold'>Primary Duties:</span> {job_responsibility.primary_duties}
+                    </div>
+
+                    <div className='m-2'>
+                        <span className='fw-bold'>Key Responsibilities:</span> {job_responsibility.key_responsibilities}
+
+                    </div>
+
+                    <div className='text-center'>
+                        <button onClick={e => {
+                            setResponsibility_open(true)
+                        }} className='btn btn-secondary text-center'>Edit</button>
+                    </div>
+                </div>
+            }
+
+            <EditGeneralInfo isOpen={general_info_open} setIsOpen={setGeneral_info_open} profile={employee} />
+            <EditEducation isOpen={education_open} setIsOpen={setEducation_open} profile={edit_education} />
+            <EditJobInfo isOpen={edit_job_info} setIsOpen={setEdit_job_info} profile={job_info} />
+            <EditExperience isOpen={experience_open} setIsOpen={setExperience_open} profile={edit_experience} />
+            <EditResponsibility isOpen={responsibility_open} setIsOpen={setResponsibility_open} profile={job_responsibility} />
         </div>
     )
 }

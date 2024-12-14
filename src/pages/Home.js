@@ -49,7 +49,7 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="col-lg-2">
-
+                        
                         <div className="d-flex align-items-center justify-content-end">
                             <a className="btn btn-success2 btn-square rounded-circle me-2" href="https://freewebsitecode.com/"><FaTwitter /></a>
                             <a className="btn btn-success2 btn-square rounded-circle me-2" href="https://facebook.com/freewebsitecode/"><FaFacebook /></a>

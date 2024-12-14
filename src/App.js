@@ -16,6 +16,7 @@ import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 import AllEmployeeInfo from './pages/AllEmployeeInfo/AllEmployeeInfo';
 import { Application } from './pages/Application/Application';
 import Hierarchy from './pages/Hierarchy/Hierarchy';
+import ProtectedRoute from './pages/Auth/ProtectedRoute';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
@@ -29,6 +30,9 @@ function App() {
         <Route element={<Home />} exact path='/' />
         <Route element={<Register />} exact path='/register' />
         <Route element={<Login />} exact path='/login' />
+        
+        
+        <Route element={<ProtectedRoute />}>
         <Route element={<Employeelayout />} path='/employee'>
         <Route element={<Employee />} exact path='/employee/general' />
         <Route element={<Education />} exact path='/employee/education' />
@@ -41,6 +45,7 @@ function App() {
 
         <Route element={<Application/>} exact path='/employee/application'/>
         <Route element={<Hierarchy/>} exact path='/employee/hierarchy'/>
+        </Route>
         </Route>
 
       </Routes>

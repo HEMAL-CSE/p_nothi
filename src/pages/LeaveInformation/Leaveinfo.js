@@ -11,10 +11,21 @@ export const Leaveinfo = () => {
   const [leave_type, setLeave_type] = useState('')
   const [leave_types, setLeave_types] = useState([
     {
+      name: 'cl'
+    }, {
+      name: 'sl'
+    },{
+      name: 'el'
+    },
+  ])
+
+  const [leave_duration, setLeave_duration] = useState('')
+  const [leave_durations, setLeave_durations] = useState([
+    {
       name: 'Full Day'
     }, {
       name: 'Half Day'
-    }
+    },
   ])
 
   const role = localStorage.getItem('role')
@@ -46,6 +57,8 @@ export const Leaveinfo = () => {
           contact_number_during_leave,
           address_during_leave,
           responsible_employee_id,
+          leave_type,
+          leave_duration
         }).then(res => {
         getLeaves()
 
@@ -96,12 +109,23 @@ export const Leaveinfo = () => {
     getPendingLeaves()
   }, [])
 
-  const approve = (e, id) => {
-    
+  const approve = (e, id, leave_type, leave_duration) => {
+    e.preventDefault()
+    axios.put(`http://68.178.163.174:5012/employees/pending_leaves/approve?id=${id}`, {
+      leave_type,
+      leave_duration
+    }).then(res => {
+      toast('Approved Successfully')
+      getPendingLeaves()
+    })
   }
 
   const reject = (e, id) => {
-    
+    e.preventDefault()
+    axios.put(`http://68.178.163.174:5012/employees/pending_leaves/approve?id=${id}`).then(res => {
+      toast('Rejected Successfully')
+      getPendingLeaves()
+    })
   }
 
   return (
@@ -140,6 +164,18 @@ export const Leaveinfo = () => {
           }
         </select>
 
+        <label>Leave Duration</label>
+        <select onChange={e => {
+          setLeave_duration(e.target.value)
+        }} className='select'>
+          <option>Select</option>
+          {
+            leave_durations.map(item => (
+              <option value={item.name}>{item.name}</option>
+            ))
+          }
+        </select>
+
         <label> Reason For Leave: </label>
         <input value={reason_for_leave} onChange={e => setReason_for_leave(e.target.value)} className='input' type='text' />
 
@@ -158,7 +194,7 @@ export const Leaveinfo = () => {
         <label> Address During Leave:</label>
         <input value={address_during_leave} onChange={e => setAddress_during_leave(e.target.value)} className='input' type='text' />
 
-        <label> Contact Number During Leav:</label>
+        <label> Contact Number During Leave:</label>
         <input value={contact_number_during_leave} onChange={e => setContact_number_during_leave(e.target.value)} className='input' type='text' />
 
         <label> Person's to take responsibilities on applicant's behalf that person:</label>
@@ -238,14 +274,14 @@ export const Leaveinfo = () => {
                   <td>{item.user_name}</td>
                   <td>{item.number_of_days}</td>
                   <td>{item.reason_for_leave}</td>
-                  <td>
-                    <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2'>
+                  {item.approved == 'PENDING' ? <td> 
+                    <button onClick={e => approve(e, item.id, item.leave_type, item.leave_duration)} className='btn btn-success mx-2'>
                       Approve
                     </button>
                     <button onClick={e => reject(e, item.id)} className='btn btn-danger'>
                       Reject
                     </button>
-                  </td>
+                  </td> : <td>{item.approved}</td>}
                 </tr>
               ))
             }

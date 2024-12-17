@@ -143,11 +143,9 @@ const Home = () => {
             </div>
             {/* <!-- Carousel End --> */}
 
-            <div>
-                <h1>3rd Section Start</h1>
-                <h4>Fourth Section</h4>
-            </div>
-
+            {/* Third Section Start */}
+            <h1> This section is not only </h1>
+            
 
         </div>
     )

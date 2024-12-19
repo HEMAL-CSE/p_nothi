@@ -64,8 +64,7 @@ export const Application = () => {
                     setPendings(res2.data) 
                 })
             }
-
-            
+                    
         })
         
     }
@@ -100,7 +99,6 @@ export const Application = () => {
   }, [])
 
   return (
-
     <div className='details'>
                 <ToastContainer />
                 <div className="container-fluid px-5 d-none d-lg-block">

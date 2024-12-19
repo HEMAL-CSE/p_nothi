@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { BsInfo, BsMenuUp, BsPeople, BsSpeedometer } from 'react-icons/bs'
-import { BiArrowFromBottom, BiArrowToBottom, BiBook, BiBookAlt, BiChart, BiDollar, BiExit, BiHealth, BiMoney, BiPencil, BiPlus, BiSolidArrowToBottom } from 'react-icons/bi'
+import { BiArrowFromBottom, BiArrowToBottom, BiBook, BiBookAlt, BiChart, BiDollar, BiExit, BiHealth, BiMoney, BiPencil, BiPlus, BiSolidArrowToBottom, BiStore } from 'react-icons/bi'
 import { FaCow, FaSeedling, FaUserDoctor } from 'react-icons/fa6'
 import { GiBottomRight3dArrow, GiDoctorFace, GiPaper } from 'react-icons/gi'
 import { MdDashboard, MdReport } from 'react-icons/md'
@@ -24,20 +24,20 @@ const Employeelayout = ({ children }) => {
       name: 'Dashboard',
       pathname: '/employee/dashboard',
       icon: MdDashboard,
-      roles: ['employee', 'admin', 'manager'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
       submenu: []
     },
 
     {
       name: 'User',
       pathname: '/employee',
-      roles: ['employee', 'admin', 'manager'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
       icon: CgProfile,
       submenu: [
         {
           name: 'Profile',
           pathname: '/employee/profile',
-          roles: ['employee', 'admin', 'manager'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
           // icon: BsMenuUp,
           // submenu: []
         },
@@ -45,7 +45,7 @@ const Employeelayout = ({ children }) => {
         {
           name: 'Job Info',
           pathname: '/employee/job',
-          roles: ['employee', 'admin', 'manager'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
           // icon: BiBookAlt,
           // submenu: []
         },
@@ -53,14 +53,14 @@ const Employeelayout = ({ children }) => {
         {
           name: 'General Info',
           pathname: '/employee/general',
-          roles: ['employee', 'admin', 'manager'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
           // icon: CgChart,
           // submenu: []
         },
         {
           name: 'Education',
           pathname: '/employee/education',
-          roles: ['employee', 'admin', 'manager'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
           // icon: BiPencil,
           // submenu: []
         },
@@ -68,7 +68,7 @@ const Employeelayout = ({ children }) => {
         {
           name: 'Experience',
           pathname: '/employee/experience',
-          roles: ['employee', 'admin', 'manager'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
           // icon: GrDocument,
           // submenu: []
         },
@@ -76,7 +76,7 @@ const Employeelayout = ({ children }) => {
         {
           name: 'Job Responsibilty',
           pathname: '/employee/responsibility',
-          roles: ['employee', 'admin', 'manager'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
           // icon: FaHandHoldingUsd,
           // submenu: []
         },
@@ -86,7 +86,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Pay Roll',
       pathname: '/employee/responsibility',
-      roles: ['employee', 'admin', 'manager'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
       icon: BiDollar,
       submenu: []
     },
@@ -94,36 +94,44 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Leave Information',
       pathname: '/employee/leave',
-      roles: ['employee', 'admin', 'manager'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
       icon: BiExit,
       submenu: []
     },
     {
       name: 'All Employee Info',
       pathname: '/employee/all_employee_info',
-      roles: ['admin'],
+      roles: ['1', '2', '3', '4', '5', '6', '7'],
       icon: HiDocumentSearch,
       submenu: []
     },
     {
       name: 'Hierarchy',
       pathname: '/employee/hierarchy',
-      roles: ['admin'],
+      roles: ['1', '2', '3', '4', '5', '6', '7'],
       icon: TbHierarchy,
       submenu: []
     },
     {
       name: 'Application/Requsition',
       pathname: '/employee/application',
-      roles: ['admin', 'employee', 'manager'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
       icon: GrDocumentConfig,
+      submenu: []
+    },
+
+    {
+      name: 'Store',
+      pathname: '/employee/store',
+      roles: ['1', '2', '3', '4', '5', '6', '7', '11'],
+      icon: BiStore,
       submenu: []
     },
 
     {
       name: 'Log Out',
       pathname: '/login',
-      roles: ['admin', 'employee', 'manager'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
       icon: LuLogOut,
       submenu: []
     },

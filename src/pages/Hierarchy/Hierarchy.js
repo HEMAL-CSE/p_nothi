@@ -6,18 +6,14 @@ const Hierarchy = () => {
     const [data, setData] = useState([])
     const [reporting_officers, setReporting_officers] = useState([])
     // const [selectedRoles, setSelectedRoles] = useState([])
-    const [roles, setRoles] = useState([
-        {
-            name: 'employee',   
-        },
-        {   
-            name: 'manager'
-        },
-        {
-            name: 'admin'
-        },
+    const [roles, setRoles] = useState([])
 
-    ])
+
+    useEffect(() => {
+        axios.get('http://68.178.163.174:5012/employees/roles').then(res => {
+            setRoles(res.data)
+        })
+    }, [])
 
     useEffect(() => {
         axios.get('http://68.178.163.174:5012/employees/')
@@ -108,10 +104,10 @@ const Hierarchy = () => {
                                                     }
                                                 })
                                             )
-                                        }} defaultValue={item.role} className='select'>
+                                        }} defaultValue={item.role_id} className='select'>
                                             {
                                                 roles.map(item => (
-                                                    <option value={item.name}>{item.name}</option>
+                                                    <option value={item.id}>{item.name}</option>
                                                 ))
                                             }
                                         </select>

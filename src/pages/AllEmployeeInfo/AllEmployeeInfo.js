@@ -21,6 +21,8 @@ const AllEmployeeInfo = () => {
         axios.get('http://68.178.163.174:5012/employees/')
             .then(res => {
                 setData(res.data)
+                console.log(res.data);
+                
 
             })
     }, [])
@@ -96,7 +98,7 @@ const AllEmployeeInfo = () => {
                                 <td className='px-3'>{item.email}</td>
                                 <td className='px-3'>{item.mobile_no}</td>
                                 <td className='px-3'>{item.present_address}</td>
-                                <td className='px-3'>{item.role.toUpperCase()}</td>
+                                <td className='px-3'>{item.role != null ? item.role.toUpperCase(): ''}</td>
                                 <td className='px-3'>
                                     <button onClick={(e) => {
                                         setIsOpen(true)

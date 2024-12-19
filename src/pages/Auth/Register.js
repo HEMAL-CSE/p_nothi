@@ -26,7 +26,7 @@ const Register = () => {
             mobile,
             password,
             employee_id,
-            role: 'employee'
+            role: 10
         }).then(res => {
             axios.post('http://68.178.163.174:5012/employees/add', {
                 user_id: res.data.user_id

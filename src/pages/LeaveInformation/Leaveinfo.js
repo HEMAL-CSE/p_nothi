@@ -254,7 +254,7 @@ export const Leaveinfo = () => {
        */}
       </div>
       {
-        ['manager', 'admin'].includes(role)
+        ['7', '9'].includes(role)
          && 
          <div>
       <label>Pending Leaves</label>

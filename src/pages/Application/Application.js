@@ -11,35 +11,16 @@ export const Application = () => {
   const [department, setDepartment] = useState('')
   const [pendings, setPendings] = useState([])
   const role = localStorage.getItem('role')
-  const [positions, setpositions] = useState([
-      {
-          name: 'Office Equipment',
-      },
-      {
-          name: 'Office Furniture',
-      },
-      {
-          name: 'Stationery',
-      },
-      {
-          name: 'Technology & IT Accessories',
-      },
-      {
-          name: 'Cleaning and Maintenance Supplies',
-      },
-      {
-          name: 'Office Safety and Security',
-      },
-      {
-        name: 'Kitchen and Breakroom Supplies',
-
-      },
-      {
-        name: 'Others',
-      }   
-  ])
+  const [positions, setpositions] = useState([])
 
   const [data, setData] = useState([])
+
+
+  useEffect(() => {
+    axios.get('http://68.178.163.174:5012/employees/item_types').then(res => {
+        setpositions(res.data)
+    })
+  }, [])
 
 
   const addData = e => {
@@ -70,7 +51,7 @@ export const Application = () => {
 
   const pendingData = () => {
 
-    if(['admin', 'manager'].includes(localStorage.getItem('role'))){
+    if(['7', '9'].includes(localStorage.getItem('role'))){
         const employee_id = localStorage.getItem('employee_id')
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
             setDepartment(res.data[0].department)
@@ -149,7 +130,7 @@ export const Application = () => {
                             <option >Select</option>
                             {
                                 positions.map(item => (
-                                    <option value={item.name}>{item.name}</option>
+                                    <option value={item.id}>{item.name}</option>
                                 ))
                             }
                 </select>
@@ -162,7 +143,7 @@ export const Application = () => {
 
                 <button onClick={addData} className='button'>Submit</button>
 
-               { ['admin', 'manager'].includes(role) || department == 3 ?
+               { ['7', '9'].includes(role) || department == 3 ?
                 <div>
                 <label className='text-center mt-4'>Pending Requisitions</label>
                <table className='table mt-3'>
@@ -183,7 +164,7 @@ export const Application = () => {
                                 <tr>
                                     <td>{item.user_name}</td>
                                     <td>{item.department_name}</td>
-                                    <td>{item.item_type}</td>
+                                    <td>{item.item_type_name}</td>
                                     <td>{item.item_details}</td>
                                     <td>{item.quantity}</td>
                                     <td>{department == 3 ? item.approved_hod : item.approved_hr}</td>
@@ -224,7 +205,7 @@ export const Application = () => {
                                 <tr>
                                     <td>{item.user_name}</td>
                                     <td>{item.department_name}</td>
-                                    <td>{item.item_type}</td>
+                                    <td>{item.item_type_name}</td>
                                     <td>{item.item_details}</td>
                                     <td>{item.quantity}</td>
                                     <td>{item.approved_hod}</td>

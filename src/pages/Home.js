@@ -7,10 +7,13 @@ import React, { useState } from 'react'
 // import blog_3 from './images/blog-3.jpg'
 import carousel_1 from '../assets/carousel_1.jpeg'
 import carousel_2 from '../assets/carousel_2.jpeg'
+import feature1 from '../assets/img/features-1.jpg'
+import Homepic from '../assets/img/home.png'
 // import feature from './images/feature.png'
 // import vegetable from './images/vegetable.png'
 import { BsBucket, BsGeoAlt, BsPhoneVibrate, BsTelephone, BsTwitter } from 'react-icons/bs';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import './Home.css'
 
 // import VisibilitySensor from 'react-visibility-sensor';
 
@@ -30,6 +33,7 @@ const Home = () => {
 
     const navigator = useNavigate()
     const [ active, setActive ] = useState(false);
+   
 
     return (
         <div>
@@ -107,47 +111,237 @@ const Home = () => {
                 <div id="header-carousel" className="carousel slide carousel-fade" data-bs-ride="carousel">
                     <div className="carousel-inner">
                         <div className="carousel-item active">
-                            <img className="w-100 opacity-50" src={carousel_1} alt="Image" />
-                            <div className="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
+                            <img className='home1' src={Homepic} alt="Image" />
+                            <button className="get-started-button">Get Started →</button>
+                            {/* <div className="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
                                 <div className="text-start p-5" style={{ maxWidth: '900px' }}>
                                     <h3 className="text-white bg-success">Promise Nothi</h3>
                                     <h1 style={{ fontSize: '72px' }} className="display-1 text-dark mb-md-4">Smart System For <br />Office Management</h1>
                                     <a href="" className="btn btn-success2 text-white py-md-3 px-md-5 me-3">Explore</a>
                                     <a href="" className="btn btn-secondary py-md-3 px-md-5">Contact</a>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
-                        <div className="carousel-item">
-                            <img className="w-100" src={carousel_2} alt="Image" />
-                            <div className="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
-                                <div className="text-start p-5" style={{ maxWidth: '900px' }}>
-                                    <h3 className="text-white">Dairy Farm</h3>
-                                    <h1 className="display-1 text-white mb-md-4">Organic Fruits For Better Health</h1>
-                                    <a href="" className="btn btn-success2  py-md-3 px-md-5 me-3">Explore</a>
-                                    <a href="" className="btn btn-secondary py-md-3 px-md-5">Contact</a>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
-                    <button className="carousel-control-prev" type="button" data-bs-target="#header-carousel"
-                        data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#header-carousel"
-                        data-bs-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
+                    
                 </div>
             </div>
             {/* <!-- Carousel End --> */}
 
-            {/* Third Section Start */}
-            <h1> This section is not only </h1>
-            
+            {/* Service Section Start */}
+    <div className='service-section'>
+            <section id="services" class="services section light-background">
+
+
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Service</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div>  
+
+<div class="container">
+
+  <div class="row g-5">
+
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+      <div class="service-item item-cyan position-relative">
+        <i class="bi bi-activity icon"></i>
+        <div>
+          <h3>Nesciunt Mete</h3>
+          <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
+          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div> 
+
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+      <div class="service-item item-orange position-relative">
+        <i class="bi bi-broadcast icon"></i>
+        <div>
+          <h3>Eosle Commodi</h3>
+          <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
+          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+      <div class="service-item item-teal position-relative">
+        <i class="bi bi-easel icon"></i>
+        <div>
+          <h3>Ledo Markt</h3>
+          <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
+          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div> 
+
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+      <div class="service-item item-red position-relative">
+        <i class="bi bi-bounding-box-circles icon"></i>
+        <div>
+          <h3>Asperiores Commodi</h3>
+          <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
+          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
+      <div class="service-item item-indigo position-relative">
+        <i class="bi bi-calendar4-week icon"></i>
+        <div>
+          <h3>Velit Doloremque.</h3>
+          <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
+          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div> 
+
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
+      <div class="service-item item-pink position-relative">
+        <i class="bi bi-chat-square-text icon"></i>
+        <div>
+          <h3>Dolori Architecto</h3>
+          <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
+          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+</div>
+
+{/* <!-- Features Section --> */}
+    <section id="features" class="features section">
+
+
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Features</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div> 
+
+      <div class="container">
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 d-flex align-items-center">
+
+            <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
+              <li class="nav-item">
+                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
+                  <i class="bi bi-binoculars"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Modi sit est dela pireda nest</h4>
+                    <p>
+                      Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                      velit esse cillum dolore eu fugiat nulla pariatur
+                    </p>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
+                  <i class="bi bi-box-seam"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Unde praesenti mara setra le</h4>
+                    <p>
+                      Recusandae atque nihil. Delectus vitae non similique magnam molestiae sapiente similique
+                      tenetur aut voluptates sed voluptas ipsum voluptas
+                    </p>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
+                  <i class="bi bi-brightness-high"></i>
+                  <div>
+                    <h4 class="d-none d-lg-block">Pariatur explica nitro dela</h4>
+                    <p>
+                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                      Debitis nulla est maxime voluptas dolor aut
+                    </p>
+                  </div>
+                </a>
+              </li>
+            </ul> 
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="tab-pane fade active show" id="features-tab-1">
+                <img src={feature1} alt="" class="img-fluid"/>
+              </div>
+
+              <div class="tab-pane fade" id="features-tab-2">
+                <img src="assets/img/tabs-2.jpg" alt="" class="img-fluid"/>
+              </div>
+
+              <div class="tab-pane fade" id="features-tab-3">
+                <img src="assets/img/tabs-3.jpg" alt="" class="img-fluid"/>
+              </div>
+            </div>
+
+          </div>
 
         </div>
+
+      </div>
+
+    </section>
+     
+
+{/* Contact Section Start */}
+    <section id="contact" class="contact section">
+
+      {/* <!-- Section Title --> */}
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div> 
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Address</h3>
+              <p>A108 Adam Street, New York, NY 535022</p>
+            </div>
+          </div> 
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
+              <i class="bi bi-telephone"></i>
+              <h3>Call Us</h3>
+              <p>+1 5589 55488 55</p>
+            </div>
+          </div> 
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
+              <i class="bi bi-envelope"></i>
+              <h3>Email Us</h3>
+              <p>info@example.com</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+</div>
     )
 }
 

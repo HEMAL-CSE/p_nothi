@@ -1,10 +1,4 @@
 import React, { useState } from 'react'
-// import about1 from './images/about1.jpg'
-// import about from './images/'
-// import bg_product_1 from './images/bg-product-1.png'
-// import bg_product_2 from './images/bg-product-2.png'
-// import blog_2 from './images/blog-2.jpg'
-// import blog_3 from './images/blog-3.jpg'
 import carousel_1 from '../assets/carousel_1.jpeg'
 import carousel_2 from '../assets/carousel_2.jpeg'
 import feature1 from '../assets/img/features-1.jpg'
@@ -129,17 +123,41 @@ const Home = () => {
             </div>
             {/* <!-- Carousel End --> */}
 
+            <div class="row gy-4 justify-content-between features-item">
+
+<div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
+
+  <div class="content">
+    <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
+    <p>
+      Quidem qui dolore incidunt aut. In assumenda harum id iusto lorena plasico mares
+    </p>
+    <ul>
+      <li><i class="bi bi-easel flex-shrink-0"></i> Et corporis ea eveniet ducimus.</li>
+      <li><i class="bi bi-patch-check flex-shrink-0"></i> Exercitationem dolorem sapiente.</li>
+      <li><i class="bi bi-brightness-high flex-shrink-0"></i> Veniam quia modi magnam.</li>
+    </ul>
+    <p></p>
+    <a href="#" class="btn more-btn">Learn More</a>
+  </div>
+
+</div>
+
+<div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
+  {/* <img src="assets/img/features-2.jpg" class="img-fluid" alt=""> */}
+</div>
+
+</div>
+
             {/* Service Section Start */}
     <div className='service-section'>
             <section id="services" class="services section light-background">
-
-
       <div class="container section-title" data-aos="fade-up">
-        <h2>Service</h2>
+        <h2>Services We Provide</h2>
         <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
       </div>  
 
-<div class="container">
+   <div class="container">
 
   <div class="row g-5">
 
@@ -218,7 +236,6 @@ const Home = () => {
 
 {/* <!-- Features Section --> */}
     <section id="features" class="features section">
-
 
       <div class="container section-title" data-aos="fade-up">
         <h2>Features</h2>

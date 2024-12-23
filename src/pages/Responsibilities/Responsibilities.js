@@ -60,7 +60,6 @@ export const Responsibilities = () => {
                 <label> Key Responsibilities:</label>
                 <input value={key_responsibilities} onChange={e => setKey_responsibilities(e.target.value)} className='input' type='text'/>
 
-                <button onClick={addData} className='button'>Submit</button>
                 
     </div>
     

@@ -22,7 +22,7 @@ const AllEmployeeInfo = () => {
             .then(res => {
                 setData(res.data)
                 console.log(res.data);
-                
+
 
             })
     }, [])
@@ -37,8 +37,8 @@ const AllEmployeeInfo = () => {
 
         axios.get(`http://68.178.163.174:5012/employees/education?employee_id=${selectedEmployee.id}`).then(res => {
             setEducation(res.data)
-        
-            
+
+
         })
 
         axios.get(`http://68.178.163.174:5012/employees/experience?employee_id=${selectedEmployee.id}`).then(res => {
@@ -76,41 +76,117 @@ const AllEmployeeInfo = () => {
 
                 </div>
             </div>
+            <div className='border border-1 border-black p-2 m-4'>
+                <h1 className='m-3 '>Administrators</h1>
+                <table className='mt-10 table'>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Present Address</th>
+                            <th scope="col">Role</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data.filter(item => [1, 2, 3, 4, 5, 6].includes(item.role_id)).map(item => (
+                                <tr>
+                                    <td className='px-3'>{item.user_name}</td>
+                                    <td className='px-3'>{item.employee_id}</td>
+                                    <td className='px-3'>{item.email}</td>
+                                    <td className='px-3'>{item.mobile_no}</td>
+                                    <td className='px-3'>{item.present_address}</td>
+                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                    <td className='px-3'>
+                                        <button onClick={(e) => {
+                                            setIsOpen(true)
+                                            setSelectedEmployee(item)
+                                        }} className='btn btn-warning'>Details</button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-            <table className='mt-10 table'>
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Employee ID</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Present Address</th>
-                        <th scope="col">Role</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        data.map(item => (
-                            <tr>
-                                <td className='px-3'>{item.user_name}</td>
-                                <td className='px-3'>{item.employee_id}</td>
-                                <td className='px-3'>{item.email}</td>
-                                <td className='px-3'>{item.mobile_no}</td>
-                                <td className='px-3'>{item.present_address}</td>
-                                <td className='px-3'>{item.role != null ? item.role.toUpperCase(): ''}</td>
-                                <td className='px-3'>
-                                    <button onClick={(e) => {
-                                        setIsOpen(true)
-                                        setSelectedEmployee(item)
-                                    }} className='btn btn-warning'>Details</button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
 
+            <div className='border border-1 border-black p-2 m-4'>
+                <h1 className='m-3'>HR</h1>
+                <table className='mt-10 table'>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Present Address</th>
+                            <th scope="col">Role</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data.filter(item => [7].includes(item.role_id)).map(item => (
+                                <tr>
+                                    <td className='px-3'>{item.user_name}</td>
+                                    <td className='px-3'>{item.employee_id}</td>
+                                    <td className='px-3'>{item.email}</td>
+                                    <td className='px-3'>{item.mobile_no}</td>
+                                    <td className='px-3'>{item.present_address}</td>
+                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                    <td className='px-3'>
+                                        <button onClick={(e) => {
+                                            setIsOpen(true)
+                                            setSelectedEmployee(item)
+                                        }} className='btn btn-warning'>Details</button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div className='border border-1 border-black p-2 m-4'>
+                <h1 className='m-3'>General Employees</h1>
+                <table className='mt-10 table'>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Present Address</th>
+                            <th scope="col">Role</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data.filter(item => [8, 9 ,10].includes(item.role_id)).map(item => (
+                                <tr>
+                                    <td className='px-3'>{item.user_name}</td>
+                                    <td className='px-3'>{item.employee_id}</td>
+                                    <td className='px-3'>{item.email}</td>
+                                    <td className='px-3'>{item.mobile_no}</td>
+                                    <td className='px-3'>{item.present_address}</td>
+                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                    <td className='px-3'>
+                                        <button onClick={(e) => {
+                                            setIsOpen(true)
+                                            setSelectedEmployee(item)
+                                        }} className='btn btn-warning'>Details</button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
             <Modal
                 style={{
                     content: {

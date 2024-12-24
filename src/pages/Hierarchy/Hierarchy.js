@@ -1,12 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
+import Modal from 'react-modal'
 
 const Hierarchy = () => {
     const [data, setData] = useState([])
     const [reporting_officers, setReporting_officers] = useState([])
     // const [selectedRoles, setSelectedRoles] = useState([])
     const [roles, setRoles] = useState([])
+    const [isOpen, setIsOpen] = useState(false)
+    const [tree, setTree] = useState({})
 
 
     useEffect(() => {
@@ -47,6 +50,11 @@ const Hierarchy = () => {
         
     }
 
+    const getTree = (e) => {
+        // e.preventDefault()
+
+    }
+
 
   return (
     <div className='details'>
@@ -84,7 +92,12 @@ const Hierarchy = () => {
                         {
                             data.map((item, i) => (
                                 <tr>
-                                    <td>{item.user_name}</td>
+                                    <td style={{cursor: 'pointer'}}
+                                        onClick={e => {
+                                            setIsOpen(true)
+                                            getTree()
+                                        }}
+                                    >{item.user_name}</td>
                                     <td>{item.employee_id}</td>
                                     <td>
                                         <select onChange={e => {
@@ -149,6 +162,31 @@ const Hierarchy = () => {
                         }
                     </tbody>
                 </table>
+
+                <Modal
+                                style={{
+                                    content: {
+                                        width: "80%",
+                                        height: "80%",
+                                        zIndex: 10,
+                                        top: "5%",
+                                        left: "10%",
+                                        right: "10%",
+                                        bottom: "5%",
+                                        overflow: "auto",
+                                        WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                                        MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                                        borderRadius: "5px",
+                                        border: "1px solid #ccc",
+                                    },
+                                    overlay: { zIndex: 10000 }
+                                }}
+                                isOpen={isOpen}
+                                onRequestClose={() => {
+                                    setIsOpen(false)
+                                }}
+                            ></Modal>
     </div>
   )
 }

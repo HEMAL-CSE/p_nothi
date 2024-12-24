@@ -105,6 +105,8 @@ export const Application = () => {
         } else if (localStorage.getItem('role') == '11') {
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
                 setPendings(res2.data)
+                console.log(res2.data);
+                
             })
         }
 
@@ -191,6 +193,17 @@ export const Application = () => {
 
     }
 
+    const send_from_store = (e, id) => {
+        axios.put(`http://68.178.163.174:5012/employees/requisition/send_from_store?id=${id}`).then(res => {
+            toast('Sent')
+            axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                setPendings(res2.data)
+                // console.log(res2.data);
+                
+            })
+        })
+    }
+
     return (
         <div className='details'>
             <ToastContainer />
@@ -266,6 +279,8 @@ export const Application = () => {
                                 <th>Approved By Admin</th>
                                 <th>Approved By MD</th>
                                 <th>Approve/Reject</th>
+                                <th>Send from store</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -293,6 +308,7 @@ export const Application = () => {
                                                 </td> :
                                                 <td>{department == 3 ? item.approved_hr : item.approved_hod}</td>
                                         }
+                                        <td>{item.sent_from_store}</td>
                                     </tr>
                                 ))
                             }
@@ -315,6 +331,8 @@ export const Application = () => {
                                 <th>Approved By HR</th>
                                 <th>Approved By MD</th>
                                 <th>Approve</th>
+                                <th>Send from store</th>
+
 
                             </tr>
                         </thead>
@@ -342,6 +360,7 @@ export const Application = () => {
 
                                             }
                                         </td>
+                                        <td>{item.sent_from_store}</td>
                                     </tr>
                                 ))
                             }
@@ -365,6 +384,7 @@ export const Application = () => {
                                 <th>Approved By HR</th>
                                 <th>Approved By Admin</th>
                                 <th>Approve</th>
+                                <th>Send from store</th>
 
                             </tr>
                         </thead>
@@ -392,6 +412,7 @@ export const Application = () => {
 
                                             }
                                         </td>
+                                        <td>{item.sent_from_store}</td>
                                     </tr>
                                 ))
                             }
@@ -427,9 +448,9 @@ export const Application = () => {
                                         <td>{item.item_details}</td>
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{[1, 2].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{[1, 2].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{item.approved_hr}</td> 
+                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                     </tr>
                                 ))
@@ -468,12 +489,12 @@ export const Application = () => {
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{item.approved_admin}</td>
-                                        <td>{item.approved_md}</td>
+                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                         <td>
                                             {
-                                                item.sent_from_store != 'SENT' ? <button className='btn btn-primary'>Send</button> : item.sent_from_store
+                                                item.sent_from_store != 'SENT' ? <button onClick={e => send_from_store(e, item.id)} className='btn btn-primary'>Send</button> : item.sent_from_store
 
                                             }
                                         </td>

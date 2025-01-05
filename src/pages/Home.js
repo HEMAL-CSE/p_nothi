@@ -144,12 +144,12 @@ const Home = () => {
 </div>
 
 <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-  {/* <img src="assets/img/features-2.jpg" class="img-fluid" alt=""> */}
+  <img src="assets/img/features-2.jpg" class="img-fluid" alt=""/>
 </div>
 
 </div>
 
-            {/* Service Section Start */}
+  {/* Service Section Start */}
     <div className='service-section'>
             <section id="services" class="services section light-background">
       <div class="container section-title" data-aos="fade-up">
@@ -165,8 +165,19 @@ const Home = () => {
       <div class="service-item item-cyan position-relative">
         <i class="bi bi-activity icon"></i>
         <div>
-          <h3>Nesciunt Mete</h3>
+          <h3>HR and Employee Management</h3>
           <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
+          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div> 
+
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+      <div class="service-item item-teal position-relative">
+        <i class="bi bi-easel icon"></i>
+        <div>
+          <h3>Project & Task Management</h3>
+          <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
           <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
@@ -176,29 +187,19 @@ const Home = () => {
       <div class="service-item item-orange position-relative">
         <i class="bi bi-broadcast icon"></i>
         <div>
-          <h3>Eosle Commodi</h3>
+          <h3>Document Management</h3>
           <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
           <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
     </div>
 
-    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-      <div class="service-item item-teal position-relative">
-        <i class="bi bi-easel icon"></i>
-        <div>
-          <h3>Ledo Markt</h3>
-          <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
-          <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-        </div>
-      </div>
-    </div> 
 
     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
       <div class="service-item item-red position-relative">
         <i class="bi bi-bounding-box-circles icon"></i>
         <div>
-          <h3>Asperiores Commodi</h3>
+          <h3>Workflow Automation</h3>
           <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
           <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
         </div>
@@ -209,7 +210,7 @@ const Home = () => {
       <div class="service-item item-indigo position-relative">
         <i class="bi bi-calendar4-week icon"></i>
         <div>
-          <h3>Velit Doloremque.</h3>
+          <h3>Facilities Management</h3>
           <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
           <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
         </div>
@@ -220,7 +221,7 @@ const Home = () => {
       <div class="service-item item-pink position-relative">
         <i class="bi bi-chat-square-text icon"></i>
         <div>
-          <h3>Dolori Architecto</h3>
+          <h3>Store Management</h3>
           <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
           <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
         </div>

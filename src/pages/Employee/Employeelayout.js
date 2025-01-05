@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { BsInfo, BsMenuUp, BsPeople, BsSpeedometer } from 'react-icons/bs'
-import { BiArrowFromBottom, BiArrowToBottom, BiBook, BiBookAlt, BiChart, BiDollar, BiExit, BiHealth, BiMoney, BiPencil, BiPlus, BiSolidArrowToBottom, BiStore } from 'react-icons/bi'
+import { BiArrowFromBottom, BiArrowToBottom, BiBook, BiBookAlt, BiChart, BiDollar, BiExit, BiHealth, BiMoney, BiPencil, BiPlus, BiPurchaseTag, BiSolidArrowToBottom, BiStore } from 'react-icons/bi'
 import { FaCow, FaSeedling, FaUserDoctor } from 'react-icons/fa6'
-import { GiBottomRight3dArrow, GiDoctorFace, GiPaper } from 'react-icons/gi'
+import { GiBottomRight3dArrow, GiBuyCard, GiDoctorFace, GiPaper } from 'react-icons/gi'
 import { MdDashboard, MdReport } from 'react-icons/md'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
@@ -117,6 +117,13 @@ const Employeelayout = ({ children }) => {
       pathname: '/employee/application',
       roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
       icon: GrDocumentConfig,
+      submenu: []
+    },
+    {
+      name: 'Purchase',
+      pathname: '/employee/purchase',
+      roles: ['1', '2', '3', '4', '5', '6', '7'],
+      icon: BiPurchaseTag,
       submenu: []
     },
 

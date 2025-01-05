@@ -18,6 +18,7 @@ import { Application } from './pages/Application/Application';
 import Hierarchy from './pages/Hierarchy/Hierarchy';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import Store from './pages/Store/Store';
+import Purchase from './pages/Purchase/Purchase';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
@@ -47,6 +48,7 @@ function App() {
 
         <Route element={<Application/>} exact path='/employee/application'/>
         <Route element={<Hierarchy/>} exact path='/employee/hierarchy'/>
+        <Route element={<Purchase/>} exact path='/employee/purchase'/>
         </Route>
         </Route>
 

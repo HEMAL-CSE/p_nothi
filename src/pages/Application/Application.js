@@ -20,6 +20,7 @@ export const Application = () => {
     const [items, setItems] = useState([])
 
     const [item, setItem] = useState('')
+    const [comments, setComments] = useState([])
 
     const [data, setData] = useState([])
 
@@ -28,15 +29,34 @@ export const Application = () => {
     const [mdData, setMdData] = useState([])
 
     const [decision, setDecision] = useState('')
+    const [estimated_price, setEstimated_price] = useState('')
+    const [comment_id, setComment_id] = useState('')
 
 
+
+
+    //get item types
     useEffect(() => {
         axios.get('http://68.178.163.174:5012/employees/item_types').then(res => {
             setpositions(res.data)
         })
     }, [])
 
+    // get items
 
+    useEffect(() => {
+        axios.get(`http://68.178.163.174:5012/employees/store?item_type=${item_type}`)
+            .then(res => {
+                // console.log(res.data);
+
+                setItems(res.data)
+
+            })
+    }, [item_type])
+
+
+
+    // add requisitions
     const addData = e => {
 
         e.preventDefault()
@@ -54,6 +74,9 @@ export const Application = () => {
             getData()
         })
     }
+
+
+    // get requisitions
 
     const getData = () => {
 
@@ -108,7 +131,7 @@ export const Application = () => {
 
             })
 
-        } else if (localStorage.getItem('role') == '11') {
+        } else if (['11','1'].includes(localStorage.getItem('role'))) {
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
                 setPendings(res2.data)
                 console.log(res2.data);
@@ -118,6 +141,8 @@ export const Application = () => {
 
     }
 
+
+    //approval and rejections
     const approve = (e, id) => {
         if (department == 3) {
             axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_hr=${true}&&id=${id}`).then(res => {
@@ -146,15 +171,7 @@ export const Application = () => {
         pendingData()
     }
 
-    useEffect(() => {
-        axios.get(`http://68.178.163.174:5012/employees/store?item_type=${item_type}`)
-            .then(res => {
-                // console.log(res.data);
 
-                setItems(res.data)
-
-            })
-    }, [item_type])
 
     useEffect(() => {
         getData()
@@ -178,7 +195,7 @@ export const Application = () => {
     const approveMd = (e, id) => {
         axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_md=${true}&&id=${id}`).then(res => {
             toast('Approved')
-            mddata()
+            pendingData()
         })
 
     }
@@ -204,34 +221,74 @@ export const Application = () => {
             toast('Sent')
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
                 setPendings(res2.data)
-                
+
                 // console.log(res2.data);
 
             })
         })
     }
 
+
+    //decisions
+
+    const getComments = (id) => {
+        axios.get(`http://68.178.163.174:5012/employees/decision?requisition_id=${id}`).then(res => {
+            setComments(res.data)
+        })
+    }
     const update_decision = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/decision?id=${id}`, {
-            decision_making: decision
-        }).then(res => {
-            toast('Decision Submitted')
-            axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
-                setPendings(res2.data)
-                admintData()
-                setDecision_modal(false)
-                // console.log(res2.data);
+        if (comment_id != '') {
+            console.log(comment_id);
+            
+            axios.put(`http://68.178.163.174:5012/employees/decision/edit?id=${comment_id}`, {
+                comment: decision,
+                commentor_id: localStorage.getItem('employee_id'),
+                requisition_id: id,
+                estimated_price
+            }).then(res => {
+                toast('Decision Submitted')
+                // axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                //     setPendings(res2.data)
+                //     admintData()
+                //     setDecision_modal(false)
+                //     // console.log(res2.data);
 
+                // })
+
+                getComments(id)
             })
-        })
+        } else {
+            axios.post(`http://68.178.163.174:5012/employees/decision/add`, {
+                comment: decision,
+                commentor_id: localStorage.getItem('employee_id'),
+                requisition_id: id,
+                estimated_price
+            }).then(res => {
+                toast('Decision Submitted')
+                // axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                //     setPendings(res2.data)
+                //     admintData()
+                //     setDecision_modal(false)
+                //     // console.log(res2.data);
+
+                // })
+
+                getComments(id)
+            })
+        }
+
     }
 
+
+    // received
     const received = (e, id) => {
         axios.put(`http://68.178.163.174:5012/employees/received?id=${id}&&received=1`).then(res => {
             toast('Received')
             getData()
         })
     }
+
+
 
     return (
         <div className='details'>
@@ -255,6 +312,8 @@ export const Application = () => {
                 </div>
             </div>
 
+
+            {/* Add Requisition */}
             {localStorage.getItem('role') != '11' && <div>
                 <label> Select Item Type:</label>
                 <select value={item_type} onChange={e => {
@@ -274,9 +333,9 @@ export const Application = () => {
                     items.length != 0 && others == false ?
                         <select className='select' onChange={e => {
                             console.log(e.target.value);
-                            if(e.target.value == 'Others'){
+                            if (e.target.value == 'Others') {
                                 setOthers(true)
-                            }else{
+                            } else {
                                 setItem_details(e.target.value)
 
                             }
@@ -299,6 +358,8 @@ export const Application = () => {
 
                 <button onClick={addData} className='button'>Submit</button>
             </div>}
+
+            {/* For HR and HOD */}
             {['7', '9'].includes(role) || department == 3 ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions</label>
@@ -316,7 +377,7 @@ export const Application = () => {
                                 <th>Approve/Reject</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
-                                {localStorage.getItem('role') == '7' && <th>Decision Making</th>}
+                                {localStorage.getItem('role') == '7' && <th>Comments</th>}
 
                             </tr>
                         </thead>
@@ -347,15 +408,18 @@ export const Application = () => {
                                         }
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
-                                        {localStorage.getItem('role') == '7' && ['1', '2'].includes(item.item_type) &&  item.available_quantity < item.quantity ? <td>
+                                        {localStorage.getItem('role') == '7' && <td>
                                             <button className='btn btn-warning' onClick={e => {
-
+                                                setDecision('')
+                                                setEstimated_price('')
                                                 setDecision_modal(true)
                                                 setDecision_id(item.id)
                                                 setDecision(item.decision_making)
-                                            }}>Decision</button>
-                                        </td> :localStorage.getItem('role') == '7' &&  <td>Invalid</td>}
-                                        
+                                                setComment_id('')
+                                                getComments(item.id)
+                                            }}>Comment</button>
+                                        </td>}
+
                                     </tr>
                                 ))
                             }
@@ -377,7 +441,7 @@ export const Application = () => {
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
                                 <th>Approved By MD</th>
-                                <th>Approve</th>
+                                <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved By Admin'}</th>
                                 <th>Send from store</th>
                                 <th>Decision Making</th>
                                 <th>Received</th>
@@ -400,7 +464,7 @@ export const Application = () => {
 
                                         <td>
                                             {
-                                                item.approved_admin == 'PENDING' ?
+                                                item.approved_admin == 'PENDING' && ['2'].includes(localStorage.getItem('role')) ?
                                                     <div>
                                                         <button onClick={e => approveAdmin(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectAdmin(e, item.id)} className='btn btn-primary'>Reject</button>
@@ -410,13 +474,17 @@ export const Application = () => {
                                             }
                                         </td>
                                         <td>{item.sent_from_store}</td>
-                                        {['1', '2'].includes(item.item_type) && item.total_price == null ? <td>
+                                        {['1', '2'].includes(item.item_type) && <td>
                                             <button className='btn btn-warning' onClick={e => {
+                                                getComments(item.id)
                                                 setDecision_modal(true)
                                                 setDecision_id(item.id)
                                                 setDecision(item.decision_making)
-                                            }}>Decision</button>
-                                        </td> : <td>Invalid</td>}
+                                                setDecision('')
+                                                setEstimated_price('')
+                                                setComment_id('')
+                                            }}>Comment</button>
+                                        </td> }
                                         <td>{item.received}</td>
                                     </tr>
                                 ))
@@ -443,12 +511,13 @@ export const Application = () => {
                                 <th>Approve</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
+                                <th>Comments</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                mdData.map(item => (
+                                pendings.map(item => (
                                     <tr>
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
@@ -457,21 +526,32 @@ export const Application = () => {
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{item.approved_admin}</td>
+                                        <td>{['1', '2'].includes(item.item_type) ?item.approved_admin:'Invalid'}</td>
 
                                         <td>
                                             {
-                                                item.approved_md == 'PENDING' ?
+                                                item.approved_md == 'PENDING' &&['1', '2'].includes(item.item_type) ?
                                                     <div>
                                                         <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    : item.approved_md
+                                                    : item.approved_md == 'PENDING' ? 'Invalid' :  item.approved_md
 
                                             }
                                         </td>
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
+                                        {['1', '2'].includes(item.item_type) && <td>
+                                            <button className='btn btn-warning' onClick={e => {
+                                                getComments(item.id)
+                                                setDecision_modal(true)
+                                                setDecision_id(item.id)
+                                                setDecision(item.decision_making)
+                                                setDecision('')
+                                                setEstimated_price('')
+                                                setComment_id('')
+                                            }}>Comment</button>
+                                        </td> }
                                     </tr>
                                 ))
                             }
@@ -512,8 +592,8 @@ export const Application = () => {
                                         <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
                                         <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
-                                                Received
-                                            </button>}</td>
+                                            Received
+                                        </button>}</td>
                                     </tr>
                                 ))
                             }
@@ -521,6 +601,10 @@ export const Application = () => {
                     </table> </div>}
 
             {
+
+
+
+                // store manager
                 localStorage.getItem('role') == '11' &&
                 <div>
                     <label className='text-center mt-4'>Requisitions</label>
@@ -567,6 +651,8 @@ export const Application = () => {
                     </table> </div>
             }
 
+            {/* Comment box */}
+
             <Modal
                 style={{
                     content: {
@@ -592,9 +678,29 @@ export const Application = () => {
                 }}
             >
                 <div className='details'>
-                    <label>Decision</label>
-                    <textarea rows={10} placeholder='Decision....' className='input' value={decision} onChange={e => setDecision(e.target.value)} />
 
+                    {
+                        comments.map(comment => (
+                            <div className='d-flex'>
+                                <p className='fw-bold'>{comment.role_name}:</p>
+                                <p>{comment.comment}. <span className='fw-bolder'>Estimated Price: {comment.estimated_price}</span></p>
+                                {localStorage.getItem('employee_id') == comment.commentor_id &&
+                                    <div className=''>
+                                        <button onClick={e => {
+                                            setComment_id(comment.id)
+                                            setEstimated_price(comment.estimated_price)
+                                            setDecision(comment.comment)
+                                        }} className='btn btn-warning py-0 mx-2 '>Edit</button>
+                                    </div>}
+                            </div>
+                        ))
+                    }
+
+                    <label>Comment</label>
+                    <textarea rows={5} placeholder='Comment....' className='input' value={decision} onChange={e => setDecision(e.target.value)} />
+
+                    <label>Estimated Price</label>
+                    <input className='input w-25' value={estimated_price} type='number' onChange={e => setEstimated_price(e.target.value)} />
                     <button onClick={e => update_decision(e, decision_id)} className='btn btn-success'>Submit</button>
                 </div>
 

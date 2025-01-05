@@ -13,7 +13,7 @@ import './Home.css'
 
 
 // import './CSS/style.css'
-import { FaAward, FaCheck, FaFacebook, FaLinkedin, FaMapMarked, FaMapMarker, FaMapMarkerAlt, FaMugHot, FaPhoneAlt, FaSeedling, FaStar, FaTractor, FaTwitter, FaUsers, FaYoutube } from 'react-icons/fa'
+import { FaAward, FaCheck, FaFacebook, FaFacebookF, FaFacebookSquare, FaLinkedin, FaMapMarked, FaMapMarker, FaMapMarkerAlt, FaMugHot, FaPhoneAlt, FaSeedling, FaStar, FaTractor, FaTwitter, FaUsers, FaYoutube } from 'react-icons/fa'
 import { BiArrowFromRight, BiArrowToRight, BiEnvelope, BiEnvelopeOpen, BiLeaf } from 'react-icons/bi'
 import { FaA, FaCow, FaUserDoctor } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +22,8 @@ import { LuBeef, LuMilk } from 'react-icons/lu'
 import { GiChicken, GiFarmer, GiGoat, GiRoastChicken, GiRooster, GiSteak } from 'react-icons/gi'
 import { TbMilk } from 'react-icons/tb'
 import { PiPhone } from 'react-icons/pi'
+import { FiInstagram } from 'react-icons/fi'
+import { LiaLinkedin } from 'react-icons/lia'
 
 const Home = () => {
 
@@ -125,7 +127,7 @@ const Home = () => {
 
             <div class="row gy-4 justify-content-between features-item">
 
-<div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
+{/* <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
 
   <div class="content">
     <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
@@ -145,7 +147,7 @@ const Home = () => {
 
 <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
   <img src="assets/img/features-2.jpg" class="img-fluid" alt=""/>
-</div>
+</div> */}
 
 </div>
 
@@ -332,7 +334,7 @@ const Home = () => {
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
               <i class="bi bi-geo-alt"></i>
               <h3>Address</h3>
-              <p>A108 Adam Street, New York, NY 535022</p>
+              <p>Khaja IT Park, 2nd to 7th Floor, Kallyanpur Bus Stop, Mirpur Road, Dhaka-1207.</p>
             </div>
           </div> 
 
@@ -340,7 +342,7 @@ const Home = () => {
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
               <i class="bi bi-telephone"></i>
               <h3>Call Us</h3>
-              <p>+1 5589 55488 55</p>
+              <p>+88 01550-666900</p>
             </div>
           </div> 
 
@@ -348,7 +350,7 @@ const Home = () => {
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
               <i class="bi bi-envelope"></i>
               <h3>Email Us</h3>
-              <p>info@example.com</p>
+              <p>info@e-laeltd.com</p>
             </div>
           </div>
 
@@ -357,6 +359,58 @@ const Home = () => {
       </div>
 
     </section>
+
+  {/* Footer Section Start */}
+
+{/* // Footer section with responsibe */}
+<footer>
+    <div class="footer-col">
+        <h3>E-Learning & Earning Ltd. </h3>
+        <li>Khaja IT Park, 2nd to 7th Floor,</li>
+        <li>Kallyanpur Bus Stop, Mirpur Road, Dhaka-1207.</li>
+        <li>Phone: +88 01550-666900 </li>
+        <li>Email: info@e-laeltd.com </li>
+    </div>
+    <div class="footer-col">
+        <h3>Useful links</h3>
+        <li>Home</li>
+        <li>About Us</li>
+        <li>Services</li>
+        <li>Contact Us</li>
+        <li>Privacy Policy</li>
+    </div>
+    <div class="footer-col">
+        <h3>Our Services</h3>
+        <li>Website Interface</li>
+        <li>Mobile Application</li>
+        <li>Administrator Access</li>
+        <li>Guardian Access</li>
+        <li>SMS Gateway.</li>
+    </div>    
+
+    <div class="footer-col">
+        <h3>Newsletter</h3>
+        <p>You can trust us. We only send promo offers. </p>
+        <div class="subscribe">
+            <input type="text" placeholder="Your Email address" />
+            <a href="#" class="yellow">SUBSCRIBE</a>
+        </div>
+    </div>
+
+{/* <!-- Copyright section--> */}
+        <div class="copyright">
+           <p class=""> &copy; Copyright @E-Learning & Earning Ltd. All Rights Reserved @2025. </p>
+           <div class="pro-links">
+            <a href="https://www.facebook.com/"> <FaFacebookSquare/></a>
+            <a href="https://www.facebook.com/"> <BsTwitter/> </a>
+            <a href="https://www.facebook.com/"> <FiInstagram/> </a>
+            <a href="https://www.facebook.com/"> <LiaLinkedin/> </a>
+            </div>
+        </div>
+        
+
+</footer>
+
 
 
 </div>

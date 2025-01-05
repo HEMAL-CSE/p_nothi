@@ -54,7 +54,7 @@ const Sidebar = ({ elements, name }) => {
                                         <span className='ms-2 d-none d-sm-inline'>{element.name}</span>
                                         {element.submenu.length >0 && <BiArrowToBottom className='mx-2' />}
                                     </a>
-                                    <ul className={`nav collapse  ms-1 flex-column`} id={`submenu-${element.name}`} data-bs-parent='#parentM'>
+                                    <ul className={`nav collapse ms-1 flex-column`} id={`submenu-${element.name}`} data-bs-parent='#parentM'>
                                         {element.submenu.length >0 &&
                                             element.submenu.map(sub => (
                                                 <li onClick={() => {

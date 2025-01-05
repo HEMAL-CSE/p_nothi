@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
+import Modal from 'react-modal'
 
 
 export const Application = () => {
     const [quantity, setQuantity] = useState('')
     const [item_details, setItem_details] = useState('')
+    const [decision_modal, setDecision_modal] = useState(false)
+    const [decision_id, setDecision_id] = useState('')
+    const [others, setOthers] = useState(false)
 
     const [item_type, setItem_type] = useState('')
     const [department, setDepartment] = useState('')
@@ -22,6 +26,8 @@ export const Application = () => {
     const [adminData, setAdminData] = useState([])
 
     const [mdData, setMdData] = useState([])
+
+    const [decision, setDecision] = useState('')
 
 
     useEffect(() => {
@@ -76,7 +82,7 @@ export const Application = () => {
             axios.get(`http://68.178.163.174:5012/employees/requisition?md=1`).then(res => {
                 setMdData(res.data)
                 console.log(res.data);
-                
+
             })
         }
 
@@ -106,7 +112,7 @@ export const Application = () => {
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
                 setPendings(res2.data)
                 console.log(res2.data);
-                
+
             })
         }
 
@@ -198,9 +204,32 @@ export const Application = () => {
             toast('Sent')
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
                 setPendings(res2.data)
-                // console.log(res2.data);
                 
+                // console.log(res2.data);
+
             })
+        })
+    }
+
+    const update_decision = (e, id) => {
+        axios.put(`http://68.178.163.174:5012/employees/decision?id=${id}`, {
+            decision_making: decision
+        }).then(res => {
+            toast('Decision Submitted')
+            axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                setPendings(res2.data)
+                admintData()
+                setDecision_modal(false)
+                // console.log(res2.data);
+
+            })
+        })
+    }
+
+    const received = (e, id) => {
+        axios.put(`http://68.178.163.174:5012/employees/received?id=${id}&&received=1`).then(res => {
+            toast('Received')
+            getData()
         })
     }
 
@@ -230,6 +259,7 @@ export const Application = () => {
                 <label> Select Item Type:</label>
                 <select value={item_type} onChange={e => {
                     setItem_type(e.target.value)
+                    setOthers(false)
                 }} className='select' >
                     <option >Select</option>
                     {
@@ -241,11 +271,15 @@ export const Application = () => {
 
                 <label>Item Details:</label>
                 {
-                    items.length != 0 ?
+                    items.length != 0 && others == false ?
                         <select className='select' onChange={e => {
                             console.log(e.target.value);
+                            if(e.target.value == 'Others'){
+                                setOthers(true)
+                            }else{
+                                setItem_details(e.target.value)
 
-                            setItem_details(e.target.value)
+                            }
                         }}>
                             <option>Select</option>
                             {
@@ -253,9 +287,10 @@ export const Application = () => {
                                     <option value={item.item_name}>{item.item_name}</option>
                                 ))
                             }
+                            <option value="Others">Others</option>
                         </select>
                         :
-                        <input value={item_details} onChange={e => setItem_details(e.target.value)} className='input' type='text' />
+                        <input placeholder='Enter item name' value={item_details} onChange={e => setItem_details(e.target.value)} className='input' type='text' />
 
                 }
 
@@ -280,6 +315,8 @@ export const Application = () => {
                                 <th>Approved By MD</th>
                                 <th>Approve/Reject</th>
                                 <th>Send from store</th>
+                                <th>Received</th>
+                                {localStorage.getItem('role') == '7' && <th>Decision Making</th>}
 
                             </tr>
                         </thead>
@@ -309,6 +346,16 @@ export const Application = () => {
                                                 <td>{department == 3 ? item.approved_hr : item.approved_hod}</td>
                                         }
                                         <td>{item.sent_from_store}</td>
+                                        <td>{item.received}</td>
+                                        {localStorage.getItem('role') == '7' && ['1', '2'].includes(item.item_type) &&  item.available_quantity < item.quantity ? <td>
+                                            <button className='btn btn-warning' onClick={e => {
+
+                                                setDecision_modal(true)
+                                                setDecision_id(item.id)
+                                                setDecision(item.decision_making)
+                                            }}>Decision</button>
+                                        </td> :localStorage.getItem('role') == '7' &&  <td>Invalid</td>}
+                                        
                                     </tr>
                                 ))
                             }
@@ -332,6 +379,8 @@ export const Application = () => {
                                 <th>Approved By MD</th>
                                 <th>Approve</th>
                                 <th>Send from store</th>
+                                <th>Decision Making</th>
+                                <th>Received</th>
 
 
                             </tr>
@@ -361,6 +410,14 @@ export const Application = () => {
                                             }
                                         </td>
                                         <td>{item.sent_from_store}</td>
+                                        {['1', '2'].includes(item.item_type) && item.total_price == null ? <td>
+                                            <button className='btn btn-warning' onClick={e => {
+                                                setDecision_modal(true)
+                                                setDecision_id(item.id)
+                                                setDecision(item.decision_making)
+                                            }}>Decision</button>
+                                        </td> : <td>Invalid</td>}
+                                        <td>{item.received}</td>
                                     </tr>
                                 ))
                             }
@@ -385,6 +442,7 @@ export const Application = () => {
                                 <th>Approved By Admin</th>
                                 <th>Approve</th>
                                 <th>Send from store</th>
+                                <th>Received</th>
 
                             </tr>
                         </thead>
@@ -413,6 +471,7 @@ export const Application = () => {
                                             }
                                         </td>
                                         <td>{item.sent_from_store}</td>
+                                        <td>{item.received}</td>
                                     </tr>
                                 ))
                             }
@@ -436,6 +495,7 @@ export const Application = () => {
                                 <th>Approved By HR</th>
                                 <th>Approved By Admin</th>
                                 <th>Approved By MD</th>
+                                <th>Received</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -448,10 +508,12 @@ export const Application = () => {
                                         <td>{item.item_details}</td>
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td> 
+                                        <td>{item.approved_hr}</td>
                                         <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
                                         <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
-
+                                        <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
+                                                Received
+                                            </button>}</td>
                                     </tr>
                                 ))
                             }
@@ -505,7 +567,38 @@ export const Application = () => {
                     </table> </div>
             }
 
+            <Modal
+                style={{
+                    content: {
+                        width: "80%",
+                        height: "80%",
+                        zIndex: 10,
+                        top: "5%",
+                        left: "10%",
+                        right: "10%",
+                        bottom: "5%",
+                        overflow: "auto",
+                        WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                    },
+                    overlay: { zIndex: 10000 }
+                }}
+                isOpen={decision_modal}
+                onRequestClose={() => {
+                    setDecision_modal(false)
+                }}
+            >
+                <div className='details'>
+                    <label>Decision</label>
+                    <textarea rows={10} placeholder='Decision....' className='input' value={decision} onChange={e => setDecision(e.target.value)} />
 
+                    <button onClick={e => update_decision(e, decision_id)} className='btn btn-success'>Submit</button>
+                </div>
+
+            </Modal>
         </div>
 
     )

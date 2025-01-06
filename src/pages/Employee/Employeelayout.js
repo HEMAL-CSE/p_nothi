@@ -24,14 +24,14 @@ const Employeelayout = ({ children }) => {
       name: 'Dashboard',
       pathname: '/employee/dashboard',
       icon: MdDashboard,
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13'],
       submenu: []
     },
 
     {
       name: 'User',
       pathname: '/employee',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
       icon: CgProfile,
       submenu: [
         {
@@ -86,7 +86,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Pay Roll',
       pathname: '/employee/responsibility',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
       icon: BiDollar,
       submenu: []
     },
@@ -94,7 +94,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Leave Information',
       pathname: '/employee/leave',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
       icon: BiExit,
       submenu: []
     },
@@ -115,14 +115,14 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Application/Requsition',
       pathname: '/employee/application',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
       icon: GrDocumentConfig,
       submenu: []
     },
     {
       name: 'Purchase',
       pathname: '/employee/purchase',
-      roles: ['1', '2', '3', '4', '5', '6', '7'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '13'],
       icon: BiPurchaseTag,
       submenu: []
     },
@@ -138,7 +138,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Log Out',
       pathname: '/login',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
       icon: LuLogOut,
       submenu: []
     },

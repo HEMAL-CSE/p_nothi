@@ -87,6 +87,41 @@ const Purchase = () => {
 
     }
 
+    const approve = (e, role, id) => {
+        if(role == '2'){
+            axios.put(`http://68.178.163.174:5012/employees/purchase/approve?approved_ed=1&&id=${id}`).then(res => {
+                toast('Approved')
+                getData()
+            })
+        }else if(role == '1'){
+            axios.put(`http://68.178.163.174:5012/employees/purchase/approve?approved_md=1&&id=${id}`).then(res => {
+                toast('Approved')
+                getData()
+            })
+        }
+    }
+
+    const reject = (e, role, id) => {
+        if(role == '2'){
+            axios.put(`http://68.178.163.174:5012/employees/purchase/reject?approved_ed=1&&id=${id}`).then(res => {
+                toast('Rejected')
+                getData()
+            })
+        }else if(role == '1'){
+            axios.put(`http://68.178.163.174:5012/employees/purchase/reject?approved_md=1&&id=${id}`).then(res => {
+                toast('Rejected')
+                getData()
+            })
+        }
+    }
+
+    const purchaseConfirmed = (e, id) => {
+        axios.put(`http://68.178.163.174:5012/employees/purchase/confirm?id=${id}`).then(res => {
+            toast('Purchase Confirmed')
+            getData()
+        })
+    }
+
     return (
         <div className='details'>
             <ToastContainer />
@@ -151,6 +186,7 @@ const Purchase = () => {
                         <th>Price</th>
                         <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved by ED'}</th>
                         <th>{localStorage.getItem('role') == '1' ? 'Approve' : 'Approved by MD'}</th>
+                        <th>Purchase Confirmed</th>
                         <th>Edit/Delete</th>
                     </tr>
                 </thead>
@@ -162,19 +198,22 @@ const Purchase = () => {
                                 <td>{item.name}</td>
                                 <td>{item.company_name}</td>
                                 <td>{item.price}</td>
-                                <td>{localStorage.getItem('role') == '2' && item.approved_ed == 'PENDNIG' ?
+                                <td>{localStorage.getItem('role') == '2' && item.approved_ed == 'PENDING' ?
                                     <div>
-                                        <button className='btn btn-success mx-2'>Approve</button>
-                                        <button className='btn btn-danger'>Reject</button>
+                                        <button onClick={e => approve(e, '2', item.id)} className='btn btn-success mx-2'>Approve</button>
+                                        <button onClick={e => reject(e, '2', item.id)} className='btn btn-danger'>Reject</button>
                                     </div>
                                     : item.approved_ed}</td>
                                 <td>{localStorage.getItem('role') == '1' && item.approved_md == 'PENDING' ?
                                     <div>
-                                        <button className='btn btn-success mx-2'>Approve</button>
-                                        <button className='btn btn-danger'>Reject</button>
+                                        <button onClick={e => approve(e, '1', item.id)} className='btn btn-success mx-2'>Approve</button>
+                                        <button onClick={e => reject(e, '2', item.id)} className='btn btn-danger'>Reject</button>
 
                                     </div>
-                                    : item.approved_ed}</td>
+                                    : item.approved_md}</td>
+                                <td>{localStorage.getItem('role') == '13' && item.purchase_confirmed == 'PENDING' ?
+                                    <button onClick={e => purchaseConfirmed(e, item.id)} className='btn btn-success'>Confirm</button>
+                                    : item.purchase_confirmed}</td>
                                 <td>
                                     <button onClick={e => {
                                         setEdit_name(item.name)

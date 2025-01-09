@@ -1370,3 +1370,9 @@
   .starter-section {
     /* Add your styles here */
   }
+
+  /* Banner Edit */
+  .home1{
+    height: 780px;
+    width: 100%;
+  }

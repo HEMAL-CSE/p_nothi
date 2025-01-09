@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import carousel_1 from '../assets/carousel_1.jpeg'
-import carousel_2 from '../assets/carousel_2.jpeg'
 import feature1 from '../assets/img/features-1.jpg'
 import Homepic from '../assets/img/home.png'
+import Feautures from '../assets/img/feature.png'
+import banner1 from '../assets/carousel_1.jpeg'
+import banner2 from '../assets/carosel.jpg'
 // import feature from './images/feature.png'
 // import vegetable from './images/vegetable.png'
 import { BsBinoculars, BsBoundingBoxCircles, BsBoxSeam, BsBrightnessHigh, BsBucket, BsChatSquareText, BsEasel, BsGeoAlt, BsPeople, BsPhoneVibrate, BsTelephone, BsTwitter } from 'react-icons/bs';
@@ -108,16 +109,16 @@ const Home = () => {
                 <div id="header-carousel" className="carousel slide carousel-fade" data-bs-ride="carousel">
                     <div className="carousel-inner">
                         <div className="carousel-item active">
-                            <img className='home1' src={Homepic} alt="Image" />
-                            <button className="get-started-button">Get Started →</button>
-                            {/* <div className="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
+                            <img className='home1' src={banner2} alt="Image" />
+                            {/* <button className="get-started-button">Get Started →</button> */}
+                            <div className="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
                                 <div className="text-start p-5" style={{ maxWidth: '900px' }}>
                                     <h3 className="text-white bg-success">Promise Nothi</h3>
                                     <h1 style={{ fontSize: '72px' }} className="display-1 text-dark mb-md-4">Smart System For <br />Office Management</h1>
                                     <a href="" className="btn btn-success2 text-white py-md-3 px-md-5 me-3">Explore</a>
                                     <a href="" className="btn btn-secondary py-md-3 px-md-5">Contact</a>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                        
                     </div>
@@ -128,27 +129,6 @@ const Home = () => {
 
             <div class="row gy-4 justify-content-between features-item">
 
-{/* <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-
-  <div class="content">
-    <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
-    <p>
-      Quidem qui dolore incidunt aut. In assumenda harum id iusto lorena plasico mares
-    </p>
-    <ul>
-      <li><i class="bi bi-easel flex-shrink-0"></i> Et corporis ea eveniet ducimus.</li>
-      <li><i class="bi bi-patch-check flex-shrink-0"></i> Exercitationem dolorem sapiente.</li>
-      <li><i class="bi bi-brightness-high flex-shrink-0"></i> Veniam quia modi magnam.</li>
-    </ul>
-    <p></p>
-    <a href="#" class="btn more-btn">Learn More</a>
-  </div>
-
-</div>
-
-<div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-  <img src="assets/img/features-2.jpg" class="img-fluid" alt=""/>
-</div> */}
 
 </div>
 
@@ -250,7 +230,7 @@ const Home = () => {
 
       <div class="container section-title" data-aos="fade-up">
         <h2>Features</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>Here are some key features for Promise Nothi documented management website.</p>
       </div> 
 
       <div class="container">
@@ -267,7 +247,7 @@ const Home = () => {
                   </div>
                   
                   <div>
-                    <h4 class="d-none d-lg-block">Modi sit est dela pireda nest</h4>
+                    <h4 class="d-none d-lg-block">HR and Employee Management</h4>
                     <p>
                       Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
                       velit esse cillum dolore eu fugiat nulla pariatur
@@ -282,10 +262,8 @@ const Home = () => {
                     <BsBoxSeam />
                   </div>
                   <div>
-                    <h4 class="d-none d-lg-block">Unde praesenti mara setra le</h4>
-                    <p>
-                      Recusandae atque nihil. Delectus vitae non similique magnam molestiae sapiente similique
-                      tenetur aut voluptates sed voluptas ipsum voluptas
+                    <h4 class="d-none d-lg-block">Application & Requisition Related Issues</h4>
+                    <p> A well-designed requisition system within a Nothi-documented management via this website. 
                     </p>
                   </div>
                 </a>
@@ -297,7 +275,7 @@ const Home = () => {
                     <BsBrightnessHigh />
                   </div>
                   <div>
-                    <h4 class="d-none d-lg-block">Pariatur explica nitro dela</h4>
+                    <h4 class="d-none d-lg-block">Leave Information Related Issues</h4>
                     <p>
                       Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                       Debitis nulla est maxime voluptas dolor aut

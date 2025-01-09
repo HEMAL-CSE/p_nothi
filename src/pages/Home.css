@@ -790,12 +790,13 @@
     cursor: pointer;
   }
   
-  .features .nav-link i {
+  .features .nav-link .icon {
     background-color: var(--surface-color);
     color: var(--accent-color);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 10px;
     margin-right: 20px;
     width: 48px;
     height: 48px;
@@ -1287,7 +1288,7 @@
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
   }
   
-  .contact .info-item i {
+  .contact .info-item .icon {
     font-size: 20px;
     color: var(--accent-color);
     width: 56px;

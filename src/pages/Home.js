@@ -5,7 +5,7 @@ import feature1 from '../assets/img/features-1.jpg'
 import Homepic from '../assets/img/home.png'
 // import feature from './images/feature.png'
 // import vegetable from './images/vegetable.png'
-import { BsBucket, BsGeoAlt, BsPhoneVibrate, BsTelephone, BsTwitter } from 'react-icons/bs';
+import { BsBinoculars, BsBoundingBoxCircles, BsBoxSeam, BsBrightnessHigh, BsBucket, BsChatSquareText, BsEasel, BsGeoAlt, BsPeople, BsPhoneVibrate, BsTelephone, BsTwitter } from 'react-icons/bs';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import './Home.css'
 
@@ -14,16 +14,17 @@ import './Home.css'
 
 // import './CSS/style.css'
 import { FaAward, FaCheck, FaFacebook, FaFacebookF, FaFacebookSquare, FaLinkedin, FaMapMarked, FaMapMarker, FaMapMarkerAlt, FaMugHot, FaPhoneAlt, FaSeedling, FaStar, FaTractor, FaTwitter, FaUsers, FaYoutube } from 'react-icons/fa'
-import { BiArrowFromRight, BiArrowToRight, BiEnvelope, BiEnvelopeOpen, BiLeaf } from 'react-icons/bi'
+import { BiArrowFromRight, BiArrowToRight, BiBroadcast, BiCalendar, BiEnvelope, BiEnvelopeOpen, BiLeaf, BiStore } from 'react-icons/bi'
 import { FaA, FaCow, FaUserDoctor } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 // import CountUp from 'react-countup'
 import { LuBeef, LuMilk } from 'react-icons/lu'
 import { GiChicken, GiFarmer, GiGoat, GiRoastChicken, GiRooster, GiSteak } from 'react-icons/gi'
 import { TbMilk } from 'react-icons/tb'
-import { PiPhone } from 'react-icons/pi'
-import { FiInstagram } from 'react-icons/fi'
+import { PiPerson, PiPhone } from 'react-icons/pi'
+import { FiActivity, FiInstagram } from 'react-icons/fi'
 import { LiaLinkedin } from 'react-icons/lia'
+import { FcDocument } from 'react-icons/fc'
 
 const Home = () => {
 
@@ -165,7 +166,8 @@ const Home = () => {
 
     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
       <div class="service-item item-cyan position-relative">
-        <i class="bi bi-activity icon"></i>
+        {/* <i class="bi bi-activity icon"></i> */}
+        <BsPeople   className='icon'/>
         <div>
           <h3>HR and Employee Management</h3>
           <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
@@ -176,7 +178,8 @@ const Home = () => {
 
     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
       <div class="service-item item-teal position-relative">
-        <i class="bi bi-easel icon"></i>
+        {/* <i class="bi bi-easel icon"></i> */}
+        <BsEasel className='icon'/>
         <div>
           <h3>Project & Task Management</h3>
           <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
@@ -187,7 +190,8 @@ const Home = () => {
 
     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
       <div class="service-item item-orange position-relative">
-        <i class="bi bi-broadcast icon"></i>
+        {/* <i class="bi bi-broadcast icon"></i> */}
+        <FcDocument className='icon'/>
         <div>
           <h3>Document Management</h3>
           <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
@@ -199,7 +203,9 @@ const Home = () => {
 
     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
       <div class="service-item item-red position-relative">
-        <i class="bi bi-bounding-box-circles icon"></i>
+        {/* <i class="bi bi-bounding-box-circles icon"></i> */}
+
+        <BsBoundingBoxCircles className='icon' />
         <div>
           <h3>Workflow Automation</h3>
           <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
@@ -210,7 +216,8 @@ const Home = () => {
 
     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
       <div class="service-item item-indigo position-relative">
-        <i class="bi bi-calendar4-week icon"></i>
+        {/* <i class="bi bi-calendar4-week icon"></i> */}
+        <BiCalendar className='icon' />
         <div>
           <h3>Facilities Management</h3>
           <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
@@ -221,7 +228,8 @@ const Home = () => {
 
     <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
       <div class="service-item item-pink position-relative">
-        <i class="bi bi-chat-square-text icon"></i>
+        {/* <i class="bi bi-chat-square-text icon"></i> */}
+        <BiStore className='icon' />
         <div>
           <h3>Store Management</h3>
           <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
@@ -253,7 +261,11 @@ const Home = () => {
             <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
               <li class="nav-item">
                 <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
-                  <i class="bi bi-binoculars"></i>
+                  {/* <i class="bi bi-binoculars"></i> */}
+                  <div className='icon'>
+                    <BsBinoculars   />
+                  </div>
+                  
                   <div>
                     <h4 class="d-none d-lg-block">Modi sit est dela pireda nest</h4>
                     <p>
@@ -265,7 +277,10 @@ const Home = () => {
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-                  <i class="bi bi-box-seam"></i>
+                  {/* <i class="bi bi-box-seam"></i> */}
+                  <div className='icon'>
+                    <BsBoxSeam />
+                  </div>
                   <div>
                     <h4 class="d-none d-lg-block">Unde praesenti mara setra le</h4>
                     <p>
@@ -277,7 +292,10 @@ const Home = () => {
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-                  <i class="bi bi-brightness-high"></i>
+                  {/* <i class="bi bi-brightness-high"></i> */}
+                  <div className='icon'>
+                    <BsBrightnessHigh />
+                  </div>
                   <div>
                     <h4 class="d-none d-lg-block">Pariatur explica nitro dela</h4>
                     <p>
@@ -332,7 +350,12 @@ const Home = () => {
 
           <div class="col-lg-6">
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-geo-alt"></i>
+              {/* <i class="bi bi-geo-alt"></i> */}
+
+              <div className='icon'>
+                <BsGeoAlt />
+                </div>
+              
               <h3>Address</h3>
               <p>Khaja IT Park, 2nd to 7th Floor, Kallyanpur Bus Stop, Mirpur Road, Dhaka-1207.</p>
             </div>
@@ -340,7 +363,10 @@ const Home = () => {
 
           <div class="col-lg-3 col-md-6">
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-telephone"></i>
+              {/* <i class="bi bi-telephone"></i> */}
+              <div className='icon'>
+                <BsTelephone />
+                </div>
               <h3>Call Us</h3>
               <p>+88 01550-666900</p>
             </div>
@@ -348,7 +374,10 @@ const Home = () => {
 
           <div class="col-lg-3 col-md-6">
             <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-envelope"></i>
+              {/* <i class="bi bi-envelope"></i> */}
+              <div className='icon'>
+                <BiEnvelope />
+                </div>
               <h3>Email Us</h3>
               <p>info@e-laeltd.com</p>
             </div>

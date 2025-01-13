@@ -14,9 +14,10 @@ export const Leaveinfo = () => {
       name: 'cl'
     }, {
       name: 'sl'
-    },{
-      name: 'el'
     },
+    // {
+    //   name: 'el'
+    // },
   ])
 
   const [leave_duration, setLeave_duration] = useState('')
@@ -60,7 +61,7 @@ export const Leaveinfo = () => {
           leave_type,
           leave_duration
         }).then(res => {
-        getLeaves()
+          getLeaves()
 
           toast('Leave Information Submitted')
 
@@ -74,12 +75,12 @@ export const Leaveinfo = () => {
     const employee_id = localStorage.getItem('employee_id')
 
     axios.get(`http://68.178.163.174:5012/employees/pending_leaves?reporting_officer=${employee_id}`)
-    .then(res => {
-    
-      setPending_leaves(res.data)
-    })
+      .then(res => {
+
+        setPending_leaves(res.data)
+      })
   }
-  
+
 
   const getLeaves = () => {
     const employee_id = localStorage.getItem('employee_id')
@@ -244,8 +245,8 @@ export const Leaveinfo = () => {
             <tr>
               <td>E/L</td>
               <td>20</td>
-              <td>{el}</td>
-              <td>{20 - el}</td>
+              <td>{sl + cl}</td>
+              <td>{20 - (sl + cl)}</td>
             </tr>
           </tbody>
         </table>
@@ -255,63 +256,70 @@ export const Leaveinfo = () => {
       </div>
       {
         ['7', '9'].includes(role)
-         && 
-         <div>
-      <label>Pending Leaves</label>
-      <table className='table'>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Number of days</th>
-              <th>Reason</th>
-              <th>Approved</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              pending_leaves.map(item => (
-                <tr>
-                  <td>{item.user_name}</td>
-                  <td>{item.number_of_days}</td>
-                  <td>{item.reason_for_leave}</td>
-                  {item.approved == 'PENDING' ? <td> 
-                    <button onClick={e => approve(e, item.id, item.leave_type, item.leave_duration)} className='btn btn-success mx-2'>
-                      Approve
-                    </button>
-                    <button onClick={e => reject(e, item.id)} className='btn btn-danger'>
-                      Reject
-                    </button>
-                  </td> : <td>{item.approved}</td>}
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
+        &&
+        <div>
+          <label>Pending Leaves</label>
+          <table className='table'>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Number of days</th>
+                <th>Reason</th>
+                <th>Approved</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                pending_leaves.map(item => (
+                  <tr>
+                    <td>{item.user_name}</td>
+                    <td>{item.number_of_days}</td>
+                    <td>{item.reason_for_leave}</td>
+                    {item.approved == 'PENDING' ? <td>
+                      <button onClick={e => approve(e, item.id, item.leave_type, item.leave_duration)} className='btn btn-success mx-2'>
+                        Approve
+                      </button>
+                      <button onClick={e => reject(e, item.id)} className='btn btn-danger'>
+                        Reject
+                      </button>
+                    </td> : <td>
+                      <div className='bg-secondary p-2'>
+                        {item.approved}
+                      </div>
+                    </td>}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
       }
-      
-        
 
-        <table className='table mt-5'>
-          <thead>
-            <tr>
-              <th>Number of days</th>
-              <th>Reason</th>
-              <th>Approved</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              data.map(item => (
-                <tr>
-                  <td>{item.number_of_days}</td>
-                  <td>{item.reason_for_leave}</td>
-                  <td>{item.approved}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+
+
+      <table className='table mt-5'>
+        <thead>
+          <tr>
+            <th>Number of days</th>
+            <th>Reason</th>
+            <th>Approved</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data.map(item => (
+              <tr>
+                <td>{item.number_of_days}</td>
+                <td>{item.reason_for_leave}</td>
+                <td>
+                  <div className={`${item.approveed == 'PENDING' ? 'bg-warning' : item.approved =='APPROVED' ? 'bg-success text-white' : 'bg-danger text-white' } p-2`}>
+                  {item.approved}
+                </div></td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
 
 
     </div>

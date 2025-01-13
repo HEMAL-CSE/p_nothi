@@ -12,7 +12,6 @@ import './Home.css'
 
 // import VisibilitySensor from 'react-visibility-sensor';
 
-
 // import './CSS/style.css'
 import { FaAward, FaCheck, FaFacebook, FaFacebookF, FaFacebookSquare, FaLinkedin, FaMapMarked, FaMapMarker, FaMapMarkerAlt, FaMugHot, FaPhoneAlt, FaSeedling, FaStar, FaTractor, FaTwitter, FaUsers, FaYoutube } from 'react-icons/fa'
 import { BiArrowFromRight, BiArrowToRight, BiBroadcast, BiCalendar, BiEnvelope, BiEnvelopeOpen, BiLeaf, BiStore } from 'react-icons/bi'
@@ -305,11 +304,8 @@ const Home = () => {
             </div>
 
           </div>
-
         </div>
-
       </div>
-
     </section>
      
 

@@ -372,7 +372,7 @@ export const Application = () => {
                                 <th>Item Details</th>
                                 <th>Item Quantity</th>
                                 <th>Approved By {localStorage.getItem('role') == '7' ? 'HOD' : 'HR'}</th>
-                                <th>Approved By Admin</th>
+                                <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Approve/Reject</th>
                                 <th>Send from store</th>
@@ -391,8 +391,8 @@ export const Application = () => {
                                         <td>{item.item_details}</td>
                                         <td>{item.quantity}</td>
                                         <td>{department == 3 ? item.approved_hod : item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) || item.estimated_price > 15000 ? item.approved_admin : 'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000|| item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                         {department == 3 && item.approved_hr == 'PENDING' ?
                                             <td>
@@ -441,7 +441,7 @@ export const Application = () => {
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
                                 <th>Approved By MD</th>
-                                <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved By Admin'}</th>
+                                <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved By ED'}</th>
                                 <th>Send from store</th>
                                 <th>Decision Making</th>
                                 <th>Received</th>
@@ -460,7 +460,7 @@ export const Application = () => {
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                         <td>
                                             {
@@ -507,7 +507,7 @@ export const Application = () => {
                                 <th>Item Quantity</th>
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
-                                <th>Approved By Admin</th>
+                                <th>Approved By ED</th>
                                 <th>Approve</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
@@ -573,7 +573,7 @@ export const Application = () => {
                                 <th>Item Quantity</th>
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
-                                <th>Approved By Admin</th>
+                                <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Received</th>
                             </tr>
@@ -590,7 +590,7 @@ export const Application = () => {
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
                                         <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
                                             Received
                                         </button>}</td>
@@ -618,7 +618,7 @@ export const Application = () => {
                                 <th>Item Quantity</th>
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
-                                <th>Approved By Admin</th>
+                                <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send</th>
 

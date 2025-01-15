@@ -136,7 +136,7 @@ const Home = () => {
             <section id="services" class="services section light-background">
       <div class="container section-title" data-aos="fade-up">
         <h2>Services We Provide</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>Here are some of the key services highlighted of Promise Nothi Website.</p>
       </div>  
 
    <div class="container">
@@ -248,8 +248,7 @@ const Home = () => {
                   <div>
                     <h4 class="d-none d-lg-block">HR and Employee Management</h4>
                     <p>
-                      Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                      velit esse cillum dolore eu fugiat nulla pariatur
+                    HR can access full overview of this Software. Employee  
                     </p>
                   </div>
                 </a>
@@ -262,7 +261,8 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 class="d-none d-lg-block">Application & Requisition Related Issues</h4>
-                    <p> A well-designed requisition system within a Nothi-documented management via this website. 
+                    <p> All Application and Requisition-related issues are provided via this Software. 
+                    Whenever an employee needs something, they can apply this Requisition.
                     </p>
                   </div>
                 </a>
@@ -276,8 +276,8 @@ const Home = () => {
                   <div>
                     <h4 class="d-none d-lg-block">Leave Information Related Issues</h4>
                     <p>
-                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                      Debitis nulla est maxime voluptas dolor aut
+                    Employees' leave information and leave taking process can be done easily through this website. 
+                    Each Reporting Boss and HR can approve their leave application. 
                     </p>
                   </div>
                 </a>
@@ -315,7 +315,7 @@ const Home = () => {
       {/* <!-- Section Title --> */}
       <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <p>Contact Us </p>
       </div> 
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">

@@ -130,8 +130,6 @@ const Home = () => {
       {/* <!-- Carousel End --> */}
 
       <div class="row gy-4 justify-content-between features-item">
-
-
       </div>
 
       {/* Service Section Start */}
@@ -152,8 +150,8 @@ const Home = () => {
                   <BsPeople className='icon' />
                   <div>
                     <h3>HR and Employee Management</h3>
-                    <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
-                    <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    <p>HR can access full overview of this Software. All Employees information, application, Requisition, leave information etc.</p>
+                    <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -165,7 +163,7 @@ const Home = () => {
                   <div>
                     <h3>Project & Task Management</h3>
                     <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
-                    <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -176,8 +174,8 @@ const Home = () => {
                   <FcDocument className='icon' />
                   <div>
                     <h3>Document Management</h3>
-                    <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
-                    <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    <p>Promise-Nothi provided A well-structured document management system. It ensures that important documents are easily accessible, organized, and secure. </p>
+                    <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -190,8 +188,8 @@ const Home = () => {
                   <BsBoundingBoxCircles className='icon' />
                   <div>
                     <h3>Workflow Automation</h3>
-                    <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
-                    <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    <p>Promise-Nothi provided A well-structured Workflow system from general employees, Reporting Boss, HR & Admin, Management and Administrator. </p>
+                    <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -203,7 +201,7 @@ const Home = () => {
                   <div>
                     <h3>Facilities Management</h3>
                     <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
-                    <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -215,7 +213,7 @@ const Home = () => {
                   <div>
                     <h3>Store Management</h3>
                     <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
-                    <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -251,7 +249,8 @@ const Home = () => {
                     <div>
                       <h4 class="d-none d-lg-block">HR and Employee Management</h4>
                       <p>
-                        HR can access full overview of this Software. Employee
+                        HR can access full overview of this Software. All Employees information, 
+                        application, Requisition, leave information etc. 
                       </p>
                     </div>
                   </a>
@@ -416,8 +415,6 @@ const Home = () => {
 
 
       </footer>
-
-
 
     </div>
   )

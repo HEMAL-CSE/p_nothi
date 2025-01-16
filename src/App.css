@@ -147,8 +147,6 @@
   background: var(--secondary);
 }
 
-
-
 @media (max-width: 991.98px) {
   .navbar-dark .navbar-nav .nav-link {
       padding: 10px;
@@ -429,7 +427,7 @@
 }
 .contact{
   position: relative;
-  min-height: 80vh;
+  min-height: 30vh;
   padding: 50px 100px;
   display: flex;
   justify-content: center;

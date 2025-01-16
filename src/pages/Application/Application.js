@@ -6,7 +6,7 @@ import Modal from 'react-modal'
 
 export const Application = () => {
     const [quantity, setQuantity] = useState('')
-    const [item_details, setItem_details] = useState('')
+    const [item_details, setItem_details] = useState([])
     const [decision_modal, setDecision_modal] = useState(false)
     const [decision_id, setDecision_id] = useState('')
     const [others, setOthers] = useState(false)
@@ -45,11 +45,13 @@ export const Application = () => {
     // get items
 
     useEffect(() => {
-        axios.get(`http://68.178.163.174:5012/employees/store?item_type=${item_type}`)
+        axios.get(`http://68.178.163.174:5012/employees/item_details?item_type_id=${item_type}`)
             .then(res => {
                 // console.log(res.data);
 
-                setItems(res.data)
+                setItems(res.data.map(res => {
+                    return { ...res, quantity: '', unit: '', checked: false }
+                }))
 
             })
     }, [item_type])
@@ -66,12 +68,24 @@ export const Application = () => {
         axios.post(`http://68.178.163.174:5012/employees/requisition/add`, {
             employee_id,
             item_type,
-            item_details,
-            quantity
 
         }).then(res => {
+            items.map(item => {
+                if (item.checked == true) {
+                    axios.post(`http://68.178.163.174:5012/employees/requisition/item/add`, {
+                        requisition_id: res.data.id,
+                        name: item.name,
+                        quantity: item.quantity,
+                        unit: item.unit
+                    }).then(res => {
+
+                    })
+                }
+            })
+
             toast('Submitted')
             getData()
+
         })
     }
 
@@ -131,7 +145,7 @@ export const Application = () => {
 
             })
 
-        } else if (['11','1'].includes(localStorage.getItem('role'))) {
+        } else if (['11', '1'].includes(localStorage.getItem('role'))) {
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
                 setPendings(res2.data)
                 console.log(res2.data);
@@ -239,7 +253,7 @@ export const Application = () => {
     const update_decision = (e, id) => {
         if (comment_id != '') {
             console.log(comment_id);
-            
+
             axios.put(`http://68.178.163.174:5012/employees/decision/edit?id=${comment_id}`, {
                 comment: decision,
                 commentor_id: localStorage.getItem('employee_id'),
@@ -329,7 +343,84 @@ export const Application = () => {
                 </select>
 
                 <label>Item Details:</label>
-                {
+                <div className='border border-1 m-2 p-2'>
+                    {
+                        items.map((item, i) => (
+                            <div className='d-flex justify-content-between'>
+                                <div className='d-flex align-items-center'>
+                                    <input className='mx-2' type='checkbox' onChange={
+                                        (e) => {
+                                            // if(e.target.checked == true){
+                                            //     item_details.push(item)
+                                            // }else if(e.target.checked == false){
+                                            //     item_details.pop(item)
+                                            // }
+
+                                            // console.log(item_details);
+                                            var clone = [...items]
+                                            var obj = clone[i]
+                                            obj.checked = e.target.checked
+                                            clone[i] = obj
+                                            setItems([...clone])
+                                            console.log(items);
+
+
+                                        }
+                                    } />
+                                    {
+                                        item.id == null ?
+                                            <input className='form-control mx-2' onChange={e => {
+                                                var clone = [...items]
+                                                var obj = clone[i]
+                                                obj.name = e.target.value
+                                                clone[i] = obj
+                                                setItems([...clone])
+                                                console.log(items);
+
+
+                                            }} placeholder='Name' /> :
+
+                                            <p className='fw-bold my-2'>{item.name}</p>}
+
+                                </div>
+                                <div className='d-flex m-2'>
+                                    <input className='form-control mx-2' onChange={e => {
+                                        var clone = [...items]
+                                        var obj = clone[i]
+                                        obj.quantity = e.target.value
+                                        clone[i] = obj
+                                        setItems([...clone])
+                                        console.log(items);
+
+
+                                    }} placeholder='quantity' />
+
+                                    <input className='form-control' onChange={e => {
+                                        var clone = [...items]
+                                        var obj = clone[i]
+                                        obj.unit = e.target.value
+                                        clone[i] = obj
+                                        setItems([...clone])
+                                    }} placeholder='unit' />
+                                </div>
+                            </div>
+                        ))
+                    }
+
+                    <div className='d-flex'>
+                        <button onClick={e =>
+
+                            setItems(prev => [...prev, {
+                                name: '',
+                                quantity: '',
+                                unit: '',
+                                checked: false,
+                            }])
+                        } className='btn btn-primary'>Add More</button>
+                    </div>
+
+                </div>
+                {/* {
                     items.length != 0 && others == false ?
                         <select className='select' onChange={e => {
                             console.log(e.target.value);
@@ -351,10 +442,10 @@ export const Application = () => {
                         :
                         <input placeholder='Enter item name' value={item_details} onChange={e => setItem_details(e.target.value)} className='input' type='text' />
 
-                }
+                } */}
 
-                <label> Quantity:</label>
-                <input value={quantity} onChange={e => setQuantity(e.target.value)} className='input' type='text' />
+                {/* <label> Quantity:</label>
+                <input value={quantity} onChange={e => setQuantity(e.target.value)} className='input' type='text' /> */}
 
                 <button onClick={addData} className='button'>Submit</button>
             </div>}
@@ -392,7 +483,7 @@ export const Application = () => {
                                         <td>{item.quantity}</td>
                                         <td>{department == 3 ? item.approved_hod : item.approved_hr}</td>
                                         <td>{['1', '2'].includes(item.item_type) || item.estimated_price > 15000 ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000|| item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                         {department == 3 && item.approved_hr == 'PENDING' ?
                                             <td>
@@ -484,7 +575,7 @@ export const Application = () => {
                                                 setEstimated_price('')
                                                 setComment_id('')
                                             }}>Comment</button>
-                                        </td> }
+                                        </td>}
                                         <td>{item.received}</td>
                                     </tr>
                                 ))
@@ -526,16 +617,16 @@ export const Application = () => {
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) ?item.approved_admin:'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
 
                                         <td>
                                             {
-                                                item.approved_md == 'PENDING' &&['1', '2'].includes(item.item_type) ?
+                                                item.approved_md == 'PENDING' && ['1', '2'].includes(item.item_type) ?
                                                     <div>
                                                         <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    : item.approved_md == 'PENDING' ? 'Invalid' :  item.approved_md
+                                                    : item.approved_md == 'PENDING' ? 'Invalid' : item.approved_md
 
                                             }
                                         </td>
@@ -551,7 +642,7 @@ export const Application = () => {
                                                 setEstimated_price('')
                                                 setComment_id('')
                                             }}>Comment</button>
-                                        </td> }
+                                        </td>}
                                     </tr>
                                 ))
                             }

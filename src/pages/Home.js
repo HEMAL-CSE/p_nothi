@@ -16,18 +16,19 @@ import './Home.css'
 // import VisibilitySensor from 'react-visibility-sensor';
 
 // import './CSS/style.css'
-import { FaAward, FaCheck, FaFacebook, FaFacebookF, FaFacebookSquare, FaLinkedin, FaMapMarked, FaMapMarker, FaMapMarkerAlt, FaMugHot, FaPhoneAlt, FaSeedling, FaStar, FaTractor, FaTwitter, FaUsers, FaYoutube } from 'react-icons/fa'
-import { BiArrowFromRight, BiArrowToRight, BiBroadcast, BiCalendar, BiEnvelope, BiEnvelopeOpen, BiLeaf, BiStore } from 'react-icons/bi'
+import { FaAward, FaCheck, FaFacebook, FaFacebookF, FaFacebookSquare, FaLinkedin, FaMapMarked, FaMapMarker, FaMapMarkerAlt, FaMugHot, FaPhoneAlt, FaRegistered, FaSeedling, FaStar, FaTractor, FaTwitter, FaUsers, FaYoutube } from 'react-icons/fa'
+import { BiArrowFromRight, BiArrowToRight, BiBroadcast, BiCalendar, BiEnvelope, BiEnvelopeOpen, BiLeaf, BiNotepad, BiPen, BiPencil, BiPieChart, BiRegistered, BiStore } from 'react-icons/bi'
 import { FaA, FaCow, FaUserDoctor } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 // import CountUp from 'react-countup'
 import { LuBeef, LuMilk } from 'react-icons/lu'
 import { GiChicken, GiFarmer, GiGoat, GiRoastChicken, GiRooster, GiSteak } from 'react-icons/gi'
-import { TbMilk } from 'react-icons/tb'
+import { TbMilk, TbRegistered } from 'react-icons/tb'
 import { PiPerson, PiPhone } from 'react-icons/pi'
 import { FiActivity, FiInstagram } from 'react-icons/fi'
 import { LiaLinkedin } from 'react-icons/lia'
 import { FcDocument } from 'react-icons/fc'
+import { MdAppRegistration } from 'react-icons/md'
 
 const Home = () => {
 
@@ -80,7 +81,7 @@ const Home = () => {
             <a href="#" className="nav-item nav-link active">Home</a>
             <a href="#about" className="nav-item nav-link">About</a>
             <a href="#" className="nav-item nav-link">Service</a>
-            <a href="#" className="nav-item nav-link">Product</a>
+            <a href="#" className="nav-item nav-link">Features</a>
             <a href="contact.html" className="nav-item nav-link">Contact</a>
           </div>
         </div>
@@ -197,10 +198,10 @@ const Home = () => {
               <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
                 <div class="service-item item-indigo position-relative">
                   {/* <i class="bi bi-calendar4-week icon"></i> */}
-                  <BiCalendar className='icon' />
+                  <TbRegistered  className='icon' />
                   <div>
-                    <h3>Facilities Management</h3>
-                    <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
+                    <h3>Application & Requisition Management</h3>
+                    <p>All Application and Requisition-related issues are provided via this Software. </p>
                     <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>

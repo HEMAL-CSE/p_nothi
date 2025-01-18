@@ -10,6 +10,8 @@ export const Application = () => {
     const [decision_modal, setDecision_modal] = useState(false)
     const [decision_id, setDecision_id] = useState('')
     const [others, setOthers] = useState(false)
+    const [detailsOpen, setDetailsOpen] = useState(false)
+    const [details, setDetails] = useState([])
 
     const [item_type, setItem_type] = useState('')
     const [department, setDepartment] = useState('')
@@ -89,6 +91,26 @@ export const Application = () => {
         })
     }
 
+    const group = (data) => {
+        let result = Object.values(
+            data.reduce((e, item) => {
+                let value = item.id;
+                let existing = e[value] || {...item, item_details: []}
+                // console.log(existing);
+                
+                return {
+                    ...e,
+                    [value]: {
+                        ...existing,
+                        item_details: [...existing.item_details, {'name': item.item_name, 'quantity': item.item_quantity, 'unit': item.item_unit}]
+                    }
+                }
+            }, {})
+        )
+
+        return result
+    }
+
 
     // get requisitions
 
@@ -97,7 +119,11 @@ export const Application = () => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/requisition?employee_id=${employee_id}`).then(res => {
-            setData(res.data)
+            if(res.data.length > 0){
+                
+                setData(group(res.data))
+                
+            }
             // console.log(res.data);
 
         })
@@ -106,7 +132,7 @@ export const Application = () => {
     const admintData = () => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
             axios.get(`http://68.178.163.174:5012/employees/requisition?admin=1`).then(res => {
-                setAdminData(res.data)
+                setAdminData(group(res.data))
                 // console.log(res.data);
 
             })
@@ -117,7 +143,7 @@ export const Application = () => {
     const mddata = () => {
         if (localStorage.getItem('role') == '1') {
             axios.get(`http://68.178.163.174:5012/employees/requisition?md=1`).then(res => {
-                setMdData(res.data)
+                setMdData(group(res.data))
                 console.log(res.data);
 
             })
@@ -133,13 +159,13 @@ export const Application = () => {
                 setDepartment(res.data[0].department)
                 if (res.data[0].department == 3) {
                     axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
-                        setPendings(res2.data)
+                        setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
                 } else {
                     axios.get(`http://68.178.163.174:5012/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
-                        setPendings(res2.data)
+                        setPendings(group(res2.data))
                     })
                 }
 
@@ -147,7 +173,7 @@ export const Application = () => {
 
         } else if (['11', '1'].includes(localStorage.getItem('role'))) {
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
-                setPendings(res2.data)
+                setPendings(group(res2.data))
                 console.log(res2.data);
 
             })
@@ -234,7 +260,7 @@ export const Application = () => {
         axios.put(`http://68.178.163.174:5012/employees/requisition/send_from_store?id=${id}`).then(res => {
             toast('Sent')
             axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
-                setPendings(res2.data)
+                setPendings(group(res2.data))
 
                 // console.log(res2.data);
 
@@ -461,7 +487,6 @@ export const Application = () => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Item Quantity</th>
                                 <th>Approved By {localStorage.getItem('role') == '7' ? 'HOD' : 'HR'}</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
@@ -479,15 +504,17 @@ export const Application = () => {
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
-                                        <td>{item.item_details}</td>
-                                        <td>{item.quantity}</td>
+                                        <td><button onClick={e => {
+                                                setDetails(item.item_details)
+                                                setDetailsOpen(true)
+                                            }} className='btn btn-warning'>Details</button></td>
                                         <td>{department == 3 ? item.approved_hod : item.approved_hr}</td>
                                         <td>{['1', '2'].includes(item.item_type) || item.estimated_price > 15000 ? item.approved_admin : 'Invalid'}</td>
                                         <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                         {department == 3 && item.approved_hr == 'PENDING' ?
                                             <td>
-                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2'>Approve</button>
+                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
                                                 <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
                                             </td> :
                                             department != 3 && item.approved_hod == 'PENDING' ?
@@ -528,7 +555,7 @@ export const Application = () => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Item Quantity</th>
+            
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
                                 <th>Approved By MD</th>
@@ -547,8 +574,10 @@ export const Application = () => {
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
-                                        <td>{item.item_details}</td>
-                                        <td>{item.quantity}</td>
+                                        <td><button onClick={e => {
+                                                setDetails(item.item_details)
+                                                setDetailsOpen(true)
+                                            }} className='btn btn-warning'>Details</button></td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
                                         <td>{item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
@@ -565,7 +594,7 @@ export const Application = () => {
                                             }
                                         </td>
                                         <td>{item.sent_from_store}</td>
-                                        {['1', '2'].includes(item.item_type) && <td>
+                                         <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
                                                 setDecision_modal(true)
@@ -575,7 +604,7 @@ export const Application = () => {
                                                 setEstimated_price('')
                                                 setComment_id('')
                                             }}>Comment</button>
-                                        </td>}
+                                        </td>
                                         <td>{item.received}</td>
                                     </tr>
                                 ))
@@ -595,7 +624,6 @@ export const Application = () => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Item Quantity</th>
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
                                 <th>Approved By ED</th>
@@ -613,8 +641,12 @@ export const Application = () => {
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
-                                        <td>{item.item_details}</td>
-                                        <td>{item.quantity}</td>
+                                        <td>
+                                        <button onClick={e => {
+                                                setDetails(item.item_details)
+                                                setDetailsOpen(true)
+                                            }} className='btn btn-warning'>Details</button>
+                                        </td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
                                         <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
@@ -632,7 +664,7 @@ export const Application = () => {
                                         </td>
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
-                                        {['1', '2'].includes(item.item_type) && <td>
+                                         <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
                                                 setDecision_modal(true)
@@ -642,7 +674,7 @@ export const Application = () => {
                                                 setEstimated_price('')
                                                 setComment_id('')
                                             }}>Comment</button>
-                                        </td>}
+                                        </td>
                                     </tr>
                                 ))
                             }
@@ -661,7 +693,6 @@ export const Application = () => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Item Quantity</th>
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
                                 <th>Approved By ED</th>
@@ -672,12 +703,16 @@ export const Application = () => {
                         <tbody>
                             {
                                 data.map(item => (
-                                    <tr>
+                                    <tr >
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
-                                        <td>{item.item_details}</td>
-                                        <td>{item.quantity}</td>
+                                        <td>
+                                            <button onClick={e => {
+                                                setDetails(item.item_details)
+                                                setDetailsOpen(true)
+                                            }} className='btn btn-warning'>Details</button>
+                                        </td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
                                         <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
@@ -795,6 +830,51 @@ export const Application = () => {
                     <button onClick={e => update_decision(e, decision_id)} className='btn btn-success'>Submit</button>
                 </div>
 
+            </Modal>
+
+            <Modal
+                style={{
+                    content: {
+                        width: "50%",
+                        // height: "10%",
+                    
+                        zIndex: 10,
+                        // top: "5%",
+                        left: "30%",
+                        right: "10%",
+                        // bottom: "5%",
+                        overflow: "auto",
+                        // WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        // MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        // boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                    },
+                    overlay: { zIndex: 10000, backgroundColor: 'transparent' }
+                }}
+                isOpen={detailsOpen}
+                onRequestClose={() => {
+                    setDetailsOpen(false)
+                }}
+            >
+                <table className='table m-4'>
+                    <thead>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                      
+                    </thead>
+                    <tbody>
+                        {
+                            details.map(item => (
+                                <tr>
+                                    <td>{item.name}</td>
+                                    <td>{item.quantity} {item.unit}</td>
+                                   
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             </Modal>
         </div>
 

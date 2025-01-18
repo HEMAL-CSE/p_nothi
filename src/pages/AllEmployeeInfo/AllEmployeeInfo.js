@@ -17,10 +17,20 @@ const AllEmployeeInfo = () => {
 
     const [experience, setExperience] = useState([])
 
+    const [departments, setDepartments] = useState([])
+
     useEffect(() => {
         axios.get('http://68.178.163.174:5012/employees/')
             .then(res => {
                 setData(res.data)
+                console.log(res.data);
+
+
+            })
+
+        axios.get('http://68.178.163.174:5012/employees/departments')
+            .then(res => {
+                setDepartments(res.data)
                 console.log(res.data);
 
 
@@ -93,7 +103,7 @@ const AllEmployeeInfo = () => {
                     </thead>
                     <tbody>
                         {
-                            data.filter(item => [1, 12].includes(item.role_id)).map(item => (
+                            data.filter(item => [1,2, 12].includes(item.role_id)).map(item => (
                                 <tr>
                                     <td className='px-3'>{item.user_name}</td>
                                     <td className='px-3'>{item.employee_id}</td>
@@ -130,7 +140,7 @@ const AllEmployeeInfo = () => {
                     </thead>
                     <tbody>
                         {
-                            data.filter(item => [2, 3, 4, 5, 6].includes(item.role_id)).map(item => (
+                            data.filter(item => [ 3, 4, 5, 6].includes(item.role_id)).map(item => (
                                 <tr>
                                     <td className='px-3'>{item.user_name}</td>
                                     <td className='px-3'>{item.employee_id}</td>
@@ -226,8 +236,10 @@ const AllEmployeeInfo = () => {
                 </table>
             </div>
 
-            <div className='border border-1 border-black p-2 m-4'>
-                <h1 className='m-3'>General Employees</h1>
+            {
+                departments.map(department => (
+                    <div className='border border-1 border-black p-2 m-4'>
+                <h1 className='m-3'>{department.name.toUpperCase()}</h1>
                 <table className='mt-10 table'>
                     <thead>
                         <tr>
@@ -242,7 +254,8 @@ const AllEmployeeInfo = () => {
                     </thead>
                     <tbody>
                         {
-                            data.filter(item => [8, 9 ,10].includes(item.role_id)).map(item => (
+
+                            data.filter(item => [8, 9 ,10].includes(item.role_id) && item.department == department.id).map(item => (
                                 <tr>
                                     <td className='px-3'>{item.user_name}</td>
                                     <td className='px-3'>{item.employee_id}</td>
@@ -262,6 +275,9 @@ const AllEmployeeInfo = () => {
                     </tbody>
                 </table>
             </div>
+                ))
+            }
+
             <Modal
                 style={{
                     content: {

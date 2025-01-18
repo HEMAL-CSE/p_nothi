@@ -658,3 +658,15 @@ footer .copyright .pro-links i:hover{
     background-color: #FDC93B;
     /* color: #2c2c2c; */
 }
+
+
+
+/* table overlap */
+.parent{
+  position: relative;
+}
+
+.child {
+  position: absolute;
+  z-index: 999;
+}

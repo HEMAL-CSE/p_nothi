@@ -10,7 +10,19 @@ const Hierarchy = () => {
     const [roles, setRoles] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [tree, setTree] = useState({})
+    const [selected, setSelected] = useState('')
 
+
+    const getData = () => {
+        axios.get('http://68.178.163.174:5012/employees/')
+            .then(res => {
+                var data = res.data.map(i => {
+                    
+                    return {...i, needSave: false, new_role: '', new_reporting_officer: '', new_reporting_officer_name: ''}})
+                setData(data)
+
+            })
+    }
 
     useEffect(() => {
         axios.get('http://68.178.163.174:5012/employees/roles').then(res => {
@@ -19,18 +31,9 @@ const Hierarchy = () => {
     }, [])
 
     useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/')
-            .then(res => {
-                var data = res.data.map(i => {
-                    
-                    return {...i, needSave: false, new_role: '', new_reporting_officer: ''}})
-                setData(data)
+        getData()
 
-            })
-
-        axios.get('http://68.178.163.174:5012/employees/executives').then(res => {
-            setReporting_officers(res.data)
-        })
+        
     }, [])
 
     const save = (e, id, role, reporting_officer) => {
@@ -40,18 +43,33 @@ const Hierarchy = () => {
             role
         }).then(res => {
             toast('Saved')
+            getData()
+            
         })
 
         axios.put(`http://68.178.163.174:5012/employees/update_reporting_officer?id=${id}`, {
             reporting_officer
         }).then(res => {
             toast('Saved')
+            getData()
         })
         
     }
 
-    const getTree = (e) => {
-        // e.preventDefault()
+    const getExecutives = (department, role) => {
+
+        console.log(role);
+        
+        if([2,3,4,5,6,7,9].includes(role)){
+            axios.get(`http://68.178.163.174:5012/employees/executives`).then(res => {
+                setReporting_officers(res.data)
+            })
+        }else{
+          axios.get(`http://68.178.163.174:5012/employees/executives?department=${department}`).then(res => {
+            setReporting_officers(res.data)
+        })  
+        }
+        
 
     }
 
@@ -81,7 +99,7 @@ const Hierarchy = () => {
                 <table className='table'>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th className='text-start'>Name</th>
                             <th>Employee ID</th>
                             <th>Role</th>
                             <th>Reporting Officer</th>
@@ -92,11 +110,7 @@ const Hierarchy = () => {
                         {
                             data.map((item, i) => (
                                 <tr>
-                                    <td style={{cursor: 'pointer'}}
-                                        onClick={e => {
-                                            setIsOpen(true)
-                                            getTree()
-                                        }}
+                                    <td className='text-start'
                                     >{item.user_name}</td>
                                     <td>{item.employee_id}</td>
                                     <td>
@@ -125,34 +139,13 @@ const Hierarchy = () => {
                                             }
                                         </select>
                                     </td>
-                                    <td>
-                                        {
-                                            <select onChange={e=> {
-                                                setData(
-                                                    data.map(item2 => {
-                                                        if(item2.id == item.id)
-                                                            {
-                                                                if(item.reporting_officer == e.target.value) {
-                                                                    return {...item2, needSave: false}
-                                                                } else{
-                                                                    return {...item2, needSave: true, new_reporting_officer: e.target.value}
-        
-                                                                }
-                                                            }
-                                                            else {
-                                                                return {...item2}
-                                                            }
-                                                    })
-                                                )
-                                            }} defaultValue={item.reporting_officer} className='select'>
-                                                <option>Select</option>
-                                                {
-                                                    reporting_officers.map(item => (
-                                                        <option value={item.id} >{item.user_name}</option>
-                                                    ))
-                                                }
-                                             </select>    
-                                        }
+                                    <td onClick={e => {
+                                        setIsOpen(true)
+                                        getExecutives(item.department, item.role_id)
+                                        setSelected(item)
+                                    }} style={{cursor:'pointer'}}>
+                                        
+                                        {item.new_reporting_officer ? item.new_reporting_officer_name :item.reporting_officer_name}
                                     </td>
                                     <td>
                                         <button onClick={e => save(e, item.user_id, item.new_role, item.new_reporting_officer)} disabled={!item.needSave} className={`btn ${item.needSave ? 'btn-success' : 'btn-secondary'}`}>Save</button>
@@ -186,7 +179,40 @@ const Hierarchy = () => {
                                 onRequestClose={() => {
                                     setIsOpen(false)
                                 }}
-                            ></Modal>
+                            >
+                                <div>
+
+                                    <p className='fw-bold'>Current Reporting Officer: {selected.reporting_officer_name} </p>
+                                    <p className='fw-bold'>Reporting Officers: </p>
+                                    <select onChange={e => {
+                                        setData(
+                                            data.map(item2 => {
+                                                if(item2.id == selected.id)
+                                                    {
+                                                        if(selected.reporting_officer == e.target.value) {
+                                                            return {...item2, needSave: false, new_reporting_officer_name: e.target.selectedOptions[0].text}
+                                                        } else{
+                                                            return {...item2, needSave: true, new_reporting_officer: e.target.value, new_reporting_officer_name: e.target.selectedOptions[0].text}
+
+                                                        }
+                                                    }
+                                                    else {
+                                                        return {...item2}
+                                                    }
+                                            })
+                                        )
+                                    }}  className='form-control'>
+                                        <option>Select</option>
+                                        {
+                                            reporting_officers.map(item => (
+                                                <option value={item.id}>{item.user_name}</option>
+                                            ))
+                                        }
+                                    </select>
+                                    {/* <button onClick={saveReportingOfficer} className='btn btn-success m-2'>Save</button> */}
+                                </div>
+
+                            </Modal>
     </div>
   )
 }

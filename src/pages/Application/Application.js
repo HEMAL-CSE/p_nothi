@@ -757,7 +757,12 @@ export const Application = () => {
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
-                                        <td>{item.item_details}</td>
+                                        <td>
+                                        <button onClick={e => {
+                                                setDetails(item.item_details)
+                                                setDetailsOpen(true)
+                                            }} className='btn btn-warning'>Details</button>
+                                        </td>
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>

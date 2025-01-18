@@ -25,7 +25,25 @@ const Purchase = () => {
     const [edit_id, setEdit_id] = useState('')
 
 
+    const group = (data) => {
+        let result = Object.values(
+            data.reduce((e, item) => {
+                let value = item.id;
+                let existing = e[value] || {...item, item_details: []}
+                // console.log(existing);
+                
+                return {
+                    ...e,
+                    [value]: {
+                        ...existing,
+                        item_details: [...existing.item_details, {'name': item.item_name, 'quantity': item.item_quantity, 'unit': item.item_unit}]
+                    }
+                }
+            }, {})
+        )
 
+        return result
+    }
 
     const getData = () => {
         axios.get('http://68.178.163.174:5012/employees/purchase').then(res => {
@@ -35,7 +53,7 @@ const Purchase = () => {
 
     useEffect(() => {
         axios.get(`http://68.178.163.174:5012/employees/requisition?approved_hr=APPROVED&&not_available=1`).then(res => {
-            setRequisitions(res.data)
+            setRequisitions(group(res.data))
         })
 
         getData()
@@ -155,7 +173,7 @@ const Purchase = () => {
                     <option>Select</option>
                     {
                         requisitions.map(item => (
-                            <option value={item.id}>{item.user_name} || {item.department_name} || {item.item_details}</option>
+                            <option value={item.id}>{item.user_name} || {item.department_name} || {item.item_details.map(e => e.name + ',')}</option>
                         ))
                     }
                 </select>

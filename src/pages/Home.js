@@ -163,7 +163,7 @@ const Home = () => {
                   <BsEasel className='icon' />
                   <div>
                     <h3>Project & Task Management</h3>
-                    <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
+                    <p>Promise-Nothi provides task management system of promise group and all 64 branches from one place.</p>
                     <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
@@ -201,7 +201,7 @@ const Home = () => {
                   <TbRegistered  className='icon' />
                   <div>
                     <h3>Application & Requisition Management</h3>
-                    <p>All Application and Requisition-related issues are provided via this Software. </p>
+                    <p>All Application and Requisition-related issues are provided via this Software. Employees can request items and it will be approved by admins. </p>
                     <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
@@ -213,7 +213,7 @@ const Home = () => {
                   <BiStore className='icon' />
                   <div>
                     <h3>Store Management</h3>
-                    <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
+                    <p>Pnothi provided well structured store management. Store manager will add new items in store and admins will be able to check available items in store.</p>
                     <a href="#" class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>

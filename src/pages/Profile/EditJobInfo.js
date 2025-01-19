@@ -3,6 +3,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast, ToastContainer } from 'react-toastify'
+import divisionsdata from '../../assets/divisions.json'
 
 const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
 
@@ -12,6 +13,10 @@ const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
     const [jobtype, setjobtype] = useState('')
     const [joining, setjoining] = useState('')
     const [joblocation, setjoblocation] = useState('')
+    const [division, setdivision] = useState('')
+    const [divisions, setdivisions] = useState([])
+    const [branches, setBranches] = useState([])
+    const [branch, setBranch] = useState('')
 
     const [departments, setDepartments] = useState([])
     const addData = e => {
@@ -25,7 +30,8 @@ const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
             designation: jobdeg,
             type: jobtype,
             joining_date: joining,
-            location: joblocation
+            location: joblocation,
+            branch_id: branch
         }).then(res => {
             toast('Profile Updated')
             setJobtittle('')
@@ -36,6 +42,18 @@ const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
             setjoblocation('')
             setIsOpen(false);
 
+        })
+    }
+
+
+    useEffect(() => {
+
+        setdivisions(divisionsdata)
+    }, [])
+
+    const getBranches = (division_id) => {
+        axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+            setBranches(res.data)
         })
     }
 
@@ -118,6 +136,38 @@ const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
                             ))
                         }
                     </select>
+
+                   {dept == 2 &&
+                   <div>
+                   <label>Division</label>
+
+                <select value={division} onChange={e => {
+
+                    setdivision(e.target.value)
+                    getBranches(e.target.value)
+                }} className='select' >
+                    <option >Select</option>
+                    {
+                        divisions.map(item => (
+                            <option value={item.id}>{item.bn_name}</option>
+                        ))
+                    }
+                </select>
+
+                <label>Branch</label>
+
+                <select value={branch} onChange={e => {
+
+                    setBranch(e.target.value)
+
+                }} className='select' >
+                    <option >Select</option>
+                    {
+                        branches.map(item => (
+                            <option value={item.id}>{item.name}</option>
+                        ))
+                    }
+                </select></div>}
 
                     <label> Job Type:</label>
                     <input value={jobtype} onChange={e => setjobtype(e.target.value)} className='input' type='text' />

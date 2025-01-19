@@ -242,6 +242,10 @@ const Profile = () => {
                         <span className='fw-bold'>Job Department:</span> {job_info.department_name}
                     </div>
 
+                    {job_info.department == 2 && <div className='m-2'>
+                        <span className='fw-bold'>Branch:</span> {job_info.branch_name}
+                    </div>}
+
                     <div className='m-2'>
                         <span className='fw-bold'>Job Designation:</span> {job_info.designation}
                     </div>

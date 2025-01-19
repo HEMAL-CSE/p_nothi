@@ -3,11 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import Modal from 'react-modal'
 import moment from 'moment'
+import divisionsdata from '../../assets/divisions.json'
+
 
 const AllEmployeeInfo = () => {
     const [data, setData] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [selectedEmployee, setSelectedEmployee] = useState({})
+    const [division, setdivision] = useState('')
+    const [divisions, setdivisions] = useState([])
+    const [branches, setBranches] = useState([])
+    const [branch, setBranch] = useState('')
+    const [dept, setdept] = useState('')
+
+    const [employees, setEmployees] = useState([])
+
 
     const [employee, setEmployee] = useState({})
 
@@ -65,6 +75,38 @@ const AllEmployeeInfo = () => {
 
     }, [selectedEmployee])
 
+    useEffect(() => {
+        axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
+            setDepartments(res.data)
+        })
+    }, [])
+
+    useEffect(() => {
+
+        if (dept == 2) {
+            setdivisions(divisionsdata)
+
+        }
+    }, [dept])
+
+    const getBranches = (division_id) => {
+        axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+            setBranches(res.data)
+        })
+    }
+
+    const getEmployees = (department_id, branch_id) => {
+        if(branch_id != ''){
+            axios.get(`http://68.178.163.174:5012/employees?department=${department_id}&&branch_id=${branch_id}`).then(res => {
+                setEmployees(res.data)
+            })
+        }else{
+            axios.get(`http://68.178.163.174:5012/employees?department=${department_id}`).then(res => {
+                setEmployees(res.data)
+            })
+        }
+    }
+
     return (
         <div className='details'>
             <ToastContainer />
@@ -103,7 +145,7 @@ const AllEmployeeInfo = () => {
                     </thead>
                     <tbody>
                         {
-                            data.filter(item => [1,2, 12].includes(item.role_id)).map(item => (
+                            data.filter(item => [1, 2, 12].includes(item.role_id)).map(item => (
                                 <tr>
                                     <td className='px-3'>{item.user_name}</td>
                                     <td className='px-3'>{item.employee_id}</td>
@@ -140,7 +182,7 @@ const AllEmployeeInfo = () => {
                     </thead>
                     <tbody>
                         {
-                            data.filter(item => [ 3, 4, 5, 6].includes(item.role_id)).map(item => (
+                            data.filter(item => [3, 4, 5, 6].includes(item.role_id)).map(item => (
                                 <tr>
                                     <td className='px-3'>{item.user_name}</td>
                                     <td className='px-3'>{item.employee_id}</td>
@@ -236,46 +278,100 @@ const AllEmployeeInfo = () => {
                 </table>
             </div>
 
-            {
-                departments.map(department => (
-                    <div className='border border-1 border-black p-2 m-4'>
-                <h1 className='m-3'>{department.name.toUpperCase()}</h1>
-                <table className='mt-10 table'>
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Employee ID</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone Number</th>
-                            <th scope="col">Present Address</th>
-                            <th scope="col">Role</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
 
-                            data.filter(item => [8, 9 ,10].includes(item.role_id) && item.department == department.id).map(item => (
-                                <tr>
-                                    <td className='px-3'>{item.user_name}</td>
-                                    <td className='px-3'>{item.employee_id}</td>
-                                    <td className='px-3'>{item.email}</td>
-                                    <td className='px-3'>{item.mobile_no}</td>
-                                    <td className='px-3'>{item.present_address}</td>
-                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
-                                    <td className='px-3'>
-                                        <button onClick={(e) => {
-                                            setIsOpen(true)
-                                            setSelectedEmployee(item)
-                                        }} className='btn btn-warning'>Details</button>
-                                    </td>
-                                </tr>
-                            ))
+            {
+
+                <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+                    <div className='d-flex flex-column w-50'>
+                        <label> Job Department: </label>
+
+                        <select onChange={e => {
+                            setdept(e.target.value)
+                        }} className='select'>
+                            <option>Select</option>
+                            {
+                                departments.map(item => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))
+                            }
+                        </select>
+
+                        {dept == 2 &&
+                            <div>
+                                <label>Division</label>
+
+                                <select value={division} onChange={e => {
+
+                                    setdivision(e.target.value)
+                                    getBranches(e.target.value)
+                                }} className='select' >
+                                    <option >Select</option>
+                                    {
+                                        divisions.map(item => (
+                                            <option value={item.id}>{item.bn_name}</option>
+                                        ))
+                                    }
+                                </select>
+
+                                <label>Branch</label>
+
+                                <select value={branch} onChange={e => {
+
+                                    setBranch(e.target.value)
+
+                                }} className='select' >
+                                    <option >Select</option>
+                                    {
+                                        branches.map(item => (
+                                            <option value={item.id}>{item.name}</option>
+                                        ))
+                                    }
+                                </select></div>}
+
+                                <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
+                    </div>
+                    {
+
+                        <div>
+                            <table className='mt-10 table'>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Employee ID</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone Number</th>
+                                        <th scope="col">Present Address</th>
+                                        <th scope="col">Role</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+
+                                        employees.map(item => (
+                                            <tr>
+                                                <td className='px-3'>{item.user_name}</td>
+                                                <td className='px-3'>{item.employee_id}</td>
+                                                <td className='px-3'>{item.email}</td>
+                                                <td className='px-3'>{item.mobile_no}</td>
+                                                <td className='px-3'>{item.present_address}</td>
+                                                <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                                <td className='px-3'>
+                                                    <button onClick={(e) => {
+                                                        setIsOpen(true)
+                                                        setSelectedEmployee(item)
+                                                    }} className='btn btn-warning'>Details</button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                            
                         }
-                    </tbody>
-                </table>
-            </div>
-                ))
+                </div>
+
             }
 
             <Modal

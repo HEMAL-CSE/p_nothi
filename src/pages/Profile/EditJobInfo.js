@@ -149,7 +149,7 @@ const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
                     <option >Select</option>
                     {
                         divisions.map(item => (
-                            <option value={item.id}>{item.bn_name}</option>
+                            <option value={item.id}>{item.name}</option>
                         ))
                     }
                 </select>

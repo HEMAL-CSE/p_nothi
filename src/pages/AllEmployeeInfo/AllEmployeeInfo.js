@@ -95,13 +95,13 @@ const AllEmployeeInfo = () => {
         })
     }
 
-    const getEmployees = (department_id, branch_id) => {
-        if(branch_id != ''){
-            axios.get(`http://68.178.163.174:5012/employees?department=${department_id}&&branch_id=${branch_id}`).then(res => {
+    const getEmployees = () => {
+        if(branch != ''){
+            axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_id=${branch}`).then(res => {
                 setEmployees(res.data)
             })
         }else{
-            axios.get(`http://68.178.163.174:5012/employees?department=${department_id}`).then(res => {
+            axios.get(`http://68.178.163.174:5012/employees?department=${dept}`).then(res => {
                 setEmployees(res.data)
             })
         }
@@ -308,7 +308,7 @@ const AllEmployeeInfo = () => {
                                     <option >Select</option>
                                     {
                                         divisions.map(item => (
-                                            <option value={item.id}>{item.bn_name}</option>
+                                            <option value={item.id}>{item.name}</option>
                                         ))
                                     }
                                 </select>
@@ -336,7 +336,7 @@ const AllEmployeeInfo = () => {
                             <table className='mt-10 table'>
                                 <thead>
                                     <tr>
-                                        <th scope="col">Name</th>
+                                        <th scope="col text-start">Name</th>
                                         <th scope="col">Employee ID</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone Number</th>
@@ -350,7 +350,7 @@ const AllEmployeeInfo = () => {
 
                                         employees.map(item => (
                                             <tr>
-                                                <td className='px-3'>{item.user_name}</td>
+                                                <td className='px-3 text-start'>{item.user_name}</td>
                                                 <td className='px-3'>{item.employee_id}</td>
                                                 <td className='px-3'>{item.email}</td>
                                                 <td className='px-3'>{item.mobile_no}</td>

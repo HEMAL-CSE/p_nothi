@@ -116,12 +116,20 @@ export const Application = () => {
 
     const getData = () => {
 
+
+        
+
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/requisition?employee_id=${employee_id}`).then(res => {
+            
+            
             if(res.data.length > 0){
                 
                 setData(group(res.data))
+
+                console.log(group(res.data));
+                
                 
             }
             // console.log(res.data);

@@ -158,7 +158,7 @@ export const Application = () => {
             axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
                 if (res.data[0].department == 3) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                    axios.get(`http://68.178.163.174:5012/employees/requisition?approved_hod=APPROVED`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
@@ -171,8 +171,14 @@ export const Application = () => {
 
             })
 
-        } else if (['11', '1'].includes(localStorage.getItem('role'))) {
-            axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+        } else if (['11'].includes(localStorage.getItem('role'))) {
+            axios.get(`http://68.178.163.174:5012/employees/requisition?approved_admin=APPROVED`).then(res2 => {
+                setPendings(group(res2.data))
+                console.log(res2.data);
+
+            })
+        }else if (['1'].includes(localStorage.getItem('role'))) {
+            axios.get(`http://68.178.163.174:5012/employees/requisition?approved_admin=APPROVED&&md=1`).then(res2 => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
 
@@ -649,16 +655,16 @@ export const Application = () => {
                                         </td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
+                                        <td>{item.approved_admin}</td>
 
                                         <td>
                                             {
-                                                item.approved_md == 'PENDING' && ['1', '2'].includes(item.item_type) ?
+                                                item.approved_md == 'PENDING'  ?
                                                     <div>
                                                         <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    : item.approved_md == 'PENDING' ? 'Invalid' : item.approved_md
+                                                    :  item.approved_md
 
                                             }
                                         </td>

@@ -68,6 +68,14 @@ const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
         setjobtype(profile.type)
         setjoining(moment(profile.joining_date).format('yyyy-MM-DD'))
         setdept(profile.department)
+        axios.get(`http://68.178.163.174:5012/employees/branches?branch_id=${profile.branch_id}`).then(res => {
+            if(res.data.length > 0){
+                setdivision(res.data[0].division_id)
+                getBranches(res.data[0].division_id)
+                setBranch(profile.branch_id)
+            }
+        })
+        
     }, [isOpen])
 
     return (

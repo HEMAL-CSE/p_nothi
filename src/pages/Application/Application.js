@@ -649,11 +649,11 @@ export const Application = () => {
                                         </td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
+                                        <td>{item.approved_admin}</td>
 
                                         <td>
                                             {
-                                                item.approved_md == 'PENDING' && ['1', '2'].includes(item.item_type) ?
+                                                item.approved_md == 'PENDING' && item.estimated_price > 15000 ?
                                                     <div>
                                                         <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>

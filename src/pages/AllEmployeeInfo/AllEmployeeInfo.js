@@ -290,7 +290,7 @@ const AllEmployeeInfo = () => {
                         }} className='select'>
                             <option>Select</option>
                             {
-                                departments.map(item => (
+                                departments.filter(e => e.id != 3).map(item => (
                                     <option value={item.id}>{item.name}</option>
                                 ))
                             }

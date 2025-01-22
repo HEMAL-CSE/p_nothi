@@ -333,7 +333,6 @@ export const Application = () => {
 
     }
 
-
     // received
     const received = (e, id) => {
         axios.put(`http://68.178.163.174:5012/employees/received?id=${id}&&received=1`).then(res => {
@@ -341,7 +340,6 @@ export const Application = () => {
             getData()
         })
     }
-
 
 
     return (
@@ -403,8 +401,7 @@ export const Application = () => {
                                             clone[i] = obj
                                             setItems([...clone])
                                             console.log(items);
-
-
+                                            
                                         }
                                     } />
                                     {
@@ -729,8 +726,8 @@ export const Application = () => {
                                         </td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{ item.approved_admin }</td>
+                                        <td>{ item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
                                             Received
                                         </button>}</td>
@@ -741,8 +738,6 @@ export const Application = () => {
                     </table> </div>}
 
             {
-
-
 
                 // store manager
                 localStorage.getItem('role') == '11' &&
@@ -780,8 +775,8 @@ export const Application = () => {
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{ item.approved_admin}</td>
+                                        <td>{item.approved_md }</td>
 
                                         <td>
                                             {

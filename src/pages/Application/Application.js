@@ -9,6 +9,7 @@ export const Application = () => {
     const [item_details, setItem_details] = useState([])
     const [decision_modal, setDecision_modal] = useState(false)
     const [decision_id, setDecision_id] = useState('')
+    const [decision_elt_id, setDecision_elt_id] = useState('')
     const [others, setOthers] = useState(false)
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [details, setDetails] = useState([])
@@ -16,6 +17,7 @@ export const Application = () => {
     const [item_type, setItem_type] = useState('')
     const [department, setDepartment] = useState('')
     const [pendings, setPendings] = useState([])
+    const [pendings_elt, setPendings_elt] = useState([])
     const role = localStorage.getItem('role')
     const [positions, setpositions] = useState([])
 
@@ -23,16 +25,19 @@ export const Application = () => {
 
     const [item, setItem] = useState('')
     const [comments, setComments] = useState([])
+    const [comments_elt, setComments_elt] = useState([])
 
     const [data, setData] = useState([])
 
     const [adminData, setAdminData] = useState([])
+    const [adminData_elt, setAdminData_elt] = useState([])
 
     const [mdData, setMdData] = useState([])
 
     const [decision, setDecision] = useState('')
     const [estimated_price, setEstimated_price] = useState('')
     const [comment_id, setComment_id] = useState('')
+    const [comment_elt_id, setComment_elt_id] = useState('')
 
 
 
@@ -66,15 +71,19 @@ export const Application = () => {
         e.preventDefault()
 
         const employee_id = localStorage.getItem('employee_id')
+            axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+                var requisition_url = res.data[0].department == 2 ? `requisition_elt` : `requisition`
 
-        axios.post(`http://68.178.163.174:5012/employees/requisition/add`, {
+
+
+        axios.post(`http://68.178.163.174:5012/employees/${requisition_url}/add`, {
             employee_id,
             item_type,
 
         }).then(res => {
             items.map(item => {
                 if (item.checked == true) {
-                    axios.post(`http://68.178.163.174:5012/employees/requisition/item/add`, {
+                    axios.post(`http://68.178.163.174:5012/employees/${requisition_url}/item/add`, {
                         requisition_id: res.data.id,
                         name: item.name,
                         quantity: item.quantity,
@@ -89,7 +98,12 @@ export const Application = () => {
             getData()
 
         })
+
+    })
     }
+
+
+    
 
     const group = (data) => {
         let result = Object.values(
@@ -121,7 +135,11 @@ export const Application = () => {
 
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/requisition?employee_id=${employee_id}`).then(res => {
+            axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+                var requisition_url = res.data[0].department == 2 ? `requisition_elt` : `requisition`
+
+
+        axios.get(`http://68.178.163.174:5012/employees/${requisition_url}?employee_id=${employee_id}`).then(res => {
             
             
             if(res.data.length > 0){
@@ -135,12 +153,27 @@ export const Application = () => {
             // console.log(res.data);
 
         })
+
+    })
     }
 
     const admintData = () => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
+
             axios.get(`http://68.178.163.174:5012/employees/requisition?admin=1`).then(res => {
                 setAdminData(group(res.data))
+                // console.log(res.data);
+
+            })
+        }
+
+    }
+
+    const admintData_elt = () => {
+        if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
+
+            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?admin=1`).then(res => {
+                setAdminData_elt(group(res.data))
                 // console.log(res.data);
 
             })
@@ -158,6 +191,9 @@ export const Application = () => {
         }
 
     }
+
+
+    
 
     const pendingData = () => {
 
@@ -187,6 +223,61 @@ export const Application = () => {
             })
         }else if (['1'].includes(localStorage.getItem('role'))) {
             axios.get(`http://68.178.163.174:5012/employees/requisition?approved_admin=APPROVED&&md=1`).then(res2 => {
+                setPendings(group(res2.data))
+                console.log(res2.data);
+
+            })
+        }
+
+    }
+
+    const pendingData_elt = () => {
+
+        if (['7', '9'].includes(localStorage.getItem('role'))) {
+            const employee_id = localStorage.getItem('employee_id')
+            axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+                setDepartment(res.data[0].department)
+                if (res.data[0].department == 3) {
+                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
+                        setPendings(group(res2.data))
+                        console.log(res2.data);
+
+                    })
+                }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('project manager')) {
+                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_dc=APPROVED`).then(res2 => {
+                        setPendings(group(res2.data))
+                        console.log(res2.data);
+
+                    })
+                }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
+                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}`).then(res2 => {
+                        setPendings(group(res2.data))
+                        console.log(res2.data);
+
+                    })
+                }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
+                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
+                        setPendings(group(res2.data))
+                        console.log(res2.data);
+
+                    })
+                }
+                //  else {
+                //     axios.get(`http://68.178.163.174:5012/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
+                //         setPendings(group(res2.data))
+                //     })
+                // }
+
+            })
+
+        } else if (['11'].includes(localStorage.getItem('role'))) {
+            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_admin=APPROVED`).then(res2 => {
+                setPendings(group(res2.data))
+                console.log(res2.data);
+
+            })
+        }else if (['1'].includes(localStorage.getItem('role'))) {
+            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_admin=APPROVED&&md=1`).then(res2 => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
 
@@ -231,6 +322,9 @@ export const Application = () => {
         getData()
 
         pendingData()
+        pendingData_elt()
+
+        adminData_elt()
 
         admintData()
 
@@ -265,7 +359,7 @@ export const Application = () => {
     const rejectMd = (e, id) => {
         axios.put(`http://68.178.163.174:5012/employees/requisition/reject?approved_md=${true}&&id=${id}`).then(res => {
             toast('Rejected')
-            mdData()
+            pendingData()
         })
 
     }

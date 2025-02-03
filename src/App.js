@@ -19,6 +19,8 @@ import Hierarchy from './pages/Hierarchy/Hierarchy';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
 import Store from './pages/Store/Store';
 import Purchase from './pages/Purchase/Purchase';
+import { ECommerce } from './pages/e-commerce/ecommerce';
+import { Notice } from './pages/Notices/Notice';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
@@ -32,8 +34,7 @@ function App() {
         <Route element={<Home />} exact path='/' />
         <Route element={<Register />} exact path='/register' />
         <Route element={<Login />} exact path='/login' />
-        
-        
+
         <Route element={<ProtectedRoute />}>
         <Route element={<Employeelayout />} path='/employee'>
         <Route element={<Employee />} exact path='/employee/general' />
@@ -45,6 +46,8 @@ function App() {
         <Route element={<Responsibilities/>} exact path='/employee/responsibility'/>
         <Route element={<Leaveinfo/>} exact path='/employee/leave'/>
         <Route element={<AllEmployeeInfo/>} exact path='/employee/all_employee_info'/>
+
+        <Route element={<Notice/>} exact path='/employee/notice'/>
 
         <Route element={<Application/>} exact path='/employee/application'/>
         <Route element={<Hierarchy/>} exact path='/employee/hierarchy'/>

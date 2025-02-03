@@ -1,176 +1,34 @@
-import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
-import ReqHq from './ReqHq'
-import ReqElt from './ReqElt'
+import { toast } from 'react-toastify'
 
 
-export const Application = () => {
-    const [quantity, setQuantity] = useState('')
-    const [item_details, setItem_details] = useState([])
-    const [decision_modal, setDecision_modal] = useState(false)
-    const [decision_id, setDecision_id] = useState('')
-    const [decision_elt_id, setDecision_elt_id] = useState('')
-    const [others, setOthers] = useState(false)
-    const [detailsOpen, setDetailsOpen] = useState(false)
-    const [details, setDetails] = useState([])
-
-    const [item_type, setItem_type] = useState('')
-    const [department, setDepartment] = useState('')
-    const [pendings, setPendings] = useState([])
-    const [pendings_elt, setPendings_elt] = useState([])
+const ReqHq = ({getData, group}) => {
     const role = localStorage.getItem('role')
-    const [positions, setpositions] = useState([])
-
-    const [items, setItems] = useState([])
-
-    const [item, setItem] = useState('')
+    const [pendings, setPendings] = useState([])
+    const [decision_id, setDecision_id] = useState('')
+    const [department, setDepartment] = useState('')
     const [comments, setComments] = useState([])
-    const [comments_elt, setComments_elt] = useState([])
 
-    const [data, setData] = useState([])
 
     const [adminData, setAdminData] = useState([])
-    const [adminData_elt, setAdminData_elt] = useState([])
-
     const [mdData, setMdData] = useState([])
 
     const [decision, setDecision] = useState('')
+    const [decision_modal, setDecision_modal] = useState(false)
     const [estimated_price, setEstimated_price] = useState('')
     const [comment_id, setComment_id] = useState('')
-    const [comment_elt_id, setComment_elt_id] = useState('')
+    const [detailsOpen, setDetailsOpen] = useState(false)
+    const [details, setDetails] = useState([])
+    
 
-
-
-
-    //get item types
-    useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/item_types').then(res => {
-            setpositions(res.data)
-        })
-    }, [])
-
-    // get items
-
-    useEffect(() => {
-        axios.get(`http://68.178.163.174:5012/employees/item_details?item_type_id=${item_type}`)
-            .then(res => {
-                // console.log(res.data);
-
-                setItems(res.data.map(res => {
-                    return { ...res, quantity: '', unit: '', checked: false }
-                }))
-
-            })
-    }, [item_type])
-
-
-
-    // add requisitions
-    const addData = e => {
-
-        e.preventDefault()
-
-        const employee_id = localStorage.getItem('employee_id')
-
-        axios.post(`http://68.178.163.174:5012/employees/requisition/add`, {
-            employee_id,
-            item_type,
-
-            }).then(res => {
-                items.map(item => {
-                    if (item.checked == true) {
-                        axios.post(`http://68.178.163.174:5012/employees/${requisition_url}/item/add`, {
-                            requisition_id: res.data.id,
-                            name: item.name,
-                            quantity: item.quantity,
-                            unit: item.unit
-                        }).then(res => {
-
-                        })
-                    }
-                })
-
-                toast('Submitted')
-                getData()
-
-            })
-
-    }
-
-
-
-
-    const group = (data) => {
-        let result = Object.values(
-            data.reduce((e, item) => {
-                let value = item.id;
-                let existing = e[value] || { ...item, item_details: [] }
-                // console.log(existing);
-
-                return {
-                    ...e,
-                    [value]: {
-                        ...existing,
-                        item_details: [...existing.item_details, { 'name': item.item_name, 'quantity': item.item_quantity, 'unit': item.item_unit }]
-                    }
-                }
-            }, {})
-        )
-
-        return result
-    }
-
-
-    // get requisitions
-
-    const getData = () => {
-
-
-
-
-        const employee_id = localStorage.getItem('employee_id')
-
-        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
-            var requisition_url = res.data[0].department == 2 ? `requisition_elt` : `requisition`
-
-
-            axios.get(`http://68.178.163.174:5012/employees/${requisition_url}?employee_id=${employee_id}`).then(res => {
-
-
-                if (res.data.length > 0) {
-
-                    setData(group(res.data))
-
-                    console.log(group(res.data));
-
-
-                }
-                // console.log(res.data);
-
-            })
-
-        })
-    }
 
     const admintData = () => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
             axios.get(`http://68.178.163.174:5012/employees/requisition?admin=1`).then(res => {
                 setAdminData(group(res.data))
-                // console.log(res.data);
-
-            })
-        }
-
-    }
-
-    const admintData_elt = () => {
-        if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
-
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?admin=1`).then(res => {
-                setAdminData_elt(group(res.data))
                 // console.log(res.data);
 
             })
@@ -228,63 +86,6 @@ export const Application = () => {
 
     }
 
-    const pendingData_elt = () => {
-
-        if (['7', '9'].includes(localStorage.getItem('role'))) {
-            const employee_id = localStorage.getItem('employee_id')
-            axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
-                setDepartment(res.data[0].department)
-                if (res.data[0].department == 3) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
-                        setPendings_elt(group(res2.data))
-                        console.log(res2.data);
-
-                    })
-                } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('project manager')) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_dc=APPROVED`).then(res2 => {
-                        setPendings_elt(group(res2.data))
-                        console.log(res2.data);
-
-                    })
-                } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}`).then(res2 => {
-                        setPendings_elt(group(res2.data))
-                        console.log(res2.data);
-
-                    })
-                } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
-                        setPendings_elt(group(res2.data))
-                        console.log(res2.data);
-
-                    })
-                }
-                //  else {
-                //     axios.get(`http://68.178.163.174:5012/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
-                //         setPendings(group(res2.data))
-                //     })
-                // }
-
-            })
-
-        } else if (['11'].includes(localStorage.getItem('role'))) {
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_admin=APPROVED`).then(res2 => {
-                setPendings_elt(group(res2.data))
-                console.log(res2.data);
-
-            })
-        } else if (['1'].includes(localStorage.getItem('role'))) {
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_admin=APPROVED&&md=1`).then(res2 => {
-                setPendings_elt(group(res2.data))
-                console.log(res2.data);
-
-            })
-        }
-
-    }
-
-
-    //approval and rejections
     const approve = (e, id) => {
         if (department == 3) {
             axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_hr=${true}&&id=${id}`).then(res => {
@@ -312,22 +113,6 @@ export const Application = () => {
         }
         pendingData()
     }
-
-
-
-    useEffect(() => {
-        getData()
-
-        pendingData()
-        pendingData_elt()
-
-        admintData_elt()
-
-        admintData()
-
-        mddata()
-
-    }, [])
 
     const approveAdmin = (e, id) => {
         axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_admin=${true}&&id=${id}`).then(res => {
@@ -424,6 +209,7 @@ export const Application = () => {
 
     }
 
+
     // received
     const received = (e, id) => {
         axios.put(`http://68.178.163.174:5012/employees/received?id=${id}&&received=1`).then(res => {
@@ -432,127 +218,21 @@ export const Application = () => {
         })
     }
 
+    useEffect(() => {
+        getData()
+
+        pendingData()
+
+
+        admintData()
+
+        mddata()
+
+    }, [])
+
 
     return (
-        <div className='details'>
-            <ToastContainer />
-            <div className="container-fluid px-5 d-none d-lg-block">
-                <div className="row gx-5 py-3 align-items-center">
-                    <div className="col-lg-3">
-                        {/* <div className="d-flex align-items-center justify-content-start">
-                              <BsPhoneVibrate className='text-success2 fs-1 me-2' />
-                              <h2 className="mb-0">+012 345 6789</h2>
-                          </div> */}
-                    </div>
-                    <div className="col-lg-6">
-                        <div className="d-flex align-items-center justify-content-center">
-                            <a href="#" className="navbar-brand ms-lg-5">
-                                <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Application/</span>Requisition</h1>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-            {/* Add Requisition */}
-            {localStorage.getItem('role') != '11' && <div>
-                <label> Select Item Type:</label>
-                <select value={item_type} onChange={e => {
-                    setItem_type(e.target.value)
-                    setOthers(false)
-                }} className='select' >
-                    <option >Select</option>
-                    {
-                        positions.map(item => (
-                            <option value={item.id}>{item.name}</option>
-                        ))
-                    }
-                </select>
-
-                <label>Item Details:</label>
-                <div className='border border-1 m-2 p-2'>
-                    {
-                        items.map((item, i) => (
-                            <div className='d-flex justify-content-between'>
-                                <div className='d-flex align-items-center'>
-                                    <input className='mx-2' type='checkbox' onChange={
-                                        (e) => {
-                                            // if(e.target.checked == true){
-                                            //     item_details.push(item)
-                                            // }else if(e.target.checked == false){
-                                            //     item_details.pop(item)
-                                            // }
-
-                                            // console.log(item_details);
-                                            var clone = [...items]
-                                            var obj = clone[i]
-                                            obj.checked = e.target.checked
-                                            clone[i] = obj
-                                            setItems([...clone])
-                                            console.log(items);
-                                            
-                                        }
-                                    } />
-                                    {
-                                        item.id == null ?
-                                            <input className='form-control mx-2' onChange={e => {
-                                                var clone = [...items]
-                                                var obj = clone[i]
-                                                obj.name = e.target.value
-                                                clone[i] = obj
-                                                setItems([...clone])
-                                                console.log(items);
-
-
-                                            }} placeholder='Name' /> :
-
-                                            <p className='fw-bold my-2'>{item.name}</p>}
-
-                                </div>
-                                <div className='d-flex m-2'>
-                                    <input className='form-control mx-2' onChange={e => {
-                                        var clone = [...items]
-                                        var obj = clone[i]
-                                        obj.quantity = e.target.value
-                                        clone[i] = obj
-                                        setItems([...clone])
-                                        console.log(items);
-
-
-                                    }} placeholder='quantity' />
-
-                                    <input className='form-control' onChange={e => {
-                                        var clone = [...items]
-                                        var obj = clone[i]
-                                        obj.unit = e.target.value
-                                        clone[i] = obj
-                                        setItems([...clone])
-                                    }} placeholder='unit' />
-                                </div>
-                            </div>
-                        ))
-                    }
-
-                    <div className='d-flex'>
-                        <button onClick={e =>
-
-                            setItems(prev => [...prev, {
-                                name: '',
-                                quantity: '',
-                                unit: '',
-                                checked: false,
-                            }])
-                        } className='btn btn-primary'>Add More</button>
-                    </div>
-
-                </div>
-
-                <button onClick={addData} className='button'>Submit</button>
-            </div>}
-
-            {/* For HR and HOD */}
+        <div>
             {['7', '9'].includes(role) || department == 3 ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions</label>
@@ -581,9 +261,9 @@ export const Application = () => {
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td><button onClick={e => {
-                                                setDetails(item.item_details)
-                                                setDetailsOpen(true)
-                                            }} className='btn btn-warning'>Details</button></td>
+                                            setDetails(item.item_details)
+                                            setDetailsOpen(true)
+                                        }} className='btn btn-warning'>Details</button></td>
                                         <td>{department == 3 ? item.approved_hod : item.approved_hr}</td>
                                         <td>{['1', '2'].includes(item.item_type) || item.estimated_price > 15000 ? item.approved_admin : 'Invalid'}</td>
                                         <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
@@ -631,7 +311,7 @@ export const Application = () => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-            
+
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
                                 <th>Approved By MD</th>
@@ -651,9 +331,9 @@ export const Application = () => {
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td><button onClick={e => {
-                                                setDetails(item.item_details)
-                                                setDetailsOpen(true)
-                                            }} className='btn btn-warning'>Details</button></td>
+                                            setDetails(item.item_details)
+                                            setDetailsOpen(true)
+                                        }} className='btn btn-warning'>Details</button></td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
                                         <td>{item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
@@ -670,7 +350,7 @@ export const Application = () => {
                                             }
                                         </td>
                                         <td>{item.sent_from_store}</td>
-                                         <td>
+                                        <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
                                                 setDecision_modal(true)
@@ -718,7 +398,7 @@ export const Application = () => {
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td>
-                                        <button onClick={e => {
+                                            <button onClick={e => {
                                                 setDetails(item.item_details)
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
@@ -729,18 +409,18 @@ export const Application = () => {
 
                                         <td>
                                             {
-                                                item.approved_md == 'PENDING' && item.estimated_price > 15000 ?
+                                                item.approved_md == 'PENDING' ?
                                                     <div>
                                                         <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    :  item.approved_md
+                                                    : item.approved_md
 
                                             }
                                         </td>
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
-                                         <td>
+                                        <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
                                                 setDecision_modal(true)
@@ -758,57 +438,18 @@ export const Application = () => {
                     </table> </div>
             }
 
-            {localStorage.getItem('role') != '11' &&
-                <div>
-                    <label className='text-center mt-4'>Your Requisitions</label>
 
-                    <table className='table mt-3'>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Department</th>
-                                <th>Item Type</th>
-                                <th>Item Details</th>
-                                <th>Approved By HOD</th>
-                                <th>Approved By HR</th>
-                                <th>Approved By ED</th>
-                                <th>Approved By MD</th>
-                                <th>Received</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                data.map(item => (
-                                    <tr >
-                                        <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
-                                        <td>{item.item_type_name}</td>
-                                        <td>
-                                            <button onClick={e => {
-                                                setDetails(item.item_details)
-                                                setDetailsOpen(true)
-                                            }} className='btn btn-warning'>Details</button>
-                                        </td>
-                                        <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{ item.approved_admin }</td>
-                                        <td>{ item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
-                                        <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
-                                            Received
-                                        </button>}</td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table> </div>}
+
+            
 
             {
+
+
 
                 // store manager
                 localStorage.getItem('role') == '11' &&
                 <div>
-                    <label className='text-center mt-4'>Your Requisitions</label>
-
+                    <label className='text-center mt-4'>Requisitions</label>
                     <table className='table mt-3'>
                         <thead>
                             <tr>
@@ -816,19 +457,19 @@ export const Application = () => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
-                                <th>Approved By PM</th>
+                                <th>Item Quantity</th>
+                                <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
-                                <th>Received</th>
+                                <th>Send</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                data.map(item => (
-                                    <tr >
+                                pendings.map(item => (
+                                    <tr>
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
@@ -838,12 +479,11 @@ export const Application = () => {
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
-                                        <td>{item.approved_coord}</td>
-                                        <td>{item.approved_dc}</td>
-                                        <td>{item.approved_pm}</td>
+                                        <td>{item.quantity}</td>
+                                        <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{ item.approved_admin}</td>
-                                        <td>{item.approved_md }</td>
+                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
+                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                         <td>
                                             {
@@ -855,11 +495,110 @@ export const Application = () => {
                                 ))
                             }
                         </tbody>
-                    </table> </div>}
+                    </table> </div>
+            }
 
+            {/* Comment box */}
 
+            <Modal
+                style={{
+                    content: {
+                        width: "80%",
+                        height: "80%",
+                        zIndex: 10,
+                        top: "5%",
+                        left: "10%",
+                        right: "10%",
+                        bottom: "5%",
+                        overflow: "auto",
+                        WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                    },
+                    overlay: { zIndex: 10000 }
+                }}
+                isOpen={decision_modal}
+                onRequestClose={() => {
+                    setDecision_modal(false)
+                }}
+            >
+                <div className='details'>
 
+                    {
+                        comments.map(comment => (
+                            <div className='d-flex'>
+                                <p className='fw-bold'>{comment.role_name}:</p>
+                                <p>{comment.comment}. <span className='fw-bolder'>Estimated Price: {comment.estimated_price}</span></p>
+                                {localStorage.getItem('employee_id') == comment.commentor_id &&
+                                    <div className=''>
+                                        <button onClick={e => {
+                                            setComment_id(comment.id)
+                                            setEstimated_price(comment.estimated_price)
+                                            setDecision(comment.comment)
+                                        }} className='btn btn-warning py-0 mx-2 '>Edit</button>
+                                    </div>}
+                            </div>
+                        ))
+                    }
+
+                    <label>Comment</label>
+                    <textarea rows={5} placeholder='Comment....' className='input' value={decision} onChange={e => setDecision(e.target.value)} />
+
+                    <label>Estimated Price</label>
+                    <input className='input w-25' value={estimated_price} type='number' onChange={e => setEstimated_price(e.target.value)} />
+                    <button onClick={e => update_decision(e, decision_id)} className='btn btn-success'>Submit</button>
+                </div>
+
+            </Modal>
+
+            <Modal
+                style={{
+                    content: {
+                        width: "50%",
+                        // height: "10%",
+
+                        zIndex: 10,
+                        // top: "5%",
+                        left: "30%",
+                        right: "10%",
+                        // bottom: "5%",
+                        overflow: "auto",
+                        // WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        // MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        // boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                    },
+                    overlay: { zIndex: 10000, backgroundColor: 'transparent' }
+                }}
+                isOpen={detailsOpen}
+                onRequestClose={() => {
+                    setDetailsOpen(false)
+                }}
+            >
+                <table className='table m-4'>
+                    <thead>
+                        <th>Name</th>
+                        <th>Quantity</th>
+
+                    </thead>
+                    <tbody>
+                        {
+                            details.map(item => (
+                                <tr>
+                                    <td>{item.name}</td>
+                                    <td>{item.quantity} {item.unit}</td>
+
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </Modal>
         </div>
-
     )
 }
+
+export default ReqHq

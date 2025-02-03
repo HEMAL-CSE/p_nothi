@@ -119,6 +119,15 @@ const Employeelayout = ({ children }) => {
       icon: GrDocumentConfig,
       submenu: []
     },
+
+    {
+      name: 'Notice',
+      pathname: '/employee/Notice',
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+      icon: GrDocumentConfig,
+      submenu: []
+    },
+
     {
       name: 'Purchase',
       pathname: '/employee/purchase',

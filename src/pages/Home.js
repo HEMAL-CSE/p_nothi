@@ -34,8 +34,6 @@ const Home = () => {
 
   const navigator = useNavigate()
   const [active, setActive] = useState(false);
-
-
   return (
     <div>
       <div className="container-fluid px-5 d-none d-lg-block">
@@ -82,7 +80,7 @@ const Home = () => {
             <a href="#about" className="nav-item nav-link">About</a>
             <a href="#" className="nav-item nav-link">Service</a>
             <a href="#" className="nav-item nav-link">Features</a>
-            <a href="#" className="nav-item nav-link">E-commerce</a>
+            {/* <a href="/ecommerce" className="nav-item nav-link">E-commerce</a> */}
             <a href="contact.html" className="nav-item nav-link">Contact</a>
           </div>
         </div>

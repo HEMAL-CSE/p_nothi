@@ -73,6 +73,8 @@ export const Application = () => {
         e.preventDefault()
 
         const employee_id = localStorage.getItem('employee_id')
+        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+            var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
 
         axios.post(`http://68.178.163.174:5012/employees/requisition/add`, {
             employee_id,
@@ -96,6 +98,8 @@ export const Application = () => {
                 getData()
 
             })
+
+        })
 
     }
 
@@ -133,7 +137,7 @@ export const Application = () => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
-            var requisition_url = res.data[0].department == 2 ? `requisition_elt` : `requisition`
+            var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
 
 
             axios.get(`http://68.178.163.174:5012/employees/${requisition_url}?employee_id=${employee_id}`).then(res => {

@@ -100,6 +100,10 @@ const AllEmployeeInfo = () => {
             axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_id=${branch}`).then(res => {
                 setEmployees(res.data)
             })
+        }else if(dept == 2 && branch == '' && division != ''){
+            axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
+                setEmployees(res.data)
+            })
         }else{
             axios.get(`http://68.178.163.174:5012/employees?department=${dept}`).then(res => {
                 setEmployees(res.data)

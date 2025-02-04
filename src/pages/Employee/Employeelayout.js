@@ -4,7 +4,7 @@ import { BsInfo, BsMenuUp, BsPeople, BsSpeedometer } from 'react-icons/bs'
 import { BiArrowFromBottom, BiArrowToBottom, BiBook, BiBookAlt, BiChart, BiDollar, BiExit, BiHealth, BiMoney, BiPencil, BiPlus, BiPurchaseTag, BiSolidArrowToBottom, BiStore } from 'react-icons/bi'
 import { FaCow, FaSeedling, FaUserDoctor } from 'react-icons/fa6'
 import { GiBottomRight3dArrow, GiBuyCard, GiDoctorFace, GiPaper } from 'react-icons/gi'
-import { MdDashboard, MdReport } from 'react-icons/md'
+import { MdDashboard, MdNotificationsNone, MdReport } from 'react-icons/md'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
 import { CgArrowBottomLeft, CgChart, CgProfile } from 'react-icons/cg'
@@ -16,6 +16,7 @@ import { GrDocument, GrDocumentConfig } from 'react-icons/gr'
 import { FaHandHoldingUsd } from 'react-icons/fa'
 import { HiDocumentSearch } from 'react-icons/hi'
 import { TbHierarchy } from 'react-icons/tb'
+import { useNotificationCenter } from 'react-toastify/addons/use-notification-center'
 
 
 const Employeelayout = ({ children }) => {
@@ -124,7 +125,7 @@ const Employeelayout = ({ children }) => {
       name: 'Notice',
       pathname: '/employee/Notice',
       roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
-      icon: GrDocumentConfig,
+      icon: MdNotificationsNone,
       submenu: []
     },
 

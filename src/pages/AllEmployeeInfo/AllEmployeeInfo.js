@@ -96,15 +96,15 @@ const AllEmployeeInfo = () => {
     }
 
     const getEmployees = () => {
-        if(branch != ''){
+        if (branch != '') {
             axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_id=${branch}`).then(res => {
                 setEmployees(res.data)
             })
-        }else if(dept == 2 && branch == '' && division != ''){
+        } else if (dept == 2 && branch == '' && division != '') {
             axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
                 setEmployees(res.data)
             })
-        }else{
+        } else {
             axios.get(`http://68.178.163.174:5012/employees?department=${dept}`).then(res => {
                 setEmployees(res.data)
             })
@@ -143,7 +143,7 @@ const AllEmployeeInfo = () => {
                             <th scope="col">Email</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Present Address</th>
-                            <th scope="col">Role</th>
+                            <th scope="col">Designation</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -156,7 +156,7 @@ const AllEmployeeInfo = () => {
                                     <td className='px-3'>{item.email}</td>
                                     <td className='px-3'>{item.mobile_no}</td>
                                     <td className='px-3'>{item.present_address}</td>
-                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                    <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
                                     <td className='px-3'>
                                         <button onClick={(e) => {
                                             setIsOpen(true)
@@ -180,7 +180,7 @@ const AllEmployeeInfo = () => {
                             <th scope="col">Email</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Present Address</th>
-                            <th scope="col">Role</th>
+                            <th scope="col">Designation</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -193,7 +193,7 @@ const AllEmployeeInfo = () => {
                                     <td className='px-3'>{item.email}</td>
                                     <td className='px-3'>{item.mobile_no}</td>
                                     <td className='px-3'>{item.present_address}</td>
-                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                    <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
                                     <td className='px-3'>
                                         <button onClick={(e) => {
                                             setIsOpen(true)
@@ -218,7 +218,7 @@ const AllEmployeeInfo = () => {
                             <th scope="col">Email</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Present Address</th>
-                            <th scope="col">Role</th>
+                            <th scope="col">Designation</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -231,7 +231,7 @@ const AllEmployeeInfo = () => {
                                     <td className='px-3'>{item.email}</td>
                                     <td className='px-3'>{item.mobile_no}</td>
                                     <td className='px-3'>{item.present_address}</td>
-                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                    <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
                                     <td className='px-3'>
                                         <button onClick={(e) => {
                                             setIsOpen(true)
@@ -255,7 +255,7 @@ const AllEmployeeInfo = () => {
                             <th scope="col">Email</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Present Address</th>
-                            <th scope="col">Role</th>
+                            <th scope="col">Designation</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -268,7 +268,44 @@ const AllEmployeeInfo = () => {
                                     <td className='px-3'>{item.email}</td>
                                     <td className='px-3'>{item.mobile_no}</td>
                                     <td className='px-3'>{item.present_address}</td>
-                                    <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                    <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
+                                    <td className='px-3'>
+                                        <button onClick={(e) => {
+                                            setIsOpen(true)
+                                            setSelectedEmployee(item)
+                                        }} className='btn btn-warning'>Details</button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div className='border border-1 border-black p-2 m-4'>
+                <h1 className='m-3'>Divisional Coordinators</h1>
+                <table className='mt-10 table'>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Present Address</th>
+                            <th scope="col">Designation</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data.filter(item => item.designation == 'Divisional Coordinator').map(item => (
+                                <tr>
+                                    <td className='px-3'>{item.user_name}</td>
+                                    <td className='px-3'>{item.employee_id}</td>
+                                    <td className='px-3'>{item.email}</td>
+                                    <td className='px-3'>{item.mobile_no}</td>
+                                    <td className='px-3'>{item.present_address}</td>
+                                    <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
                                     <td className='px-3'>
                                         <button onClick={(e) => {
                                             setIsOpen(true)
@@ -332,7 +369,7 @@ const AllEmployeeInfo = () => {
                                     }
                                 </select></div>}
 
-                                <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
+                        <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
                     </div>
                     {
 
@@ -345,7 +382,7 @@ const AllEmployeeInfo = () => {
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone Number</th>
                                         <th scope="col">Present Address</th>
-                                        <th scope="col">Role</th>
+                                        <th scope="col">Designation</th>
                                         <th>Details</th>
                                     </tr>
                                 </thead>
@@ -359,7 +396,7 @@ const AllEmployeeInfo = () => {
                                                 <td className='px-3'>{item.email}</td>
                                                 <td className='px-3'>{item.mobile_no}</td>
                                                 <td className='px-3'>{item.present_address}</td>
-                                                <td className='px-3'>{item.role != null ? item.role.toUpperCase() : ''}</td>
+                                                <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
                                                 <td className='px-3'>
                                                     <button onClick={(e) => {
                                                         setIsOpen(true)
@@ -372,8 +409,8 @@ const AllEmployeeInfo = () => {
                                 </tbody>
                             </table>
                         </div>
-                            
-                        }
+
+                    }
                 </div>
 
             }

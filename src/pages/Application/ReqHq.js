@@ -233,7 +233,7 @@ const ReqHq = ({getData, group}) => {
 
     return (
         <div>
-            {['7', '9'].includes(role) || department == 3 ?
+            {['7', '9'].includes(role) && department != 2?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions</label>
                     <table className='table mt-3'>

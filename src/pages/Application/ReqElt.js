@@ -8,6 +8,7 @@ const ReqElt = ({ getData, group }) => {
     const [decision_id, setDecision_id] = useState('')
     const [department, setDepartment] = useState('')
     const [comments, setComments] = useState([])
+    const [job_desg, setJob_desg] = useState('')
 
 
     const [adminData, setAdminData] = useState([])
@@ -54,6 +55,8 @@ const ReqElt = ({ getData, group }) => {
             const employee_id = localStorage.getItem('employee_id')
             axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
+                setJob_desg(res.data[0].designation.toLowerCase())
+                console.log(res.data[0].designation.toLowerCase());
                 if (res.data[0].department == 3) {
                     axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
                         setPendings(group(res2.data))
@@ -73,6 +76,8 @@ const ReqElt = ({ getData, group }) => {
 
                     })
                 } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
+                    
+                    
                     axios.get(`http://68.178.163.174:5012/employees/requisition_elt?reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
@@ -235,7 +240,7 @@ const ReqElt = ({ getData, group }) => {
                 getComments(id)
             })
         } else {
-            axios.post(`http://68.178.163.174:5012/employees/decision/add`, {
+            axios.post(`http://68.178.163.174:5012/employees/decision_elt/add`, {
                 comment: decision,
                 commentor_id: localStorage.getItem('employee_id'),
                 requisition_id: id,
@@ -280,6 +285,96 @@ const ReqElt = ({ getData, group }) => {
 
     return (
         <div>
+
+{['9'].includes(localStorage.getItem('role')) && department == 2 ?
+                <div>
+                    <label className='text-center mt-4'>Pending Requisitions(Elearning Training)</label>
+                    <table className='table mt-3'>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Item Type</th>
+                                <th>Item Details</th>
+                                <th>Approved By Coordinator</th>
+                                <th>Approved By DC</th>
+                                <th>Approved By PM</th>
+                                <th>Approved By HR</th>
+                                <th>Approved By ED</th>
+                                <th>Approved By MD</th>
+                                <th>Send from store</th>
+                                <th>Received</th>
+                                {localStorage.getItem('role') == '7' && <th>Comments</th>}
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                pendings.map(item => (
+                                    <tr>
+                                        <td>{item.user_name}</td>
+                                        <td>{item.department_name}</td>
+                                        <td>{item.item_type_name}</td>
+                                        <td><button onClick={e => {
+                                            setDetails(item.item_details)
+                                            setDetailsOpen(true)
+                                        }} className='btn btn-warning'>Details</button></td>
+                                        <td>{job_desg == 'coordinator' && item.approved_coord == 'PENDING' ?
+                                            <td>
+                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
+                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
+                                            </td> :
+                                            <td>{item.approved_coord}</td>
+
+                                        }</td>
+                                        <td>{job_desg == 'divisional coordinator' && item.approved_dc == 'PENDING' ?
+                                            <td>
+                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
+                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
+                                            </td> :
+                                            <td>{item.approved_dc}</td>
+
+                                        }</td>
+                                        <td>{job_desg == 'project manager' && item.approved_pm == 'PENDING' ?
+                                            <td>
+                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
+                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
+                                            </td> :
+                                            <td>{item.approved_pm}</td>
+
+                                        }</td>
+                                        {department == 3 && item.approved_hr == 'PENDING' ?
+                                            <td>
+                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
+                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
+                                            </td> :
+                                            <td>{item.approved_hr}</td>
+
+                                        }
+                                        <td>{item.approved_admin}</td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
+
+                
+                                        <td>{item.sent_from_store}</td>
+                                        <td>{item.received}</td>
+                                        {localStorage.getItem('role') == '7' && <td>
+                                            <button className='btn btn-warning' onClick={e => {
+                                                setDecision('')
+                                                setEstimated_price('')
+                                                setDecision_modal(true)
+                                                setDecision_id(item.id)
+                                                setDecision(item.decision_making)
+                                                setComment_id('')
+                                                getComments(item.id)
+                                            }}>Comment</button>
+                                        </td>}
+
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table> </div> : <div></div>}
+
             {department == 3 ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions(Elearning Training)</label>
@@ -293,9 +388,9 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Approved By Coordinator</th>
                                 <th>Approved By DC</th>
                                 <th>Approved By PM</th>
+                                <th>Approved By HR</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
-                                <th>Approved By HR</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
                                 {localStorage.getItem('role') == '7' && <th>Comments</th>}
@@ -314,11 +409,8 @@ const ReqElt = ({ getData, group }) => {
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td>{item.approved_coord}</td>
-                                        <td>{item.approved.dc}</td>
+                                        <td>{item.approved_dc}</td>
                                         <td>{item.approved_pm}</td>
-                                        <td>{item.approved_admin}</td>
-                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
-
                                         {department == 3 && item.approved_hr == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
@@ -327,6 +419,10 @@ const ReqElt = ({ getData, group }) => {
                                             <td>{item.approved_hr}</td>
 
                                         }
+                                        <td>{item.approved_admin}</td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
+
+                                        
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
                                         {localStorage.getItem('role') == '7' && <td>
@@ -362,8 +458,8 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Approved By DC</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR</th>
-                                <th>Approved By MD</th>
                                 <th>Approved By ED</th>
+                                <th>Approved By MD</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
                                 <th>Comments</th>
@@ -386,8 +482,6 @@ const ReqElt = ({ getData, group }) => {
                                         <td>{item.approved_dc}</td>
                                         <td>{item.approved_pm}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
-
                                         <td>
                                             {
                                                 item.approved_admin == 'PENDING' && ['2'].includes(localStorage.getItem('role')) ?
@@ -399,6 +493,9 @@ const ReqElt = ({ getData, group }) => {
 
                                             }
                                         </td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
+
+                                        
                                         <td>{item.sent_from_store}</td>
                                         <td>
                                             <button className='btn btn-warning' onClick={e => {

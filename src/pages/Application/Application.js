@@ -76,7 +76,7 @@ export const Application = () => {
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
 
-        axios.post(`http://68.178.163.174:5012/employees/requisition/add`, {
+        axios.post(`http://68.178.163.174:5012/employees/${requisition_url}/add`, {
             employee_id,
             item_type,
 
@@ -137,12 +137,14 @@ export const Application = () => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+           setDepartment(res.data[0].department)
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
 
 
             axios.get(`http://68.178.163.174:5012/employees/${requisition_url}?employee_id=${employee_id}`).then(res => {
 
-
+                console.log(res.data);
+                
                 if (res.data.length > 0) {
 
                     setData(group(res.data))
@@ -556,213 +558,16 @@ export const Application = () => {
                 <button onClick={addData} className='button'>Submit</button>
             </div>}
 
-            {/* For HR and HOD */}
-            {['7', '9'].includes(role) || department == 3 ?
-                <div>
-                    <label className='text-center mt-4'>Pending Requisitions</label>
-                    <table className='table mt-3'>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Department</th>
-                                <th>Item Type</th>
-                                <th>Item Details</th>
-                                <th>Approved By {localStorage.getItem('role') == '7' ? 'HOD' : 'HR'}</th>
-                                <th>Approved By ED</th>
-                                <th>Approved By MD</th>
-                                <th>Approve/Reject</th>
-                                <th>Send from store</th>
-                                <th>Received</th>
-                                {localStorage.getItem('role') == '7' && <th>Comments</th>}
+            <div className='my-5'>
+                <ReqHq getData={getData} group={group} />
+            </div>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                pendings.map(item => (
-                                    <tr>
-                                        <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
-                                        <td>{item.item_type_name}</td>
-                                        <td><button onClick={e => {
-                                                setDetails(item.item_details)
-                                                setDetailsOpen(true)
-                                            }} className='btn btn-warning'>Details</button></td>
-                                        <td>{department == 3 ? item.approved_hod : item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) || item.estimated_price > 15000 ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
-
-                                        {department == 3 && item.approved_hr == 'PENDING' ?
-                                            <td>
-                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
-                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
-                                            </td> :
-                                            department != 3 && item.approved_hod == 'PENDING' ?
-                                                <td>
-                                                    <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2'>Approve</button>
-                                                    <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
-                                                </td> :
-                                                <td>{department == 3 ? item.approved_hr : item.approved_hod}</td>
-                                        }
-                                        <td>{item.sent_from_store}</td>
-                                        <td>{item.received}</td>
-                                        {localStorage.getItem('role') == '7' && <td>
-                                            <button className='btn btn-warning' onClick={e => {
-                                                setDecision('')
-                                                setEstimated_price('')
-                                                setDecision_modal(true)
-                                                setDecision_id(item.id)
-                                                setDecision(item.decision_making)
-                                                setComment_id('')
-                                                getComments(item.id)
-                                            }}>Comment</button>
-                                        </td>}
-
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table> </div> : <div></div>}
-
-            {
-                ['2', '3', '4', '5', '6'].includes(localStorage.getItem('role')) &&
-                <div>
-                    <label className='text-center mt-4'>Requisitions</label>
-                    <table className='table mt-3'>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Department</th>
-                                <th>Item Type</th>
-                                <th>Item Details</th>
+            <div>
+                <ReqElt getData={getData} group={group} />
+            </div>
             
-                                <th>Approved By HOD</th>
-                                <th>Approved By HR</th>
-                                <th>Approved By MD</th>
-                                <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved By ED'}</th>
-                                <th>Send from store</th>
-                                <th>Decision Making</th>
-                                <th>Received</th>
 
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                adminData.map(item => (
-                                    <tr>
-                                        <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
-                                        <td>{item.item_type_name}</td>
-                                        <td><button onClick={e => {
-                                                setDetails(item.item_details)
-                                                setDetailsOpen(true)
-                                            }} className='btn btn-warning'>Details</button></td>
-                                        <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
-
-                                        <td>
-                                            {
-                                                item.approved_admin == 'PENDING' && ['2'].includes(localStorage.getItem('role')) ?
-                                                    <div>
-                                                        <button onClick={e => approveAdmin(e, item.id)} className='btn btn-primary m-2'>Approve</button>
-                                                        <button onClick={e => rejectAdmin(e, item.id)} className='btn btn-primary'>Reject</button>
-                                                    </div>
-                                                    : item.approved_admin
-
-                                            }
-                                        </td>
-                                        <td>{item.sent_from_store}</td>
-                                         <td>
-                                            <button className='btn btn-warning' onClick={e => {
-                                                getComments(item.id)
-                                                setDecision_modal(true)
-                                                setDecision_id(item.id)
-                                                setDecision(item.decision_making)
-                                                setDecision('')
-                                                setEstimated_price('')
-                                                setComment_id('')
-                                            }}>Comment</button>
-                                        </td>
-                                        <td>{item.received}</td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table> </div>
-            }
-
-            {
-                localStorage.getItem('role') == '1' &&
-                <div>
-                    <label className='text-center mt-4'>Requisitions</label>
-                    <table className='table mt-3'>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Department</th>
-                                <th>Item Type</th>
-                                <th>Item Details</th>
-                                <th>Approved By HOD</th>
-                                <th>Approved By HR</th>
-                                <th>Approved By ED</th>
-                                <th>Approve</th>
-                                <th>Send from store</th>
-                                <th>Received</th>
-                                <th>Comments</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                pendings.map(item => (
-                                    <tr>
-                                        <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
-                                        <td>{item.item_type_name}</td>
-                                        <td>
-                                        <button onClick={e => {
-                                                setDetails(item.item_details)
-                                                setDetailsOpen(true)
-                                            }} className='btn btn-warning'>Details</button>
-                                        </td>
-                                        <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{item.approved_admin}</td>
-
-                                        <td>
-                                            {
-                                                item.approved_md == 'PENDING' && item.estimated_price > 15000 ?
-                                                    <div>
-                                                        <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
-                                                        <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>
-                                                    </div>
-                                                    :  item.approved_md
-
-                                            }
-                                        </td>
-                                        <td>{item.sent_from_store}</td>
-                                        <td>{item.received}</td>
-                                         <td>
-                                            <button className='btn btn-warning' onClick={e => {
-                                                getComments(item.id)
-                                                setDecision_modal(true)
-                                                setDecision_id(item.id)
-                                                setDecision(item.decision_making)
-                                                setDecision('')
-                                                setEstimated_price('')
-                                                setComment_id('')
-                                            }}>Comment</button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table> </div>
-            }
-
-            {localStorage.getItem('role') != '11' &&
+            {localStorage.getItem('role') != '11' && department != 2  &&
                 <div>
                     <label className='text-center mt-4'>Your Requisitions</label>
 
@@ -794,6 +599,54 @@ export const Application = () => {
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.approved_hod}</td>
+                                        <td>{item.approved_hr}</td>
+                                        <td>{ item.approved_admin }</td>
+                                        <td>{ item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
+                                            Received
+                                        </button>}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table> </div>}
+
+                    {localStorage.getItem('role') != '11' && department == 2  &&
+                <div>
+                    <label className='text-center mt-4'>Your Requisitions</label>
+
+                    <table className='table mt-3'>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Item Type</th>
+                                <th>Item Details</th>
+                                <th>Approved By Coordinator</th>
+                                <th>Approved By DC</th>
+                                <th>Approved By PM</th>
+                                <th>Approved By HR</th>
+                                <th>Approved By ED</th>
+                                <th>Approved By MD</th>
+                                <th>Received</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                data.map(item => (
+                                    <tr >
+                                        <td>{item.user_name}</td>
+                                        <td>{item.department_name}</td>
+                                        <td>{item.item_type_name}</td>
+                                        <td>
+                                            <button onClick={e => {
+                                                setDetails(item.item_details)
+                                                setDetailsOpen(true)
+                                            }} className='btn btn-warning'>Details</button>
+                                        </td>
+                                        <td>{item.approved_coord}</td>
+                                        <td>{item.approved_dc}</td>
+                                        <td>{item.approved_pm}</td>
                                         <td>{item.approved_hr}</td>
                                         <td>{ item.approved_admin }</td>
                                         <td>{ item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
@@ -861,7 +714,50 @@ export const Application = () => {
                         </tbody>
                     </table> </div>}
 
+<Modal
+                style={{
+                    content: {
+                        width: "50%",
+                        // height: "10%",
 
+                        zIndex: 10,
+                        // top: "5%",
+                        left: "30%",
+                        right: "10%",
+                        // bottom: "5%",
+                        overflow: "auto",
+                        // WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        // MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        // boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                        borderRadius: "5px",
+                        border: "1px solid #ccc",
+                    },
+                    overlay: { zIndex: 10000, backgroundColor: 'transparent' }
+                }}
+                isOpen={detailsOpen}
+                onRequestClose={() => {
+                    setDetailsOpen(false)
+                }}
+            >
+                <table className='table m-4'>
+                    <thead>
+                        <th>Name</th>
+                        <th>Quantity</th>
+
+                    </thead>
+                    <tbody>
+                        {
+                            details.map(item => (
+                                <tr>
+                                    <td>{item.name}</td>
+                                    <td>{item.quantity} {item.unit}</td>
+
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </Modal>
 
         </div>
 

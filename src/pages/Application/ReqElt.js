@@ -9,6 +9,7 @@ const ReqElt = ({ getData, group }) => {
     const [department, setDepartment] = useState('')
     const [comments, setComments] = useState([])
     const [job_desg, setJob_desg] = useState('')
+    const [job_branch, setJob_branch] = useState('')
 
 
     const [adminData, setAdminData] = useState([])
@@ -56,6 +57,7 @@ const ReqElt = ({ getData, group }) => {
             axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
                 setJob_desg(res.data[0].designation.toLowerCase())
+                setJob_branch(res.data[0].branch_id)
                 console.log(res.data[0].designation.toLowerCase());
                 if (res.data[0].department == 3) {
                     axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
@@ -70,7 +72,7 @@ const ReqElt = ({ getData, group }) => {
 
                     })
                 } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}`).then(res2 => {
+                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}&&reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 

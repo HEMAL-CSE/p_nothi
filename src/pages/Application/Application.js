@@ -76,9 +76,9 @@ export const Application = () => {
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
 
-        axios.post(`http://68.178.163.174:5012/employees/${requisition_url}/add`, {
-            employee_id,
-            item_type,
+            axios.post(`http://68.178.163.174:5012/employees/${requisition_url}/add`, {
+                employee_id,
+                item_type,
 
             }).then(res => {
                 items.map(item => {
@@ -137,14 +137,14 @@ export const Application = () => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
-           setDepartment(res.data[0].department)
+            setDepartment(res.data[0].department)
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
 
 
             axios.get(`http://68.178.163.174:5012/employees/${requisition_url}?employee_id=${employee_id}`).then(res => {
 
                 console.log(res.data);
-                
+
                 if (res.data.length > 0) {
 
                     setData(group(res.data))
@@ -498,7 +498,7 @@ export const Application = () => {
                                             clone[i] = obj
                                             setItems([...clone])
                                             console.log(items);
-                                            
+
                                         }
                                     } />
                                     {
@@ -565,9 +565,9 @@ export const Application = () => {
             <div>
                 <ReqElt getData={getData} group={group} />
             </div>
-            
 
-            {localStorage.getItem('role') != '11' && department != 2  &&
+
+            {localStorage.getItem('role') != '11' && department != 2 &&
                 <div>
                     <label className='text-center mt-4'>Your Requisitions</label>
 
@@ -600,8 +600,8 @@ export const Application = () => {
                                         </td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{ item.approved_admin }</td>
-                                        <td>{ item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{item.approved_admin}</td>
+                                        <td>{item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
                                             Received
                                         </button>}</td>
@@ -611,7 +611,7 @@ export const Application = () => {
                         </tbody>
                     </table> </div>}
 
-                    {localStorage.getItem('role') != '11' && department == 2  &&
+            {localStorage.getItem('role') != '11' && department == 2 &&
                 <div>
                     <label className='text-center mt-4'>Your Requisitions</label>
 
@@ -648,8 +648,8 @@ export const Application = () => {
                                         <td>{item.approved_dc}</td>
                                         <td>{item.approved_pm}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{ item.approved_admin }</td>
-                                        <td>{ item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{item.approved_admin}</td>
+                                        <td>{item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
                                             Received
                                         </button>}</td>
@@ -699,8 +699,8 @@ export const Application = () => {
                                         <td>{item.approved_dc}</td>
                                         <td>{item.approved_pm}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{ item.approved_admin}</td>
-                                        <td>{item.approved_md }</td>
+                                        <td>{item.approved_admin}</td>
+                                        <td>{item.approved_md}</td>
 
                                         <td>
                                             {
@@ -714,7 +714,7 @@ export const Application = () => {
                         </tbody>
                     </table> </div>}
 
-<Modal
+            <Modal
                 style={{
                     content: {
                         width: "50%",

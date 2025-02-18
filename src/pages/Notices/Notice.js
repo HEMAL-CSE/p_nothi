@@ -24,6 +24,7 @@ export const Notice = () => {
 
   const [notice_desc, setNotice_desc] = useState('')
   const [notice_for, setNotice_for] = useState('')
+  const [user_department, setUser_department] = useState('')
   const [notice_fors, setNotice_fors] = useState([
     'All', 'Department', 'Individual', 'Promise Group'
   ])
@@ -72,15 +73,35 @@ export const Notice = () => {
   }
 
   const getData = () => {
-    axios.get('http://68.178.163.174:5012/employees/notice').then(res => {
-      
-      setData(res.data)
-    })
+    const employee_id = localStorage.getItem('employee_id')
+
+
+    axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+      setUser_department(res.data[0].department)
+
+      if(res.data[0].department != 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))){
+        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&promise_group=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+
+          setData(res.data)
+        })
+      }else if(res.data[0].department == 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))){
+        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+
+          setData(res.data)
+        })
+      }else {
+        axios.get(`http://68.178.163.174:5012/employees/notice`).then(res => {
+
+          setData(res.data)
+        })
+      }
+  })
   }
 
   useEffect(() => {
 
     getData()
+    
 
     axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
       setDepartments(res.data)
@@ -104,14 +125,14 @@ export const Notice = () => {
   const deleteData = (e, id) => {
     e.preventDefault()
 
-    if(window.confirm('Do you want to delete this?')){
+    if (window.confirm('Do you want to delete this?')) {
       axios.delete(`http://68.178.163.174:5012/employees/notice/delete?id=${id}`).then(res => {
         toast('Deleted')
         getData()
       })
     }
 
-    
+
   }
 
   const addData = (e) => {
@@ -162,7 +183,7 @@ export const Notice = () => {
         </div>
       </div>
 
-      {localStorage.getItem('role') == '7' && <form onSubmit={addData}>
+      {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <form onSubmit={addData}>
         <label> Notice Date: </label>
         <input type='date' value={notice_date} className='input' onChange={e => setNotice_date(e.target.value)} placeholder='Enter Notice Type' />
 
@@ -252,6 +273,7 @@ export const Notice = () => {
 
           </div>}
 
+
         {
           notice_for == 'Individual' && (
             <div>
@@ -323,7 +345,7 @@ export const Notice = () => {
               <th>Notice From</th>
               <th>Notice For</th>
               <th>Details</th>
-              <th>Delete</th>
+              {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
             </tr>
           </thead>
           <tbody>
@@ -337,12 +359,12 @@ export const Notice = () => {
                       setDetailsOpen(true)
                       setNotice(item)
                       console.log(item.notice_desc);
-                      
+
                     }} className='btn btn-warning'>Details</button>
                   </td>
-                  <td>
+                  {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <td>
                     <button onClick={e => deleteData(e, item.id)} className='btn btn-danger'>Delete</button>
-                  </td>
+                  </td>}
                 </tr>
               ))
             }
@@ -379,7 +401,7 @@ export const Notice = () => {
           <p>Date: {moment(notice.notice_date).format('DD/MM/yyyy')}</p>
           <h2 className='text-center mb-4 text-decoration-underline'>Office Notice</h2>
           <p>{notice.notice_desc}</p>
-          <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{cursor: 'pointer'}}>Notice File</a>
+          <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{ cursor: 'pointer' }}>Notice File</a>
           <h5 className='mt-4'>Notice For: {notice.notice_for}</h5>
           {
             notice.notice_for == 'Department' &&
@@ -390,7 +412,7 @@ export const Notice = () => {
             <h6>Branch: {notice.branch_name}</h6>
           }
 
-{
+          {
             notice.notice_for == 'Individual' &&
             <h6>Branch: {notice.employee_name}</h6>
           }

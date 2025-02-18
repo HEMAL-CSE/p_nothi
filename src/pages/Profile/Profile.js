@@ -7,6 +7,8 @@ import EditEducation from './EditEducation'
 import EditJobInfo from './EditJobInfo'
 import EditExperience from './EditExperience'
 import EditResponsibility from './EditResponsibility'
+import {SfNav} from 'react-sf-building-blocks';
+
 
 const Profile = () => {
     const [employee, setEmployee] = useState({})
@@ -141,6 +143,26 @@ const Profile = () => {
                     </div>
 
                 </div>
+
+                <div>
+      <SfNav showProfile={true} 
+         profilePicture="https://i.pinimg.com/736x/7f/79/6d/7f796d57218d9cd81a92d9e6e8e51ce4--free-avatars-online-profile.jpg"
+        profileMenu={[
+          {caption: "My Account", link: 'my_account'},
+          {caption: "My Profile", link: 'profile'},
+          {caption: "Security", link: 'security'},
+          {caption: "Sign Out", link: 'sign_out'},
+        ]}
+        showSignIn={false}
+        stylesProfilePictureContainer={{backgroundColor: 'black', padding: '2px', color: 'white', borderRadius: '5px'}}
+        stylesMenu={{backgroundColor: 'black', color: 'white', paddingTop: '3px', paddingBottom: '3px', paddingLeft: '10px', paddingRight: '10px', borderRadius: '5px'}}
+        stylesSubMenu={{backgroundColor: 'black', color: 'white', paddingLeft: '5px', paddingRight: '5px', border: 'solid 1px gray'}}
+        stylesMenuMobile={{backgroundColor: 'black', color: 'white', paddingLeft: '5px', paddingRight: '5px', borderRadius: '5px', border: 'solid 1px gray'}}
+        stylesMenuMobileSelected={{backgroundColor: 'white', color: 'black', paddingLeft: '5px', paddingRight: '5px', borderRadius: '5px', border: 'solid 1px gray'}}
+         />
+      {/* <h1>Hello StackBlitz!</h1> */}
+    </div>
+
             </div>
 
             {
@@ -191,6 +213,7 @@ const Profile = () => {
                     </div>
                 </div>
             }
+
 
             <div>
                 <h2 className='mt-3'>Education</h2>

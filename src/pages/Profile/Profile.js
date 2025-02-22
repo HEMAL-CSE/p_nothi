@@ -143,6 +143,10 @@ const Profile = () => {
                 </div>
             </div>
 
+            <div className='container-fluid px-5 d-none'>
+
+            </div>
+
             {
                 Object.keys(employee).length != 0 &&
                 <div className='d-flex p-3 flex-column bg-card align-items-start'>

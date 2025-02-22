@@ -11,9 +11,11 @@ export const Leaveinfo = () => {
   const [leave_type, setLeave_type] = useState('')
   const [leave_types, setLeave_types] = useState([
     {
-      name: 'cl'
+      name: 'cl',
+      value: 'Casual Leave'
     }, {
-      name: 'sl'
+      name: 'sl',
+      value: 'Sick Leave'
     },
     // {
     //   name: 'el'
@@ -160,7 +162,7 @@ export const Leaveinfo = () => {
           <option>Select</option>
           {
             leave_types.map(item => (
-              <option value={item.name}>{item.name}</option>
+              <option value={item.name}>{item.value}</option>
             ))
           }
         </select>

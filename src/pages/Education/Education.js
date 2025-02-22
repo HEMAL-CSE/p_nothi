@@ -15,6 +15,9 @@ export const Education = () => {
     const [bsc, setbsc] = useState('Bachelor’s Degree')
     const [bscs, setbscs] = useState([
         {
+            name: 'Master’s Degree',
+        },
+        {
             name: 'Bachelor’s Degree',
         },
         {

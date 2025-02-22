@@ -22,7 +22,7 @@ const Hierarchy = () => {
 
 
     useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/')
+        axios.get('https://server.promisenothi.com/employees/')
             .then(res => {
                 setData(res.data)
                 console.log(res.data);
@@ -30,7 +30,7 @@ const Hierarchy = () => {
 
             })
 
-        axios.get('http://68.178.163.174:5012/employees/departments')
+        axios.get('https://server.promisenothi.com/employees/departments')
             .then(res => {
                 setDepartments(res.data)
                 console.log(res.data);
@@ -40,12 +40,12 @@ const Hierarchy = () => {
     }, [])
 
     const getBranches = (division_id) => {
-        axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
             setBranches(res.data)
         })
     }
 
-   
+
     useEffect(() => {
 
         if (dept == 2) {
@@ -56,7 +56,7 @@ const Hierarchy = () => {
 
     const getData = () => {
         if (branch != '' || division != '') {
-            axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_id=${branch}&&branch_division_id=${division}`)
+            axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}&&branch_division_id=${division}`)
                 .then(res => {
                     var data = res.data.map(i => {
 
@@ -64,11 +64,11 @@ const Hierarchy = () => {
                     })
                     setData(data)
                     console.log(division);
-                    
+
 
                 })
-        } else if(dept != '') {
-            axios.get(`http://68.178.163.174:5012/employees?department=${dept}`)
+        } else if (dept != '') {
+            axios.get(`https://server.promisenothi.com/employees?department=${dept}`)
                 .then(res => {
                     var data = res.data.map(i => {
 
@@ -77,22 +77,22 @@ const Hierarchy = () => {
                     setData(data)
 
                 })
-        }else{
-            axios.get('http://68.178.163.174:5012/employees/')
-            .then(res => {
-                var data = res.data.map(i => {
+        } else {
+            axios.get('https://server.promisenothi.com/employees/')
+                .then(res => {
+                    var data = res.data.map(i => {
 
-                    return { ...i, needSave: false, new_role: '', new_reporting_officer: '', new_reporting_officer_name: '' }
+                        return { ...i, needSave: false, new_role: '', new_reporting_officer: '', new_reporting_officer_name: '' }
+                    })
+                    setData(data)
+
                 })
-                setData(data)
-
-            })
         }
-        
+
     }
 
     useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/roles').then(res => {
+        axios.get('https://server.promisenothi.com/employees/roles').then(res => {
             setRoles(res.data)
         })
     }, [])
@@ -106,7 +106,7 @@ const Hierarchy = () => {
     const save = (e, id, role, reporting_officer) => {
         e.preventDefault()
 
-        axios.put(`http://68.178.163.174:5012/employees/update_role?id=${id}`, {
+        axios.put(`https://server.promisenothi.com/employees/update_role?id=${id}`, {
             role
         }).then(res => {
             toast('Saved')
@@ -114,7 +114,7 @@ const Hierarchy = () => {
 
         })
 
-        axios.put(`http://68.178.163.174:5012/employees/update_reporting_officer?id=${id}`, {
+        axios.put(`https://server.promisenothi.com/employees/update_reporting_officer?id=${id}`, {
             reporting_officer
         }).then(res => {
             toast('Saved')
@@ -128,11 +128,11 @@ const Hierarchy = () => {
         console.log(role);
 
         if ([2, 3, 4, 5, 6, 7, 9].includes(role)) {
-            axios.get(`http://68.178.163.174:5012/employees/executives`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/executives`).then(res => {
                 setReporting_officers(res.data)
             })
         } else {
-            axios.get(`http://68.178.163.174:5012/employees/executives?department=${department}`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/executives?department=${department}`).then(res => {
                 setReporting_officers(res.data)
             })
         }

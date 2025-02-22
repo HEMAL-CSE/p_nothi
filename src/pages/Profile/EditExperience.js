@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast, ToastContainer } from 'react-toastify'
 
-const EditExperience = ({isOpen, setIsOpen, profile}) => {
+const EditExperience = ({ isOpen, setIsOpen, profile }) => {
     const [jobtittle, setJobtittle] = useState('')
     const [jobdeg, setJobdef] = useState('')
     const [des, setdes] = useState('')
@@ -16,7 +16,7 @@ const EditExperience = ({isOpen, setIsOpen, profile}) => {
         e.preventDefault()
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.put(`http://68.178.163.174:5012/employees/experience/edit?id=${profile.id}`, {
+        axios.put(`https://server.promisenothi.com/employees/experience/edit?id=${profile.id}`, {
             title: jobtittle,
             // department: dept,
             company_name: jobdeg,
@@ -34,42 +34,42 @@ const EditExperience = ({isOpen, setIsOpen, profile}) => {
             setacheivement('')
             setIsOpen(false)
         })
-      }
+    }
 
-      useEffect(() => {
+    useEffect(() => {
         setJobtittle(profile.title)
         setJobdef(profile.company_name)
         setjoining(moment(profile.start_date).format('yyyy-MM-DD'))
         setend_date(moment(profile.end_date).format('yyyy-MM-DD'))
         setdes(profile.description)
         setacheivement(profile.achievements)
-      }, [isOpen])
-  return (
-    <Modal
-                style={{
-                    content: {
-                        width: "80%",
-                        height: "80%",
-                        zIndex: 10,
-                        top: "5%",
-                        left: "10%",
-                        right: "10%",
-                        bottom: "5%",
-                        overflow: "auto",
-                        WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                        MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                        borderRadius: "5px",
-                        border: "1px solid #ccc",
-                    },
-                    overlay: { zIndex: 10000 }
-                }}
-                isOpen={isOpen}
-                onRequestClose={() => {
-                    setIsOpen(false)
-                }}
-            >
-              <div className='details'>
+    }, [isOpen])
+    return (
+        <Modal
+            style={{
+                content: {
+                    width: "80%",
+                    height: "80%",
+                    zIndex: 10,
+                    top: "5%",
+                    left: "10%",
+                    right: "10%",
+                    bottom: "5%",
+                    overflow: "auto",
+                    WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                },
+                overlay: { zIndex: 10000 }
+            }}
+            isOpen={isOpen}
+            onRequestClose={() => {
+                setIsOpen(false)
+            }}
+        >
+            <div className='details'>
                 {/* <h2>Cow Purchase</h2> */}
                 <ToastContainer />
                 <div className="container-fluid px-5 d-none d-lg-block">
@@ -91,33 +91,33 @@ const EditExperience = ({isOpen, setIsOpen, profile}) => {
                     </div>
                 </div>
 
-               <form>
-               <label> Job Title: </label>
-               <input value={jobtittle} onChange={e => setJobtittle(e.target.value)} className='input' type='text'/>
+                <form>
+                    <label> Job Title: </label>
+                    <input value={jobtittle} onChange={e => setJobtittle(e.target.value)} className='input' type='text' />
 
-                <label> Company Name: </label>
-               <input value={jobdeg} onChange={e => setJobdef(e.target.value)} className='input' type='text'/>
+                    <label> Company Name: </label>
+                    <input value={jobdeg} onChange={e => setJobdef(e.target.value)} className='input' type='text' />
 
-               <label> Start Date:</label>
-               <input value={joining} onChange={e => setjoining(e.target.value)} className='input' type='date'/>
+                    <label> Start Date:</label>
+                    <input value={joining} onChange={e => setjoining(e.target.value)} className='input' type='date' />
 
-               <label> End Date:</label>
-               <input value={end_date} onChange={e => setend_date(e.target.value)} className='input' type='date'/>
+                    <label> End Date:</label>
+                    <input value={end_date} onChange={e => setend_date(e.target.value)} className='input' type='date' />
 
-               <label> Job Description: </label>
-               <input value={des} onChange={e => setdes(e.target.value)} className='input' type='text'/>
+                    <label> Job Description: </label>
+                    <input value={des} onChange={e => setdes(e.target.value)} className='input' type='text' />
 
-               <label> Achievements:</label>
-               <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text'/>
+                    <label> Achievements:</label>
+                    <input value={acheivement} onChange={e => setacheivement(e.target.value)} className='input' type='text' />
 
-               <button onClick={addData} className='button'>Submit</button>
+                    <button onClick={addData} className='button'>Submit</button>
 
 
 
-              </form> 
-    </div>   
-            </Modal>
-  )
+                </form>
+            </div>
+        </Modal>
+    )
 }
 
 export default EditExperience

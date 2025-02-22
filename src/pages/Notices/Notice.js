@@ -62,11 +62,11 @@ export const Notice = () => {
 
   const getEmployees = (branch_id, department) => {
     if (notice_for == 'Individual' && department == 2) {
-      axios.get(`http://68.178.163.174:5012/employees?branch_id=${branch_id}`).then(res => {
+      axios.get(`https://server.promisenothi.com/employees?branch_id=${branch_id}`).then(res => {
         setEmployees(res.data)
       })
     } else if (notice_for == 'Individual' && department != 2) {
-      axios.get(`http://68.178.163.174:5012/employees?department=${department}`).then(res => {
+      axios.get(`https://server.promisenothi.com/employees?department=${department}`).then(res => {
         setEmployees(res.data)
       })
     }
@@ -76,34 +76,34 @@ export const Notice = () => {
     const employee_id = localStorage.getItem('employee_id')
 
 
-    axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+    axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
       setUser_department(res.data[0].department)
 
-      if(res.data[0].department != 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))){
-        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&promise_group=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+      if (res.data[0].department != 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))) {
+        axios.get(`https://server.promisenothi.com/employees/notice?all=1&&promise_group=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
 
           setData(res.data)
         })
-      }else if(res.data[0].department == 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))){
-        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+      } else if (res.data[0].department == 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))) {
+        axios.get(`https://server.promisenothi.com/employees/notice?all=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
 
           setData(res.data)
         })
-      }else {
-        axios.get(`http://68.178.163.174:5012/employees/notice`).then(res => {
+      } else {
+        axios.get(`https://server.promisenothi.com/employees/notice`).then(res => {
 
           setData(res.data)
         })
       }
-  })
+    })
   }
 
   useEffect(() => {
 
     getData()
-    
 
-    axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
+
+    axios.get('https://server.promisenothi.com/employees/departments').then(res => {
       setDepartments(res.data)
     })
   }, [])
@@ -117,7 +117,7 @@ export const Notice = () => {
   }, [department])
 
   const getBranches = (division_id) => {
-    axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+    axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
       setBranches(res.data)
     })
   }
@@ -126,7 +126,7 @@ export const Notice = () => {
     e.preventDefault()
 
     if (window.confirm('Do you want to delete this?')) {
-      axios.delete(`http://68.178.163.174:5012/employees/notice/delete?id=${id}`).then(res => {
+      axios.delete(`https://server.promisenothi.com/employees/notice/delete?id=${id}`).then(res => {
         toast('Deleted')
         getData()
       })
@@ -154,7 +154,7 @@ export const Notice = () => {
     formData.append('branch', branch)
     formData.append('employee_id', employee)
 
-    axios.post('http://68.178.163.174:5012/employees/notice/add', formData)
+    axios.post('https://server.promisenothi.com/employees/notice/add', formData)
       .then(res => {
         toast('Submitted')
         getData()

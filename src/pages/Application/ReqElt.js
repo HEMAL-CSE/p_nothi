@@ -27,7 +27,7 @@ const ReqElt = ({ getData, group }) => {
     const admintData = () => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?admin=1`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/requisition_elt?admin=1`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
 
@@ -38,7 +38,7 @@ const ReqElt = ({ getData, group }) => {
 
     const mddata = () => {
         if (localStorage.getItem('role') == '1') {
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?md=1`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/requisition_elt?md=1`).then(res => {
                 setMdData(group(res.data))
                 console.log(res.data);
 
@@ -52,42 +52,43 @@ const ReqElt = ({ getData, group }) => {
 
     const pendingData = () => {
 
+
         if (['7', '9'].includes(localStorage.getItem('role'))) {
             const employee_id = localStorage.getItem('employee_id')
-            axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
                 setJob_desg(res.data[0].designation.toLowerCase())
                 setJob_branch(res.data[0].branch_id)
-                console.log(res.data[0].designation.toLowerCase());
+                console.log(res.data[0].department);
                 if (res.data[0].department == 3) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
+                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
                 } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('project manager')) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_dc=APPROVED`).then(res2 => {
+                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_dc=APPROVED`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
                 } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}&&reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
+                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}&&reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
                 } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
-                    
-                    
-                    axios.get(`http://68.178.163.174:5012/employees/requisition_elt?reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
+
+
+                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
                 }
                 //  else {
-                //     axios.get(`http://68.178.163.174:5012/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
+                //     axios.get(`https://server.promisenothi.com/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
                 //         setPendings(group(res2.data))
                 //     })
                 // }
@@ -95,13 +96,13 @@ const ReqElt = ({ getData, group }) => {
             })
 
         } else if (['11'].includes(localStorage.getItem('role'))) {
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_admin=APPROVED`).then(res2 => {
+            axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_admin=APPROVED`).then(res2 => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
 
             })
         } else if (['1'].includes(localStorage.getItem('role'))) {
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt?approved_admin=APPROVED&&md=1`).then(res2 => {
+            axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_admin=APPROVED&&md=1`).then(res2 => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
 
@@ -113,23 +114,23 @@ const ReqElt = ({ getData, group }) => {
     const approve = (e, id) => {
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
             if (res.data[0].department == 3) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/approve?approved_hr=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_hr=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('project manager')) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/approve?approved_pm=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_pm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/approve?approved_dc=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_dc=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/approve?approved_coord=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_coord=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
@@ -143,23 +144,23 @@ const ReqElt = ({ getData, group }) => {
     const reject = (e, id) => {
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
             if (res.data[0].department == 3) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/reject?approved_hr=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_hr=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('project manager')) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/reject?approved_pm=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_pm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/reject?approved_dc=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_dc=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
-                axios.put(`http://68.178.163.174:5012/employees/requisition_elt/reject?approved_coord=${true}&&id=${id}`).then(res => {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_coord=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
@@ -169,7 +170,7 @@ const ReqElt = ({ getData, group }) => {
     }
 
     const approveAdmin = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition_elt/approve?approved_admin=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_admin=${true}&&id=${id}`).then(res => {
             toast('Approved')
             admintData()
         })
@@ -177,7 +178,7 @@ const ReqElt = ({ getData, group }) => {
     }
 
     const approveMd = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition_elt/approve?approved_md=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_md=${true}&&id=${id}`).then(res => {
             toast('Approved')
             pendingData()
         })
@@ -185,7 +186,7 @@ const ReqElt = ({ getData, group }) => {
     }
 
     const rejectAdmin = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition/reject?approved_admin=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_admin=${true}&&id=${id}`).then(res => {
             toast('Rejected')
             admintData()
         })
@@ -193,7 +194,7 @@ const ReqElt = ({ getData, group }) => {
     }
 
     const rejectMd = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition/reject?approved_md=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_md=${true}&&id=${id}`).then(res => {
             toast('Rejected')
             pendingData()
         })
@@ -201,9 +202,9 @@ const ReqElt = ({ getData, group }) => {
     }
 
     const send_from_store = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition_elt/send_from_store?id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition_elt/send_from_store?id=${id}`).then(res => {
             toast('Sent')
-            axios.get(`http://68.178.163.174:5012/employees/requisition_elt`).then(res2 => {
+            axios.get(`https://server.promisenothi.com/employees/requisition_elt`).then(res2 => {
                 setPendings(group(res2.data))
 
                 // console.log(res2.data);
@@ -216,7 +217,7 @@ const ReqElt = ({ getData, group }) => {
     //decisions
 
     const getComments = (id) => {
-        axios.get(`http://68.178.163.174:5012/employees/decision_elt?requisition_id=${id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/decision_elt?requisition_id=${id}`).then(res => {
             setComments(res.data)
         })
     }
@@ -224,14 +225,14 @@ const ReqElt = ({ getData, group }) => {
         if (comment_id != '') {
             console.log(comment_id);
 
-            axios.put(`http://68.178.163.174:5012/employees/decision_elt/edit?id=${comment_id}`, {
+            axios.put(`https://server.promisenothi.com/employees/decision_elt/edit?id=${comment_id}`, {
                 comment: decision,
                 commentor_id: localStorage.getItem('employee_id'),
                 requisition_id: id,
                 estimated_price
             }).then(res => {
                 toast('Decision Submitted')
-                // axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                // axios.get(`https://server.promisenothi.com/employees/requisition`).then(res2 => {
                 //     setPendings(res2.data)
                 //     admintData()
                 //     setDecision_modal(false)
@@ -242,14 +243,14 @@ const ReqElt = ({ getData, group }) => {
                 getComments(id)
             })
         } else {
-            axios.post(`http://68.178.163.174:5012/employees/decision_elt/add`, {
+            axios.post(`https://server.promisenothi.com/employees/decision_elt/add`, {
                 comment: decision,
                 commentor_id: localStorage.getItem('employee_id'),
                 requisition_id: id,
                 estimated_price
             }).then(res => {
                 toast('Decision Submitted')
-                // axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                // axios.get(`https://server.promisenothi.com/employees/requisition`).then(res2 => {
                 //     setPendings(res2.data)
                 //     admintData()
                 //     setDecision_modal(false)
@@ -266,7 +267,7 @@ const ReqElt = ({ getData, group }) => {
 
     // received
     const received = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/received?id=${id}&&received=1`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/received?id=${id}&&received=1`).then(res => {
             toast('Received')
             getData()
         })
@@ -288,7 +289,7 @@ const ReqElt = ({ getData, group }) => {
     return (
         <div>
 
-{['9'].includes(localStorage.getItem('role')) && department == 2 ?
+            {['9'].includes(localStorage.getItem('role')) && department == 2 ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions(Elearning Training)</label>
                     <table className='table mt-3'>
@@ -356,7 +357,7 @@ const ReqElt = ({ getData, group }) => {
                                         <td>{item.approved_admin}</td>
                                         <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
 
-                
+
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
                                         {localStorage.getItem('role') == '7' && <td>
@@ -424,7 +425,7 @@ const ReqElt = ({ getData, group }) => {
                                         <td>{item.approved_admin}</td>
                                         <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
 
-                                        
+
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
                                         {localStorage.getItem('role') == '7' && <td>
@@ -497,7 +498,7 @@ const ReqElt = ({ getData, group }) => {
                                         </td>
                                         <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
 
-                                        
+
                                         <td>{item.sent_from_store}</td>
                                         <td>
                                             <button className='btn btn-warning' onClick={e => {

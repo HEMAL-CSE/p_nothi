@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 
 
-const ReqHq = ({getData, group}) => {
+const ReqHq = ({ getData, group }) => {
     const role = localStorage.getItem('role')
     const [pendings, setPendings] = useState([])
     const [decision_id, setDecision_id] = useState('')
@@ -21,13 +21,13 @@ const ReqHq = ({getData, group}) => {
     const [comment_id, setComment_id] = useState('')
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [details, setDetails] = useState([])
-    
+
 
 
     const admintData = () => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
-            axios.get(`http://68.178.163.174:5012/employees/requisition?admin=1`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/requisition?admin=1`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
 
@@ -38,7 +38,7 @@ const ReqHq = ({getData, group}) => {
 
     const mddata = () => {
         if (localStorage.getItem('role') == '1') {
-            axios.get(`http://68.178.163.174:5012/employees/requisition?md=1`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/requisition?md=1`).then(res => {
                 setMdData(group(res.data))
                 console.log(res.data);
 
@@ -54,16 +54,16 @@ const ReqHq = ({getData, group}) => {
 
         if (['7', '9'].includes(localStorage.getItem('role'))) {
             const employee_id = localStorage.getItem('employee_id')
-            axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
                 if (res.data[0].department == 3) {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition?approved_hod=APPROVED`).then(res2 => {
+                    axios.get(`https://server.promisenothi.com/employees/requisition?approved_hod=APPROVED`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
                 } else {
-                    axios.get(`http://68.178.163.174:5012/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
+                    axios.get(`https://server.promisenothi.com/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
                     })
                 }
@@ -71,13 +71,13 @@ const ReqHq = ({getData, group}) => {
             })
 
         } else if (['11'].includes(localStorage.getItem('role'))) {
-            axios.get(`http://68.178.163.174:5012/employees/requisition?approved_admin=APPROVED`).then(res2 => {
+            axios.get(`https://server.promisenothi.com/employees/requisition?approved_admin=APPROVED`).then(res2 => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
 
             })
         } else if (['1'].includes(localStorage.getItem('role'))) {
-            axios.get(`http://68.178.163.174:5012/employees/requisition?approved_admin=APPROVED&&md=1`).then(res2 => {
+            axios.get(`https://server.promisenothi.com/employees/requisition?approved_admin=APPROVED&&md=1`).then(res2 => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
 
@@ -88,11 +88,11 @@ const ReqHq = ({getData, group}) => {
 
     const approve = (e, id) => {
         if (department == 3) {
-            axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_hr=${true}&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_hr=${true}&&id=${id}`).then(res => {
                 toast('Approved')
             })
         } else {
-            axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_hod=${true}&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_hod=${true}&&id=${id}`).then(res => {
                 toast('Approved')
             })
 
@@ -103,11 +103,11 @@ const ReqHq = ({getData, group}) => {
 
     const reject = (e, id) => {
         if (department == 3) {
-            axios.put(`http://68.178.163.174:5012/employees/requisition/reject?approved_hr=${true}&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_hr=${true}&&id=${id}`).then(res => {
                 toast('Rejected')
             })
         } else {
-            axios.put(`http://68.178.163.174:5012/employees/requisition/reject?approved_hod=${true}&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_hod=${true}&&id=${id}`).then(res => {
                 toast('Rejected')
             })
         }
@@ -115,7 +115,7 @@ const ReqHq = ({getData, group}) => {
     }
 
     const approveAdmin = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_admin=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_admin=${true}&&id=${id}`).then(res => {
             toast('Approved')
             admintData()
         })
@@ -123,7 +123,7 @@ const ReqHq = ({getData, group}) => {
     }
 
     const approveMd = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition/approve?approved_md=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_md=${true}&&id=${id}`).then(res => {
             toast('Approved')
             pendingData()
         })
@@ -131,7 +131,7 @@ const ReqHq = ({getData, group}) => {
     }
 
     const rejectAdmin = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition/reject?approved_admin=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_admin=${true}&&id=${id}`).then(res => {
             toast('Rejected')
             admintData()
         })
@@ -139,7 +139,7 @@ const ReqHq = ({getData, group}) => {
     }
 
     const rejectMd = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition/reject?approved_md=${true}&&id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_md=${true}&&id=${id}`).then(res => {
             toast('Rejected')
             pendingData()
         })
@@ -147,9 +147,9 @@ const ReqHq = ({getData, group}) => {
     }
 
     const send_from_store = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/requisition/send_from_store?id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/requisition/send_from_store?id=${id}`).then(res => {
             toast('Sent')
-            axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+            axios.get(`https://server.promisenothi.com/employees/requisition`).then(res2 => {
                 setPendings(group(res2.data))
 
                 // console.log(res2.data);
@@ -162,7 +162,7 @@ const ReqHq = ({getData, group}) => {
     //decisions
 
     const getComments = (id) => {
-        axios.get(`http://68.178.163.174:5012/employees/decision?requisition_id=${id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/decision?requisition_id=${id}`).then(res => {
             setComments(res.data)
         })
     }
@@ -170,14 +170,14 @@ const ReqHq = ({getData, group}) => {
         if (comment_id != '') {
             console.log(comment_id);
 
-            axios.put(`http://68.178.163.174:5012/employees/decision/edit?id=${comment_id}`, {
+            axios.put(`https://server.promisenothi.com/employees/decision/edit?id=${comment_id}`, {
                 comment: decision,
                 commentor_id: localStorage.getItem('employee_id'),
                 requisition_id: id,
                 estimated_price
             }).then(res => {
                 toast('Decision Submitted')
-                // axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                // axios.get(`https://server.promisenothi.com/employees/requisition`).then(res2 => {
                 //     setPendings(res2.data)
                 //     admintData()
                 //     setDecision_modal(false)
@@ -188,14 +188,14 @@ const ReqHq = ({getData, group}) => {
                 getComments(id)
             })
         } else {
-            axios.post(`http://68.178.163.174:5012/employees/decision/add`, {
+            axios.post(`https://server.promisenothi.com/employees/decision/add`, {
                 comment: decision,
                 commentor_id: localStorage.getItem('employee_id'),
                 requisition_id: id,
                 estimated_price
             }).then(res => {
                 toast('Decision Submitted')
-                // axios.get(`http://68.178.163.174:5012/employees/requisition`).then(res2 => {
+                // axios.get(`https://server.promisenothi.com/employees/requisition`).then(res2 => {
                 //     setPendings(res2.data)
                 //     admintData()
                 //     setDecision_modal(false)
@@ -212,7 +212,7 @@ const ReqHq = ({getData, group}) => {
 
     // received
     const received = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/received?id=${id}&&received=1`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/received?id=${id}&&received=1`).then(res => {
             toast('Received')
             getData()
         })
@@ -233,7 +233,7 @@ const ReqHq = ({getData, group}) => {
 
     return (
         <div>
-            {['7', '9'].includes(role) && department != 2?
+            {['7', '9'].includes(role) && department != 2 ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions</label>
                     <table className='table mt-3'>
@@ -440,7 +440,7 @@ const ReqHq = ({getData, group}) => {
 
 
 
-            
+
 
             {
 

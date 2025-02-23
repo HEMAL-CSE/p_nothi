@@ -54,12 +54,13 @@ const ReqElt = ({ getData, group }) => {
 
 
         if (['7', '9'].includes(localStorage.getItem('role'))) {
+
             const employee_id = localStorage.getItem('employee_id')
             axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
                 setJob_desg(res.data[0].designation.toLowerCase())
                 setJob_branch(res.data[0].branch_id)
-                console.log(res.data[0].department);
+                console.log(res.data[0].branch_id);
                 if (res.data[0].department == 3) {
                     axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
                         setPendings(group(res2.data))
@@ -73,7 +74,8 @@ const ReqElt = ({ getData, group }) => {
 
                     })
                 } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
-                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}&&reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
+
+                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}&&branch_id=${res.data[0].branch_id}&&reporting_officer_id=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 

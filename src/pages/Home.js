@@ -69,7 +69,7 @@ const Home = () => {
       {/* <!-- Navbar Start --> */}
       <nav className="navbar navbar-expand-lg bg-success2 navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
         <a href="index.html" className="navbar-brand d-flex d-lg-none">
-          <h1 className="m-0 display-4 text-secondary"><span className="text-white">Farm</span>Fresh</h1>
+          <h1 className="m-0 display-4 text-secondary"><span className="text-white">Promise</span> Nothi</h1>
         </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
           <span className="navbar-toggler-icon"></span>
@@ -78,10 +78,10 @@ const Home = () => {
           <div className="navbar-nav mx-auto py-0">
             <a href="#" className="nav-item nav-link active">Home</a>
             <a href="#about" className="nav-item nav-link">About</a>
-            <a href="#" className="nav-item nav-link">Service</a>
-            <a href="#" className="nav-item nav-link">Features</a>
+            <a href="#service" className="nav-item nav-link">Service</a>
+            <a href="#features" className="nav-item nav-link">Features</a>
             {/* <a href="/ecommerce" className="nav-item nav-link">E-commerce</a> */}
-            <a href="contact.html" className="nav-item nav-link">Contact</a>
+            <a href="#contact" className="nav-item nav-link">Contact</a>
           </div>
         </div>
         {!localStorage.getItem('token') ? <div className='d-flex align-items-center justify-content-center'>
@@ -133,7 +133,7 @@ const Home = () => {
       </div>
 
       {/* Service Section Start */}
-      <div className='service-section'>
+      <div id='service' className='service-section'>
         <section id="services" class="services section light-background">
           <div class="container section-title" data-aos="fade-up">
             <h2>Services We Provide</h2>

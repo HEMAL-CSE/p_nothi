@@ -482,7 +482,7 @@ const ReqHq = ({ getData, group }) => {
                                         <td>{item.quantity}</td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
-                                        <td>{['1', '2'].includes(item.item_type) ? item.approved_admin : 'Invalid'}</td>
+                                        <td>{item.approved_admin}</td>
                                         <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
                                         <td>

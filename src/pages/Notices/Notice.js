@@ -26,7 +26,7 @@ export const Notice = () => {
   const [notice_for, setNotice_for] = useState('')
   const [user_department, setUser_department] = useState('')
   const [notice_fors, setNotice_fors] = useState([
-    'All', 'Department', 'Individual', 'Promise Group'
+    'All', 'Department', 'Individual', 'Promise Group', 'Management'
   ])
 
   const [department, setDepartment] = useState('')

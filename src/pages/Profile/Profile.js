@@ -7,7 +7,7 @@ import EditEducation from './EditEducation'
 import EditJobInfo from './EditJobInfo'
 import EditExperience from './EditExperience'
 import EditResponsibility from './EditResponsibility'
-import {SfNav} from 'react-sf-building-blocks';
+// import {SfNav} from 'react-sf-building-blocks';
 
 
 const Profile = () => {
@@ -144,7 +144,7 @@ const Profile = () => {
 
                 </div>
 
-                <div>
+    {/* <div>
       <SfNav showProfile={true} 
          profilePicture="https://i.pinimg.com/736x/7f/79/6d/7f796d57218d9cd81a92d9e6e8e51ce4--free-avatars-online-profile.jpg"
         profileMenu={[
@@ -160,8 +160,7 @@ const Profile = () => {
         stylesMenuMobile={{backgroundColor: 'black', color: 'white', paddingLeft: '5px', paddingRight: '5px', borderRadius: '5px', border: 'solid 1px gray'}}
         stylesMenuMobileSelected={{backgroundColor: 'white', color: 'black', paddingLeft: '5px', paddingRight: '5px', borderRadius: '5px', border: 'solid 1px gray'}}
          />
-      {/* <h1>Hello StackBlitz!</h1> */}
-    </div>
+    </div> */}
 
             </div>
 

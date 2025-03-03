@@ -11,9 +11,11 @@ export const Leaveinfo = () => {
   const [leave_type, setLeave_type] = useState('')
   const [leave_types, setLeave_types] = useState([
     {
-      name: 'cl'
+      name: 'cl',
+      value: 'Casual Leave'
     }, {
-      name: 'sl'
+      name: 'sl',
+      value: 'Sick Leave'
     },
     // {
     //   name: 'el'
@@ -46,9 +48,9 @@ export const Leaveinfo = () => {
     e.preventDefault()
     const employee_id = localStorage.getItem('employee_id')
 
-    axios.get(`http://68.178.163.174:5012/employees/leave_info?employee_id=${employee_id}`)
+    axios.get(`https://server.promisenothi.com/employees/leave_info?employee_id=${employee_id}`)
       .then(res => {
-        axios.post(`http://68.178.163.174:5012/employees/leave_info/add`, {
+        axios.post(`https://server.promisenothi.com/employees/leave_info/add`, {
           employee_id,
           reason_for_leave,
           number_of_days,
@@ -74,7 +76,7 @@ export const Leaveinfo = () => {
   const getPendingLeaves = () => {
     const employee_id = localStorage.getItem('employee_id')
 
-    axios.get(`http://68.178.163.174:5012/employees/pending_leaves?reporting_officer=${employee_id}`)
+    axios.get(`https://server.promisenothi.com/employees/pending_leaves?reporting_officer=${employee_id}`)
       .then(res => {
 
         setPending_leaves(res.data)
@@ -86,7 +88,7 @@ export const Leaveinfo = () => {
     const employee_id = localStorage.getItem('employee_id')
 
 
-    axios.get(`http://68.178.163.174:5012/employees/leave_info?employee_id=${employee_id}`)
+    axios.get(`https://server.promisenothi.com/employees/leave_info?employee_id=${employee_id}`)
       .then(res => {
         if (res.data.length > 0) {
           setCl(res.data[res.data.length - 1].cl)
@@ -100,8 +102,8 @@ export const Leaveinfo = () => {
 
   useEffect(() => {
 
-    axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${localStorage.getItem('employee_id')}`).then(res => {
-      axios.get(`http://68.178.163.174:5012/employees/job_info?department=${res.data[0].department}`).then(res2 => {
+    axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${localStorage.getItem('employee_id')}`).then(res => {
+      axios.get(`https://server.promisenothi.com/employees/job_info?department=${res.data[0].department}`).then(res2 => {
         setResponsible_employees(res2.data)
       })
     })
@@ -112,7 +114,7 @@ export const Leaveinfo = () => {
 
   const approve = (e, id, leave_type, leave_duration) => {
     e.preventDefault()
-    axios.put(`http://68.178.163.174:5012/employees/pending_leaves/approve?id=${id}`, {
+    axios.put(`https://server.promisenothi.com/employees/pending_leaves/approve?id=${id}`, {
       leave_type,
       leave_duration
     }).then(res => {
@@ -123,7 +125,7 @@ export const Leaveinfo = () => {
 
   const reject = (e, id) => {
     e.preventDefault()
-    axios.put(`http://68.178.163.174:5012/employees/pending_leaves/approve?id=${id}`).then(res => {
+    axios.put(`https://server.promisenothi.com/employees/pending_leaves/approve?id=${id}`).then(res => {
       toast('Rejected Successfully')
       getPendingLeaves()
     })
@@ -160,7 +162,7 @@ export const Leaveinfo = () => {
           <option>Select</option>
           {
             leave_types.map(item => (
-              <option value={item.name}>{item.name}</option>
+              <option value={item.name}>{item.value}</option>
             ))
           }
         </select>
@@ -312,9 +314,9 @@ export const Leaveinfo = () => {
                 <td>{item.number_of_days}</td>
                 <td>{item.reason_for_leave}</td>
                 <td>
-                  <div className={`${item.approveed == 'PENDING' ? 'bg-warning' : item.approved =='APPROVED' ? 'bg-success text-white' : 'bg-danger text-white' } p-2`}>
-                  {item.approved}
-                </div></td>
+                  <div className={`${item.approveed == 'PENDING' ? 'bg-warning' : item.approved == 'APPROVED' ? 'bg-success text-white' : 'bg-danger text-white'} p-2`}>
+                    {item.approved}
+                  </div></td>
               </tr>
             ))
           }

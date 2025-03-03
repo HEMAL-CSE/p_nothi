@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import Modal from 'react-modal'
 
-const EditEducation = ({isOpen, setIsOpen, profile}) => {
+const EditEducation = ({ isOpen, setIsOpen, profile }) => {
     const [iname, setIname] = useState('')
-      const [subject, setsubject] = useState('')
-      const [cgpa, setcgpa] = useState('')
-    
-    
-    
-      const [bsc, setbsc] = useState('Bachelor’s Degree')
-      const [bscs, setbscs] = useState([
+    const [subject, setsubject] = useState('')
+    const [cgpa, setcgpa] = useState('')
+
+
+
+    const [bsc, setbsc] = useState('Bachelor’s Degree')
+    const [bscs, setbscs] = useState([
         {
             name: 'Bachelor’s Degree',
         },
@@ -22,7 +22,7 @@ const EditEducation = ({isOpen, setIsOpen, profile}) => {
             name: 'Secondary School Certificate (SSC) ',
         }
     ])
-    
+
     const [passyear, setpassyear] = useState('')
     const [passyears, setpassyears] = useState([
         {
@@ -52,43 +52,43 @@ const EditEducation = ({isOpen, setIsOpen, profile}) => {
         {
             name: '2018',
         },
-      {
-          name: '2019',
-      },
-      {
-          name: '2021',
-      },
-      {
-          name: '2022',
-      },
-      {
-          name: '2023',
-      },
-      {
-        name: '2024',
-    }
+        {
+            name: '2019',
+        },
+        {
+            name: '2021',
+        },
+        {
+            name: '2022',
+        },
+        {
+            name: '2023',
+        },
+        {
+            name: '2024',
+        }
     ])
-    
+
     const addData = e => {
-      e.preventDefault()
-    
-    
-    
-      axios.put(`http://68.178.163.174:5012/employees/education/edit?id=${profile.id}`, {
-        degree: bsc,
-        passing_year: passyear,
-        gpa: cgpa,
-        institution: iname,
-        subject
-      }).then(res => {
-        toast('Profile Updated')
-        setpassyear('')
-        setcgpa('')
-        setIname('')
-        setsubject('')
-        setIsOpen(false)
-      })
-    
+        e.preventDefault()
+
+
+
+        axios.put(`https://server.promisenothi.com/employees/education/edit?id=${profile.id}`, {
+            degree: bsc,
+            passing_year: passyear,
+            gpa: cgpa,
+            institution: iname,
+            subject
+        }).then(res => {
+            toast('Profile Updated')
+            setpassyear('')
+            setcgpa('')
+            setIname('')
+            setsubject('')
+            setIsOpen(false)
+        })
+
     }
 
     useEffect(() => {
@@ -98,32 +98,32 @@ const EditEducation = ({isOpen, setIsOpen, profile}) => {
         setcgpa(profile.gpa)
         setsubject(profile.subject)
     }, [isOpen])
-  return (
-    <Modal
-                style={{
-                    content: {
-                        width: "80%",
-                        height: "80%",
-                        zIndex: 10,
-                        top: "5%",
-                        left: "10%",
-                        right: "10%",
-                        bottom: "5%",
-                        overflow: "auto",
-                        WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                        MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                        boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                        borderRadius: "5px",
-                        border: "1px solid #ccc",
-                    },
-                    overlay: { zIndex: 10000 }
-                }}
-                isOpen={isOpen}
-                onRequestClose={() => {
-                    setIsOpen(false)
-                }}
-            >
-                <div className='details'>
+    return (
+        <Modal
+            style={{
+                content: {
+                    width: "80%",
+                    height: "80%",
+                    zIndex: 10,
+                    top: "5%",
+                    left: "10%",
+                    right: "10%",
+                    bottom: "5%",
+                    overflow: "auto",
+                    WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                },
+                overlay: { zIndex: 10000 }
+            }}
+            isOpen={isOpen}
+            onRequestClose={() => {
+                setIsOpen(false)
+            }}
+        >
+            <div className='details'>
                 {/* <h2>Cow Purchase</h2> */}
                 <ToastContainer />
                 <div className="container-fluid px-5 d-none d-lg-block">
@@ -147,50 +147,50 @@ const EditEducation = ({isOpen, setIsOpen, profile}) => {
 
 
                 <form>
-                <label> Select Degree:</label>
+                    <label> Select Degree:</label>
                     <select value={bsc} onChange={e => {
-                            
-                            setbsc(e.target.value)
-                        }} className='select' >
-                            <option >Select</option>
-                            {
-                                bscs.map(item => (
-                                    <option value={item.name}>{item.name}</option>
-                                ))
-                            }
+
+                        setbsc(e.target.value)
+                    }} className='select' >
+                        <option >Select</option>
+                        {
+                            bscs.map(item => (
+                                <option value={item.name}>{item.name}</option>
+                            ))
+                        }
                     </select>
                     <label> Institute Name:</label>
-                    <input value={iname} onChange={e => setIname(e.target.value)} className='input' type='text'/>
+                    <input value={iname} onChange={e => setIname(e.target.value)} className='input' type='text' />
 
 
                     <label> Select Passing Year:</label>
                     <select value={passyear} onChange={e => {
-                            
-                            setpassyear(e.target.value)
-                        }} className='select' >
-                            <option >Select</option>
-                            {
-                                passyears.map(item => (
-                                    <option value={item.name}>{item.name}</option>
-                                ))
-                            }
+
+                        setpassyear(e.target.value)
+                    }} className='select' >
+                        <option >Select</option>
+                        {
+                            passyears.map(item => (
+                                <option value={item.name}>{item.name}</option>
+                            ))
+                        }
                     </select>
 
                     <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'Subject' : 'Group'}:</label>
-                    <input value={subject} onChange={e => setsubject(e.target.value)} className='input' type='text'/>
+                    <input value={subject} onChange={e => setsubject(e.target.value)} className='input' type='text' />
 
                     <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'CGPA' : 'GPA'}:</label>
-                    <input value={cgpa} onChange={e => setcgpa(e.target.value)} className='input' type='text'/>
+                    <input value={cgpa} onChange={e => setcgpa(e.target.value)} className='input' type='text' />
 
                     <button onClick={addData} className='button'>Submit</button>
-                    
-                  </form>
+
+                </form>
 
 
 
-    </div>
-            </Modal>
-  )
+            </div>
+        </Modal>
+    )
 }
 
 export default EditEducation

@@ -20,7 +20,7 @@ const Register = () => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        axios.post(`http://68.178.163.174:5012/users/register`, {
+        axios.post(`https://server.promisenothi.com/users/register`, {
             name,
             email,
             mobile,
@@ -28,7 +28,7 @@ const Register = () => {
             employee_id,
             role: 10
         }).then(res => {
-            axios.post('http://68.178.163.174:5012/employees/add', {
+            axios.post('https://server.promisenothi.com/employees/add', {
                 user_id: res.data.user_id
             }).then(res => {
                 navigator('/login')
@@ -51,7 +51,7 @@ const Register = () => {
                     <div className="">
                         <div className="d-flex align-items-center justify-content-center">
                             {/* <a href="index.html" className="navbar-brand"> */}
-                                <h1 className="m-0 display-4 text-success2">Authentication</h1>
+                            <h1 className="m-0 display-4 text-success2">Authentication</h1>
                             {/* </a> */}
                         </div>
                     </div>
@@ -83,37 +83,37 @@ const Register = () => {
                     <div className='mb-4'>
                         <label>Password</label>
                         <div className='input-group'>
-                        <input type={`${togglePass ? 'text': 'password'}`} value={password} onChange={e => setPassword(e.target.value)} className='form-control' size={17} placeholder='Password' autoComplete="new-password" />
-                        <span onClick={e => setTogglePass(!togglePass)} className='input-group-text'>
-                            {
-                                togglePass ?
-                                <BsEye /> : <BsEyeSlash />
-                            }
-                        </span>
+                            <input type={`${togglePass ? 'text' : 'password'}`} value={password} onChange={e => setPassword(e.target.value)} className='form-control' size={17} placeholder='Password' autoComplete="new-password" />
+                            <span onClick={e => setTogglePass(!togglePass)} className='input-group-text'>
+                                {
+                                    togglePass ?
+                                        <BsEye /> : <BsEyeSlash />
+                                }
+                            </span>
 
                         </div>                    </div>
                     <div className='mb-4'>
                         <label>Confirm Password</label>
                         <div className='input-group'>
-                        <input type={`${toggleConPass ? 'text': 'password'}`} value={confirm_password} onChange={e => setConfirm_password(e.target.value)} className='form-control' size={17} placeholder='Confirm Password' />
-                        <span onClick={e => setToggleConPass(!toggleConPass)} className='input-group-text'>
-                            {
-                                toggleConPass ?
-                                <BsEye /> : <BsEyeSlash />
-                            }
-                        </span>
+                            <input type={`${toggleConPass ? 'text' : 'password'}`} value={confirm_password} onChange={e => setConfirm_password(e.target.value)} className='form-control' size={17} placeholder='Confirm Password' />
+                            <span onClick={e => setToggleConPass(!toggleConPass)} className='input-group-text'>
+                                {
+                                    toggleConPass ?
+                                        <BsEye /> : <BsEyeSlash />
+                                }
+                            </span>
 
                         </div>
                     </div>
                     <div className='text-center'>
-                    <button type='submit' className='btn btn-success mt-2 text-center'>
-                        Sign Up
-                    </button>
-                    <p className='text-secondary'>If you already have an account, <span onClick={() => {
-                        navigator('/login')
-                    }} role='button' className='text-primary'>Login here</span></p>
+                        <button type='submit' className='btn btn-success mt-2 text-center'>
+                            Sign Up
+                        </button>
+                        <p className='text-secondary'>If you already have an account, <span onClick={() => {
+                            navigator('/login')
+                        }} role='button' className='text-primary'>Login here</span></p>
                     </div>
-                    
+
                 </form>
             </div>
 

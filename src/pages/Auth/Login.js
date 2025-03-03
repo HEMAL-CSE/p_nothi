@@ -17,8 +17,8 @@ const Login = () => {
 
         let emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
-        if(employee_idoremail.match(emailRegex)){
-            axios.post('http://68.178.163.174:5012/users/login', {
+        if (employee_idoremail.match(emailRegex)) {
+            axios.post('https://server.promisenothi.com/users/login', {
                 email: employee_idoremail,
                 password
             }).then(res => {
@@ -27,8 +27,8 @@ const Login = () => {
                 localStorage.setItem('token', res.data.token)
                 toast('Logged In')
             })
-        }else {
-            axios.post('http://68.178.163.174:5012/users/login?email=0', {
+        } else {
+            axios.post('https://server.promisenothi.com/users/login?email=0', {
                 email: employee_idoremail,
                 password
             }).then(res => {
@@ -37,10 +37,10 @@ const Login = () => {
                 localStorage.setItem('token', res.data.token)
 
 
-                axios.get(`http://68.178.163.174:5012/employees/?user_id=${res.data.user_id}`).then(res2 => {
-                    localStorage.setItem('employee_id',res2.data[0].id )
+                axios.get(`https://server.promisenothi.com/employees/?user_id=${res.data.user_id}`).then(res2 => {
+                    localStorage.setItem('employee_id', res2.data[0].id)
                     console.log(res2.data);
-                    
+
 
                     navigator('/employee/general')
                 })
@@ -53,8 +53,8 @@ const Login = () => {
 
     }
 
-  return (
-    <div className='d-flex flex-column justify-content-center align-items-center'>
+    return (
+        <div className='d-flex flex-column justify-content-center align-items-center'>
             <ToastContainer />
             <div className="container-fluid px-5 h-100">
                 <div className="row gx-5 py-3 ">
@@ -67,7 +67,7 @@ const Login = () => {
                     <div className="">
                         <div className="d-flex align-items-center justify-content-center">
                             {/* <a href="index.html" className="navbar-brand"> */}
-                                <h1 className="m-0 display-4 text-success2">Authentication</h1>
+                            <h1 className="m-0 display-4 text-success2">Authentication</h1>
                             {/* </a> */}
                         </div>
                     </div>
@@ -87,29 +87,29 @@ const Login = () => {
                     <div className='mb-4'>
                         <label>Password</label>
                         <div className='input-group'>
-                        <input type={`${togglePass ? 'text': 'password'}`} value={password} onChange={e => setPassword(e.target.value)} className='form-control' size={17} placeholder='Password' autoComplete="new-password" />
-                        <span onClick={e => setTogglePass(!togglePass)} className='input-group-text'>
-                            {
-                                togglePass ?
-                                <BsEye /> : <BsEyeSlash />
-                            }
-                        </span>
+                            <input type={`${togglePass ? 'text' : 'password'}`} value={password} onChange={e => setPassword(e.target.value)} className='form-control' size={17} placeholder='Password' autoComplete="new-password" />
+                            <span onClick={e => setTogglePass(!togglePass)} className='input-group-text'>
+                                {
+                                    togglePass ?
+                                        <BsEye /> : <BsEyeSlash />
+                                }
+                            </span>
 
                         </div>                    </div>
                     <div className='text-center'>
-                    <button type='submit' className='btn btn-success mt-2 text-center'>
-                        Login
-                    </button>
-                    <p className='text-secondary'>If you do not have an account, <span onClick={() => {
-                        navigator('/register')
-                    }} role='button' className='text-primary'>Sign up here</span></p>
+                        <button type='submit' className='btn btn-success mt-2 text-center'>
+                            Login
+                        </button>
+                        <p className='text-secondary'>If you do not have an account, <span onClick={() => {
+                            navigator('/register')
+                        }} role='button' className='text-primary'>Sign up here</span></p>
                     </div>
-                    
+
                 </form>
             </div>
 
         </div>
-  )
+    )
 }
 
 export default Login

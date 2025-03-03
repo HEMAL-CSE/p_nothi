@@ -31,13 +31,13 @@ const Store = () => {
   ])
 
   const getData = () => {
-    axios.get('http://68.178.163.174:5012/employees/store').then(res => {
+    axios.get('https://server.promisenothi.com/employees/store').then(res => {
       setData(res.data)
     })
   }
 
   useEffect(() => {
-    axios.get('http://68.178.163.174:5012/employees/item_types').then(res => {
+    axios.get('https://server.promisenothi.com/employees/item_types').then(res => {
       setItem_types(res.data)
     })
 
@@ -47,7 +47,7 @@ const Store = () => {
   const addData = (e) => {
     e.preventDefault()
 
-    axios.post(`http://68.178.163.174:5012/employees/store/add`, {
+    axios.post(`https://server.promisenothi.com/employees/store/add`, {
       item_type,
       available_quantity,
       price,
@@ -63,7 +63,7 @@ const Store = () => {
   const editData = (e, id) => {
     e.preventDefault()
 
-    axios.put(`http://68.178.163.174:5012/employees/store/edit?id=${id}`, {
+    axios.put(`https://server.promisenothi.com/employees/store/edit?id=${id}`, {
       item_type: edit_item_type,
       available_quantity: edit_available_quantity,
       price: edit_price,
@@ -99,47 +99,47 @@ const Store = () => {
         </div>
       </div>
 
-    { localStorage.getItem('role') == '11' &&  <div>
-
-     
-
-      <label> Item Type:</label>
-      <select className='select' onChange={e => {
-        setItem_type(e.target.value)
-      }}>
-        <option>Select</option>
-        {
-          item_types.map(item => (
-            <option value={item.id}>{item.name}</option>
-          ))
-        }
-      </select>
-
-      <label>Item name</label>
-      <input className='input' value={item_name} onChange={e => setItem_name(e.target.value)} />
-
-
-      <label>Available Quantity</label>
-      <input className='input' value={available_quantity} onChange={e => setAvailable_quantity(e.target.value)} />
-
-      <label>Price</label>
-      <input className='input' value={price} onChange={e => setPrice(e.target.value)} />
+      {localStorage.getItem('role') == '11' && <div>
 
 
 
-      <label>Unit</label>
-      <select className='select' onChange={e => {
-        setUnit(e.target.value)
-      }}>
-        <option>Select</option>
-        {
-          units.map(item => (
-            <option value={item}>{item}</option>
-          ))
-        }
-      </select>
+        <label> Item Type:</label>
+        <select className='select' onChange={e => {
+          setItem_type(e.target.value)
+        }}>
+          <option>Select</option>
+          {
+            item_types.map(item => (
+              <option value={item.id}>{item.name}</option>
+            ))
+          }
+        </select>
 
-      <button onClick={addData} className='button'>Submit</button>
+        <label>Item name</label>
+        <input className='input' value={item_name} onChange={e => setItem_name(e.target.value)} />
+
+
+        <label>Available Quantity</label>
+        <input className='input' value={available_quantity} onChange={e => setAvailable_quantity(e.target.value)} />
+
+        <label>Price</label>
+        <input className='input' value={price} onChange={e => setPrice(e.target.value)} />
+
+
+
+        <label>Unit</label>
+        <select className='select' onChange={e => {
+          setUnit(e.target.value)
+        }}>
+          <option>Select</option>
+          {
+            units.map(item => (
+              <option value={item}>{item}</option>
+            ))
+          }
+        </select>
+
+        <button onClick={addData} className='button'>Submit</button>
 
       </div>}
 
@@ -163,7 +163,7 @@ const Store = () => {
                 <td>{item.available_quantity}</td>
                 <td>{item.price}</td>
                 <td>{item.unit}</td>
-               {localStorage.getItem('role') == '11' && <td>
+                {localStorage.getItem('role') == '11' && <td>
                   <button onClick={e => {
                     setEdit_Available_quantity(item.available_quantity)
                     setEdit_Item_type(item.item_type)
@@ -181,7 +181,7 @@ const Store = () => {
         </tbody>
       </table>
 
-      {localStorage.getItem('role') == '11' &&<Modal
+      {localStorage.getItem('role') == '11' && <Modal
         style={{
           content: {
             width: "80%",
@@ -207,32 +207,32 @@ const Store = () => {
       >
         <div className='details'>
 
-      
-        <label> Item Type:</label>
-        <select defaultValue={edit_item_type} className='select' onChange={e => {
-          setEdit_Item_type(e.target.value)
-        }}>
-          <option>Select</option>
-          {
-            item_types.map(item => (
-              <option value={item.id}>{item.name}</option>
-            ))
-          }
-        </select>
 
-        <label>Item name</label>
-        <input className='input' value={edit_item_name} onChange={e => setEdit_Item_name(e.target.value)} />
+          <label> Item Type:</label>
+          <select defaultValue={edit_item_type} className='select' onChange={e => {
+            setEdit_Item_type(e.target.value)
+          }}>
+            <option>Select</option>
+            {
+              item_types.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label>Item name</label>
+          <input className='input' value={edit_item_name} onChange={e => setEdit_Item_name(e.target.value)} />
 
 
-        <label>Available Quantity</label>
-        <input className='input' value={edit_available_quantity} onChange={e => setEdit_Available_quantity(e.target.value)} />
+          <label>Available Quantity</label>
+          <input className='input' value={edit_available_quantity} onChange={e => setEdit_Available_quantity(e.target.value)} />
 
-        <label>Price</label>
-        <input className='input' value={edit_price} onChange={e => setEdit_Price(e.target.value)} />
-        
+          <label>Price</label>
+          <input className='input' value={edit_price} onChange={e => setEdit_Price(e.target.value)} />
 
-      <button onClick={e => editData(e, edit_id)} className='button'>Submit</button>
-        
+
+          <button onClick={e => editData(e, edit_id)} className='button'>Submit</button>
+
         </div>
       </Modal>}
     </div>

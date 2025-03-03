@@ -21,7 +21,7 @@ export const Jobinfo = () => {
         e.preventDefault()
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.post(`http://68.178.163.174:5012/employees/job_info/add`, {
+        axios.post(`https://server.promisenothi.com/employees/job_info/add`, {
             employee_id,
             title: jobtittle,
             department: dept,
@@ -43,21 +43,21 @@ export const Jobinfo = () => {
     }
 
     useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
+        axios.get('https://server.promisenothi.com/employees/departments').then(res => {
             setDepartments(res.data)
         })
     }, [])
 
     useEffect(() => {
 
-        if(dept == 2){
+        if (dept == 2) {
             setdivisions(divisionsdata)
-        
+
         }
     }, [dept])
 
     const getBranches = (division_id) => {
-        axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
             setBranches(res.data)
         })
     }
@@ -106,36 +106,36 @@ export const Jobinfo = () => {
                 </select>
 
                 {dept == 2 &&
-                   <div>
-                   <label>Division</label>
+                    <div>
+                        <label>Division</label>
 
-                <select value={division} onChange={e => {
+                        <select value={division} onChange={e => {
 
-                    setdivision(e.target.value)
-                    getBranches(e.target.value)
-                }} className='select' >
-                    <option >Select</option>
-                    {
-                        divisions.map(item => (
-                            <option value={item.id}>{item.name}</option>
-                        ))
-                    }
-                </select>
+                            setdivision(e.target.value)
+                            getBranches(e.target.value)
+                        }} className='select' >
+                            <option >Select</option>
+                            {
+                                divisions.map(item => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))
+                            }
+                        </select>
 
-                <label>Branch</label>
+                        <label>Branch</label>
 
-                <select value={branch} onChange={e => {
+                        <select value={branch} onChange={e => {
 
-                    setBranch(e.target.value)
+                            setBranch(e.target.value)
 
-                }} className='select' >
-                    <option >Select</option>
-                    {
-                        branches.map(item => (
-                            <option value={item.id}>{item.name}</option>
-                        ))
-                    }
-                </select></div>}
+                        }} className='select' >
+                            <option >Select</option>
+                            {
+                                branches.map(item => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))
+                            }
+                        </select></div>}
 
 
                 <label> Job Type:</label>

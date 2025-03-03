@@ -36,7 +36,7 @@ const Profile = () => {
     const getGeneralInfo = () => {
         const user_id = localStorage.getItem('user_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/?user_id=${user_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/?user_id=${user_id}`).then(res => {
             if (res.data.length > 0) {
                 setEmployee(res.data[0])
             }
@@ -46,7 +46,7 @@ const Profile = () => {
     const getEducation = () => {
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/education?employee_id=${employee_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/education?employee_id=${employee_id}`).then(res => {
             setEducation(res.data)
         })
     }
@@ -54,7 +54,7 @@ const Profile = () => {
     const getExperience = () => {
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/experience?employee_id=${employee_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/experience?employee_id=${employee_id}`).then(res => {
             setExperience(res.data)
         })
     }
@@ -62,7 +62,7 @@ const Profile = () => {
     const getJobinfo = () => {
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
             if (res.data.length > 0) {
                 setJob_info(res.data[0])
             }
@@ -74,7 +74,7 @@ const Profile = () => {
     const getResponsibility = () => {
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.get(`http://68.178.163.174:5012/employees/job_responsibility?employee_id=${employee_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/job_responsibility?employee_id=${employee_id}`).then(res => {
             if (res.data.length > 0) {
                 setJob_responsibility(res.data[0])
             }
@@ -101,7 +101,7 @@ const Profile = () => {
         e.preventDefault()
 
         if (window.confirm('Do you want to delete this?')) {
-            axios.delete(`http://68.178.163.174:5012/employees/education/delete?id=${id}`)
+            axios.delete(`https://server.promisenothi.com/employees/education/delete?id=${id}`)
                 .then(res => {
                     toast('Deleted Successfully')
                     getEducation()
@@ -114,7 +114,7 @@ const Profile = () => {
         e.preventDefault()
 
         if (window.confirm('Do you want to delete this?')) {
-            axios.delete(`http://68.178.163.174:5012/employees/experience/delete?id=${id}`)
+            axios.delete(`https://server.promisenothi.com/employees/experience/delete?id=${id}`)
                 .then(res => {
                     toast('Deleted Successfully')
                     getExperience()
@@ -161,6 +161,10 @@ const Profile = () => {
         stylesMenuMobileSelected={{backgroundColor: 'white', color: 'black', paddingLeft: '5px', paddingRight: '5px', borderRadius: '5px', border: 'solid 1px gray'}}
          />
     </div> */}
+
+            </div>
+
+            <div className='container-fluid px-5 d-none'>
 
             </div>
 

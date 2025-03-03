@@ -30,7 +30,7 @@ const AllEmployeeInfo = () => {
     const [departments, setDepartments] = useState([])
 
     useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/')
+        axios.get('https://server.promisenothi.com/employees/')
             .then(res => {
                 setData(res.data)
                 console.log(res.data);
@@ -38,7 +38,7 @@ const AllEmployeeInfo = () => {
 
             })
 
-        axios.get('http://68.178.163.174:5012/employees/departments')
+        axios.get('https://server.promisenothi.com/employees/departments')
             .then(res => {
                 setDepartments(res.data)
                 console.log(res.data);
@@ -49,23 +49,23 @@ const AllEmployeeInfo = () => {
 
     useEffect(() => {
 
-        axios.get(`http://68.178.163.174:5012/employees/?user_id=${selectedEmployee.user_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/?user_id=${selectedEmployee.user_id}`).then(res => {
             if (res.data.length > 0) {
                 setEmployee(res.data[0])
             }
         })
 
-        axios.get(`http://68.178.163.174:5012/employees/education?employee_id=${selectedEmployee.id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/education?employee_id=${selectedEmployee.id}`).then(res => {
             setEducation(res.data)
 
 
         })
 
-        axios.get(`http://68.178.163.174:5012/employees/experience?employee_id=${selectedEmployee.id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/experience?employee_id=${selectedEmployee.id}`).then(res => {
             setExperience(res.data)
         })
 
-        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${selectedEmployee.id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${selectedEmployee.id}`).then(res => {
             if (res.data.length > 0) {
                 setJob_info(res.data[0])
             }
@@ -76,7 +76,7 @@ const AllEmployeeInfo = () => {
     }, [selectedEmployee])
 
     useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
+        axios.get('https://server.promisenothi.com/employees/departments').then(res => {
             setDepartments(res.data)
         })
     }, [])
@@ -90,22 +90,22 @@ const AllEmployeeInfo = () => {
     }, [dept])
 
     const getBranches = (division_id) => {
-        axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
             setBranches(res.data)
         })
     }
 
     const getEmployees = () => {
         if (branch != '') {
-            axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_id=${branch}`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
                 setEmployees(res.data)
             })
         } else if (dept == 2 && branch == '' && division != '') {
-            axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
                 setEmployees(res.data)
             })
         } else {
-            axios.get(`http://68.178.163.174:5012/employees?department=${dept}`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
                 setEmployees(res.data)
             })
         }
@@ -224,7 +224,44 @@ const AllEmployeeInfo = () => {
                     </thead>
                     <tbody>
                         {
-                            data.filter(item => [7].includes(item.role_id)).map(item => (
+                            data.filter(item => item.department == 3).map(item => (
+                                <tr>
+                                    <td className='px-3'>{item.user_name}</td>
+                                    <td className='px-3'>{item.employee_id}</td>
+                                    <td className='px-3'>{item.email}</td>
+                                    <td className='px-3'>{item.mobile_no}</td>
+                                    <td className='px-3'>{item.present_address}</td>
+                                    <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
+                                    <td className='px-3'>
+                                        <button onClick={(e) => {
+                                            setIsOpen(true)
+                                            setSelectedEmployee(item)
+                                        }} className='btn btn-warning'>Details</button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div className='border border-1 border-black p-2 m-4'>
+                <h1 className='m-3'>Admin</h1>
+                <table className='mt-10 table'>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Employee ID</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Present Address</th>
+                            <th scope="col">Designation</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data.filter(item => item.department == 14).map(item => (
                                 <tr>
                                     <td className='px-3'>{item.user_name}</td>
                                     <td className='px-3'>{item.employee_id}</td>
@@ -546,6 +583,14 @@ const AllEmployeeInfo = () => {
                         <div className='m-2'>
                             <span className='fw-bold'>Job Designation:</span> {job_info.designation}
                         </div>
+
+                        {job_info.department == 2 && <div className='m-2'>
+                            <span className='fw-bold'>Branch:</span> {job_info.branch_name}
+                        </div>}
+
+                        {job_info.department == 2 && <div className='m-2'>
+                            <span className='fw-bold'>Division:</span> {job_info.division_name}
+                        </div>}
 
                         <div className='m-2'>
                             <span className='fw-bold'>Job Type:</span> {job_info.type}

@@ -16,7 +16,7 @@ const EditResponsibility = ({ isOpen, setIsOpen, profile }) => {
 
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.post(`https://server.promisenothi.com/employees/job_responsibility/add`, {
+        axios.post(`http://68.178.163.174:5012/employees/job_responsibility/add`, {
             employee_id,
             primary_duties,
             key_responsibilities

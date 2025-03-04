@@ -20,7 +20,7 @@ const Register = () => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        axios.post(`https://server.promisenothi.com/users/register`, {
+        axios.post(`http://68.178.163.174:5012/users/register`, {
             name,
             email,
             mobile,
@@ -28,7 +28,7 @@ const Register = () => {
             employee_id,
             role: 10
         }).then(res => {
-            axios.post('https://server.promisenothi.com/employees/add', {
+            axios.post('http://68.178.163.174:5012/employees/add', {
                 user_id: res.data.user_id
             }).then(res => {
                 navigator('/login')

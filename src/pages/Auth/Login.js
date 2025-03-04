@@ -18,7 +18,7 @@ const Login = () => {
         let emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
         if (employee_idoremail.match(emailRegex)) {
-            axios.post('https://server.promisenothi.com/users/login', {
+            axios.post('http://68.178.163.174:5012/users/login', {
                 email: employee_idoremail,
                 password
             }).then(res => {
@@ -28,7 +28,7 @@ const Login = () => {
                 toast('Logged In')
             })
         } else {
-            axios.post('https://server.promisenothi.com/users/login?email=0', {
+            axios.post('http://68.178.163.174:5012/users/login?email=0', {
                 email: employee_idoremail,
                 password
             }).then(res => {
@@ -37,7 +37,7 @@ const Login = () => {
                 localStorage.setItem('token', res.data.token)
 
 
-                axios.get(`https://server.promisenothi.com/employees/?user_id=${res.data.user_id}`).then(res2 => {
+                axios.get(`http://68.178.163.174:5012/employees/?user_id=${res.data.user_id}`).then(res2 => {
                     localStorage.setItem('employee_id', res2.data[0].id)
                     console.log(res2.data);
 

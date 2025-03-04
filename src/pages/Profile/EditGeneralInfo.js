@@ -79,7 +79,7 @@ const EditGeneralInfo = ({ isOpen, setIsOpen, profile }) => {
 
         const user_id = localStorage.getItem('user_id')
 
-        axios.put(`https://server.promisenothi.com/employees/edit?user_id=${user_id}`, {
+        axios.put(`http://68.178.163.174:5012/employees/edit?user_id=${user_id}`, {
             name,
             father_name: fname,
             mother_name: mname,

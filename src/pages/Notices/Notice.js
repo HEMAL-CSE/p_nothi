@@ -35,12 +35,15 @@ export const Notice = () => {
   const [employee, setEmployee] = useState('')
 
   const [departments, setDepartments] = useState([])
+  const [notice_for_items, setNotice_for_items] = useState([])
   const [divisions, setDivisions] = useState([])
   const [branches, setBranches] = useState([])
   const [employees, setEmployees] = useState([])
 
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  const [management_checked, setManagement_checked] = useState([])
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -62,11 +65,11 @@ export const Notice = () => {
 
   const getEmployees = (branch_id, department) => {
     if (notice_for == 'Individual' && department == 2) {
-      axios.get(`https://server.promisenothi.com/employees?branch_id=${branch_id}`).then(res => {
+      axios.get(`http://68.178.163.174:5012/employees?branch_id=${branch_id}`).then(res => {
         setEmployees(res.data)
       })
     } else if (notice_for == 'Individual' && department != 2) {
-      axios.get(`https://server.promisenothi.com/employees?department=${department}`).then(res => {
+      axios.get(`http://68.178.163.174:5012/employees?department=${department}`).then(res => {
         setEmployees(res.data)
       })
     }
@@ -76,22 +79,23 @@ export const Notice = () => {
     const employee_id = localStorage.getItem('employee_id')
 
 
-    axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
+    axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
       setUser_department(res.data[0].department)
 
-      if (res.data[0].department != 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))) {
-        axios.get(`https://server.promisenothi.com/employees/notice?all=1&&promise_group=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
-
+      if (res.data[0].department != 2 && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
+        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&promise_group=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+          console.log(res.data);
           setData(res.data)
         })
-      } else if (res.data[0].department == 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))) {
-        axios.get(`https://server.promisenothi.com/employees/notice?all=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
-
+      } else if (res.data[0].department == 2 && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
+        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+          console.log(res.data);
           setData(res.data)
         })
       } else {
-        axios.get(`https://server.promisenothi.com/employees/notice`).then(res => {
-
+        axios.get(`http://68.178.163.174:5012/employees/notice`).then(res => {
+            console.log(res.data);
+            
           setData(res.data)
         })
       }
@@ -102,8 +106,15 @@ export const Notice = () => {
 
     getData()
 
+    axios.get('http://68.178.163.174:5012/employees/notice_for_items').then(res => {
+      let data = res.data.map(i => {
+        return { ...i, checked: true }
+      })
+      setNotice_for_items(data)
 
-    axios.get('https://server.promisenothi.com/employees/departments').then(res => {
+    })
+
+    axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
       setDepartments(res.data)
     })
   }, [])
@@ -117,7 +128,7 @@ export const Notice = () => {
   }, [department])
 
   const getBranches = (division_id) => {
-    axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
+    axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
       setBranches(res.data)
     })
   }
@@ -126,7 +137,7 @@ export const Notice = () => {
     e.preventDefault()
 
     if (window.confirm('Do you want to delete this?')) {
-      axios.delete(`https://server.promisenothi.com/employees/notice/delete?id=${id}`).then(res => {
+      axios.delete(`http://68.178.163.174:5012/employees/notice/delete?id=${id}`).then(res => {
         toast('Deleted')
         getData()
       })
@@ -154,9 +165,23 @@ export const Notice = () => {
     formData.append('branch', branch)
     formData.append('employee_id', employee)
 
-    axios.post('https://server.promisenothi.com/employees/notice/add', formData)
+    axios.post('http://68.178.163.174:5012/employees/notice/add', formData)
       .then(res => {
         toast('Submitted')
+
+        if(notice_for == 'Management'){
+          notice_for_items.map(item => {
+            if(item.checked == true){
+              axios.post('http://68.178.163.174:5012/employees/notice_fors/add', {
+                notice_id: res.data.id,
+                notice_for_item_id: item.id
+              }).then(res => {
+                toast('Submitted')
+              })
+            }
+          })
+        }
+
         getData()
       })
   }
@@ -216,6 +241,34 @@ export const Notice = () => {
             ))
           }
         </select>
+
+        {
+          notice_for == 'Management' &&
+          <div>
+            {
+              notice_for_items.map((item, i) => (
+                <div className='d-flex justify-content-start'>
+                  <input type='checkbox' checked={item.checked} onChange={(value) => {
+                    setNotice_for_items(
+                      notice_for_items.map(
+                        item2 => {
+                          if (item2.id == item.id) {
+                            return { ...item2, checked: !item2.checked }
+                          } else {
+                            return { ...item2 }
+                          }
+                        }
+                      )
+                    )
+
+                    console.log(notice_for_items);
+                    
+                  }} value={item.id} /><span className='mx-3'>{item.name}</span>
+                </div>
+              ))
+            }
+          </div>
+        }
 
 
         {notice_for == 'Department' || notice_for == 'Individual' ?

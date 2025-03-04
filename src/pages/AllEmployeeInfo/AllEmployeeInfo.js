@@ -30,7 +30,7 @@ const AllEmployeeInfo = () => {
     const [departments, setDepartments] = useState([])
 
     useEffect(() => {
-        axios.get('https://server.promisenothi.com/employees/')
+        axios.get('http://68.178.163.174:5012/employees/')
             .then(res => {
                 setData(res.data)
                 console.log(res.data);
@@ -38,7 +38,7 @@ const AllEmployeeInfo = () => {
 
             })
 
-        axios.get('https://server.promisenothi.com/employees/departments')
+        axios.get('http://68.178.163.174:5012/employees/departments')
             .then(res => {
                 setDepartments(res.data)
                 console.log(res.data);
@@ -49,23 +49,23 @@ const AllEmployeeInfo = () => {
 
     useEffect(() => {
 
-        axios.get(`https://server.promisenothi.com/employees/?user_id=${selectedEmployee.user_id}`).then(res => {
+        axios.get(`http://68.178.163.174:5012/employees/?user_id=${selectedEmployee.user_id}`).then(res => {
             if (res.data.length > 0) {
                 setEmployee(res.data[0])
             }
         })
 
-        axios.get(`https://server.promisenothi.com/employees/education?employee_id=${selectedEmployee.id}`).then(res => {
+        axios.get(`http://68.178.163.174:5012/employees/education?employee_id=${selectedEmployee.id}`).then(res => {
             setEducation(res.data)
 
 
         })
 
-        axios.get(`https://server.promisenothi.com/employees/experience?employee_id=${selectedEmployee.id}`).then(res => {
+        axios.get(`http://68.178.163.174:5012/employees/experience?employee_id=${selectedEmployee.id}`).then(res => {
             setExperience(res.data)
         })
 
-        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${selectedEmployee.id}`).then(res => {
+        axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${selectedEmployee.id}`).then(res => {
             if (res.data.length > 0) {
                 setJob_info(res.data[0])
             }
@@ -76,7 +76,7 @@ const AllEmployeeInfo = () => {
     }, [selectedEmployee])
 
     useEffect(() => {
-        axios.get('https://server.promisenothi.com/employees/departments').then(res => {
+        axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
             setDepartments(res.data)
         })
     }, [])
@@ -90,22 +90,22 @@ const AllEmployeeInfo = () => {
     }, [dept])
 
     const getBranches = (division_id) => {
-        axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
+        axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
             setBranches(res.data)
         })
     }
 
     const getEmployees = () => {
         if (branch != '') {
-            axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
+            axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_id=${branch}`).then(res => {
                 setEmployees(res.data)
             })
         } else if (dept == 2 && branch == '' && division != '') {
-            axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
+            axios.get(`http://68.178.163.174:5012/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
                 setEmployees(res.data)
             })
         } else {
-            axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
+            axios.get(`http://68.178.163.174:5012/employees?department=${dept}`).then(res => {
                 setEmployees(res.data)
             })
         }

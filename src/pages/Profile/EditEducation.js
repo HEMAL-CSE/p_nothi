@@ -74,7 +74,7 @@ const EditEducation = ({ isOpen, setIsOpen, profile }) => {
 
 
 
-        axios.put(`https://server.promisenothi.com/employees/education/edit?id=${profile.id}`, {
+        axios.put(`http://68.178.163.174:5012/employees/education/edit?id=${profile.id}`, {
             degree: bsc,
             passing_year: passyear,
             gpa: cgpa,

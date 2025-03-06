@@ -137,6 +137,10 @@ export const Notice = () => {
 
           setAll_data(uniq)
         })
+      }else{
+        axios.get(`https://server.promisenothi.com/employees/notice?all=1`).then(res => {
+          setAll_data(res.data)
+        })
       }
     })
   }

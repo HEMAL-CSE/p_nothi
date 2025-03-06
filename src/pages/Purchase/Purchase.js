@@ -46,13 +46,13 @@ const Purchase = () => {
     }
 
     const getData = () => {
-        axios.get('http://68.178.163.174:5012/employees/purchase').then(res => {
+        axios.get('https://server.promisenothi.com/employees/purchase').then(res => {
             setData(res.data)
         })
     }
 
     useEffect(() => {
-        axios.get(`http://68.178.163.174:5012/employees/requisition?approved_hr=APPROVED&&not_available=1`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED&&not_available=1`).then(res => {
             setRequisitions(group(res.data))
         })
 
@@ -64,7 +64,7 @@ const Purchase = () => {
 
         let employee_id = localStorage.getItem('employee_id')
 
-        axios.post(`http://68.178.163.174:5012/employees/purchase/add`, {
+        axios.post(`https://server.promisenothi.com/employees/purchase/add`, {
             employee_id,
             name,
             company_name,
@@ -79,7 +79,7 @@ const Purchase = () => {
     const editData = (e, id) => {
         e.preventDefault()
 
-        axios.put(`http://68.178.163.174:5012/employees/purchase/edit?id=${id}`, {
+        axios.put(`https://server.promisenothi.com/employees/purchase/edit?id=${id}`, {
             name: edit_name,
             company_name: edit_company_name,
             price: edit_price
@@ -95,7 +95,7 @@ const Purchase = () => {
         e.preventDefault()
 
         if (window.confirm('Do you want to delete this?')) {
-            axios.delete(`http://68.178.163.174:5012/employees/purchase/delete?id=${id}`).then(res => {
+            axios.delete(`https://server.promisenothi.com/employees/purchase/delete?id=${id}`).then(res => {
                 toast('Deleted Successfully')
 
                 getData()
@@ -107,12 +107,12 @@ const Purchase = () => {
 
     const approve = (e, role, id) => {
         if (role == '2') {
-            axios.put(`http://68.178.163.174:5012/employees/purchase/approve?approved_ed=1&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/purchase/approve?approved_ed=1&&id=${id}`).then(res => {
                 toast('Approved')
                 getData()
             })
         } else if (role == '1') {
-            axios.put(`http://68.178.163.174:5012/employees/purchase/approve?approved_md=1&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/purchase/approve?approved_md=1&&id=${id}`).then(res => {
                 toast('Approved')
                 getData()
             })
@@ -121,12 +121,12 @@ const Purchase = () => {
 
     const reject = (e, role, id) => {
         if (role == '2') {
-            axios.put(`http://68.178.163.174:5012/employees/purchase/reject?approved_ed=1&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/purchase/reject?approved_ed=1&&id=${id}`).then(res => {
                 toast('Rejected')
                 getData()
             })
         } else if (role == '1') {
-            axios.put(`http://68.178.163.174:5012/employees/purchase/reject?approved_md=1&&id=${id}`).then(res => {
+            axios.put(`https://server.promisenothi.com/employees/purchase/reject?approved_md=1&&id=${id}`).then(res => {
                 toast('Rejected')
                 getData()
             })
@@ -134,7 +134,7 @@ const Purchase = () => {
     }
 
     const purchaseConfirmed = (e, id) => {
-        axios.put(`http://68.178.163.174:5012/employees/purchase/confirm?id=${id}`).then(res => {
+        axios.put(`https://server.promisenothi.com/employees/purchase/confirm?id=${id}`).then(res => {
             toast('Purchase Confirmed')
             getData()
         })

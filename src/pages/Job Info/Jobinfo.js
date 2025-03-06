@@ -21,7 +21,7 @@ export const Jobinfo = () => {
         e.preventDefault()
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.post(`http://68.178.163.174:5012/employees/job_info/add`, {
+        axios.post(`https://server.promisenothi.com/employees/job_info/add`, {
             employee_id,
             title: jobtittle,
             department: dept,
@@ -43,7 +43,7 @@ export const Jobinfo = () => {
     }
 
     useEffect(() => {
-        axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
+        axios.get('https://server.promisenothi.com/employees/departments').then(res => {
             setDepartments(res.data)
         })
     }, [])
@@ -57,7 +57,7 @@ export const Jobinfo = () => {
     }, [dept])
 
     const getBranches = (division_id) => {
-        axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
             setBranches(res.data)
         })
     }

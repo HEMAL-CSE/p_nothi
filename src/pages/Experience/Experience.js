@@ -14,7 +14,7 @@ export const Experience = () => {
         e.preventDefault()
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.post(`http://68.178.163.174:5012/employees/experience/add`, {
+        axios.post(`https://server.promisenothi.com/employees/experience/add`, {
             employee_id,
             title: jobtittle,
             // department: dept,

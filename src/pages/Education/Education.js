@@ -12,7 +12,7 @@ export const Education = () => {
 
 
 
-    const [bsc, setbsc] = useState('Bachelor’s Degree')
+    const [bsc, setbsc] = useState('')
     const [bscs, setbscs] = useState([
         {
             name: 'Diploma Degree',
@@ -82,7 +82,7 @@ export const Education = () => {
 
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.post(`http://68.178.163.174:5012/employees/education/add`, {
+        axios.post(`https://server.promisenothi.com/employees/education/add`, {
             employee_id,
             degree: bsc,
             passing_year: passyear,

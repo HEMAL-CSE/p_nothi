@@ -31,13 +31,13 @@ const Store = () => {
   ])
 
   const getData = () => {
-    axios.get('http://68.178.163.174:5012/employees/store').then(res => {
+    axios.get('https://server.promisenothi.com/employees/store').then(res => {
       setData(res.data)
     })
   }
 
   useEffect(() => {
-    axios.get('http://68.178.163.174:5012/employees/item_types').then(res => {
+    axios.get('https://server.promisenothi.com/employees/item_types').then(res => {
       setItem_types(res.data)
     })
 
@@ -47,7 +47,7 @@ const Store = () => {
   const addData = (e) => {
     e.preventDefault()
 
-    axios.post(`http://68.178.163.174:5012/employees/store/add`, {
+    axios.post(`https://server.promisenothi.com/employees/store/add`, {
       item_type,
       available_quantity,
       price,
@@ -63,7 +63,7 @@ const Store = () => {
   const editData = (e, id) => {
     e.preventDefault()
 
-    axios.put(`http://68.178.163.174:5012/employees/store/edit?id=${id}`, {
+    axios.put(`https://server.promisenothi.com/employees/store/edit?id=${id}`, {
       item_type: edit_item_type,
       available_quantity: edit_available_quantity,
       price: edit_price,

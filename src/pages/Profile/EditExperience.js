@@ -16,7 +16,7 @@ const EditExperience = ({ isOpen, setIsOpen, profile }) => {
         e.preventDefault()
         const employee_id = localStorage.getItem('employee_id')
 
-        axios.put(`http://68.178.163.174:5012/employees/experience/edit?id=${profile.id}`, {
+        axios.put(`https://server.promisenothi.com/employees/experience/edit?id=${profile.id}`, {
             title: jobtittle,
             // department: dept,
             company_name: jobdeg,

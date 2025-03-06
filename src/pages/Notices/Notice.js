@@ -10,7 +10,13 @@ import moment from 'moment';
 
 export const Notice = () => {
 
-  const [data, setData] = useState([])
+  const [all_data, setAll_data] = useState([])
+
+  const [department_data, setDepartment_data] = useState([])
+
+  const [individual_data, setIndividual_data] = useState([])
+
+  const [management_data, setManagement_data] = useState([])
 
   const [notice_type, setNotice_type] = useState('')
   const [notice_type_others, setNotice_type_others] = useState('')
@@ -65,11 +71,11 @@ export const Notice = () => {
 
   const getEmployees = (branch_id, department) => {
     if (notice_for == 'Individual' && department == 2) {
-      axios.get(`http://68.178.163.174:5012/employees?branch_id=${branch_id}`).then(res => {
+      axios.get(`https://server.promisenothi.com/employees?branch_id=${branch_id}`).then(res => {
         setEmployees(res.data)
       })
     } else if (notice_for == 'Individual' && department != 2) {
-      axios.get(`http://68.178.163.174:5012/employees?department=${department}`).then(res => {
+      axios.get(`https://server.promisenothi.com/employees?department=${department}`).then(res => {
         setEmployees(res.data)
       })
     }
@@ -79,24 +85,57 @@ export const Notice = () => {
     const employee_id = localStorage.getItem('employee_id')
 
 
-    axios.get(`http://68.178.163.174:5012/employees/job_info?employee_id=${employee_id}`).then(res => {
+    axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
       setUser_department(res.data[0].department)
 
-      if (res.data[0].department != 2 && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
-        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&promise_group=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+
+
+      if (res.data[0].department != '2' && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
+        axios.get(`https://server.promisenothi.com/employees/notice?for_department=1&&department=${res.data[0].department}`).then(res => {
           console.log(res.data);
-          setData(res.data)
+          setDepartment_data(res.data)
         })
-      } else if (res.data[0].department == 2 && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
-        axios.get(`http://68.178.163.174:5012/employees/notice?all=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
+
+        axios.get(`https://server.promisenothi.com/employees/notice?for_individual=1&&department=${res.data[0].department}&&employee_id=${employee_id}`).then(res => {
+          setIndividual_data(res.data)
+        })
+      } else if (res.data[0].department == '2' && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
+        axios.get(`https://server.promisenothi.com/employees/notice?for_department=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}`).then(res => {
           console.log(res.data);
-          setData(res.data)
+          setDepartment_data(res.data)
         })
-      } else {
-        axios.get(`http://68.178.163.174:5012/employees/notice`).then(res => {
-            console.log(res.data);
-            
-          setData(res.data)
+
+        axios.get(`https://server.promisenothi.com/employees/notice?for_individual=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`)
+          .then(res => {
+            setIndividual_data(res.data)
+          })
+      }
+
+
+
+
+      if (['1', '2', '3', '12'].includes(localStorage.getItem('role')) && ['4', '5', '6', '12'].includes(res.data[0].department)) {
+        axios.get(`https://server.promisenothi.com/employees/notice?notice_for_role=12&&notice_for_department=12`).then(res => {
+          console.log(res.data);
+
+          setManagement_data(res.data)
+        })
+      }
+
+
+      if (res.data[0].department == 3) {
+        axios.get(`https://server.promisenothi.com/employees/notice`).then(res => {
+
+
+          let uniq = res.data.filter(
+            (item, i) => i == res.data.findIndex(
+              other => item.id == other.id
+            )
+          )
+
+          console.log(uniq);
+
+          setAll_data(uniq)
         })
       }
     })
@@ -106,7 +145,7 @@ export const Notice = () => {
 
     getData()
 
-    axios.get('http://68.178.163.174:5012/employees/notice_for_items').then(res => {
+    axios.get('https://server.promisenothi.com/employees/notice_for_items').then(res => {
       let data = res.data.map(i => {
         return { ...i, checked: true }
       })
@@ -114,7 +153,7 @@ export const Notice = () => {
 
     })
 
-    axios.get('http://68.178.163.174:5012/employees/departments').then(res => {
+    axios.get('https://server.promisenothi.com/employees/departments').then(res => {
       setDepartments(res.data)
     })
   }, [])
@@ -128,7 +167,7 @@ export const Notice = () => {
   }, [department])
 
   const getBranches = (division_id) => {
-    axios.get(`http://68.178.163.174:5012/employees/branches?division_id=${division_id}`).then(res => {
+    axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
       setBranches(res.data)
     })
   }
@@ -137,7 +176,7 @@ export const Notice = () => {
     e.preventDefault()
 
     if (window.confirm('Do you want to delete this?')) {
-      axios.delete(`http://68.178.163.174:5012/employees/notice/delete?id=${id}`).then(res => {
+      axios.delete(`https://server.promisenothi.com/employees/notice/delete?id=${id}`).then(res => {
         toast('Deleted')
         getData()
       })
@@ -165,14 +204,14 @@ export const Notice = () => {
     formData.append('branch', branch)
     formData.append('employee_id', employee)
 
-    axios.post('http://68.178.163.174:5012/employees/notice/add', formData)
+    axios.post('https://server.promisenothi.com/employees/notice/add', formData)
       .then(res => {
         toast('Submitted')
 
-        if(notice_for == 'Management'){
+        if (notice_for == 'Management') {
           notice_for_items.map(item => {
-            if(item.checked == true){
-              axios.post('http://68.178.163.174:5012/employees/notice_fors/add', {
+            if (item.checked == true) {
+              axios.post('https://server.promisenothi.com/employees/notice_fors/add', {
                 notice_id: res.data.id,
                 notice_for_item_id: item.id
               }).then(res => {
@@ -262,7 +301,7 @@ export const Notice = () => {
                     )
 
                     console.log(notice_for_items);
-                    
+
                   }} value={item.id} /><span className='mx-3'>{item.name}</span>
                 </div>
               ))
@@ -392,6 +431,7 @@ export const Notice = () => {
       </form>}
 
       <div className='mt-5'>
+        <h4>Notice for all</h4>
         <table className='table mt-3'>
           <thead>
             <tr>
@@ -403,7 +443,77 @@ export const Notice = () => {
           </thead>
           <tbody>
             {
-              data.map(item => (
+              all_data.map(item => (
+                <tr>
+                  <td>{item.poster_name}</td>
+                  <td>{item.notice_for}</td>
+                  <td>
+                    <button onClick={e => {
+                      setDetailsOpen(true)
+                      setNotice(item)
+                      console.log(item.notice_desc);
+
+                    }} className='btn btn-warning'>Details</button>
+                  </td>
+                  {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <td>
+                    <button onClick={e => deleteData(e, item.id)} className='btn btn-danger'>Delete</button>
+                  </td>}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div className='mt-5'>
+        <h4>Notice for Department</h4>
+        <table className='table mt-3'>
+          <thead>
+            <tr>
+              <th>Notice From</th>
+              <th>Notice For</th>
+              <th>Details</th>
+              {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              department_data.map(item => (
+                <tr>
+                  <td>{item.poster_name}</td>
+                  <td>{item.notice_for}</td>
+                  <td>
+                    <button onClick={e => {
+                      setDetailsOpen(true)
+                      setNotice(item)
+                      console.log(item.notice_desc);
+
+                    }} className='btn btn-warning'>Details</button>
+                  </td>
+                  {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <td>
+                    <button onClick={e => deleteData(e, item.id)} className='btn btn-danger'>Delete</button>
+                  </td>}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div className='mt-5'>
+        <h4>Notice for Individual</h4>
+        <table className='table mt-3'>
+          <thead>
+            <tr>
+              <th>Notice From</th>
+              <th>Notice For</th>
+              <th>Details</th>
+              {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              individual_data.map(item => (
                 <tr>
                   <td>{item.poster_name}</td>
                   <td>{item.notice_for}</td>
@@ -467,7 +577,7 @@ export const Notice = () => {
 
           {
             notice.notice_for == 'Individual' &&
-            <h6>Branch: {notice.employee_name}</h6>
+            <h6>Employee: {notice.employee_name}</h6>
           }
         </div>
       </Modal>

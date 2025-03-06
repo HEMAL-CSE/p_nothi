@@ -10,8 +10,11 @@ const EditEducation = ({ isOpen, setIsOpen, profile }) => {
 
 
 
-    const [bsc, setbsc] = useState('Bachelor’s Degree')
+    const [bsc, setbsc] = useState('')
     const [bscs, setbscs] = useState([
+        {
+            name: 'Master’s Degree',
+        },
         {
             name: 'Bachelor’s Degree',
         },
@@ -74,7 +77,7 @@ const EditEducation = ({ isOpen, setIsOpen, profile }) => {
 
 
 
-        axios.put(`http://68.178.163.174:5012/employees/education/edit?id=${profile.id}`, {
+        axios.put(`https://server.promisenothi.com/employees/education/edit?id=${profile.id}`, {
             degree: bsc,
             passing_year: passyear,
             gpa: cgpa,

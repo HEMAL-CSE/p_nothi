@@ -137,7 +137,7 @@ export const Notice = () => {
 
           setAll_data(uniq)
         })
-      }else{
+      } else {
         axios.get(`https://server.promisenothi.com/employees/notice?all=1`).then(res => {
           setAll_data(res.data)
         })
@@ -568,7 +568,7 @@ export const Notice = () => {
           <p>Date: {moment(notice.notice_date).format('DD/MM/yyyy')}</p>
           <h2 className='text-center mb-4 text-decoration-underline'>Office Notice</h2>
           <p>{notice.notice_desc}</p>
-          <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{ cursor: 'pointer' }}>Notice File</a>
+          {notice.notice_file != 'null' && <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{ cursor: 'pointer' }}>Notice File</a>}
           <h5 className='mt-4'>Notice For: {notice.notice_for}</h5>
           {
             notice.notice_for == 'Department' &&

@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
+import Approval from '../../Components/Approval'
 
 
 const ReqHq = ({ getData, group }) => {
@@ -264,7 +265,7 @@ const ReqHq = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                                        <td>{department == 3 ? item.approved_hod : item.approved_hr}</td>
+                                        <td>{department == 3 ? <Approval approved={item.approved_hod} /> : <Approval approved={item.approved_hr} />}</td>
                                         <td>{['1', '2'].includes(item.item_type) || item.estimated_price > 15000 ? item.approved_admin : 'Invalid'}</td>
                                         <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
 
@@ -278,7 +279,7 @@ const ReqHq = ({ getData, group }) => {
                                                     <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2'>Approve</button>
                                                     <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
                                                 </td> :
-                                                <td>{department == 3 ? item.approved_hr : item.approved_hod}</td>
+                                                <td>{department == 3 ? <Approval approved={item.approved_hr} /> : <Approval approved={item.approved_hod} />}</td>
                                         }
                                         <td>{item.sent_from_store}</td>
                                         <td>{item.received}</td>
@@ -334,9 +335,9 @@ const ReqHq = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                                        <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{item.total_price > 15000 || item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td><Approval approved={item.approved_hod} /></td>
+                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td>{item.total_price > 15000 || item.estimated_price > 15000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         <td>
                                             {
@@ -345,11 +346,11 @@ const ReqHq = ({ getData, group }) => {
                                                         <button onClick={e => approveAdmin(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectAdmin(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    : item.approved_admin
+                                                    : <Approval approved={item.approved_admin} />
 
                                             }
                                         </td>
-                                        <td>{item.sent_from_store}</td>
+                                        <td><Approval approved={item.sent_from_store} /></td>
                                         <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
@@ -361,7 +362,7 @@ const ReqHq = ({ getData, group }) => {
                                                 setComment_id('')
                                             }}>Comment</button>
                                         </td>
-                                        <td>{item.received}</td>
+                                        <td><Approval approved={item.received} /></td>
                                     </tr>
                                 ))
                             }
@@ -403,9 +404,9 @@ const ReqHq = ({ getData, group }) => {
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
-                                        <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{item.approved_admin}</td>
+                                        <td><Approval approved={item.approved_hod} /></td>
+                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_admin} /></td>
 
                                         <td>
                                             {
@@ -414,12 +415,12 @@ const ReqHq = ({ getData, group }) => {
                                                         <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    : item.approved_md
+                                                    : <Approval approved={item.approved_md} />
 
                                             }
                                         </td>
-                                        <td>{item.sent_from_store}</td>
-                                        <td>{item.received}</td>
+                                        <td><Approval approved={item.sent_from_store} /></td>
+                                        <td><Approval approved={item.received} /></td>
                                         <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
@@ -480,10 +481,10 @@ const ReqHq = ({ getData, group }) => {
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.quantity}</td>
-                                        <td>{item.approved_hod}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{item.approved_admin}</td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? item.approved_md : 'Invalid'}</td>
+                                        <td><Approval approved={item.approved_hod} /></td>
+                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_admin} /></td>
+                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         <td>
                                             {

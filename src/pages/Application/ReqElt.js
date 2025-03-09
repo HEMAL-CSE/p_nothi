@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
+import Approval from '../../Components/Approval'
 const ReqElt = ({ getData, group }) => {
     const role = localStorage.getItem('role')
     const [pendings, setPendings] = useState([])
@@ -356,12 +357,12 @@ const ReqElt = ({ getData, group }) => {
                                             <td>{item.approved_hr}</td>
 
                                         }
-                                        <td>{item.approved_admin}</td>
-                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
+                                        <td><Approval approved={item.approved_admin} /></td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
 
-                                        <td>{item.sent_from_store}</td>
-                                        <td>{item.received}</td>
+                                        <td><Approval approved={item.sent_from_store} /></td>
+                                        <td><Approval approved={item.received} /></td>
                                         {localStorage.getItem('role') == '7' && <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 setDecision('')
@@ -413,23 +414,23 @@ const ReqElt = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                                        <td>{item.approved_coord}</td>
-                                        <td>{item.approved_dc}</td>
-                                        <td>{item.approved_pm}</td>
+                                        <td><Approval approved={item.approved_coord} /></td>
+                                        <td><Approval approved={item.approved_dc} /></td>
+                                        <td><Approval approved={item.approved_pm} /></td>
                                         {department == 3 && item.approved_hr == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
                                                 <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
                                             </td> :
-                                            <td>{item.approved_hr}</td>
+                                            <td><Approval approved={item.approved_hr} /></td>
 
                                         }
-                                        <td>{item.approved_admin}</td>
-                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
+                                        <td><Approval approved={item.approved_admin} /></td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
 
-                                        <td>{item.sent_from_store}</td>
-                                        <td>{item.received}</td>
+                                        <td><Approval approved={item.sent_from_store} /></td>
+                                        <td><Approval approved={item.received} /></td>
                                         {localStorage.getItem('role') == '7' && <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 setDecision('')
@@ -483,10 +484,10 @@ const ReqElt = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                                        <td>{item.approved_coord}</td>
-                                        <td>{item.approved_dc}</td>
-                                        <td>{item.approved_pm}</td>
-                                        <td>{item.approved_hr}</td>
+                                        <td><Approval approved={item.approved_coord} /></td>
+                                        <td><Approval approved={item.approved_dc} /></td>
+                                        <td><Approval approved={item.approved_pm} /></td>
+                                        <td><Approval approved={item.approved_hr} /></td>
                                         <td>
                                             {
                                                 item.approved_admin == 'PENDING' && ['2'].includes(localStorage.getItem('role')) ?
@@ -494,14 +495,14 @@ const ReqElt = ({ getData, group }) => {
                                                         <button onClick={e => approveAdmin(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectAdmin(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    : item.approved_admin
+                                                    : <Approval approved={item.approved_admin} />
 
                                             }
                                         </td>
-                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
 
-                                        <td>{item.sent_from_store}</td>
+                                        <td><Approval approved={item.sent_from_store} /></td>
                                         <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
@@ -513,7 +514,7 @@ const ReqElt = ({ getData, group }) => {
                                                 setComment_id('')
                                             }}>Comment</button>
                                         </td>
-                                        <td>{item.received}</td>
+                                        <td><Approval approved={item.received} /></td>
                                     </tr>
                                 ))
                             }
@@ -557,11 +558,11 @@ const ReqElt = ({ getData, group }) => {
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
-                                        <td>{item.approved_coord}</td>
-                                        <td>{item.approved_dc}</td>
-                                        <td>{item.approved_pm}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{item.approved_admin}</td>
+                                        <td><Approval approved={item.approved_coord} /></td>
+                                        <td><Approval approved={item.approved_dc} /></td>
+                                        <td><Approval approved={item.approved_pm} /></td>
+                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_admin} /></td>
 
                                         <td>
                                             {
@@ -570,12 +571,12 @@ const ReqElt = ({ getData, group }) => {
                                                         <button onClick={e => approveMd(e, item.id)} className='btn btn-primary m-2'>Approve</button>
                                                         <button onClick={e => rejectMd(e, item.id)} className='btn btn-primary'>Reject</button>
                                                     </div>
-                                                    : item.approved_md
+                                                    : <Approval approved={item.approved_md} />
 
                                             }
                                         </td>
-                                        <td>{item.sent_from_store}</td>
-                                        <td>{item.received}</td>
+                                        <td><Approval approved={item.sent_from_store} /></td>
+                                        <td><Approval approved={item.received} /></td>
                                         <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
@@ -638,16 +639,16 @@ const ReqElt = ({ getData, group }) => {
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.quantity}</td>
-                                        <td>{item.approved_coord}</td>
-                                        <td>{item.approved_dc}</td>
-                                        <td>{item.approved_pm}</td>
-                                        <td>{item.approved_hr}</td>
-                                        <td>{item.approved_admin}</td>
-                                        <td>{item.total_price > 5000 ? item.approved_md : 'Invalid'}</td>
+                                        <td><Approval approved={item.approved_coord} /></td>
+                                        <td><Approval approved={item.approved_dc} /></td>
+                                        <td><Approval approved={item.approved_pm} /></td>
+                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_admin} /></td>
+                                        <td>{item.total_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         <td>
                                             {
-                                                item.sent_from_store != 'SENT' ? <button onClick={e => send_from_store(e, item.id)} className='btn btn-primary'>Send</button> : item.sent_from_store
+                                                item.sent_from_store != 'SENT' ? <button onClick={e => send_from_store(e, item.id)} className='btn btn-primary'>Send</button> : <Approval approved={item.sent_from_store} />
 
                                             }
                                         </td>

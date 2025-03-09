@@ -217,10 +217,10 @@ export const Education = () => {
                     }
                 </select>
 
-                <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'Subject' : 'Group'}:</label>
+                <label> Enter Your {bsc == 'Bachelor’s Degree' || bsc == 'Master’s Degree' ? 'Subject' : 'Group'}:</label>
                 <input value={subject} onChange={e => setsubject(e.target.value)} className='input' type='text' />
 
-                <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'CGPA' : 'GPA'}:</label>
+                <label> Enter Your {bsc == 'Bachelor’s Degree' || bsc == 'Master’s Degree' ? 'CGPA/Division' : 'GPA'}:</label>
                 <input value={cgpa} onChange={e => setcgpa(e.target.value)} className='input' type='text' />
 
                 <button onClick={addData} className='button'>Submit</button>

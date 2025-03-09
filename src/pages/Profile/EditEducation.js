@@ -27,50 +27,113 @@ const EditEducation = ({ isOpen, setIsOpen, profile }) => {
     ])
 
     const [passyear, setpassyear] = useState('')
-    const [passyears, setpassyears] = useState([
-        {
-            name: '2010',
-        },
-        {
-            name: '2011',
-        },
-        {
-            name: '2012',
-        },
-        {
-            name: '2013',
-        },
-        {
-            name: '2014',
-        },
-        {
-            name: '2015',
-        },
-        {
-            name: '2016',
-        },
-        {
-            name: '2017',
-        },
-        {
-            name: '2018',
-        },
-        {
-            name: '2019',
-        },
-        {
-            name: '2021',
-        },
-        {
-            name: '2022',
-        },
-        {
-            name: '2023',
-        },
-        {
-            name: '2024',
-        }
-    ])
+     const [passyears, setpassyears] = useState([
+            {
+                name: '1990',
+            },
+            {
+                name: '1991',
+            },
+            {
+                name: '1992',
+            },
+            {
+                name: '1993',
+            },
+            {
+                name: '1994',
+            },
+            {
+                name: '1995',
+            },
+            {
+                name: '1996',
+            },
+            {
+                name: '1997',
+            },
+            {
+                name: '1998',
+            },
+            {
+                name: '1999',
+            },
+            {
+                name: '2000',
+            },
+            {
+                name: '2001',
+            },
+            {
+                name: '2002',
+            },
+            {
+                name: '2003',
+            },
+            {
+                name: '2004',
+            },
+            {
+                name: '2005',
+            },
+            {
+                name: '2006',
+            },
+            {
+                name: '2007',
+            },
+            {
+                name: '2008',
+            },
+            {
+                name: '2009',
+            },
+            {
+                name: '2010',
+            },
+            {
+                name: '2011',
+            },
+            {
+                name: '2012',
+            },
+            {
+                name: '2013',
+            },
+            {
+                name: '2014',
+            },
+            {
+                name: '2015',
+            },
+            {
+                name: '2016',
+            },
+            {
+                name: '2017',
+            },
+            {
+                name: '2018',
+            },
+            {
+                name: '2019',
+            },
+            {
+                name: '2020',
+            },
+            {
+                name: '2021',
+            },
+            {
+                name: '2022',
+            },
+            {
+                name: '2023',
+            },
+            {
+                name: '2024',
+            }
+        ])
 
     const addData = e => {
         e.preventDefault()
@@ -179,10 +242,10 @@ const EditEducation = ({ isOpen, setIsOpen, profile }) => {
                         }
                     </select>
 
-                    <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'Subject' : 'Group'}:</label>
+                    <label> Enter Your {bsc == 'Bachelor’s Degree' || bsc == 'Master’s Degree' ? 'Subject' : 'Group'}:</label>
                     <input value={subject} onChange={e => setsubject(e.target.value)} className='input' type='text' />
 
-                    <label> Enter Your {bsc == 'Bachelor’s Degree' ? 'CGPA' : 'GPA'}:</label>
+                    <label> Enter Your {bsc == 'Bachelor’s Degree' || bsc == 'Master’s Degree' ? 'CGPA/Division' : 'GPA'}:</label>
                     <input value={cgpa} onChange={e => setcgpa(e.target.value)} className='input' type='text' />
 
                     <button onClick={addData} className='button'>Submit</button>

@@ -15,6 +15,7 @@ export const Application = () => {
     const [others, setOthers] = useState(false)
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [details, setDetails] = useState([])
+    const [requisition_date, setRequisition_date] = useState('')
 
     const [item_type, setItem_type] = useState('')
     const [department, setDepartment] = useState('')
@@ -79,7 +80,7 @@ export const Application = () => {
             axios.post(`https://server.promisenothi.com/employees/${requisition_url}/add`, {
                 employee_id,
                 item_type,
-
+                requisition_date
             }).then(res => {
                 items.map(item => {
                     if (item.checked == true) {
@@ -464,6 +465,9 @@ export const Application = () => {
 
             {/* Add Requisition */}
             {localStorage.getItem('role') != '11' && <div>
+                <label> Start Date:</label>
+                <input value={requisition_date} style={{width: 300}} onChange={e => setRequisition_date(e.target.value)} className='input' type='date' />
+
                 <label> Select Item Type:</label>
                 <select value={item_type} onChange={e => {
                     setItem_type(e.target.value)

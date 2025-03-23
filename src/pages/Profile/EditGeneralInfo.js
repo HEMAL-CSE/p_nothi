@@ -12,6 +12,8 @@ const EditGeneralInfo = ({ isOpen, setIsOpen, profile }) => {
     const [name, setName] = useState()
     const [mname, setMotherName] = useState()
     const [nid, setNID] = useState()
+    const [email, setEmail] = useState()
+    const [mobile_no, setMobile_no] = useState()
     const [Presentaddrss, setPresentaddrss] = useState()
     const [villagename, setvillagename] = useState()
 
@@ -56,6 +58,8 @@ const EditGeneralInfo = ({ isOpen, setIsOpen, profile }) => {
         setFName(profile.father_name)
         setMotherName(profile.mother_name)
         setNID(profile.nid)
+        setMobile_no(profile.mobile_no)
+        setEmail(profile.email)
         setPresentaddrss(profile.present_address)
         setvillagename(profile.village)
         setdivision(profile.division)
@@ -83,6 +87,8 @@ const EditGeneralInfo = ({ isOpen, setIsOpen, profile }) => {
             name,
             father_name: fname,
             mother_name: mname,
+            email,
+            mobile_no,
             nid: nid,
             present_address: Presentaddrss,
             division,
@@ -156,6 +162,12 @@ const EditGeneralInfo = ({ isOpen, setIsOpen, profile }) => {
 
                     <label>  Name:</label>
                     <input value={name} onChange={e => setName(e.target.value)} className='input' type='text' />
+                    
+                    <label>  Email:</label>
+                    <input value={email} onChange={e => setEmail(e.target.value)} className='input' type='text' />
+                    
+                    <label>  Phone Number:</label>
+                    <input value={mobile_no} onChange={e => setMobile_no(e.target.value)} className='input' type='text' />
 
                     <label> Father Name:</label>
                     <input value={fname} onChange={e => setFName(e.target.value)} className='input' type='text' />

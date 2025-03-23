@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import Approval from '../../Components/Approval'
+import moment from 'moment'
 const ReqElt = ({ getData, group }) => {
     const role = localStorage.getItem('role')
     const [pendings, setPendings] = useState([])
     const [decision_id, setDecision_id] = useState('')
     const [department, setDepartment] = useState('')
     const [comments, setComments] = useState([])
+    const [selectedRequisition, setSelectedRequisition] = useState({})
     const [job_desg, setJob_desg] = useState('')
     const [job_branch, setJob_branch] = useState('')
 
@@ -54,15 +56,15 @@ const ReqElt = ({ getData, group }) => {
     const pendingData = () => {
 
 
-        if (['7', '9'].includes(localStorage.getItem('role'))) {
+        if (['7', '9', '15'].includes(localStorage.getItem('role'))) {
 
             const employee_id = localStorage.getItem('employee_id')
             axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
                 setJob_desg(res.data[0].designation.toLowerCase())
                 setJob_branch(res.data[0].branch_id)
-                console.log(res.data[0].branch_id);
-                if (res.data[0].department == 3) {
+                console.log(res.data[0].department);
+                if (res.data[0].department == 3 || res.data[0].department == 14) {
                     axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
@@ -118,7 +120,7 @@ const ReqElt = ({ getData, group }) => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
-            if (res.data[0].department == 3) {
+            if (res.data[0].department == 3 || res.data[0].department == 14) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_hr=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
@@ -148,7 +150,7 @@ const ReqElt = ({ getData, group }) => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
-            if (res.data[0].department == 3) {
+            if (res.data[0].department == 3 || res.data[0].department == 14) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_hr=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
@@ -299,18 +301,18 @@ const ReqElt = ({ getData, group }) => {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Department</th>
+                                <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
                                 <th>Approved By DC</th>
                                 <th>Approved By PM</th>
-                                <th>Approved By HR</th>
+                                <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
-                                {localStorage.getItem('role') == '7' && <th>Comments</th>}
+                                {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
 
                             </tr>
                         </thead>
@@ -319,10 +321,11 @@ const ReqElt = ({ getData, group }) => {
                                 pendings.map(item => (
                                     <tr>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>{item.branch_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td><button onClick={e => {
                                             setDetails(item.item_details)
+                                            setSelectedRequisition(item)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td>{job_desg == 'coordinator' && item.approved_coord == 'PENDING' ?
@@ -349,7 +352,7 @@ const ReqElt = ({ getData, group }) => {
                                             <td>{item.approved_pm}</td>
 
                                         }</td>
-                                        {department == 3 && item.approved_hr == 'PENDING' ?
+                                        {['3', '14'].includes(department) && item.approved_hr == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
                                                 <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
@@ -363,7 +366,7 @@ const ReqElt = ({ getData, group }) => {
 
                                         <td><Approval approved={item.sent_from_store} /></td>
                                         <td><Approval approved={item.received} /></td>
-                                        {localStorage.getItem('role') == '7' && <td>
+                                        {['7', '15'].includes(localStorage.getItem('role')) && <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 setDecision('')
                                                 setEstimated_price('')
@@ -381,25 +384,25 @@ const ReqElt = ({ getData, group }) => {
                         </tbody>
                     </table> </div> : <div></div>}
 
-            {department == 3 ?
+            {['3', '14'].includes(department) ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions(Elearning Training)</label>
                     <table className='table mt-3'>
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Department</th>
+                                <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
                                 <th>Approved By DC</th>
                                 <th>Approved By PM</th>
-                                <th>Approved By HR</th>
+                                <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
-                                {localStorage.getItem('role') == '7' && <th>Comments</th>}
+                                {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
 
                             </tr>
                         </thead>
@@ -408,16 +411,17 @@ const ReqElt = ({ getData, group }) => {
                                 pendings.map(item => (
                                     <tr>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>{item.branch_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td><button onClick={e => {
                                             setDetails(item.item_details)
+                                            setSelectedRequisition(item)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td><Approval approved={item.approved_coord} /></td>
                                         <td><Approval approved={item.approved_dc} /></td>
                                         <td><Approval approved={item.approved_pm} /></td>
-                                        {department == 3 && item.approved_hr == 'PENDING' ?
+                                        {['3', '14'].includes(department) && item.approved_hr == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
                                                 <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
@@ -431,7 +435,7 @@ const ReqElt = ({ getData, group }) => {
 
                                         <td><Approval approved={item.sent_from_store} /></td>
                                         <td><Approval approved={item.received} /></td>
-                                        {localStorage.getItem('role') == '7' && <td>
+                                        {['7', '15'].includes(localStorage.getItem('role')) && <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 setDecision('')
                                                 setEstimated_price('')
@@ -457,13 +461,13 @@ const ReqElt = ({ getData, group }) => {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Department</th>
+                                <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
                                 <th>Approved By DC</th>
                                 <th>Approved By PM</th>
-                                <th>Approved By HR</th>
+                                <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
@@ -478,10 +482,11 @@ const ReqElt = ({ getData, group }) => {
                                 adminData.map(item => (
                                     <tr>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>{item.branch_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td><button onClick={e => {
                                             setDetails(item.item_details)
+                                            setSelectedRequisition(item)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td><Approval approved={item.approved_coord} /></td>
@@ -530,13 +535,13 @@ const ReqElt = ({ getData, group }) => {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Department</th>
+                                <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
                                 <th>Approved By DC</th>
                                 <th>Approved By PM</th>
-                                <th>Approved By HR</th>
+                                <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
@@ -550,11 +555,12 @@ const ReqElt = ({ getData, group }) => {
                                 pendings.map(item => (
                                     <tr>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>{item.branch_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td>
                                             <button onClick={e => {
                                                 setDetails(item.item_details)
+                                                setSelectedRequisition(item)
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
@@ -611,14 +617,14 @@ const ReqElt = ({ getData, group }) => {
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Department</th>
+                                <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Item Quantity</th>
                                 <th>Approved By Coordinator</th>
                                 <th>Approved By DC</th>
                                 <th>Approved By PM</th>
-                                <th>Approved By HR</th>
+                                <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send</th>
@@ -630,11 +636,12 @@ const ReqElt = ({ getData, group }) => {
                                 pendings.map(item => (
                                     <tr>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>{item.branch_name}</td>
                                         <td>{item.item_type_name}</td>
                                         <td>
                                             <button onClick={e => {
                                                 setDetails(item.item_details)
+                                                setSelectedRequisition(item)
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
@@ -686,6 +693,7 @@ const ReqElt = ({ getData, group }) => {
                 }}
             >
                 <div className='details'>
+
 
                     {
                         comments.map(comment => (
@@ -739,6 +747,11 @@ const ReqElt = ({ getData, group }) => {
                     setDetailsOpen(false)
                 }}
             >
+
+                <div>
+                    <p>Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                </div>
+
                 <table className='table m-4'>
                     <thead>
                         <th>Name</th>

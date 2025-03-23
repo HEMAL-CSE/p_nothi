@@ -123,20 +123,44 @@ const Hierarchy = () => {
 
     }
 
-    const getExecutives = (department, role) => {
+    const getExecutives = (department, role, division, branch, designation) => {
 
-        console.log(role);
 
         if ([2, 3, 4, 5, 6, 7, 9].includes(role)) {
-            axios.get(`https://server.promisenothi.com/employees/executives`).then(res => {
-                setReporting_officers(res.data)
-            })
-        } else {
-            axios.get(`https://server.promisenothi.com/employees/executives?department=${department}`).then(res => {
-                setReporting_officers(res.data)
-            })
-        }
+            if (department == 2) {
+                console.log(designation.toLowerCase(), role, department);
+                if (designation.toLowerCase() == 'coordinator') {
 
+
+                    axios.get(`https://server.promisenothi.com/employees/executives?department=${department}&&division=${division}`).then(res => {
+                        setReporting_officers(res.data)
+                    })
+                } else {
+                    axios.get(`https://server.promisenothi.com/employees/executives?department=${department}&&division=${division}&&branch=${branch}`).then(res => {
+                        setReporting_officers(res.data)
+                    })
+                }
+
+            } else {
+                axios.get(`https://server.promisenothi.com/employees/executives`).then(res => {
+                    setReporting_officers(res.data)
+                })
+            }
+
+        } else {
+
+            if (department == 2) {
+                axios.get(`https://server.promisenothi.com/employees/executives?department=${department}&&division=${division}&&branch=${branch}`).then(res => {
+                    setReporting_officers(res.data)
+                })
+            } else {
+                axios.get(`https://server.promisenothi.com/employees/executives?department=${department}`).then(res => {
+                    setReporting_officers(res.data)
+                })
+            }
+
+
+        }
 
     }
 
@@ -248,7 +272,7 @@ const Hierarchy = () => {
                                         setData(
                                             data.map(item2 => {
                                                 if (item2.id == item.id) {
-                                                    if (item.role == e.target.value) {
+                                                    if (item.role_id == e.target.value) {
                                                         return { ...item2, needSave: false }
                                                     } else {
                                                         return { ...item2, needSave: true, new_role: e.target.value }
@@ -270,7 +294,7 @@ const Hierarchy = () => {
                                 </td>
                                 <td onClick={e => {
                                     setIsOpen(true)
-                                    getExecutives(item.department, item.role_id)
+                                    getExecutives(item.department, item.role_id, item.division_id, item.branch_id, item.designation)
                                     setSelected(item)
                                 }} style={{ cursor: 'pointer' }}>
 

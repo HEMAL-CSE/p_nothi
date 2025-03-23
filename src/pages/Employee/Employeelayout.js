@@ -32,13 +32,13 @@ const Employeelayout = ({ children }) => {
     {
       name: 'User',
       pathname: '/employee',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
       icon: CgProfile,
       submenu: [
         {
           name: 'Profile',
           pathname: '/employee/profile',
-          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '15'],
           // icon: BsMenuUp,
           // submenu: []
         },
@@ -46,7 +46,7 @@ const Employeelayout = ({ children }) => {
         {
           name: 'Job Info',
           pathname: '/employee/job',
-          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '15'],
           // icon: BiBookAlt,
           // submenu: []
         },
@@ -54,14 +54,14 @@ const Employeelayout = ({ children }) => {
         {
           name: 'General Info',
           pathname: '/employee/general',
-          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '15'],
           // icon: CgChart,
           // submenu: []
         },
         {
           name: 'Education',
           pathname: '/employee/education',
-          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '15'],
           // icon: BiPencil,
           // submenu: []
         },
@@ -69,7 +69,7 @@ const Employeelayout = ({ children }) => {
         {
           name: 'Experience',
           pathname: '/employee/experience',
-          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '15'],
           // icon: GrDocument,
           // submenu: []
         },
@@ -77,7 +77,7 @@ const Employeelayout = ({ children }) => {
         {
           name: 'Job Responsibilty',
           pathname: '/employee/responsibility',
-          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'],
+          roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '15'],
           // icon: FaHandHoldingUsd,
           // submenu: []
         },
@@ -87,7 +87,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Pay Roll',
       pathname: '/employee/responsibility',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
       icon: BiDollar,
       submenu: []
     },
@@ -95,28 +95,28 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Leave Information',
       pathname: '/employee/leave',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
       icon: BiExit,
       submenu: []
     },
     {
       name: 'All Employee Info',
       pathname: '/employee/all_employee_info',
-      roles: ['1', '2', '3', '4', '5', '6', '7'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '15'],
       icon: HiDocumentSearch,
       submenu: []
     },
     {
       name: 'Hierarchy',
       pathname: '/employee/hierarchy',
-      roles: ['1', '2', '3', '4', '5', '6', '7'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '15'],
       icon: TbHierarchy,
       submenu: []
     },
     {
       name: 'Application/Requsition',
       pathname: '/employee/application',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
       icon: GrDocumentConfig,
       submenu: []
     },
@@ -124,7 +124,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Notice',
       pathname: '/employee/Notice',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
       icon: MdNotificationsNone,
       submenu: []
     },
@@ -132,7 +132,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Purchase',
       pathname: '/employee/purchase',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '13'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '13', '15'],
       icon: BiPurchaseTag,
       submenu: []
     },
@@ -140,7 +140,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Store',
       pathname: '/employee/store',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '11'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '11', '15'],
       icon: BiStore,
       submenu: []
     },
@@ -148,7 +148,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Log Out',
       pathname: '/login',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
       icon: LuLogOut,
       submenu: []
     },

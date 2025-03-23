@@ -7,8 +7,7 @@ import EditEducation from './EditEducation'
 import EditJobInfo from './EditJobInfo'
 import EditExperience from './EditExperience'
 import EditResponsibility from './EditResponsibility'
-// import {SfNav} from 'react-sf-building-blocks';
-
+import ReactModal from 'react-modal'
 
 const Profile = () => {
     const [employee, setEmployee] = useState({})
@@ -28,6 +27,11 @@ const Profile = () => {
     const [experience_open, setExperience_open] = useState(false)
 
     const [responsibility_open, setResponsibility_open] = useState(false)
+
+    const [old_password, setOld_password] = useState('')
+    const [new_password, setNew_password] = useState('')
+    const [change_password, setChange_password] = useState(false)
+
 
     const [edit_education, setEdit_education] = useState({})
     const [edit_job_info, setEdit_job_info] = useState(false)
@@ -122,6 +126,35 @@ const Profile = () => {
         }
 
     }
+
+    const changePass = (e) => {
+        e.preventDefault()
+
+        const user_id = localStorage.getItem('user_id')
+
+        console.log('hello');
+        
+
+        axios.post(`https://server.promisenothi.com/users/change_password?user_id=${user_id}`, {
+            old_password,
+            new_password
+        }).then(res => {
+            console.log('hello');
+            
+            if(res.status == 201){
+                toast('Password Changed')
+                setChange_password(false)
+            }
+        })
+        .catch(err => {
+            console.log('hello');
+            
+            if(err.response.status == 403){
+                toast.error('Old Password Wrong')
+            }
+        })
+    }
+
     return (
         <div className='details'>
             {/* <h2>Cow Purchase</h2> */}
@@ -168,12 +201,17 @@ const Profile = () => {
 
             </div>
 
+            <div className='container-fluid px-5 d-none'>
+
+            </div>
+
             {
                 Object.keys(employee).length != 0 &&
                 <div className='d-flex p-3 flex-column bg-card align-items-start'>
                     <div className='m-2'>
                         <span className='fw-bold'>Name:</span> {employee.user_name}
                     </div>
+                   
 
                     <div className='m-2'>
                         <span className='fw-bold'>Father Name:</span> {employee.father_name}
@@ -181,6 +219,18 @@ const Profile = () => {
 
                     <div className='m-2'>
                         <span className='fw-bold'>Mother Name:</span> {employee.mother_name}
+                    </div>
+
+                    <div className='m-2'>
+                        <span className='fw-bold'>Email:</span> {employee.email}
+                    </div>
+                    <div className='m-2'>
+                        <span className='fw-bold'>Password:</span> ******** <button onClick={e => {
+                            setChange_password(true)
+                        }} className='btn btn-secondary text-center m-2'>Change</button>
+                    </div>
+                    <div className='m-2'>
+                        <span className='fw-bold'>Phone Number:</span> {employee.mobile_no}
                     </div>
 
                     <div className='m-2'>
@@ -358,6 +408,70 @@ const Profile = () => {
                     </div>
                 </div>
             }
+
+<ReactModal
+            style={{
+                content: {
+                    width: "80%",
+                    height: "80%",
+                    zIndex: 10,
+                    top: "5%",
+                    left: "10%",
+                    right: "10%",
+                    bottom: "5%",
+                    overflow: "auto",
+                    WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                },
+                overlay: { zIndex: 10000 }
+            }}
+            isOpen={change_password}
+            onRequestClose={() => {
+                setChange_password(false)
+            }}
+        >
+            <div className='details'>
+                {/* <h2>Cow Purchase</h2> */}
+                <ToastContainer />
+                <div className="container-fluid px-5 d-none d-lg-block">
+                    <div className="row gx-5 py-3 align-items-center">
+                        <div className="col-lg-3">
+                            {/* <div className="d-flex align-items-center justify-content-start">
+                              <BsPhoneVibrate className='text-success2 fs-1 me-2' />
+                              <h2 className="mb-0">+012 345 6789</h2>
+                          </div> */}
+                        </div>
+                        <div className="col-lg-6">
+                            <div className="d-flex align-items-center justify-content-center">
+                                <a href="#" className="navbar-brand ms-lg-5">
+                                    <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Employee</span> Information</h1>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <form>
+
+                    <label>  Old Password:</label>
+                    <input value={old_password} onChange={e => setOld_password(e.target.value)} className='input' type='text' />
+                    
+                    <label>  New Password:</label>
+                    <input value={new_password} onChange={e => setNew_password(e.target.value)} className='input' type='text' />
+                    
+
+                    <button onClick={e => changePass(e)} className='button'>Submit</button>
+
+                </form>
+
+
+            </div>
+
+        </ReactModal>
 
             <EditGeneralInfo isOpen={general_info_open} setIsOpen={setGeneral_info_open} profile={employee} />
             <EditEducation isOpen={education_open} setIsOpen={setEducation_open} profile={edit_education} />

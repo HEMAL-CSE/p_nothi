@@ -10,7 +10,13 @@ import moment from 'moment';
 
 export const Notice = () => {
 
-  const [data, setData] = useState([])
+  const [all_data, setAll_data] = useState([])
+
+  const [department_data, setDepartment_data] = useState([])
+
+  const [individual_data, setIndividual_data] = useState([])
+
+  const [management_data, setManagement_data] = useState([])
 
   const [notice_type, setNotice_type] = useState('')
   const [notice_type_others, setNotice_type_others] = useState('')
@@ -35,12 +41,15 @@ export const Notice = () => {
   const [employee, setEmployee] = useState('')
 
   const [departments, setDepartments] = useState([])
+  const [notice_for_items, setNotice_for_items] = useState([])
   const [divisions, setDivisions] = useState([])
   const [branches, setBranches] = useState([])
   const [employees, setEmployees] = useState([])
 
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  const [management_checked, setManagement_checked] = useState([])
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -79,20 +88,58 @@ export const Notice = () => {
     axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
       setUser_department(res.data[0].department)
 
-      if (res.data[0].department != 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))) {
-        axios.get(`https://server.promisenothi.com/employees/notice?all=1&&promise_group=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
 
-          setData(res.data)
-        })
-      } else if (res.data[0].department == 2 && !['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role'))) {
-        axios.get(`https://server.promisenothi.com/employees/notice?all=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`).then(res => {
 
-          setData(res.data)
+      if (res.data[0].department != '2' && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
+        axios.get(`https://server.promisenothi.com/employees/notice?for_department=1&&department=${res.data[0].department}`).then(res => {
+          console.log(res.data);
+          setDepartment_data(res.data)
         })
-      } else {
+
+        axios.get(`https://server.promisenothi.com/employees/notice?for_individual=1&&department=${res.data[0].department}&&employee_id=${employee_id}`).then(res => {
+          setIndividual_data(res.data)
+        })
+      } else if (res.data[0].department == '2' && !['1', '2', '3', '4', '5', '6', '7', '12'].includes(localStorage.getItem('role'))) {
+        axios.get(`https://server.promisenothi.com/employees/notice?for_department=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}`).then(res => {
+          console.log(res.data);
+          setDepartment_data(res.data)
+        })
+
+        axios.get(`https://server.promisenothi.com/employees/notice?for_individual=1&&department=${res.data[0].department}&&branch=${res.data[0].branch_id}&&employee_id=${employee_id}`)
+          .then(res => {
+            setIndividual_data(res.data)
+          })
+      }
+
+
+
+
+      if (['1', '2', '3', '12'].includes(localStorage.getItem('role')) && ['4', '5', '6', '12'].includes(res.data[0].department)) {
+        axios.get(`https://server.promisenothi.com/employees/notice?notice_for_role=12&&notice_for_department=12`).then(res => {
+          console.log(res.data);
+
+          setManagement_data(res.data)
+        })
+      }
+
+
+      if (res.data[0].department == 3) {
         axios.get(`https://server.promisenothi.com/employees/notice`).then(res => {
 
-          setData(res.data)
+
+          let uniq = res.data.filter(
+            (item, i) => i == res.data.findIndex(
+              other => item.id == other.id
+            )
+          )
+
+          console.log(uniq);
+
+          setAll_data(uniq)
+        })
+      } else {
+        axios.get(`https://server.promisenothi.com/employees/notice?all=1`).then(res => {
+          setAll_data(res.data)
         })
       }
     })
@@ -102,6 +149,13 @@ export const Notice = () => {
 
     getData()
 
+    axios.get('https://server.promisenothi.com/employees/notice_for_items').then(res => {
+      let data = res.data.map(i => {
+        return { ...i, checked: true }
+      })
+      setNotice_for_items(data)
+
+    })
 
     axios.get('https://server.promisenothi.com/employees/departments').then(res => {
       setDepartments(res.data)
@@ -157,6 +211,20 @@ export const Notice = () => {
     axios.post('https://server.promisenothi.com/employees/notice/add', formData)
       .then(res => {
         toast('Submitted')
+
+        if (notice_for == 'Management') {
+          notice_for_items.map(item => {
+            if (item.checked == true) {
+              axios.post('https://server.promisenothi.com/employees/notice_fors/add', {
+                notice_id: res.data.id,
+                notice_for_item_id: item.id
+              }).then(res => {
+                toast('Submitted')
+              })
+            }
+          })
+        }
+
         getData()
       })
   }
@@ -216,6 +284,34 @@ export const Notice = () => {
             ))
           }
         </select>
+
+        {
+          notice_for == 'Management' &&
+          <div>
+            {
+              notice_for_items.map((item, i) => (
+                <div className='d-flex justify-content-start'>
+                  <input type='checkbox' checked={item.checked} onChange={(value) => {
+                    setNotice_for_items(
+                      notice_for_items.map(
+                        item2 => {
+                          if (item2.id == item.id) {
+                            return { ...item2, checked: !item2.checked }
+                          } else {
+                            return { ...item2 }
+                          }
+                        }
+                      )
+                    )
+
+                    console.log(notice_for_items);
+
+                  }} value={item.id} /><span className='mx-3'>{item.name}</span>
+                </div>
+              ))
+            }
+          </div>
+        }
 
 
         {notice_for == 'Department' || notice_for == 'Individual' ?
@@ -339,6 +435,7 @@ export const Notice = () => {
       </form>}
 
       <div className='mt-5'>
+        <h4>Notice for all</h4>
         <table className='table mt-3'>
           <thead>
             <tr>
@@ -350,7 +447,77 @@ export const Notice = () => {
           </thead>
           <tbody>
             {
-              data.map(item => (
+              all_data.map(item => (
+                <tr>
+                  <td>{item.poster_name}</td>
+                  <td>{item.notice_for}</td>
+                  <td>
+                    <button onClick={e => {
+                      setDetailsOpen(true)
+                      setNotice(item)
+                      console.log(item.notice_desc);
+
+                    }} className='btn btn-warning'>Details</button>
+                  </td>
+                  {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <td>
+                    <button onClick={e => deleteData(e, item.id)} className='btn btn-danger'>Delete</button>
+                  </td>}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div className='mt-5'>
+        <h4>Notice for Department</h4>
+        <table className='table mt-3'>
+          <thead>
+            <tr>
+              <th>Notice From</th>
+              <th>Notice For</th>
+              <th>Details</th>
+              {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              department_data.map(item => (
+                <tr>
+                  <td>{item.poster_name}</td>
+                  <td>{item.notice_for}</td>
+                  <td>
+                    <button onClick={e => {
+                      setDetailsOpen(true)
+                      setNotice(item)
+                      console.log(item.notice_desc);
+
+                    }} className='btn btn-warning'>Details</button>
+                  </td>
+                  {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <td>
+                    <button onClick={e => deleteData(e, item.id)} className='btn btn-danger'>Delete</button>
+                  </td>}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div className='mt-5'>
+        <h4>Notice for Individual</h4>
+        <table className='table mt-3'>
+          <thead>
+            <tr>
+              <th>Notice From</th>
+              <th>Notice For</th>
+              <th>Details</th>
+              {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              individual_data.map(item => (
                 <tr>
                   <td>{item.poster_name}</td>
                   <td>{item.notice_for}</td>
@@ -401,7 +568,7 @@ export const Notice = () => {
           <p>Date: {moment(notice.notice_date).format('DD/MM/yyyy')}</p>
           <h2 className='text-center mb-4 text-decoration-underline'>Office Notice</h2>
           <p>{notice.notice_desc}</p>
-          <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{ cursor: 'pointer' }}>Notice File</a>
+          {notice.notice_file != 'null' && <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{ cursor: 'pointer' }}>Notice File</a>}
           <h5 className='mt-4'>Notice For: {notice.notice_for}</h5>
           {
             notice.notice_for == 'Department' &&
@@ -414,7 +581,7 @@ export const Notice = () => {
 
           {
             notice.notice_for == 'Individual' &&
-            <h6>Branch: {notice.employee_name}</h6>
+            <h6>Employee: {notice.employee_name}</h6>
           }
         </div>
       </Modal>

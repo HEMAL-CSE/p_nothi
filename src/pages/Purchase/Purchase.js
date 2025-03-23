@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import Modal from 'react-modal'
+import Approval from '../../Components/Approval'
 
 const Purchase = () => {
     const [data, setData] = useState([])
@@ -116,6 +117,11 @@ const Purchase = () => {
                 toast('Approved')
                 getData()
             })
+        } else if (role == '6') {
+            axios.put(`https://server.promisenothi.com/employees/purchase/approve?approved_agm=1&&id=${id}`).then(res => {
+                toast('Approved')
+                getData()
+            })
         }
     }
 
@@ -127,6 +133,11 @@ const Purchase = () => {
             })
         } else if (role == '1') {
             axios.put(`https://server.promisenothi.com/employees/purchase/reject?approved_md=1&&id=${id}`).then(res => {
+                toast('Rejected')
+                getData()
+            })
+        } else if (role == '6') {
+            axios.put(`https://server.promisenothi.com/employees/purchase/reject?approved_agm=1&&id=${id}`).then(res => {
                 toast('Rejected')
                 getData()
             })
@@ -202,6 +213,7 @@ const Purchase = () => {
                         <th>Item Name</th>
                         <th>Company Name</th>
                         <th>Price</th>
+                        <th>{localStorage.getItem('role') == '6' ? 'Approve' : 'Approved by AGM'}</th>
                         <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved by ED'}</th>
                         <th>{localStorage.getItem('role') == '1' ? 'Approve' : 'Approved by MD'}</th>
                         <th>Purchase Confirmed</th>
@@ -216,22 +228,28 @@ const Purchase = () => {
                                 <td>{item.name}</td>
                                 <td>{item.company_name}</td>
                                 <td>{item.price}</td>
+                                <td>{localStorage.getItem('role') == '6' && item.approved_agm == 'PENDING' ?
+                                    <div>
+                                        <button onClick={e => approve(e, '6', item.id)} className='btn btn-success mx-2'>Approve</button>
+                                        <button onClick={e => reject(e, '6', item.id)} className='btn btn-danger'>Reject</button>
+                                    </div>
+                                    : <Approval approved={item.approved_agm} />}</td>
                                 <td>{localStorage.getItem('role') == '2' && item.approved_ed == 'PENDING' ?
                                     <div>
                                         <button onClick={e => approve(e, '2', item.id)} className='btn btn-success mx-2'>Approve</button>
                                         <button onClick={e => reject(e, '2', item.id)} className='btn btn-danger'>Reject</button>
                                     </div>
-                                    : item.approved_ed}</td>
+                                    : <Approval approved={item.approved_ed} />}</td>
                                 <td>{localStorage.getItem('role') == '1' && item.approved_md == 'PENDING' ?
                                     <div>
                                         <button onClick={e => approve(e, '1', item.id)} className='btn btn-success mx-2'>Approve</button>
-                                        <button onClick={e => reject(e, '2', item.id)} className='btn btn-danger'>Reject</button>
+                                        <button onClick={e => reject(e, '1', item.id)} className='btn btn-danger'>Reject</button>
 
                                     </div>
-                                    : item.approved_md}</td>
+                                    : <Approval approved={item.approved_md} />}</td>
                                 <td>{localStorage.getItem('role') == '13' && item.purchase_confirmed == 'PENDING' ?
                                     <button onClick={e => purchaseConfirmed(e, item.id)} className='btn btn-success'>Confirm</button>
-                                    : item.purchase_confirmed}</td>
+                                    : <Approval approved={item.purchase_confirmed} />}</td>
                                 <td>
                                     <button onClick={e => {
                                         setEdit_name(item.name)

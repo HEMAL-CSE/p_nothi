@@ -20,9 +20,9 @@ const Sidebar = ({ elements, name }) => {
         <div className='w-25 '>
             <div className='row  sticky-top'>
                 <div className='w-100 bg-elearning col-md-2 col-auto min-vh-100'>
-                    <a className='text-decoration-none text-white d-none d-sm-inline d-flex align-items-center'>
+                    {/* <a className='text-decoration-none text-white d-none d-sm-inline d-flex align-items-center'>
                         <span className='ms-1 fs-4'>{name}</span>
-                    </a>
+                    </a> */}
                     <hr className='text-secondary' />
                     <ul className='nav nav-pills flex-column' id='parentM'>
                         <li className='nav-item text-white fs-4 my-1'>

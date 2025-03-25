@@ -17,6 +17,7 @@ import { FaHandHoldingUsd } from 'react-icons/fa'
 import { HiDocumentSearch } from 'react-icons/hi'
 import { TbHierarchy } from 'react-icons/tb'
 import { useNotificationCenter } from 'react-toastify/addons/use-notification-center'
+import Navbar from '../../Components/Navbar'
 
 
 const Employeelayout = ({ children }) => {
@@ -155,13 +156,17 @@ const Employeelayout = ({ children }) => {
   ]
 
   return (
-    <div className='layout d-flex'>
-      <Sidebar className='calf' elements={sidebarElements} name={'Employee'} />
-      <div className='ms-4 vw-100 d-flex justify-content-center'>
-        <Outlet />
-      </div>
+    <div>
+      <Navbar />
+      <div className='layout d-flex'>
+        <Sidebar className='calf' elements={sidebarElements} name={'Employee'} />
+        <div className='ms-4 vw-100 d-flex justify-content-center'>
+          <Outlet />
+        </div>
 
+      </div>
     </div>
+
   )
 }
 

@@ -1,5 +1,5 @@
 .nav-link:hover{
-    background-color: green;
+    background-color: #008080;
     cursor: pointer;
 }
 
@@ -8,7 +8,7 @@
 }
 
 .nav-link-chosen{
-    background-color: green;
+    background-color: #008080;
     cursor: pointer; 
     padding: 30px 15px;
     font-size: 16px;

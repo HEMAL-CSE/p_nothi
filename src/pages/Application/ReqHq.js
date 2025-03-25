@@ -31,7 +31,7 @@ const ReqHq = ({ getData, group }) => {
     const admintData = () => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
-            axios.get(`https://server.promisenothi.com/employees/requisition?admin=1`).then(res => {
+            axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
 
@@ -270,8 +270,8 @@ const ReqHq = ({ getData, group }) => {
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td>{department == 3 ? <Approval approved={item.approved_hod} /> : <Approval approved={item.approved_hr} />}</td>
-                                        <td>{item.estimated_price > 5000 ? item.approved_admin : 'Invalid'}</td>
-                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? item.approved_md : 'Invalid'}</td>
+                                        <td>{<Approval approved={item.approved_admin} />}</td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         {['3', '14'].includes(department) && item.approved_hr == 'PENDING' ?
                                             <td>
@@ -342,7 +342,7 @@ const ReqHq = ({ getData, group }) => {
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td><Approval approved={item.approved_hod} /></td>
                                         <td><Approval approved={item.approved_hr} /></td>
-                                        <td>{item.total_price > 15000 || item.estimated_price > 15000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
+                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         <td>
                                             {
@@ -491,7 +491,7 @@ const ReqHq = ({ getData, group }) => {
                                         <td><Approval approved={item.approved_hod} /></td>
                                         <td><Approval approved={item.approved_hr} /></td>
                                         <td><Approval approved={item.approved_admin} /></td>
-                                        <td>{['1', '2'].includes(item.item_type) && item.total_price > 15000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
+                                        <td>{item.total_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         <td>
                                             {

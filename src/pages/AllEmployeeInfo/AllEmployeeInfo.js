@@ -125,7 +125,7 @@ const AllEmployeeInfo = () => {
                     <div className="col-lg-6">
                         <div className="d-flex align-items-center justify-content-center">
                             <a href="#" className="navbar-brand ms-lg-5">
-                                <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">All Employee</span> Information</h1>
+                                <h1 className="m-0 display-5 fw-bold text-success2"><span className="text-success2">All Employee</span> Information</h1>
                             </a>
                         </div>
                     </div>

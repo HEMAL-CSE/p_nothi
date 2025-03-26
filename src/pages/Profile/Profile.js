@@ -212,7 +212,6 @@ const Profile = () => {
                         <span className='fw-bold'>Name:</span> {employee.user_name}
                     </div>
                    
-
                     <div className='m-2'>
                         <span className='fw-bold'>Father Name:</span> {employee.father_name}
                     </div>
@@ -463,7 +462,6 @@ const Profile = () => {
                     <label>  New Password:</label>
                     <input value={new_password} onChange={e => setNew_password(e.target.value)} className='input' type='text' />
                     
-
                     <button onClick={e => changePass(e)} className='button'>Submit</button>
 
                 </form>

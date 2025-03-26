@@ -21,6 +21,7 @@ import Store from './pages/Store/Store';
 import Purchase from './pages/Purchase/Purchase';
 import { ECommerce } from './pages/e-commerce/ecommerce';
 import { Notice } from './pages/Notices/Notice';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
 
@@ -46,6 +47,7 @@ function App() {
         <Route element={<Responsibilities/>} exact path='/employee/responsibility'/>
         <Route element={<Leaveinfo/>} exact path='/employee/leave'/>
         <Route element={<AllEmployeeInfo/>} exact path='/employee/all_employee_info'/>
+        <Route element={<Dashboard/>} exact path='employee/dashboard'/>
 
         <Route element={<Notice/>} exact path='/employee/notice'/>
 

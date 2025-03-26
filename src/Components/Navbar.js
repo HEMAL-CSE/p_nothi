@@ -7,7 +7,7 @@ const Navbar = () => {
       <span style={{ fontFamily: "cursive", fontWeight: "bold", fontSize: '30px' }}>Pnothi</span>
     </a>
     <div className=" text-white">
-    <span style={{ fontFamily: "cursive", fontWeight: "bold", fontSize: '30px', marginLeft: '100px' }}>Welcome</span>
+    <span style={{ fontFamily: "cursive", fontWeight: "bold", fontSize: '30px', marginLeft: '100px' }}>Welcome to Promise E-Nothi</span>
     </div>
     <div>
 

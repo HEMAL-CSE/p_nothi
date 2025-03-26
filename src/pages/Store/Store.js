@@ -243,21 +243,22 @@ import Modal from 'react-modal'
 
 
 import { CheckCircle, XCircle, Hourglass, Users, Building, DollarSign, FileText } from 'lucide-react';
+import { FaBuilding, FaMoneyBill, FaUser } from 'react-icons/fa';
 
 const Store = () => {
   return (
-<div className="container mt-4">
+    <div className="container mt-4">
       <h2 className="mb-4">Store Dashboard Overview</h2>
       <div className="row">
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
             <div className="card-body d-flex align-items-center justify-content-center">
-              <div className="mr-3">
-                <i className="fas fa-users fa-3x"></i> {/* Assuming you have Font Awesome for icons */}
-              </div>
+              {/* <div className="mr-3"> */}
+              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
               <div>
                 <h5 className="card-title">Total Employees</h5>
-                <p className="card-text">1</p>
+                <p className="card-text mx-4">1</p>
               </div>
             </div>
           </div>
@@ -265,12 +266,12 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
-              <div className="mr-3">
-                <i className="fas fa-building fa-3x"></i> {/* Assuming you have Font Awesome for icons */}
-              </div>
+              {/* <div className="mr-3"> */}
+                <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
               <div>
                 <h5 className="card-title">Total Departments</h5>
-                <p className="card-text">2</p>
+                <p className="card-text mx-4">2</p>
               </div>
             </div>
           </div>
@@ -278,12 +279,12 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-danger">
             <div className="card-body d-flex align-items-center justify-content-center">
-              <div className="mr-3">
-                <i className="fas fa-money-bill-alt fa-3x"></i> {/* Assuming you have Font Awesome for icons */}
-              </div>
+              {/* <div className="mr-3"> */}
+                <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
               <div>
                 <h5 className="card-title">Monthly Salary</h5>
-                <p className="card-text">0</p>
+                <p className="card-text mx-4">0</p>
               </div>
             </div>
           </div>
@@ -296,12 +297,12 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
             <div className="card-body d-flex align-items-center justify-content-center">
-              <div className="mr-3">
-                <i className="fas fa-users fa-3x"></i> {/* Assuming you have Font Awesome for icons */}
-              </div>
+              {/* <div className="mr-3"> */}
+               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
               <div>
                 <h5 className="card-title">Total Stationary</h5>
-                <p className="card-text">10</p>
+                <p className="card-text mx-4">10</p>
               </div>
             </div>
           </div>
@@ -309,12 +310,12 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
-              <div className="mr-3">
-                <i className="fas fa-building fa-3x"></i> {/* Assuming you have Font Awesome for icons */}
-              </div>
+              {/* <div className="mr-3"> */}
+                <FaBuilding className='mx-3' size={20}/> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
               <div>
                 <h5 className="card-title">Total Chairs and Table</h5>
-                <p className="card-text">2</p>
+                <p className="card-text mx-4">2</p>
               </div>
             </div>
           </div>
@@ -322,12 +323,12 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-danger">
             <div className="card-body d-flex align-items-center justify-content-center">
-              <div className="mr-3">
-                <i className="fas fa-money-bill-alt fa-3x"></i> {/* Assuming you have Font Awesome for icons */}
-              </div>
+              {/* <div className="mr-3"> */}
+                <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
               <div>
                 <h5 className="card-title">Total Office Equipment</h5>
-                <p className="card-text">0</p>
+                <p className="card-text mx-4">0</p>
               </div>
             </div>
           </div>
@@ -335,7 +336,7 @@ const Store = () => {
       </div>
     </div>
 
-    
+
   );
 };
 

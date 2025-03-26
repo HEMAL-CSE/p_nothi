@@ -239,11 +239,9 @@ import Modal from 'react-modal'
 //   )
 // }
 
-
-
 // export default Store
 
-// import React from 'react';
+
 import { CheckCircle, XCircle, Hourglass, Users, Building, DollarSign, FileText } from 'lucide-react';
 
 const Store = () => {

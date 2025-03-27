@@ -263,7 +263,7 @@ const Store = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-4 mb-3">
+        <div className="col-md-4 mb-4">
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
@@ -277,7 +277,7 @@ const Store = () => {
           </div>
         </div>
         <div className="col-md-4 mb-3">
-          <div className="card text-white bg-danger">
+          <div className="card text-white bg-info">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
                 <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
@@ -334,8 +334,64 @@ const Store = () => {
           </div>
         </div>
       </div>
-    </div>
 
+
+{/* Store Assest Section */}
+      <h2 className="storeassets">Store Asset Dashboard Overview:</h2>
+      <div className="row">
+        <div className="col-md-4 mb-3">
+          <div className="card text-white bg-black">
+            <div className="card-body d-flex align-items-center justify-content-center">
+              {/* <div className="mr-3"> */}
+              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
+              <div>
+                <h5 className="card-title">Total Employees</h5>
+                <p className="card-text mx-4">1</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4 mb-4">
+          <div className="card text-white bg-success">
+            <div className="card-body d-flex align-items-center justify-content-center">
+              {/* <div className="mr-3"> */}
+                <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
+              <div>
+                <h5 className="card-title">Total Departments</h5>
+                <p className="card-text mx-4">2</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4 mb-3">
+          <div className="card text-white bg-info">
+            <div className="card-body d-flex align-items-center justify-content-center">
+              {/* <div className="mr-3"> */}
+                <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
+              {/* </div> */}
+              <div>
+                <h5 className="card-title">Monthly Salary</h5>
+                <p className="card-text mx-4">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
 
   );
 };

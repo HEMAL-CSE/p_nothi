@@ -670,3 +670,8 @@ footer .copyright .pro-links i:hover{
   position: absolute;
   z-index: 999;
 }
+
+/* Store relaetd CSS Design*/
+.storeassets{
+  margin-top: 36px;
+}

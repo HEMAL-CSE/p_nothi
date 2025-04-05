@@ -246,9 +246,48 @@ import { CheckCircle, XCircle, Hourglass, Users, Building, DollarSign, FileText 
 import { FaBuilding, FaMoneyBill, FaUser } from 'react-icons/fa';
 
 const Store = () => {
+
+ const [data, setData] = useState([])
+    const [isOpen, setIsOpen] = useState(false)
+    const [selectedEmployee, setSelectedEmployee] = useState({})
+    const [division, setdivision] = useState('')
+    const [divisions, setdivisions] = useState([])
+    const [branches, setBranches] = useState([])
+    const [branch, setBranch] = useState('')
+    const [dept, setdept] = useState('')
+
+    const [employees, setEmployees] = useState([])
+
+
+    const [employee, setEmployee] = useState({})
+
+    const [education, setEducation] = useState([])
+
+    const [job_info, setJob_info] = useState({})
+
+    const [experience, setExperience] = useState([])
+
+    const [departments, setDepartments] = useState([])
+
+    const getEmployees = () => {
+            if (branch != '') {
+                axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
+                    setEmployees(res.data)
+                })
+            } else if (dept == 2 && branch == '' && division != '') {
+                axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
+                    setEmployees(res.data)
+                })
+            } else {
+                axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
+                    setEmployees(res.data)
+                })
+            }
+        }
+
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Store Dashboard Overview</h2>
+      <h2 className="mb-4">Store Dashboard Overview:</h2>
       <div className="row">
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
@@ -426,7 +465,100 @@ const Store = () => {
 
 
 
+      {
 
+<div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+    <div className='d-flex flex-column w-50'>
+        <label> Job Department: </label>
+
+        <select onChange={e => {
+            setdept(e.target.value)
+        }} className='select'>
+            <option>Select</option>
+            {
+                departments.filter(e => e.id != 3).map(item => (
+                    <option value={item.id}>{item.name}</option>
+                ))
+            }
+        </select>
+
+        {dept == 2 &&
+            <div>
+                <label>Division</label>
+
+                <select value={division} onChange={e => {
+
+                    setdivision(e.target.value)
+                    // getBranches(e.target.value)
+                }} className='select' >
+                    <option >Select</option>
+                    {
+                        divisions.map(item => (
+                            <option value={item.id}>{item.name}</option>
+                        ))
+                    }
+                </select>
+
+                <label>Branch</label>
+
+                <select value={branch} onChange={e => {
+
+                    setBranch(e.target.value)
+
+                }} className='select' >
+                    <option >Select</option>
+                    {
+                        branches.map(item => (
+                            <option value={item.id}>{item.name}</option>
+                        ))
+                    }
+                </select></div>}
+
+        <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
+    </div>
+    {
+
+        <div>
+            <table className='mt-10 table'>
+                <thead>
+                    <tr>
+                        <th scope="col text-start">Name</th>
+                        <th scope="col">Employee ID</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Present Address</th>
+                        <th scope="col">Designation</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+
+                        employees.map(item => (
+                            <tr>
+                                <td className='px-3 text-start'>{item.user_name}</td>
+                                <td className='px-3'>{item.employee_id}</td>
+                                <td className='px-3'>{item.email}</td>
+                                <td className='px-3'>{item.mobile_no}</td>
+                                <td className='px-3'>{item.present_address}</td>
+                                <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
+                                <td className='px-3'>
+                                    <button onClick={(e) => {
+                                        setIsOpen(true)
+                                        setSelectedEmployee(item)
+                                    }} className='btn btn-warning'>Details</button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+</div>
+
+}
 
 
 

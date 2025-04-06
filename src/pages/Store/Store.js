@@ -465,9 +465,11 @@ const Store = () => {
 
 
 
-      {
+{
 
 <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+<h2 className="storeassets">Store Asset Dashboard Overview:</h2>
+
     <div className='d-flex flex-column w-50'>
         <label> Job Department: </label>
 
@@ -522,12 +524,10 @@ const Store = () => {
             <table className='mt-10 table'>
                 <thead>
                     <tr>
-                        <th scope="col text-start">Name</th>
-                        <th scope="col">Employee ID</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Present Address</th>
-                        <th scope="col">Designation</th>
+                        <th scope="col text-start">SL No</th>
+                        {/* <th scope="col">Asset Name</th> */}
+                        <th scope="col">Asset Name</th>
+                        <th scope="col">Quantity</th>
                         <th>Details</th>
                     </tr>
                 </thead>

@@ -258,6 +258,7 @@ const Store = () => {
 
   const [employees, setEmployees] = useState([])
 
+  const [nid, setNID] = useState('')
 
   const [employee, setEmployee] = useState({})
 
@@ -369,7 +370,7 @@ const addData = (e) => {
           </div>
         </div>
         <div className="col-md-4 mb-3">
-          <div className="card text-white bg-info">
+          <div className="card text-white bg-dark bg-gradient">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
@@ -429,10 +430,10 @@ const addData = (e) => {
 
 
       {/* Store Assest Section */}
-      <h2 className="storeassets">Store Asset Dashboard Overview:</h2>
+      <h2 className="storeassets"> Asset Dashboard Overview:</h2>
       <div className="row">
         <div className="col-md-4 mb-3">
-          <div className="card text-white bg-black">
+          <div className="card text-white bg-dark">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
@@ -458,8 +459,8 @@ const addData = (e) => {
           </div>
         </div>
         <div className="col-md-4 mb-3">
-          <div className="card text-white bg-info">
-            <div className="card-body d-flex align-items-center justify-content-center">
+        <div className="card text-white bg-dark">
+        <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
@@ -613,6 +614,7 @@ const addData = (e) => {
 
       }
 
+{/* Asset Add input feild */}
       <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
         <h2 className="storeassets">Add Asset</h2>
 
@@ -676,16 +678,16 @@ const addData = (e) => {
           <input className='input' value={item_name} onChange={e => setItem_name(e.target.value)} />
 
           <label> Quantity: </label>
+          <input className='input' value={quantity} onChange={e => setQuantity(e.target.value)} />
 
-<input className='input' value={quantity} onChange={e => setQuantity(e.target.value)} />
+          <label> NID:</label>
+          <input value={nid} onChange={e => setNID(e.target.value)} className='input' type='text' />
 
-<button onClick={e => addData(e)} className='btn btn-primary my-3'>Submit</button>
+        <button onClick={e => addData(e)} className='btn btn-primary my-3'>Submit</button>
 
 
         </div>
       </div>
-
-
 
     </div>
 

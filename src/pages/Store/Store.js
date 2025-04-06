@@ -247,46 +247,99 @@ import { FaBuilding, FaMoneyBill, FaUser } from 'react-icons/fa';
 
 const Store = () => {
 
- const [data, setData] = useState([])
-    const [isOpen, setIsOpen] = useState(false)
-    const [selectedEmployee, setSelectedEmployee] = useState({})
-    const [division, setdivision] = useState('')
-    const [divisions, setdivisions] = useState([])
-    const [branches, setBranches] = useState([])
-    const [branch, setBranch] = useState('')
-    const [dept, setdept] = useState('')
+  const [data, setData] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedEmployee, setSelectedEmployee] = useState({})
+  const [division, setdivision] = useState('')
+  const [divisions, setdivisions] = useState([])
+  const [branches, setBranches] = useState([])
+  const [branch, setBranch] = useState('')
+  const [dept, setdept] = useState('')
 
-    const [employees, setEmployees] = useState([])
+  const [employees, setEmployees] = useState([])
 
 
-    const [employee, setEmployee] = useState({})
+  const [employee, setEmployee] = useState({})
 
-    const [education, setEducation] = useState([])
+  const [education, setEducation] = useState([])
 
-    const [job_info, setJob_info] = useState({})
+  const [job_info, setJob_info] = useState({})
 
-    const [experience, setExperience] = useState([])
+  const [experience, setExperience] = useState([])
 
-    const [departments, setDepartments] = useState([])
+  const [departments, setDepartments] = useState([])
 
-    const getEmployees = () => {
-            if (branch != '') {
-                axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
-                    setEmployees(res.data)
-                })
-            } else if (dept == 2 && branch == '' && division != '') {
-                axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
-                    setEmployees(res.data)
-                })
-            } else {
-                axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
-                    setEmployees(res.data)
-                })
-            }
-        }
+  const [department, setDepartment] = useState('')
+
+  const [categories, setCategories] = useState([])
+
+  const [category, setCategory] = useState('')
+
+  const [floors, setFloors] = useState([])
+
+  const [floor, setFloor] = useState('')
+
+  const [rooms, setRooms] = useState([])
+
+  const [room, setRoom] = useState('')
+
+  const [item_name, setItem_name] = useState('')
+
+  const [quantity, setQuantity] = useState('')
+
+  const getEmployees = () => {
+    if (branch != '') {
+      axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
+        setEmployees(res.data)
+      })
+    } else if (dept == 2 && branch == '' && division != '') {
+      axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
+        setEmployees(res.data)
+      })
+    } else {
+      axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
+        setEmployees(res.data)
+      })
+    }
+  }
+
+  useEffect(() => {
+    axios.get('https://server.promisenothi.com/employees/departments').then(res => {
+      setDepartments(res.data)
+    })
+
+    axios.get('https://server.promisenothi.com/employees/floors').then(res => {
+      setFloors(res.data)
+    })
+
+    axios.get('https://server.promisenothi.com/employees/item_types').then(res => {
+      setCategories(res.data)
+    })
+  }, [])
+
+  const getRooms = (floor_id) => {
+    axios.get(`https://server.promisenothi.com/employees/rooms?floor_id=${floor_id}`).then(res => {
+      setRooms(res.data)
+    })
+  }
+
+const addData = (e) => {
+  e.preventDefault()
+  axios.post(`https://server.promisenothi.com/employees/assets/add`, {
+    category_id: category,
+    floor_id: floor,
+    room_id: room,
+    department_id: department,
+    item_name,
+    quantity
+  }).then(res => {
+    toast('Submitted')
+  })
+}
 
   return (
     <div className="container mt-4">
+      <ToastContainer />
       <h2 className="mb-4">Store Dashboard Overview:</h2>
       <div className="row">
         <div className="col-md-4 mb-3">
@@ -306,7 +359,7 @@ const Store = () => {
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Departments</h5>
@@ -319,7 +372,7 @@ const Store = () => {
           <div className="card text-white bg-info">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
+              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Monthly Salary</h5>
@@ -337,7 +390,7 @@ const Store = () => {
           <div className="card text-white bg-black">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Stationary</h5>
@@ -350,7 +403,7 @@ const Store = () => {
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaBuilding className='mx-3' size={20}/> {/* Assuming you have Font Awesome for icons */}
+              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Chairs and Table</h5>
@@ -363,7 +416,7 @@ const Store = () => {
           <div className="card text-white bg-danger">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
+              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Office Equipment</h5>
@@ -375,7 +428,7 @@ const Store = () => {
       </div>
 
 
-{/* Store Assest Section */}
+      {/* Store Assest Section */}
       <h2 className="storeassets">Store Asset Dashboard Overview:</h2>
       <div className="row">
         <div className="col-md-4 mb-3">
@@ -395,7 +448,7 @@ const Store = () => {
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Departments</h5>
@@ -408,7 +461,7 @@ const Store = () => {
           <div className="card text-white bg-info">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
+              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Monthly Salary</h5>
@@ -424,7 +477,7 @@ const Store = () => {
           <div className="card text-white bg-primary">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
+              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Stationary</h5>
@@ -437,7 +490,7 @@ const Store = () => {
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaBuilding className='mx-3' size={20}/> {/* Assuming you have Font Awesome for icons */}
+              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Chairs and Table</h5>
@@ -450,7 +503,7 @@ const Store = () => {
           <div className="card text-white bg-danger">
             <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
-                <FaMoneyBill className='mx-3'  size={20}/> {/* Assuming you have Font Awesome for icons */}
+              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
                 <h5 className="card-title">Total Office Equipment</h5>
@@ -465,102 +518,172 @@ const Store = () => {
 
 
 
-{
+      {
 
-<div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
-<h2 className="storeassets">Store Asset Dashboard Overview:</h2>
+        <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+          <h2 className="storeassets">Store Asset Dashboard Overview:</h2>
 
-    <div className='d-flex flex-column w-50'>
-        <label> Job Department: </label>
+          <div className='d-flex flex-column w-50'>
+            <label> Job Department: </label>
 
-        <select onChange={e => {
-            setdept(e.target.value)
-        }} className='select'>
-            <option>Select</option>
-            {
+            <select onChange={e => {
+              setdept(e.target.value)
+            }} className='select'>
+              <option>Select</option>
+              {
                 departments.filter(e => e.id != 3).map(item => (
-                    <option value={item.id}>{item.name}</option>
+                  <option value={item.id}>{item.name}</option>
                 ))
-            }
-        </select>
+              }
+            </select>
 
-        {dept == 2 &&
-            <div>
+            {dept == 2 &&
+              <div>
                 <label>Division</label>
 
                 <select value={division} onChange={e => {
 
-                    setdivision(e.target.value)
-                    // getBranches(e.target.value)
+                  setdivision(e.target.value)
+                  // getBranches(e.target.value)
                 }} className='select' >
-                    <option >Select</option>
-                    {
-                        divisions.map(item => (
-                            <option value={item.id}>{item.name}</option>
-                        ))
-                    }
+                  <option >Select</option>
+                  {
+                    divisions.map(item => (
+                      <option value={item.id}>{item.name}</option>
+                    ))
+                  }
                 </select>
 
                 <label>Branch</label>
 
                 <select value={branch} onChange={e => {
 
-                    setBranch(e.target.value)
+                  setBranch(e.target.value)
 
                 }} className='select' >
-                    <option >Select</option>
-                    {
-                        branches.map(item => (
-                            <option value={item.id}>{item.name}</option>
-                        ))
-                    }
+                  <option >Select</option>
+                  {
+                    branches.map(item => (
+                      <option value={item.id}>{item.name}</option>
+                    ))
+                  }
                 </select></div>}
 
-        <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
-    </div>
-    {
+            <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
+          </div>
+          {
 
-        <div>
-            <table className='mt-10 table'>
+            <div>
+              <table className='mt-10 table'>
                 <thead>
-                    <tr>
-                        <th scope="col text-start">SL No</th>
-                        {/* <th scope="col">Asset Name</th> */}
-                        <th scope="col">Asset Name</th>
-                        <th scope="col">Quantity</th>
-                        <th>Details</th>
-                    </tr>
+                  <tr>
+                    <th scope="col text-start">SL No</th>
+                    {/* <th scope="col">Asset Name</th> */}
+                    <th scope="col">Asset Name</th>
+                    <th scope="col">Quantity</th>
+                    <th>Details</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    {
+                  {
 
-                        employees.map(item => (
-                            <tr>
-                                <td className='px-3 text-start'>{item.user_name}</td>
-                                <td className='px-3'>{item.employee_id}</td>
-                                <td className='px-3'>{item.email}</td>
-                                <td className='px-3'>{item.mobile_no}</td>
-                                <td className='px-3'>{item.present_address}</td>
-                                <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
-                                <td className='px-3'>
-                                    <button onClick={(e) => {
-                                        setIsOpen(true)
-                                        setSelectedEmployee(item)
-                                    }} className='btn btn-warning'>Details</button>
-                                </td>
-                            </tr>
-                        ))
-                    }
+                    employees.map(item => (
+                      <tr>
+                        <td className='px-3 text-start'>{item.user_name}</td>
+                        <td className='px-3'>{item.employee_id}</td>
+                        <td className='px-3'>{item.email}</td>
+                        <td className='px-3'>{item.mobile_no}</td>
+                        <td className='px-3'>{item.present_address}</td>
+                        <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
+                        <td className='px-3'>
+                          <button onClick={(e) => {
+                            setIsOpen(true)
+                            setSelectedEmployee(item)
+                          }} className='btn btn-warning'>Details</button>
+                        </td>
+                      </tr>
+                    ))
+                  }
                 </tbody>
-            </table>
+              </table>
+            </div>
+
+          }
         </div>
 
-    }
-</div>
+      }
 
-}
+      <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+        <h2 className="storeassets">Add Asset</h2>
+
+        <div className='d-flex flex-column w-50'>
+
+          <label> Floor: </label>
+
+          <select onChange={e => {
+            setFloor(e.target.value)
+            getRooms(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              floors.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Job Department: </label>
+
+          <select onChange={e => {
+            setDepartment(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              departments.filter(e => e.id != 3).map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Room: </label>
+
+          <select onChange={e => {
+            setRoom(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              rooms.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Category: </label>
+
+          <select onChange={e => {
+            setCategory(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              categories.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Item Name: </label>
+
+          <input className='input' value={item_name} onChange={e => setItem_name(e.target.value)} />
+
+          <label> Quantity: </label>
+
+<input className='input' value={quantity} onChange={e => setQuantity(e.target.value)} />
+
+<button onClick={e => addData(e)} className='btn btn-primary my-3'>Submit</button>
 
 
+        </div>
+      </div>
 
 
 

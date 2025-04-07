@@ -175,8 +175,6 @@ const Purchase = () => {
 
             <div>
 
-
-
                 <label> For which requisition:</label>
                 <select className='select' onChange={e => {
                     setRequisition_id(e.target.value)
@@ -198,9 +196,6 @@ const Purchase = () => {
 
                 <label>Price</label>
                 <input className='input' value={price} onChange={e => setPrice(e.target.value)} />
-
-
-
 
                 <button onClick={addData} className='button'>Submit</button>
 
@@ -292,18 +287,14 @@ const Purchase = () => {
             >
                 <div className='details'>
 
-
-
                     <label>Item Name</label>
                     <input className='input' value={edit_name} onChange={e => setEdit_name(e.target.value)} />
-
 
                     <label>Company Name</label>
                     <input className='input' value={edit_company_name} onChange={e => setEdit_company_name(e.target.value)} />
 
                     <label>Price</label>
                     <input className='input' value={edit_price} onChange={e => setEdit_Price(e.target.value)} />
-
 
                     <button onClick={e => editData(e, edit_id)} className='button'>Submit</button>
 

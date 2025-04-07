@@ -609,6 +609,8 @@ const addData = (e) => {
               </table>
             </div>
 
+            
+
           }
         </div>
 
@@ -684,6 +686,23 @@ const addData = (e) => {
           <input value={nid} onChange={e => setNID(e.target.value)} className='input' type='text' />
 
         <button onClick={e => addData(e)} className='btn btn-primary my-3'>Submit</button>
+
+
+    {/* <div>
+
+<label>Item Name</label>
+<input className='input' value={name} onChange={e => setName(e.target.value)} />
+
+
+<label>Company Name</label>
+<input className='input' value={company_name} onChange={e => setCompany_name(e.target.value)} />
+
+<label>Price</label>
+<input className='input' value={price} onChange={e => setPrice(e.target.value)} />
+
+<button onClick={addData} className='button'>Submit</button>
+
+</div> */}
 
 
         </div>

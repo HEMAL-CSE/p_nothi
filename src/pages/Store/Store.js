@@ -304,7 +304,16 @@ const Store = () => {
     }
   }
 
+  const getData = () => {
+    axios.get('https://server.promisenothi.com/employees/assets').then(res => {
+      setData(res.data)
+    })
+  }
+
   useEffect(() => {
+
+    getData()
+
     axios.get('https://server.promisenothi.com/employees/departments').then(res => {
       setDepartments(res.data)
     })
@@ -324,24 +333,30 @@ const Store = () => {
     })
   }
 
-const addData = (e) => {
-  e.preventDefault()
-  axios.post(`https://server.promisenothi.com/employees/assets/add`, {
-    category_id: category,
-    floor_id: floor,
-    room_id: room,
-    department_id: department,
-    item_name,
-    quantity
-  }).then(res => {
-    toast('Submitted')
-  })
-}
+  const addData = (e) => {
+    e.preventDefault()
+    axios.post(`https://server.promisenothi.com/employees/assets/add`, {
+      category_id: category,
+      floor_id: floor,
+      room_id: room,
+      department_id: department,
+      item_name,
+      quantity
+    }).then(res => {
+      console.log('Helllllllllllllllllllllllllllllll');
+      
+      toast('Submitted')
+      getData()
+
+    })
+
+  }
 
   return (
     <div className="container mt-4">
-      <ToastContainer />
       <h2 className="mb-4">Store Dashboard Overview:</h2>
+      <ToastContainer />
+
       <div className="row">
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
@@ -459,8 +474,8 @@ const addData = (e) => {
           </div>
         </div>
         <div className="col-md-4 mb-3">
-        <div className="card text-white bg-dark">
-        <div className="card-body d-flex align-items-center justify-content-center">
+          <div className="card text-white bg-dark">
+            <div className="card-body d-flex align-items-center justify-content-center">
               {/* <div className="mr-3"> */}
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
@@ -537,7 +552,7 @@ const addData = (e) => {
                 ))
               }
             </select>
-
+            {/* 
             {dept == 2 &&
               <div>
                 <label>Division</label>
@@ -570,7 +585,7 @@ const addData = (e) => {
                   }
                 </select></div>}
 
-            <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
+            <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button> */}
           </div>
           {
 
@@ -579,29 +594,24 @@ const addData = (e) => {
                 <thead>
                   <tr>
                     <th scope="col text-start">SL No</th>
-                    {/* <th scope="col">Asset Name</th> */}
+                    <th scope="col">Floor</th>
+                    <th scope="col">Room</th>
+                    <th scope="col">Department</th>
                     <th scope="col">Asset Name</th>
                     <th scope="col">Quantity</th>
-                    <th>Details</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
 
-                    employees.map(item => (
+                    data.map((item, i) => (
                       <tr>
-                        <td className='px-3 text-start'>{item.user_name}</td>
-                        <td className='px-3'>{item.employee_id}</td>
-                        <td className='px-3'>{item.email}</td>
-                        <td className='px-3'>{item.mobile_no}</td>
-                        <td className='px-3'>{item.present_address}</td>
-                        <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
-                        <td className='px-3'>
-                          <button onClick={(e) => {
-                            setIsOpen(true)
-                            setSelectedEmployee(item)
-                          }} className='btn btn-warning'>Details</button>
-                        </td>
+                        <td className='px-3 text-start'>{i + 1}</td>
+                        <td className='px-3'>{item.floor_name}</td>
+                        <td className='px-3'>{item.room_name}</td>
+                        <td className='px-3'>{item.department_name}</td>
+                        <td className='px-3'>{item.item_name}</td>
+                        <td className='px-3'>{item.quantity}</td>
                       </tr>
                     ))
                   }
@@ -609,18 +619,18 @@ const addData = (e) => {
               </table>
             </div>
 
-            
+
 
           }
         </div>
 
       }
 
-{/* Asset Add input feild */}
+      {/* Asset Add input feild */}
       <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
         <h2 className="storeassets">Add Asset</h2>
 
-        <div className='d-flex flex-column w-50'>
+        <form onSubmit={addData} className='d-flex flex-column w-50'>
 
           <label> Floor: </label>
 
@@ -682,13 +692,11 @@ const addData = (e) => {
           <label> Quantity: </label>
           <input className='input' value={quantity} onChange={e => setQuantity(e.target.value)} />
 
-          <label> NID:</label>
-          <input value={nid} onChange={e => setNID(e.target.value)} className='input' type='text' />
 
-        <button onClick={e => addData(e)} className='btn btn-primary my-3'>Submit</button>
+          <button type='submit' className='btn btn-primary my-3'>Submit</button>
 
 
-    {/* <div>
+          {/* <div>
 
 <label>Item Name</label>
 <input className='input' value={name} onChange={e => setName(e.target.value)} />
@@ -705,7 +713,7 @@ const addData = (e) => {
 </div> */}
 
 
-        </div>
+        </form>
       </div>
 
     </div>

@@ -56,7 +56,7 @@ export const Experience = () => {
 
                 </div>
             </div>
-
+{/* Form design */}
             <form>
                 <label> Job Title: </label>
                 <input value={jobtittle} onChange={e => setJobtittle(e.target.value)} className='input' type='text' />

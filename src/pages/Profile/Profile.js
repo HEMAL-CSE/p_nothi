@@ -174,7 +174,12 @@ const Profile = () => {
                             </a>
                         </div>
                     </div>
+                </div>
 
+                <div className='m-2'>
+                        <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
+                            setChange_password(true)
+                        }} className='btn btn-secondary text-center m-2'>Click Here</button>
                 </div>
 
     {/* <div>

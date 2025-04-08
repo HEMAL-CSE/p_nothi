@@ -199,6 +199,7 @@ const Profile = () => {
         stylesMenuMobileSelected={{backgroundColor: 'white', color: 'black', paddingLeft: '5px', paddingRight: '5px', borderRadius: '5px', border: 'solid 1px gray'}}
          />
     </div> */}
+    
 
             </div>
 

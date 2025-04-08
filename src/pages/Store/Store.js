@@ -349,7 +349,6 @@ const Store = () => {
       getData()
 
     })
-
   }
 
   return (
@@ -529,9 +528,6 @@ const Store = () => {
           </div>
         </div>
       </div>
-
-
-
 
 
       {

@@ -288,6 +288,8 @@ const Store = () => {
 
   const [quantity, setQuantity] = useState('')
 
+  const [category_wise_data, setCategory_wise_data] = useState({})
+
   const getEmployees = () => {
     if (branch != '') {
       axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
@@ -307,6 +309,22 @@ const Store = () => {
   const getData = () => {
     axios.get('https://server.promisenothi.com/employees/assets').then(res => {
       setData(res.data)
+      var result = res.data.reduce((value, object) => {
+        if(value[object.category_name]){
+          value[object.category_name].amount += object.quantity;
+        }else {
+          value[object.category_name] = {
+            id: object.category_id,
+            amount: object.quantity
+          }
+        }
+
+        return value
+      }, {})
+
+      setCategory_wise_data(result)
+      console.log(result);
+      
     })
   }
 
@@ -343,7 +361,6 @@ const Store = () => {
       item_name,
       quantity
     }).then(res => {
-      console.log('Helllllllllllllllllllllllllllllll');
       
       toast('Submitted')
       getData()
@@ -351,18 +368,20 @@ const Store = () => {
     })
   }
 
+  
+
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Store Dashboard Overview:</h2>
-      <ToastContainer />
+      
+      {/* <h2 className="mb-4">Store Dashboard Overview:</h2>
 
       <div className="row">
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+
+              <FaUser className='mx-3' size={20} />
+     
               <div>
                 <h5 className="card-title">Total Employees</h5>
                 <p className="card-text mx-4">1</p>
@@ -373,9 +392,9 @@ const Store = () => {
         <div className="col-md-4 mb-4">
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+        
+              <FaBuilding className='mx-3' size={20} /> 
+    
               <div>
                 <h5 className="card-title">Total Departments</h5>
                 <p className="card-text mx-4">2</p>
@@ -386,9 +405,8 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-dark bg-gradient">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+     
+              <FaMoneyBill className='mx-3' size={20} />
               <div>
                 <h5 className="card-title">Monthly Salary</h5>
                 <p className="card-text mx-4">0</p>
@@ -399,14 +417,13 @@ const Store = () => {
       </div>
 
 
-      {/* <h2 className="mb-4">Store Dashboard Overview</h2> */}
+
       <div className="row">
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+     
+              <FaUser className='mx-3' size={20} /> 
               <div>
                 <h5 className="card-title">Total Stationary</h5>
                 <p className="card-text mx-4">10</p>
@@ -417,9 +434,8 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+
+              <FaBuilding className='mx-3' size={20} /> 
               <div>
                 <h5 className="card-title">Total Chairs and Table</h5>
                 <p className="card-text mx-4">2</p>
@@ -430,9 +446,8 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-danger">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+           
+              <FaMoneyBill className='mx-3' size={20} /> 
               <div>
                 <h5 className="card-title">Total Office Equipment</h5>
                 <p className="card-text mx-4">0</p>
@@ -440,7 +455,7 @@ const Store = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
       {/* Store Assest Section */}
@@ -453,8 +468,8 @@ const Store = () => {
               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Employees</h5>
-                <p className="card-text mx-4">1</p>
+                <h5 className="card-title">Office Equipment</h5>
+                <p className="card-text mx-4">{category_wise_data['Office Equipment'] ? category_wise_data['Office Equipment'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -466,8 +481,8 @@ const Store = () => {
               <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Departments</h5>
-                <p className="card-text mx-4">2</p>
+                <h5 className="card-title">Office Furniture</h5>
+                <p className="card-text mx-4">{category_wise_data['Office Furniture'] ? category_wise_data['Office Furniture'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -479,8 +494,8 @@ const Store = () => {
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Monthly Salary</h5>
-                <p className="card-text mx-4">0</p>
+                <h5 className="card-title">Stationary</h5>
+                <p className="card-text mx-4">{category_wise_data['Stationary'] ? category_wise_data['Stationary'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -495,8 +510,8 @@ const Store = () => {
               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Stationary</h5>
-                <p className="card-text mx-4">10</p>
+                <h5 className="card-title">Technology and IT Accessories</h5>
+                <p className="card-text mx-4">{category_wise_data['Technology and IT Accessories'] ? category_wise_data['Technology and IT Accessories'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -508,8 +523,8 @@ const Store = () => {
               <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Chairs and Table</h5>
-                <p className="card-text mx-4">2</p>
+                <h5 className="card-title">Cleaning and Maintenance Supplies</h5>
+                <p className="card-text mx-4">{category_wise_data['Cleaning and Maintenance Supplies'] ? category_wise_data['Cleaning and Maintenance Supplies'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -521,7 +536,7 @@ const Store = () => {
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Office Equipment</h5>
+                <h5 className="card-title">Office Safety and Security</h5>
                 <p className="card-text mx-4">0</p>
               </div>
             </div>

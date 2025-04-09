@@ -42,6 +42,12 @@ export const Application = () => {
     const [comment_id, setComment_id] = useState('')
     const [comment_elt_id, setComment_elt_id] = useState('')
 
+    const [edit_modal, setEdit_modal] = useState(false)
+
+    const [edit_date, setEdit_date] = useState('')
+    const [edit_item_type, setEdit_item_type] = useState('')
+    
+
 
 
 
@@ -439,6 +445,19 @@ export const Application = () => {
         })
     }
 
+    const deleteData = (e, id) => {
+        e.preventDefault()
+
+        if(window.confirm('Do you want to delete this?')){
+          axios.delete(`https://server.promisenothi.com/employees/requisition/delete?id=${id}`).then(res => {
+            toast('Deleted')
+            getData()
+        })  
+        }
+    
+        
+      }
+
 
     return (
         <div className='details'>
@@ -587,6 +606,7 @@ export const Application = () => {
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Received</th>
+                                <th>Edit/Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -609,6 +629,10 @@ export const Application = () => {
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
                                             Received
                                         </button>}</td>
+                                        <td>
+                                            <button className='btn btn-warning m-2' onClick={e => deleteData(e, item.id)}>Edit</button>
+                                            <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
+                                        </td>
                                     </tr>
                                 ))
                             }

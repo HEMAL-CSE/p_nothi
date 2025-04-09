@@ -1,10 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import Approval from '../../Components/Approval'
 import moment from 'moment'
-
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 const ReqHq = ({ getData, group }) => {
     const role = localStorage.getItem('role')
@@ -25,7 +26,34 @@ const ReqHq = ({ getData, group }) => {
     const [comment_id, setComment_id] = useState('')
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [details, setDetails] = useState([])
+    const printRef = useRef(null);
 
+    const handleDownloadPdf = async (e) => {
+        e.preventDefault()
+      const element = printRef.current;
+      if (!element) {
+        return;
+      }
+  
+      const canvas = await html2canvas(element, {
+        scale: 2,
+      });
+      const data = canvas.toDataURL("image/png");
+  
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: "a4",
+      });
+  
+      const imgProperties = pdf.getImageProperties(data);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+  
+      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+  
+      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("examplepdf.pdf");
+    };
 
 
     const admintData = () => {
@@ -222,6 +250,19 @@ const ReqHq = ({ getData, group }) => {
         })
     }
 
+    const deleteData = (e, id) => {
+        e.preventDefault()
+
+        if(window.confirm('Do you want to delete this?')){
+          axios.delete(`https://server.promisenothi.com/employees/requisition/delete?id=${id}`).then(res => {
+            toast('Deleted')
+            getData()
+        })  
+        }
+    
+        
+      }
+
     useEffect(() => {
         getData()
 
@@ -254,7 +295,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Send from store</th>
                                 <th>Received</th>
                                 {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
-
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -298,6 +339,9 @@ const ReqHq = ({ getData, group }) => {
                                                 getComments(item.id)
                                             }}>Comment</button>
                                         </td>}
+                                        <td>
+                                            <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
+                                        </td>
 
                                     </tr>
                                 ))
@@ -324,7 +368,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Send from store</th>
                                 <th>Decision Making</th>
                                 <th>Received</th>
-
+                                <th>Delete</th>
 
                             </tr>
                         </thead>
@@ -368,6 +412,9 @@ const ReqHq = ({ getData, group }) => {
                                             }}>Comment</button>
                                         </td>
                                         <td><Approval approved={item.received} /></td>
+                                        <td>
+                                            <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
+                                        </td>
                                     </tr>
                                 ))
                             }
@@ -586,6 +633,16 @@ const ReqHq = ({ getData, group }) => {
                     setDetailsOpen(false)
                 }}
             >
+                 <div className='m-2'>
+                        <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
+                            handleDownloadPdf(e)
+                        }} className='btn btn-secondary text-center m-2'>Click Here</button>
+                </div>
+
+                {/* Print DIV */}
+                <div ref={printRef}>
+
+                
                 <div>
                     <p>Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
                 </div>
@@ -607,6 +664,7 @@ const ReqHq = ({ getData, group }) => {
                         }
                     </tbody>
                 </table>
+                </div>
             </Modal>
         </div>
     )

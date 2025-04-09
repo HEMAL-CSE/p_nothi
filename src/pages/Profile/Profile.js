@@ -1,6 +1,6 @@
 import axios from 'axios'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import EditGeneralInfo from './EditGeneralInfo'
 import EditEducation from './EditEducation'
@@ -8,6 +8,8 @@ import EditJobInfo from './EditJobInfo'
 import EditExperience from './EditExperience'
 import EditResponsibility from './EditResponsibility'
 import ReactModal from 'react-modal'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 const Profile = () => {
     const [employee, setEmployee] = useState({})
@@ -36,6 +38,34 @@ const Profile = () => {
     const [edit_education, setEdit_education] = useState({})
     const [edit_job_info, setEdit_job_info] = useState(false)
     const [edit_experience, setEdit_experience] = useState({})
+    const printRef = useRef(null);
+
+    const handleDownloadPdf = async (e) => {
+        e.preventDefault()
+      const element = printRef.current;
+      if (!element) {
+        return;
+      }
+  
+      const canvas = await html2canvas(element, {
+        scale: 2,
+      });
+      const data = canvas.toDataURL("image/png");
+  
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: "a4",
+      });
+  
+      const imgProperties = pdf.getImageProperties(data);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+  
+      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+  
+      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("examplepdf.pdf");
+    };
 
     const getGeneralInfo = () => {
         const user_id = localStorage.getItem('user_id')
@@ -159,7 +189,7 @@ const Profile = () => {
 
 
     return (
-        <div className='details'>
+        <div ref={printRef} className='details'>
             {/* <h2>Cow Purchase</h2> */}
             <ToastContainer />
             <div className="container-fluid px-5 d-none d-lg-block">
@@ -181,7 +211,7 @@ const Profile = () => {
 
                 <div className='m-2'>
                         <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
-                            setChange_password(true)
+                            handleDownloadPdf(e)
                         }} className='btn btn-secondary text-center m-2'>Click Here</button>
                 </div>
 

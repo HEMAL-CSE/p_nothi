@@ -474,8 +474,6 @@ const Profile = () => {
                     <button onClick={e => changePass(e)} className='button'>Submit</button>
 
                 </form>
-
-
             </div>
 
         </ReactModal>

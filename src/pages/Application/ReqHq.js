@@ -56,6 +56,25 @@ const ReqHq = ({ getData, group }) => {
     };
 
 
+        const invoiceData = {
+          invoiceNumber: 'REQ-2025-0001',
+          companyName: 'Your Name',
+          companyAddress: '123 Business Street',
+          companyCityStateZip: 'City, State 12345',
+          billTo: {
+            clientName: 'Client Name',
+            clientAddress: 'Client Address',
+            clientCityStateZip: 'City, State ZIP',
+          },
+          items: [
+            { description: 'Web Design Service', quantity: 1, unitPrice: 1500.00 },
+            { description: 'Hosting Setup', quantity: 1, unitPrice: 250.00 },
+          ],
+          
+        };
+      
+
+
     const admintData = () => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
@@ -492,13 +511,7 @@ const ReqHq = ({ getData, group }) => {
                     </table> </div>
             }
 
-
-
-
-
             {
-
-
 
                 // store manager
                 localStorage.getItem('role') == '11' &&
@@ -553,6 +566,7 @@ const ReqHq = ({ getData, group }) => {
                     </table> </div>
             }
 
+            
             {/* Comment box */}
 
             <Modal
@@ -639,16 +653,19 @@ const ReqHq = ({ getData, group }) => {
                         }} className='btn btn-secondary text-center m-2'>Click Here</button>
                 </div>
 
-                {/* Print DIV */}
+                {/* PDF Print DIV */}
                 <div ref={printRef}>
-
+                <div className="col-6">
+                <h4 className="text-uppercase fw-bold">Requisitions</h4>
                 
+              </div>
                 <div>
-                    <p>Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                <p className="text-muted">REQ NO: #{invoiceData.invoiceNumber}</p>
+                <p className="text-end" >Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
                 </div>
-                <table className='table m-4'>
+                <table className='table m-5'>
                     <thead>
-                        <th>Name</th>
+                        <th>Item Name</th>
                         <th>Quantity</th>
 
                     </thead>
@@ -664,6 +681,53 @@ const ReqHq = ({ getData, group }) => {
                         }
                     </tbody>
                 </table>
+
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-8 offset-md-2">
+          <div className="card shadow p-4">
+            <div className="row mb-4">
+              <div className="col-6">
+                <h2 className="text-uppercase fw-bold">Requisitions</h2>
+                <p className="text-muted">Invoice #{invoiceData.invoiceNumber}</p>
+              </div>
+              <div className="col-6 text-end">
+                <h6 className="fw-bold">{invoiceData.companyName}</h6>
+                <p className="text-muted mb-1">{invoiceData.companyAddress}</p>
+                <p className="text-muted">{invoiceData.companyCityStateZip}</p>
+              </div>
+            </div>
+
+           
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th className="fw-bold">Description</th>
+                    <th className="fw-bold text-end">Quantity</th>
+                    <th className="fw-bold text-end">Unit Price</th>
+                    <th className="fw-bold text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoiceData.items.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.description}</td>
+                      <td className="text-end">{item.quantity}</td>
+                      <td className="text-end">${item.unitPrice.toFixed(2)}</td>
+                      <td className="text-end">${(item.quantity * item.unitPrice).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
                 </div>
             </Modal>
         </div>

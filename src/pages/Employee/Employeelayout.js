@@ -163,7 +163,6 @@ const Employeelayout = ({ children }) => {
         <div className='ms-4 vw-100 d-flex justify-content-center'>
           <Outlet />
         </div>
-
       </div>
     </div>
 

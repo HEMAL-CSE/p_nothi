@@ -458,6 +458,41 @@ const Store = () => {
       </div> */}
 
 
+<div className="container mt-4">
+      <h2 className="text-center mb-3">Student Dashboard</h2>
+      <div className="row">
+        <div className="col-md-3 mb-3">
+          <div className="card bg-primary text-white p-3 text-center">
+            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon - you might need to add Bootstrap Icons */}
+            <div>৳848,400.00</div>
+            <div className="small">Total Payable</div>
+          </div>
+        </div>
+        <div className="col-md-3 mb-3">
+          <div className="card bg-purple text-white p-3 text-center">
+            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon */}
+            <div>৳848,400.00</div>
+            <div className="small">Total Paid</div>
+          </div>
+        </div>
+        <div className="col-md-3 mb-3">
+          <div className="card bg-danger text-white p-3 text-center">
+            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon */}
+            <div>৳0.00</div>
+            <div className="small">Total Due</div>
+          </div>
+        </div>
+        <div className="col-md-3 mb-3">
+          <div className="card bg-info text-white p-3 text-center">
+            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon */}
+            <div>৳10,300.00</div>
+            <div className="small">Total Others</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
       {/* Store Assest Section */}
       <h2 className="storeassets"> Asset Dashboard Overview:</h2>
       <div className="row">

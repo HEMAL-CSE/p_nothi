@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
 import Modal from 'react-modal'
+import '../../App.css'
 
 // const Store = () => {
 
@@ -244,29 +245,20 @@ import Modal from 'react-modal'
 
 import { CheckCircle, XCircle, Hourglass, Users, Building, DollarSign, FileText } from 'lucide-react';
 import { FaBuilding, FaMoneyBill, FaUser } from 'react-icons/fa';
+import paginate from '../../utils/pagination'
+import TableFooter from '../../Components/TableFooter'
 
 const Store = () => {
 
   const [data, setData] = useState([])
+  const [slice, setSlice] = useState([])
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedEmployee, setSelectedEmployee] = useState({})
+
   const [division, setdivision] = useState('')
   const [divisions, setdivisions] = useState([])
   const [branches, setBranches] = useState([])
   const [branch, setBranch] = useState('')
-  const [dept, setdept] = useState('')
 
-  const [employees, setEmployees] = useState([])
-
-  const [nid, setNID] = useState('')
-
-  const [employee, setEmployee] = useState({})
-
-  const [education, setEducation] = useState([])
-
-  const [job_info, setJob_info] = useState({})
-
-  const [experience, setExperience] = useState([])
 
   const [departments, setDepartments] = useState([])
 
@@ -290,29 +282,36 @@ const Store = () => {
 
   const [category_wise_data, setCategory_wise_data] = useState({})
 
-  const getEmployees = () => {
-    if (branch != '') {
-      axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
-        setEmployees(res.data)
-      })
-    } else if (dept == 2 && branch == '' && division != '') {
-      axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
-        setEmployees(res.data)
-      })
-    } else {
-      axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
-        setEmployees(res.data)
-      })
+  const [assignable, setAssignable] = useState('')
+  const [page, setPage] = useState(1);
+
+  const [assignables, setAssignables] = useState([
+    {
+
+      name: 'Non-assignable', value: 0,
+    },
+    {
+      name: 'Assignable', value: 1,
     }
-  }
+  ])
+
+  const [filter_category, setFilter_category] = useState('')
+  const [filter_floor, setFilter_floor] = useState('')
+  const [filter_room, setFilter_room] = useState('')
+  const [filter_assignable, setFilter_assignable] = useState('')
+  const [filter_department, setFilter_department] = useState('')
+  const [clear, setClear] = useState(false)
+  const [range, setRange] = useState([])
+
+
 
   const getData = () => {
     axios.get('https://server.promisenothi.com/employees/assets').then(res => {
-      setData(res.data)
+
       var result = res.data.reduce((value, object) => {
-        if(value[object.category_name]){
+        if (value[object.category_name]) {
           value[object.category_name].amount += object.quantity;
-        }else {
+        } else {
           value[object.category_name] = {
             id: object.category_id,
             amount: object.quantity
@@ -323,10 +322,16 @@ const Store = () => {
       }, {})
 
       setCategory_wise_data(result)
-      console.log(result);
-      
+
+      const { slice, range } = paginate(res.data, page, 10)
+      setData(res.data)
+      setSlice(slice)
+      setRange(range)
+
     })
   }
+
+
 
   useEffect(() => {
 
@@ -359,20 +364,32 @@ const Store = () => {
       room_id: room,
       department_id: department,
       item_name,
-      quantity
+      quantity,
+      assignable
     }).then(res => {
-      
+      console.log('heeeeeeeeellllllllll');
+
       toast('Submitted')
       getData()
 
     })
   }
 
-  
+  const filter = (e) => {
+    e.preventDefault()
+    axios.get(`https://server.promisenothi.com/employees/assets?category_id=${filter_category}&&department_id=${filter_department}&&floor_id=${filter_floor}&&room_id=${filter_room}&&assignable=${filter_assignable}`).then(res => {
+      setData(res.data)
+      console.log(res.data);
+      setClear(true)
+    })
+  }
+
+
 
   return (
     <div className="container mt-4">
-      
+      <ToastContainer />
+
       {/* <h2 className="mb-4">Store Dashboard Overview:</h2>
 
       <div className="row">
@@ -458,39 +475,7 @@ const Store = () => {
       </div> */}
 
 
-<div className="container mt-4">
-      <h2 className="text-center mb-3">Student Dashboard</h2>
-      <div className="row">
-        <div className="col-md-3 mb-3">
-          <div className="card bg-primary text-white p-3 text-center">
-            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon - you might need to add Bootstrap Icons */}
-            <div>৳848,400.00</div>
-            <div className="small">Total Payable</div>
-          </div>
-        </div>
-        <div className="col-md-3 mb-3">
-          <div className="card bg-purple text-white p-3 text-center">
-            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon */}
-            <div>৳848,400.00</div>
-            <div className="small">Total Paid</div>
-          </div>
-        </div>
-        <div className="col-md-3 mb-3">
-          <div className="card bg-danger text-white p-3 text-center">
-            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon */}
-            <div>৳0.00</div>
-            <div className="small">Total Due</div>
-          </div>
-        </div>
-        <div className="col-md-3 mb-3">
-          <div className="card bg-info text-white p-3 text-center">
-            <i className="bi bi-bell fs-1 mb-2"></i> {/* Example icon */}
-            <div>৳10,300.00</div>
-            <div className="small">Total Others</div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
 
       {/* Store Assest Section */}
@@ -571,8 +556,8 @@ const Store = () => {
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Office Safety and Security</h5>
-                <p className="card-text mx-4">0</p>
+                <h5 className="card-title">Electrical and Electronics Items</h5>
+                <p className="card-text mx-4">{category_wise_data['Electrical and Electronics Items'] ? category_wise_data['Electrical and Electronics Items'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -585,19 +570,99 @@ const Store = () => {
         <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
           <h2 className="storeassets">Store Asset Dashboard Overview:</h2>
 
-          <div className='d-flex flex-column w-50'>
-            <label> Job Department: </label>
+          <div className='d-flex flex-column w-25'>
+            <div className='d-flex flex-column m-2'>
+              <label> Floor: </label>
 
-            <select onChange={e => {
-              setdept(e.target.value)
-            }} className='select'>
-              <option>Select</option>
-              {
-                departments.filter(e => e.id != 3).map(item => (
-                  <option value={item.id}>{item.name}</option>
-                ))
-              }
-            </select>
+              <select value={filter_floor} onChange={e => {
+                setFilter_floor(e.target.value)
+                getRooms(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  floors.map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+
+            <div className='d-flex flex-column m-2'>
+              <label>Room</label>
+              <select value={filter_room} onChange={e => {
+                setFilter_room(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  rooms.map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+            <div className='d-flex flex-column m-2'>
+              <label>Job Department</label>
+              <select value={filter_department} onChange={e => {
+                setFilter_department(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  departments.filter(e => e.id != 3).map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+
+            <div className='d-flex flex-column m-2'>
+              <label>Category</label>
+              <select value={filter_category} onChange={e => {
+                setFilter_category(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  categories.filter(e => e.id != 7).map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+
+
+            <div className='d-flex flex-column m-2'>
+              <label>Assignable</label>
+              <select value={filter_assignable} onChange={e => {
+                setFilter_assignable(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  assignables.map(item => (
+                    <option value={item.value}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+            <button className='btn btn-success my-2' onClick={filter}>Filter</button>
+            {clear && <button className='btn btn-danger' onClick={e => {
+              e.preventDefault()
+              getData()
+              setFilter_assignable('')
+              setFilter_category('')
+              setFilter_department('')
+              setFilter_floor('')
+              setFilter_room('')
+              setClear(false)
+            }}>Clear</button>}
+
+
+
+
+
             {/* 
             {dept == 2 &&
               <div>
@@ -644,25 +709,28 @@ const Store = () => {
                     <th scope="col">Room</th>
                     <th scope="col">Department</th>
                     <th scope="col">Asset Name</th>
+                    <th scope="col">Assignable</th>
                     <th scope="col">Quantity</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
 
-                    data.map((item, i) => (
+                    slice.map((item, i) => (
                       <tr>
-                        <td className='px-3 text-start'>{i + 1}</td>
+                        <td className='px-3 text-start'>{(page - 1) * 10 + i + 1}</td>
                         <td className='px-3'>{item.floor_name}</td>
                         <td className='px-3'>{item.room_name}</td>
                         <td className='px-3'>{item.department_name}</td>
                         <td className='px-3'>{item.item_name}</td>
+                        <td className='px-3'>{item.assignable == 0 ? 'Non Assignable' : 'Assignable'}</td>
                         <td className='px-3'>{item.quantity}</td>
                       </tr>
                     ))
                   }
                 </tbody>
               </table>
+              <TableFooter range={range} slice={slice} setSlice={setSlice} data={data} setPage={setPage} page={page} />
             </div>
 
 
@@ -727,6 +795,19 @@ const Store = () => {
             {
               categories.map(item => (
                 <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Assignable: </label>
+
+          <select onChange={e => {
+            setAssignable(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              assignables.map(item => (
+                <option value={item.value}>{item.name}</option>
               ))
             }
           </select>

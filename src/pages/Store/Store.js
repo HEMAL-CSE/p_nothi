@@ -303,6 +303,15 @@ const Store = () => {
   const [clear, setClear] = useState(false)
   const [range, setRange] = useState([])
 
+  const [edit_category, setEdit_category] = useState('')
+  const [edit_floor, setEdit_floor] = useState('')
+  const [edit_room, setEdit_room] = useState('')
+  const [edit_assignable, setEdit_assignable] = useState('')
+  const [edit_department, setEdit_department] = useState('')
+  const [edit_quantity, setEdit_quantity] = useState('')
+  const [edit_item_name, setEdit_item_name] = useState('')
+  const [edit_id, setEdit_id] = useState('')
+
 
 
   const getData = () => {
@@ -323,7 +332,7 @@ const Store = () => {
 
       setCategory_wise_data(result)
 
-      const { slice, range } = paginate(res.data, page, 15)
+      const { slice, range } = paginate(res.data, page, 12)
       setData(res.data)
       setSlice(slice)
       setRange(range)
@@ -380,7 +389,38 @@ const Store = () => {
     axios.get(`https://server.promisenothi.com/employees/assets?category_id=${filter_category}&&department_id=${filter_department}&&floor_id=${filter_floor}&&room_id=${filter_room}&&assignable=${filter_assignable}`).then(res => {
       setData(res.data)
       console.log(res.data);
+      const { slice, range } = paginate(res.data, page, 12)
+      setSlice(slice)
+      setRange(range)
+    
       setClear(true)
+    })
+  }
+
+  const edit = e => {
+    e.preventDefault()
+
+    axios.put(`https://server.promisenothi.com/employees/assets/edit?id=${edit_id}`, {
+      category_id: edit_category,
+      floor_id: edit_floor,
+      department_id: edit_department,
+      room_id: edit_room,
+      quantity: edit_quantity,
+      assignable: edit_assignable,
+      item_name: edit_item_name
+    }).then(res => {
+      toast('Edited Successfully')
+      getData()
+      setIsOpen(false)
+    })
+  }
+
+  const deleteData = (e, id) => {
+    e.preventDefault()
+
+    axios.delete(`https://server.promisenothi.com/employees/assets/delete?id=${id}`).then(res => {
+      toast('Deleted')
+      getData()
     })
   }
 
@@ -719,13 +759,28 @@ const Store = () => {
 
                     slice.map((item, i) => (
                       <tr>
-                        <td className='px-3 text-start'>{(page - 1) * 10 + i + 1}</td>
+                        <td className='px-3 text-start'>{(page - 1) * 12 + i + 1}</td>
                         <td className='px-3'>{item.floor_name}</td>
                         <td className='px-3'>{item.room_name}</td>
                         <td className='px-3'>{item.department_name}</td>
                         <td className='px-3'>{item.item_name}</td>
                         <td className='px-3'>{item.assignable == 0 ? 'Non Assignable' : 'Assignable'}</td>
                         <td className='px-3'>{item.quantity}</td>
+                        <td className='px-1'>
+                          <button onClick={e => {
+                            e.preventDefault()
+                            setEdit_category(item.category_id)
+                            setEdit_assignable(item.assignable)
+                            setEdit_department(item.department_id)
+                            setEdit_floor(item.floor_id)
+                            setEdit_room(item.room_id)
+                            setEdit_quantity(item.quantity)
+                            setEdit_item_name(item.item_name)
+                            setEdit_id(item.id)
+                            setIsOpen(true)
+                          }} className='btn btn-warning mx-2 p-1'>Edit</button>
+                          <button onClick={e => deleteData(e, item.id)} className='btn btn-danger p-1'>Delete</button>
+                        </td>
                       </tr>
                     ))
                   }
@@ -822,29 +877,118 @@ const Store = () => {
 
 
           <button type='submit' className='btn btn-primary my-3'>Submit</button>
-
-
-          {/* <div>
-
-<label>Item Name</label>
-<input className='input' value={name} onChange={e => setName(e.target.value)} />
-
-
-<label>Company Name</label>
-<input className='input' value={company_name} onChange={e => setCompany_name(e.target.value)} />
-
-<label>Price</label>
-<input className='input' value={price} onChange={e => setPrice(e.target.value)} />
-
-<button onClick={addData} className='button'>Submit</button>
-
-</div> */}
-
-
         </form>
       </div>
 
+      <Modal
+        style={{
+          content: {
+            width: "80%",
+            height: "80%",
+            zIndex: 10,
+            top: "5%",
+            left: "10%",
+            right: "10%",
+            bottom: "5%",
+            overflow: "auto",
+            WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          },
+          overlay: { zIndex: 10000 }
+        }}
+        isOpen={isOpen}
+        onRequestClose={() => {
+          setIsOpen(false)
+        }}
+
+      >
+        <form onSubmit={edit} className='d-flex flex-column w-50'>
+
+          <label> Floor: </label>
+
+          <select value={edit_floor} onChange={e => {
+            setEdit_floor(e.target.value)
+            getRooms(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              floors.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Job Department: </label>
+
+          <select value={edit_department} onChange={e => {
+            setEdit_department(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              departments.filter(e => e.id != 3).map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Room: </label>
+
+          <select value={edit_room} onChange={e => {
+            setEdit_room(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              rooms.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Category: </label>
+
+          <select value={edit_category} onChange={e => {
+            setEdit_category(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              categories.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Assignable: </label>
+
+          <select value={edit_assignable} onChange={e => {
+            setEdit_assignable(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              assignables.map(item => (
+                <option value={item.value}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Item Name: </label>
+
+          <input className='input' value={edit_item_name} onChange={e => setEdit_item_name(e.target.value)} />
+
+          <label> Quantity: </label>
+          <input className='input' value={edit_quantity} onChange={e => setEdit_quantity(e.target.value)} />
+
+
+          <button type='submit' className='btn btn-primary my-3'>Submit</button>
+        </form>
+
+      </Modal>
+
     </div>
+
+
 
   );
 };

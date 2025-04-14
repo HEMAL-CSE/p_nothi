@@ -16,7 +16,7 @@ const TableFooter = ({ range, setPage, page, slice, data, setSlice }) => {
     const handlePageChange = (newPage) => {
         if (newPage < 1 || newPage > totalPages) return;
         setPage(newPage);
-        const { slice } = paginate(data, newPage, 15);
+        const { slice } = paginate(data, newPage, 12);
         setSlice(slice);
     };
 

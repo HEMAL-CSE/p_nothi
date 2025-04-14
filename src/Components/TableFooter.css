@@ -31,3 +31,17 @@
     color: #2c3e50;
     background: #f9f9f9;
   }
+
+
+
+.button:hover:not(.disabledButton) {
+    background-color: #e0e0e0;
+}
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}

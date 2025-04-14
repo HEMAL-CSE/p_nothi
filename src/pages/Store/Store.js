@@ -323,7 +323,7 @@ const Store = () => {
 
       setCategory_wise_data(result)
 
-      const { slice, range } = paginate(res.data, page, 10)
+      const { slice, range } = paginate(res.data, page, 15)
       setData(res.data)
       setSlice(slice)
       setRange(range)

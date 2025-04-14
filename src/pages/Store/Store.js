@@ -820,7 +820,6 @@ const Store = () => {
           <label> Quantity: </label>
           <input className='input' value={quantity} onChange={e => setQuantity(e.target.value)} />
 
-
           <button type='submit' className='btn btn-primary my-3'>Submit</button>
 
 
@@ -839,7 +838,6 @@ const Store = () => {
 <button onClick={addData} className='button'>Submit</button>
 
 </div> */}
-
 
         </form>
       </div>

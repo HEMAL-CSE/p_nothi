@@ -711,6 +711,7 @@ const Store = () => {
                     <th scope="col">Asset Name</th>
                     <th scope="col">Assignable</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Edit/Delete</th>
                   </tr>
                 </thead>
                 <tbody>

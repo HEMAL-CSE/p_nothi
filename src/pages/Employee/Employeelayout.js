@@ -139,7 +139,7 @@ const Employeelayout = ({ children }) => {
     },
 
     {
-      name: 'Store',
+      name: 'Store / Asset',
       pathname: '/employee/store',
       roles: ['1', '2', '3', '4', '5', '6', '7', '11', '15'],
       icon: BiStore,

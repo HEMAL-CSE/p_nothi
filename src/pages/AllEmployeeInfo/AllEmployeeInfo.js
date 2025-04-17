@@ -320,7 +320,7 @@ const AllEmployeeInfo = () => {
             </div>
 
             <div className='border border-1 border-black p-2 m-4'>
-                <h1 className='m-3'>Divisional Coordinators</h1>
+                <h1 className='m-3'>Divisional Heads</h1>
                 <table className='mt-10 table'>
                     <thead>
                         <tr>
@@ -342,7 +342,7 @@ const AllEmployeeInfo = () => {
                                     <td className='px-3'>{item.email}</td>
                                     <td className='px-3'>{item.mobile_no}</td>
                                     <td className='px-3'>{item.present_address}</td>
-                                    <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
+                                    <td className='px-3'>Divisional Head</td>
                                     <td className='px-3'>
                                         <button onClick={(e) => {
                                             setIsOpen(true)

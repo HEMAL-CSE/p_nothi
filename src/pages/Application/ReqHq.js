@@ -6,6 +6,7 @@ import Approval from '../../Components/Approval'
 import moment from 'moment'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import logo from '../../assets/logo.png'
 
 const ReqHq = ({ getData, group }) => {
     const role = localStorage.getItem('role')
@@ -30,49 +31,49 @@ const ReqHq = ({ getData, group }) => {
 
     const handleDownloadPdf = async (e) => {
         e.preventDefault()
-      const element = printRef.current;
-      if (!element) {
-        return;
-      }
-  
-      const canvas = await html2canvas(element, {
-        scale: 2,
-      });
-      const data = canvas.toDataURL("image/png");
-  
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: "a4",
-      });
-  
-      const imgProperties = pdf.getImageProperties(data);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-  
-      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-  
-      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("examplepdf.pdf");
+        const element = printRef.current;
+        if (!element) {
+            return;
+        }
+
+        const canvas = await html2canvas(element, {
+            scale: 2,
+        });
+        const data = canvas.toDataURL("image/png");
+
+        const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "px",
+            format: "a4",
+        });
+
+        const imgProperties = pdf.getImageProperties(data);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+
+        const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+
+        pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("examplepdf.pdf");
     };
 
 
-        const invoiceData = {
-          invoiceNumber: 'REQ-2025-0001',
-          companyName: 'Your Name',
-          companyAddress: '123 Business Street',
-          companyCityStateZip: 'City, State 12345',
-          billTo: {
-            clientName: 'Client Name',
-            clientAddress: 'Client Address',
-            clientCityStateZip: 'City, State ZIP',
-          },
-          items: [
-            { description: 'Web Design Service', quantity: 1, unitPrice: 1500.00 },
-            { description: 'Hosting Setup', quantity: 1, unitPrice: 250.00 },
-          ],
-          
-        };
-      
+    // const invoiceData = {
+    //   invoiceNumber: 'REQ-2025-0001',
+    //   companyName: 'Your Name',
+    //   companyAddress: '123 Business Street',
+    //   companyCityStateZip: 'City, State 12345',
+    //   billTo: {
+    //     clientName: 'Client Name',
+    //     clientAddress: 'Client Address',
+    //     clientCityStateZip: 'City, State ZIP',
+    //   },
+    //   items: [
+    //     { description: 'Web Design Service', quantity: 1, unitPrice: 1500.00 },
+    //     { description: 'Hosting Setup', quantity: 1, unitPrice: 250.00 },
+    //   ],
+
+    // };
+
 
 
     const admintData = () => {
@@ -272,15 +273,15 @@ const ReqHq = ({ getData, group }) => {
     const deleteData = (e, id) => {
         e.preventDefault()
 
-        if(window.confirm('Do you want to delete this?')){
-          axios.delete(`https://server.promisenothi.com/employees/requisition/delete?id=${id}`).then(res => {
-            toast('Deleted')
-            getData()
-        })  
+        if (window.confirm('Do you want to delete this?')) {
+            axios.delete(`https://server.promisenothi.com/employees/requisition/delete?id=${id}`).then(res => {
+                toast('Deleted')
+                getData()
+            })
         }
-    
-        
-      }
+
+
+    }
 
     useEffect(() => {
         getData()
@@ -566,7 +567,7 @@ const ReqHq = ({ getData, group }) => {
                     </table> </div>
             }
 
-            
+
             {/* Comment box */}
 
             <Modal
@@ -647,23 +648,18 @@ const ReqHq = ({ getData, group }) => {
                     setDetailsOpen(false)
                 }}
             >
-                 <div className='m-2'>
-                        <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
-                            handleDownloadPdf(e)
-                        }} className='btn btn-secondary text-center m-2'>Click Here</button>
+                <div className='m-2'>
+                    <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
+                        handleDownloadPdf(e)
+                    }} className='btn btn-secondary text-center m-2'>Click Here</button>
                 </div>
 
                 {/* PDF Print DIV */}
-                <div ref={printRef}>
-                <div className="col-6">
-                <h4 className="text-uppercase fw-bold">Requisitions</h4>
-                
-              </div>
-                <div>
-                <p className="text-muted">REQ NO: #{invoiceData.invoiceNumber}</p>
-                <p className="text-end" >Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
-                </div>
-                <table className='table m-5'>
+                <div >
+                    <div className="col-6">
+
+                    </div>
+                    {/* <table className='table m-5'>
                     <thead>
                         <th>Item Name</th>
                         <th>Quantity</th>
@@ -680,53 +676,94 @@ const ReqHq = ({ getData, group }) => {
                             ))
                         }
                     </tbody>
-                </table>
+                </table> */}
 
-    <div className="container mt-4">
-      <div className="row">
-        <div className="col-md-8 offset-md-2">
-          <div className="card shadow p-4">
-            <div className="row mb-4">
-              <div className="col-6">
-                <h2 className="text-uppercase fw-bold">Requisitions</h2>
-                <p className="text-muted">Invoice #{invoiceData.invoiceNumber}</p>
-              </div>
-              <div className="col-6 text-end">
+                    <div className="container mt-4">
+                        <div className="row">
+                            <div className="col-md-8 offset-md-2">
+                                <div ref={printRef} className="card shadow">
+                                    <header className="bg-white align-items-center justify-content-between">
+                                        <div className='bg-blue p-2'>
+
+                                        </div>
+                                        <div className="d-flex align-items-center">
+                                            <img
+                                                src={logo}
+
+                                                alt="E-Learning & Earning Ltd."
+                                                height={150}
+                                                width={150}
+                                                className=""
+                                            />
+                                            {/* <div>
+            <h5 className="mb-0 fw-bold text-success">E-Learning & Earning Ltd.</h5>
+            <small className="text-muted">Excellence in Learning</small>
+          </div> */}
+                                        </div>
+                                    </header>
+                                    <div className="row mb-4 mx-4">
+                                        <div className="col-6">
+                                            <h2 className="text-uppercase fw-bold">Requisitions</h2>
+                                            <p className="text-muted">Invoice #{selectedRequisition.id}</p>
+                                            <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                                        </div>
+                                        {/* <div className="col-6 text-end">
                 <h6 className="fw-bold">{invoiceData.companyName}</h6>
                 <p className="text-muted mb-1">{invoiceData.companyAddress}</p>
                 <p className="text-muted">{invoiceData.companyCityStateZip}</p>
-              </div>
-            </div>
+              </div> */}
+                                    </div>
 
-           
-            <div className="table-responsive">
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th className="fw-bold">Description</th>
-                    <th className="fw-bold text-end">Quantity</th>
-                    <th className="fw-bold text-end">Unit Price</th>
-                    <th className="fw-bold text-end">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {invoiceData.items.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.description}</td>
-                      <td className="text-end">{item.quantity}</td>
-                      <td className="text-end">${item.unitPrice.toFixed(2)}</td>
-                      <td className="text-end">${(item.quantity * item.unitPrice).toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
 
-          </div>
-        </div>
-      </div>
-    </div>
- </div>
+                                    <div className="table-responsive mx-4 mb-5 pb-5">
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th className="fw-bold">Description</th>
+                                                    <th className="fw-bold text-end">Quantity</th>
+                                                    <th className="fw-bold text-end">Unit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {details.map(item => (
+                                                    <tr>
+                                                        <td>{item.name}</td>
+                                                        <td>{item.quantity}</td>
+                                                        <td>{item.unit}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="my-4 "></div>
+
+                                    <p className="mt-5 mx-3">
+                                        <strong>Head Office :</strong> Khaja IT Park (2nd to 6th Floor)
+                                    </p>
+                                    <p className="mb-1 mx-3">
+                                        <strong>Phone:</strong> 02-8091188, +88 01550 666 800|
+                                        <strong> Email:</strong> info@e-laeltd.com
+                                    </p>
+                                    <div className="bg-success text-white text-center mt-auto">
+                                        <div className="container">
+
+                                            <p>
+                                                <a className="text-white" href="https://www.facebook.com/elaeltd">Facebook</a> |
+                                                <a className="text-white" href="https://www.e-laeltd.com">Website</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className='bg-blue p-2'>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Modal>
         </div>
     )

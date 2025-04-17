@@ -703,7 +703,7 @@ const ReqHq = ({ getData, group }) => {
                                     </header>
                                     <div className="row mb-4 mx-4">
                                         <div className="col-6">
-                                            <h2 className="text-uppercase fw-bold">Requisitions</h2>
+                                            <h5 className="text-uppercase fw-bold">Requisitions</h5>
                                             <p className="text-muted">Invoice #{selectedRequisition.id}</p>
                                             <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
                                         </div>

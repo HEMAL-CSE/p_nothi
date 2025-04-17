@@ -299,7 +299,7 @@ const ReqHq = ({ getData, group }) => {
         <div>
             {['7', '9', '15'].includes(role) && department != 2 ?
                 <div>
-                    <label className='text-center mt-4'>Pending Requisitions</label>
+                    <label className='text-center mt-4'>Pending Requisitions (Head Office)</label>
                     <table className='table mt-3'>
                         <thead>
                             <tr>
@@ -726,9 +726,7 @@ const ReqHq = ({ getData, group }) => {
         </div>
       </div>
     </div>
-
-
-                </div>
+ </div>
             </Modal>
         </div>
     )

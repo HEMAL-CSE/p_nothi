@@ -103,14 +103,14 @@ const Employeelayout = ({ children }) => {
     {
       name: 'All Employee Info',
       pathname: '/employee/all_employee_info',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '15'],
       icon: HiDocumentSearch,
       submenu: []
     },
     {
       name: 'Hierarchy',
       pathname: '/employee/hierarchy',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '15'],
       icon: TbHierarchy,
       submenu: []
     },
@@ -141,7 +141,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Store',
       pathname: '/employee/store',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '11', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '11', '15'],
       icon: BiStore,
       submenu: []
     },

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
 import Modal from 'react-modal'
+import '../../App.css'
 
 // const Store = () => {
 
@@ -244,29 +245,20 @@ import Modal from 'react-modal'
 
 import { CheckCircle, XCircle, Hourglass, Users, Building, DollarSign, FileText } from 'lucide-react';
 import { FaBuilding, FaMoneyBill, FaUser } from 'react-icons/fa';
+import paginate from '../../utils/pagination'
+import TableFooter from '../../Components/TableFooter'
 
 const Store = () => {
 
   const [data, setData] = useState([])
+  const [slice, setSlice] = useState([])
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedEmployee, setSelectedEmployee] = useState({})
+
   const [division, setdivision] = useState('')
   const [divisions, setdivisions] = useState([])
   const [branches, setBranches] = useState([])
   const [branch, setBranch] = useState('')
-  const [dept, setdept] = useState('')
 
-  const [employees, setEmployees] = useState([])
-
-  const [nid, setNID] = useState('')
-
-  const [employee, setEmployee] = useState({})
-
-  const [education, setEducation] = useState([])
-
-  const [job_info, setJob_info] = useState({})
-
-  const [experience, setExperience] = useState([])
 
   const [departments, setDepartments] = useState([])
 
@@ -288,27 +280,67 @@ const Store = () => {
 
   const [quantity, setQuantity] = useState('')
 
-  const getEmployees = () => {
-    if (branch != '') {
-      axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
-        setEmployees(res.data)
-      })
-    } else if (dept == 2 && branch == '' && division != '') {
-      axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
-        setEmployees(res.data)
-      })
-    } else {
-      axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
-        setEmployees(res.data)
-      })
+  const [category_wise_data, setCategory_wise_data] = useState({})
+
+  const [assignable, setAssignable] = useState('')
+  const [page, setPage] = useState(1);
+
+  const [assignables, setAssignables] = useState([
+    {
+
+      name: 'Non-assignable', value: 0,
+    },
+    {
+      name: 'Assignable', value: 1,
     }
-  }
+  ])
+
+  const [filter_category, setFilter_category] = useState('')
+  const [filter_floor, setFilter_floor] = useState('')
+  const [filter_room, setFilter_room] = useState('')
+  const [filter_assignable, setFilter_assignable] = useState('')
+  const [filter_department, setFilter_department] = useState('')
+  const [clear, setClear] = useState(false)
+  const [range, setRange] = useState([])
+
+  const [edit_category, setEdit_category] = useState('')
+  const [edit_floor, setEdit_floor] = useState('')
+  const [edit_room, setEdit_room] = useState('')
+  const [edit_assignable, setEdit_assignable] = useState('')
+  const [edit_department, setEdit_department] = useState('')
+  const [edit_quantity, setEdit_quantity] = useState('')
+  const [edit_item_name, setEdit_item_name] = useState('')
+  const [edit_id, setEdit_id] = useState('')
+
+
 
   const getData = () => {
     axios.get('https://server.promisenothi.com/employees/assets').then(res => {
+
+      var result = res.data.reduce((value, object) => {
+        if (value[object.category_name]) {
+          value[object.category_name].amount += object.quantity;
+        } else {
+          value[object.category_name] = {
+            id: object.category_id,
+            amount: object.quantity
+          }
+        }
+
+        return value
+      }, {})
+
+      setCategory_wise_data(result)
+
+      const { slice, range } = paginate(res.data, page, 12)
       setData(res.data)
+      setSlice(slice)
+      setRange(range)
+
     })
   }
+
+
 
   useEffect(() => {
 
@@ -341,29 +373,72 @@ const Store = () => {
       room_id: room,
       department_id: department,
       item_name,
-      quantity
+      quantity,
+      assignable
     }).then(res => {
-      console.log('Helllllllllllllllllllllllllllllll');
-      
+      console.log('heeeeeeeeellllllllll');
+
       toast('Submitted')
       getData()
 
     })
-
   }
+
+  const filter = (e) => {
+    e.preventDefault()
+    axios.get(`https://server.promisenothi.com/employees/assets?category_id=${filter_category}&&department_id=${filter_department}&&floor_id=${filter_floor}&&room_id=${filter_room}&&assignable=${filter_assignable}`).then(res => {
+      setData(res.data)
+      console.log(res.data);
+      const { slice, range } = paginate(res.data, page, 12)
+      setSlice(slice)
+      setRange(range)
+    
+      setClear(true)
+    })
+  }
+
+  const edit = e => {
+    e.preventDefault()
+
+    axios.put(`https://server.promisenothi.com/employees/assets/edit?id=${edit_id}`, {
+      category_id: edit_category,
+      floor_id: edit_floor,
+      department_id: edit_department,
+      room_id: edit_room,
+      quantity: edit_quantity,
+      assignable: edit_assignable,
+      item_name: edit_item_name
+    }).then(res => {
+      toast('Edited Successfully')
+      getData()
+      setIsOpen(false)
+    })
+  }
+
+  const deleteData = (e, id) => {
+    e.preventDefault()
+
+    axios.delete(`https://server.promisenothi.com/employees/assets/delete?id=${id}`).then(res => {
+      toast('Deleted')
+      getData()
+    })
+  }
+
+
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Store Dashboard Overview:</h2>
       <ToastContainer />
+
+      {/* <h2 className="mb-4">Store Dashboard Overview:</h2>
 
       <div className="row">
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+
+              <FaUser className='mx-3' size={20} />
+     
               <div>
                 <h5 className="card-title">Total Employees</h5>
                 <p className="card-text mx-4">1</p>
@@ -374,9 +449,9 @@ const Store = () => {
         <div className="col-md-4 mb-4">
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+        
+              <FaBuilding className='mx-3' size={20} /> 
+    
               <div>
                 <h5 className="card-title">Total Departments</h5>
                 <p className="card-text mx-4">2</p>
@@ -387,9 +462,8 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-dark bg-gradient">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+     
+              <FaMoneyBill className='mx-3' size={20} />
               <div>
                 <h5 className="card-title">Monthly Salary</h5>
                 <p className="card-text mx-4">0</p>
@@ -400,14 +474,13 @@ const Store = () => {
       </div>
 
 
-      {/* <h2 className="mb-4">Store Dashboard Overview</h2> */}
+
       <div className="row">
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-black">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+     
+              <FaUser className='mx-3' size={20} /> 
               <div>
                 <h5 className="card-title">Total Stationary</h5>
                 <p className="card-text mx-4">10</p>
@@ -418,9 +491,8 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-success">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+
+              <FaBuilding className='mx-3' size={20} /> 
               <div>
                 <h5 className="card-title">Total Chairs and Table</h5>
                 <p className="card-text mx-4">2</p>
@@ -431,9 +503,8 @@ const Store = () => {
         <div className="col-md-4 mb-3">
           <div className="card text-white bg-danger">
             <div className="card-body d-flex align-items-center justify-content-center">
-              {/* <div className="mr-3"> */}
-              <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
-              {/* </div> */}
+           
+              <FaMoneyBill className='mx-3' size={20} /> 
               <div>
                 <h5 className="card-title">Total Office Equipment</h5>
                 <p className="card-text mx-4">0</p>
@@ -441,7 +512,10 @@ const Store = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+
+
+
 
 
       {/* Store Assest Section */}
@@ -454,8 +528,8 @@ const Store = () => {
               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Employees</h5>
-                <p className="card-text mx-4">1</p>
+                <h5 className="card-title">Office Equipment</h5>
+                <p className="card-text mx-4">{category_wise_data['Office Equipment'] ? category_wise_data['Office Equipment'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -467,8 +541,8 @@ const Store = () => {
               <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Departments</h5>
-                <p className="card-text mx-4">2</p>
+                <h5 className="card-title">Office Furniture</h5>
+                <p className="card-text mx-4">{category_wise_data['Office Furniture'] ? category_wise_data['Office Furniture'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -480,8 +554,8 @@ const Store = () => {
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Monthly Salary</h5>
-                <p className="card-text mx-4">0</p>
+                <h5 className="card-title">Stationary</h5>
+                <p className="card-text mx-4">{category_wise_data['Stationary'] ? category_wise_data['Stationary'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -496,8 +570,8 @@ const Store = () => {
               <FaUser className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Stationary</h5>
-                <p className="card-text mx-4">10</p>
+                <h5 className="card-title">Technology and IT Accessories</h5>
+                <p className="card-text mx-4">{category_wise_data['Technology and IT Accessories'] ? category_wise_data['Technology and IT Accessories'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -509,8 +583,8 @@ const Store = () => {
               <FaBuilding className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Chairs and Table</h5>
-                <p className="card-text mx-4">2</p>
+                <h5 className="card-title">Cleaning and Maintenance Supplies</h5>
+                <p className="card-text mx-4">{category_wise_data['Cleaning and Maintenance Supplies'] ? category_wise_data['Cleaning and Maintenance Supplies'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -522,8 +596,8 @@ const Store = () => {
               <FaMoneyBill className='mx-3' size={20} /> {/* Assuming you have Font Awesome for icons */}
               {/* </div> */}
               <div>
-                <h5 className="card-title">Total Office Equipment</h5>
-                <p className="card-text mx-4">0</p>
+                <h5 className="card-title">Electrical and Electronics Items</h5>
+                <p className="card-text mx-4">{category_wise_data['Electrical and Electronics Items'] ? category_wise_data['Electrical and Electronics Items'].amount : '0'}</p>
               </div>
             </div>
           </div>
@@ -531,27 +605,104 @@ const Store = () => {
       </div>
 
 
-
-
-
       {
 
         <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
           <h2 className="storeassets">Store Asset Dashboard Overview:</h2>
 
-          <div className='d-flex flex-column w-50'>
-            <label> Job Department: </label>
+          <div className='d-flex flex-column w-25'>
+            <div className='d-flex flex-column m-2'>
+              <label> Floor: </label>
 
-            <select onChange={e => {
-              setdept(e.target.value)
-            }} className='select'>
-              <option>Select</option>
-              {
-                departments.filter(e => e.id != 3).map(item => (
-                  <option value={item.id}>{item.name}</option>
-                ))
-              }
-            </select>
+              <select value={filter_floor} onChange={e => {
+                setFilter_floor(e.target.value)
+                getRooms(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  floors.map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+
+            <div className='d-flex flex-column m-2'>
+              <label>Room</label>
+              <select value={filter_room} onChange={e => {
+                setFilter_room(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  rooms.map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+            <div className='d-flex flex-column m-2'>
+              <label>Job Department</label>
+              <select value={filter_department} onChange={e => {
+                setFilter_department(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  departments.filter(e => e.id != 3).map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+
+            <div className='d-flex flex-column m-2'>
+              <label>Category</label>
+              <select value={filter_category} onChange={e => {
+                setFilter_category(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  categories.filter(e => e.id != 7).map(item => (
+                    <option value={item.id}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+
+
+            <div className='d-flex flex-column m-2'>
+              <label>Assignable</label>
+              <select value={filter_assignable} onChange={e => {
+                setFilter_assignable(e.target.value)
+              }} className='select'>
+                <option>Select</option>
+                {
+                  assignables.map(item => (
+                    <option value={item.value}>{item.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+
+            <button className='btn btn-success my-2' onClick={filter}>Filter</button>
+            {clear && <button className='btn btn-danger' onClick={e => {
+              e.preventDefault()
+              getData()
+              setFilter_assignable('')
+              setFilter_category('')
+              setFilter_department('')
+              setFilter_floor('')
+              setFilter_room('')
+              setClear(false)
+            }}>Clear</button>}
+
+
+
+
+
             {/* 
             {dept == 2 &&
               <div>
@@ -598,25 +749,44 @@ const Store = () => {
                     <th scope="col">Room</th>
                     <th scope="col">Department</th>
                     <th scope="col">Asset Name</th>
+                    <th scope="col">Assignable</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Edit/Delete</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
 
-                    data.map((item, i) => (
+                    slice.map((item, i) => (
                       <tr>
-                        <td className='px-3 text-start'>{i + 1}</td>
+                        <td className='px-3 text-start'>{(page - 1) * 12 + i + 1}</td>
                         <td className='px-3'>{item.floor_name}</td>
                         <td className='px-3'>{item.room_name}</td>
                         <td className='px-3'>{item.department_name}</td>
                         <td className='px-3'>{item.item_name}</td>
+                        <td className='px-3'>{item.assignable == 0 ? 'Non Assignable' : 'Assignable'}</td>
                         <td className='px-3'>{item.quantity}</td>
+                        <td className='px-1'>
+                          <button onClick={e => {
+                            e.preventDefault()
+                            setEdit_category(item.category_id)
+                            setEdit_assignable(item.assignable)
+                            setEdit_department(item.department_id)
+                            setEdit_floor(item.floor_id)
+                            setEdit_room(item.room_id)
+                            setEdit_quantity(item.quantity)
+                            setEdit_item_name(item.item_name)
+                            setEdit_id(item.id)
+                            setIsOpen(true)
+                          }} className='btn btn-warning mx-2 p-1'>Edit</button>
+                          <button onClick={e => deleteData(e, item.id)} className='btn btn-danger p-1'>Delete</button>
+                        </td>
                       </tr>
                     ))
                   }
                 </tbody>
               </table>
+              <TableFooter range={range} slice={slice} setSlice={setSlice} data={data} setPage={setPage} page={page} />
             </div>
 
 
@@ -685,6 +855,19 @@ const Store = () => {
             }
           </select>
 
+          <label> Assignable: </label>
+
+          <select onChange={e => {
+            setAssignable(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              assignables.map(item => (
+                <option value={item.value}>{item.name}</option>
+              ))
+            }
+          </select>
+
           <label> Item Name: </label>
 
           <input className='input' value={item_name} onChange={e => setItem_name(e.target.value)} />
@@ -692,31 +875,119 @@ const Store = () => {
           <label> Quantity: </label>
           <input className='input' value={quantity} onChange={e => setQuantity(e.target.value)} />
 
-
           <button type='submit' className='btn btn-primary my-3'>Submit</button>
-
-
-          {/* <div>
-
-<label>Item Name</label>
-<input className='input' value={name} onChange={e => setName(e.target.value)} />
-
-
-<label>Company Name</label>
-<input className='input' value={company_name} onChange={e => setCompany_name(e.target.value)} />
-
-<label>Price</label>
-<input className='input' value={price} onChange={e => setPrice(e.target.value)} />
-
-<button onClick={addData} className='button'>Submit</button>
-
-</div> */}
-
-
         </form>
       </div>
 
+      <Modal
+        style={{
+          content: {
+            width: "80%",
+            height: "80%",
+            zIndex: 10,
+            top: "5%",
+            left: "10%",
+            right: "10%",
+            bottom: "5%",
+            overflow: "auto",
+            WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          },
+          overlay: { zIndex: 10000 }
+        }}
+        isOpen={isOpen}
+        onRequestClose={() => {
+          setIsOpen(false)
+        }}
+
+      >
+        <form onSubmit={edit} className='d-flex flex-column w-50'>
+
+          <label> Floor: </label>
+
+          <select value={edit_floor} onChange={e => {
+            setEdit_floor(e.target.value)
+            getRooms(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              floors.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Job Department: </label>
+
+          <select value={edit_department} onChange={e => {
+            setEdit_department(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              departments.filter(e => e.id != 3).map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Room: </label>
+
+          <select value={edit_room} onChange={e => {
+            setEdit_room(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              rooms.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Category: </label>
+
+          <select value={edit_category} onChange={e => {
+            setEdit_category(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              categories.map(item => (
+                <option value={item.id}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Assignable: </label>
+
+          <select value={edit_assignable} onChange={e => {
+            setEdit_assignable(e.target.value)
+          }} className='select'>
+            <option>Select</option>
+            {
+              assignables.map(item => (
+                <option value={item.value}>{item.name}</option>
+              ))
+            }
+          </select>
+
+          <label> Item Name: </label>
+
+          <input className='input' value={edit_item_name} onChange={e => setEdit_item_name(e.target.value)} />
+
+          <label> Quantity: </label>
+          <input className='input' value={edit_quantity} onChange={e => setEdit_quantity(e.target.value)} />
+
+
+          <button type='submit' className='btn btn-primary my-3'>Submit</button>
+        </form>
+
+      </Modal>
+
     </div>
+
+
 
   );
 };

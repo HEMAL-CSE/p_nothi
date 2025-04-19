@@ -1,10 +1,11 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import Approval from '../../Components/Approval'
 import moment from 'moment'
-
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 const ReqHq = ({ getData, group }) => {
     const role = localStorage.getItem('role')
@@ -25,7 +26,53 @@ const ReqHq = ({ getData, group }) => {
     const [comment_id, setComment_id] = useState('')
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [details, setDetails] = useState([])
+    const printRef = useRef(null);
 
+    const handleDownloadPdf = async (e) => {
+        e.preventDefault()
+      const element = printRef.current;
+      if (!element) {
+        return;
+      }
+  
+      const canvas = await html2canvas(element, {
+        scale: 2,
+      });
+      const data = canvas.toDataURL("image/png");
+  
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: "a4",
+      });
+  
+      const imgProperties = pdf.getImageProperties(data);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+  
+      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+  
+      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("examplepdf.pdf");
+    };
+
+
+        const invoiceData = {
+          invoiceNumber: 'REQ-2025-0001',
+          companyName: 'Your Name',
+          companyAddress: '123 Business Street',
+          companyCityStateZip: 'City, State 12345',
+          billTo: {
+            clientName: 'Client Name',
+            clientAddress: 'Client Address',
+            clientCityStateZip: 'City, State ZIP',
+          },
+          items: [
+            { description: 'Web Design Service', quantity: 1, unitPrice: 1500.00 },
+            { description: 'Hosting Setup', quantity: 1, unitPrice: 250.00 },
+          ],
+          
+        };
+      
 
 
     const admintData = () => {
@@ -222,6 +269,19 @@ const ReqHq = ({ getData, group }) => {
         })
     }
 
+    const deleteData = (e, id) => {
+        e.preventDefault()
+
+        if(window.confirm('Do you want to delete this?')){
+          axios.delete(`https://server.promisenothi.com/employees/requisition/delete?id=${id}`).then(res => {
+            toast('Deleted')
+            getData()
+        })  
+        }
+    
+        
+      }
+
     useEffect(() => {
         getData()
 
@@ -239,7 +299,7 @@ const ReqHq = ({ getData, group }) => {
         <div>
             {['7', '9', '15'].includes(role) && department != 2 ?
                 <div>
-                    <label className='text-center mt-4'>Pending Requisitions</label>
+                    <label className='text-center mt-4'>Pending Requisitions (Head Office)</label>
                     <table className='table mt-3'>
                         <thead>
                             <tr>
@@ -254,7 +314,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Send from store</th>
                                 <th>Received</th>
                                 {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
-
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -298,6 +358,9 @@ const ReqHq = ({ getData, group }) => {
                                                 getComments(item.id)
                                             }}>Comment</button>
                                         </td>}
+                                        <td>
+                                            <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
+                                        </td>
 
                                     </tr>
                                 ))
@@ -324,7 +387,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Send from store</th>
                                 <th>Decision Making</th>
                                 <th>Received</th>
-
+                                <th>Delete</th>
 
                             </tr>
                         </thead>
@@ -368,6 +431,9 @@ const ReqHq = ({ getData, group }) => {
                                             }}>Comment</button>
                                         </td>
                                         <td><Approval approved={item.received} /></td>
+                                        <td>
+                                            <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
+                                        </td>
                                     </tr>
                                 ))
                             }
@@ -445,13 +511,7 @@ const ReqHq = ({ getData, group }) => {
                     </table> </div>
             }
 
-
-
-
-
             {
-
-
 
                 // store manager
                 localStorage.getItem('role') == '11' &&
@@ -506,6 +566,7 @@ const ReqHq = ({ getData, group }) => {
                     </table> </div>
             }
 
+            
             {/* Comment box */}
 
             <Modal
@@ -586,12 +647,25 @@ const ReqHq = ({ getData, group }) => {
                     setDetailsOpen(false)
                 }}
             >
-                <div>
-                    <p>Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                 <div className='m-2'>
+                        <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
+                            handleDownloadPdf(e)
+                        }} className='btn btn-secondary text-center m-2'>Click Here</button>
                 </div>
-                <table className='table m-4'>
+
+                {/* PDF Print DIV */}
+                <div ref={printRef}>
+                <div className="col-6">
+                <h4 className="text-uppercase fw-bold">Requisitions</h4>
+                
+              </div>
+                <div>
+                <p className="text-muted">REQ NO: #{invoiceData.invoiceNumber}</p>
+                <p className="text-end" >Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                </div>
+                <table className='table m-5'>
                     <thead>
-                        <th>Name</th>
+                        <th>Item Name</th>
                         <th>Quantity</th>
 
                     </thead>
@@ -607,6 +681,52 @@ const ReqHq = ({ getData, group }) => {
                         }
                     </tbody>
                 </table>
+
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-8 offset-md-2">
+          <div className="card shadow p-4">
+            <div className="row mb-4">
+              <div className="col-6">
+                <h2 className="text-uppercase fw-bold">Requisitions</h2>
+                <p className="text-muted">Invoice #{invoiceData.invoiceNumber}</p>
+              </div>
+              <div className="col-6 text-end">
+                <h6 className="fw-bold">{invoiceData.companyName}</h6>
+                <p className="text-muted mb-1">{invoiceData.companyAddress}</p>
+                <p className="text-muted">{invoiceData.companyCityStateZip}</p>
+              </div>
+            </div>
+
+           
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th className="fw-bold">Description</th>
+                    <th className="fw-bold text-end">Quantity</th>
+                    <th className="fw-bold text-end">Unit Price</th>
+                    <th className="fw-bold text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoiceData.items.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.description}</td>
+                      <td className="text-end">{item.quantity}</td>
+                      <td className="text-end">${item.unitPrice.toFixed(2)}</td>
+                      <td className="text-end">${(item.quantity * item.unitPrice).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
             </Modal>
         </div>
     )

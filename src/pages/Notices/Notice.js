@@ -440,6 +440,7 @@ export const Notice = () => {
           <thead>
             <tr>
               <th>Notice From</th>
+              <th>Designation</th>
               <th>Notice For</th>
               <th>Details</th>
               {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
@@ -450,6 +451,7 @@ export const Notice = () => {
               all_data.map(item => (
                 <tr>
                   <td>{item.poster_name}</td>
+                  <td>{item.designation}</td>
                   <td>{item.notice_for}</td>
                   <td>
                     <button onClick={e => {
@@ -475,6 +477,7 @@ export const Notice = () => {
           <thead>
             <tr>
               <th>Notice From</th>
+              <th>Designation</th>
               <th>Notice For</th>
               <th>Details</th>
               {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
@@ -485,6 +488,7 @@ export const Notice = () => {
               department_data.map(item => (
                 <tr>
                   <td>{item.poster_name}</td>
+                  <td>{item.designation}</td>
                   <td>{item.notice_for}</td>
                   <td>
                     <button onClick={e => {
@@ -510,6 +514,7 @@ export const Notice = () => {
           <thead>
             <tr>
               <th>Notice From</th>
+              <th>Designation</th>
               <th>Notice For</th>
               <th>Details</th>
               {['1', '2', '3', '4', '5', '6', '7'].includes(localStorage.getItem('role')) && <th>Delete</th>}
@@ -520,6 +525,7 @@ export const Notice = () => {
               individual_data.map(item => (
                 <tr>
                   <td>{item.poster_name}</td>
+                  <td>{item.designation}</td>
                   <td>{item.notice_for}</td>
                   <td>
                     <button onClick={e => {

@@ -133,7 +133,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Purchase',
       pathname: '/employee/purchase',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '13', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '13', '15'],
       icon: BiPurchaseTag,
       submenu: []
     },

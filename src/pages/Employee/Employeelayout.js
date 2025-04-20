@@ -24,7 +24,7 @@ const Employeelayout = ({ children }) => {
   const sidebarElements = [
     {
       name: 'Dashboard',
-      pathname: '/employee/Dashboard',
+      pathname: '/employee/dashboard',
       icon: MdDashboard,
       roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13'],
       submenu: []
@@ -143,6 +143,15 @@ const Employeelayout = ({ children }) => {
       pathname: '/employee/store',
       roles: ['1', '2', '3', '4', '5', '6', '7','12', '11', '15'],
       icon: BiStore,
+      submenu: []
+    },
+
+
+    {
+      name: 'Attendance',
+      pathname: '/login',
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
+      icon: LuLogOut,
       submenu: []
     },
 

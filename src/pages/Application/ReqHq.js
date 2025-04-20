@@ -739,7 +739,7 @@ const ReqHq = ({ getData, group }) => {
                                     <div className="my-4 "></div>
 
                                     <p className="mt-5 mx-3">
-                                        <strong>Head Office :</strong> Khaja IT Park (2nd to 6th Floor)
+                                        <strong>Head Office :</strong> Khaja IT Park (2nd to 6th Floor) Kallyanpur Bus Stop, Dhaka-1207.
                                     </p>
                                     <p className="mb-1 mx-3">
                                         <strong>Phone:</strong> 02-8091188, +88 01550 666 800|

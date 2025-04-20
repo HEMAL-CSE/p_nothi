@@ -338,7 +338,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
@@ -428,7 +428,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
@@ -498,7 +498,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
@@ -655,7 +655,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Details</th>
                                 <th>Item Quantity</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>

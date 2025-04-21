@@ -48,13 +48,14 @@ function App() {
         <Route element={<Responsibilities/>} exact path='/employee/responsibility'/>
         <Route element={<Leaveinfo/>} exact path='/employee/leave'/>
         <Route element={<AllEmployeeInfo/>} exact path='/employee/all_employee_info'/>
-        <Route element={<Dashboard/>} exact path='employee/dashboard'/>
+        <Route element={<Dashboard/>} exact path='/employee/dashboard'/>
 
         <Route element={<Notice/>} exact path='/employee/notice'/>
 
         <Route element={<Application/>} exact path='/employee/application'/>
         <Route element={<Hierarchy/>} exact path='/employee/hierarchy'/>
         <Route element={<Purchase/>} exact path='/employee/purchase'/>
+
         {/* <Route element={<Attendance/>} exact path='/employee/purchase'/> */}
 
         </Route>

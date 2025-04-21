@@ -1,9 +1,14 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import Approval from '../../Components/Approval'
 import moment from 'moment'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+import logo from '../../assets/logo.png'
+
+
 const ReqElt = ({ getData, group }) => {
     const role = localStorage.getItem('role')
     const [pendings, setPendings] = useState([])
@@ -24,6 +29,34 @@ const ReqElt = ({ getData, group }) => {
     const [comment_id, setComment_id] = useState('')
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [details, setDetails] = useState([])
+    const printRef = useRef(null);
+
+    const handleDownloadPdf = async (e) => {
+        e.preventDefault()
+      const element = printRef.current;
+      if (!element) {
+        return;
+      }
+  
+      const canvas = await html2canvas(element, {
+        scale: 2,
+      });
+      const data = canvas.toDataURL("image/png");
+  
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: "a4",
+      });
+  
+      const imgProperties = pdf.getImageProperties(data);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+  
+      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+  
+      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("examplepdf.pdf");
+    };
 
 
 
@@ -305,7 +338,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
@@ -395,7 +428,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
@@ -465,7 +498,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
@@ -622,7 +655,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Details</th>
                                 <th>Item Quantity</th>
                                 <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
+                                <th>Approved By DH</th>
                                 <th>Approved By PM</th>
                                 <th>Approved By HR/Admin</th>
                                 <th>Approved By ED</th>
@@ -748,13 +781,20 @@ const ReqElt = ({ getData, group }) => {
                 }}
             >
 
-                <div>
-                    <p>Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+<div className='m-2'>
+                    <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
+                        handleDownloadPdf(e)
+                    }} className='btn btn-secondary text-center m-2'>Click Here</button>
                 </div>
 
-                <table className='table m-4'>
+                {/* PDF Print DIV */}
+                <div >
+                    <div className="col-6">
+
+                    </div>
+                    {/* <table className='table m-5'>
                     <thead>
-                        <th>Name</th>
+                        <th>Item Name</th>
                         <th>Quantity</th>
 
                     </thead>
@@ -769,7 +809,94 @@ const ReqElt = ({ getData, group }) => {
                             ))
                         }
                     </tbody>
-                </table>
+                </table> */}
+
+                    <div className="container mt-4">
+                        <div className="row">
+                            <div className="col-md-8 offset-md-2">
+                                <div ref={printRef} className="card shadow">
+                                    <header className="bg-white align-items-center justify-content-between">
+                                        <div className='bg-blue p-2'>
+
+                                        </div>
+                                        <div className="d-flex align-items-center">
+                                            <img
+                                                src={logo}
+
+                                                alt="E-Learning & Earning Ltd."
+                                                height={150}
+                                                width={150}
+                                                className=""
+                                            />
+                                            {/* <div>
+            <h5 className="mb-0 fw-bold text-success">E-Learning & Earning Ltd.</h5>
+            <small className="text-muted">Excellence in Learning</small>
+          </div> */}
+                                        </div>
+                                    </header>
+                                    <div className="row mb-4 mx-4">
+                                        <div className="col-6">
+                                            <h5 className="text-uppercase fw-bold">Requisitions</h5>
+                                            <p className="text-muted">Invoice #{selectedRequisition.id}</p>
+                                            <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                                        </div>
+                                        {/* <div className="col-6 text-end">
+                <h6 className="fw-bold">{invoiceData.companyName}</h6>
+                <p className="text-muted mb-1">{invoiceData.companyAddress}</p>
+                <p className="text-muted">{invoiceData.companyCityStateZip}</p>
+              </div> */}
+                                    </div>
+
+
+                                    <div className="table-responsive mx-4 mb-5 pb-5">
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th className="fw-bold">Description</th>
+                                                    <th className="fw-bold text-end">Quantity</th>
+                                                    <th className="fw-bold text-end">Unit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {details.map(item => (
+                                                    <tr>
+                                                        <td>{item.name}</td>
+                                                        <td>{item.quantity}</td>
+                                                        <td>{item.unit}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="my-4 "></div>
+
+                                    <p className="mt-5 mx-3">
+                                        <strong>Head Office :</strong> Khaja IT Park (2nd to 6th Floor)
+                                    </p>
+                                    <p className="mb-1 mx-3">
+                                        <strong>Phone:</strong> 02-8091188, +88 01550 666 800|
+                                        <strong> Email:</strong> info@e-laeltd.com
+                                    </p>
+                                    <div className="bg-success text-white text-center mt-auto">
+                                        <div className="container">
+
+                                            <p>
+                                                <a className="text-white" href="https://www.facebook.com/elaeltd">Facebook</a> |
+                                                <a className="text-white" href="https://www.e-laeltd.com">Website</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className='bg-blue p-2'>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Modal>
         </div>
     )

@@ -24,7 +24,7 @@ const Employeelayout = ({ children }) => {
   const sidebarElements = [
     {
       name: 'Dashboard',
-      pathname: '/employee/Dashboard',
+      pathname: '/employee/dashboard',
       icon: MdDashboard,
       roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13'],
       submenu: []
@@ -103,14 +103,14 @@ const Employeelayout = ({ children }) => {
     {
       name: 'All Employee Info',
       pathname: '/employee/all_employee_info',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '15'],
       icon: HiDocumentSearch,
       submenu: []
     },
     {
       name: 'Hierarchy',
       pathname: '/employee/hierarchy',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '15'],
       icon: TbHierarchy,
       submenu: []
     },
@@ -133,7 +133,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Purchase',
       pathname: '/employee/purchase',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '13', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '13', '15'],
       icon: BiPurchaseTag,
       submenu: []
     },
@@ -141,8 +141,17 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Store / Asset',
       pathname: '/employee/store',
-      roles: ['1', '2', '3', '4', '5', '6', '7', '11', '15'],
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '11', '15'],
       icon: BiStore,
+      submenu: []
+    },
+
+
+    {
+      name: 'Attendance',
+      pathname: '/login',
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
+      icon: LuLogOut,
       submenu: []
     },
 

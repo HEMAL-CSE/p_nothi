@@ -18,6 +18,7 @@ import { HiDocumentSearch } from 'react-icons/hi'
 import { TbHierarchy } from 'react-icons/tb'
 import { useNotificationCenter } from 'react-toastify/addons/use-notification-center'
 import Navbar from '../../Components/Navbar'
+import { Calendar } from 'lucide-react'
 
 
 const Employeelayout = ({ children }) => {
@@ -151,7 +152,7 @@ const Employeelayout = ({ children }) => {
       name: 'Attendance',
       pathname: '/login',
       roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
-      icon: LuLogOut,
+      icon: Calendar,
       submenu: []
     },
 

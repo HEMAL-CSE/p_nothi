@@ -346,6 +346,8 @@ const Store = () => {
   const generatePDF = () => {
     const doc = new jsPDF();
 
+    
+
     let tableData = data.map((item, index) => {
       return {
         index: index + 1,
@@ -353,6 +355,13 @@ const Store = () => {
         ...item
       }
     })
+
+    doc.setFontSize(20);
+    doc.setTextColor(0, 0, 0); // Black color
+    doc.text('Asset Management Report', 105, 30, { align: 'center' });
+    
+    // 2. Add some space before the table
+    const startY = 30;
     
     autoTable(doc ,{
       head: [['SL No', 'Floor', 'Room', 'Department', 'Asset Name', 'Assignable', 'Quantity']],
@@ -365,6 +374,7 @@ const Store = () => {
       //   { header: 'Assignable', dataKey: 'assignableStatus' },
       // ],
       body: tableData.map(item => [item.index, item.floor_name, item.room_name, item.department_name, item.item_name, item.assignableStatus, item.quantity]),
+      startY: 40,
     });
 
     doc.save('assets.pdf');

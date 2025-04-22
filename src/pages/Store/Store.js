@@ -358,7 +358,7 @@ const Store = () => {
 
     doc.setFontSize(20);
     doc.setTextColor(0, 0, 0); // Black color
-    doc.text('Asset Management Report', 105, 30, { align: 'center' });
+    doc.text('Asset Report', 105, 30, { align: 'center' });
     
     // 2. Add some space before the table
     const startY = 30;

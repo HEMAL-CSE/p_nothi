@@ -890,11 +890,11 @@ const ReqElt = ({ getData, group }) => {
                                             <tbody>
                                     
                                                     <tr>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_pm}</td>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_hr}</td>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_pm}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_hr}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
                                                     </tr>
                                             </tbody>
                                         </table>

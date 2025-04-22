@@ -813,7 +813,7 @@ const ReqElt = ({ getData, group }) => {
 
                     <div className="container mt-4">
                         <div className="row">
-                            <div className="col-md-8 offset-md-2">
+                            <div className="col-lg-9 offset-md-2">
                                 <div ref={printRef} className="card shadow">
                                     <header className="bg-white align-items-center justify-content-between">
                                         <div className='bg-blue p-2'>
@@ -824,9 +824,9 @@ const ReqElt = ({ getData, group }) => {
                                                 src={logo}
 
                                                 alt="E-Learning & Earning Ltd."
-                                                height={150}
-                                                width={150}
-                                                className=""
+                                                height={121}
+                                                width={132}
+                                                className="p-3"
                                             />
                                             {/* <div>
             <h5 className="mb-0 fw-bold text-success">E-Learning & Earning Ltd.</h5>
@@ -834,11 +834,18 @@ const ReqElt = ({ getData, group }) => {
           </div> */}
                                         </div>
                                     </header>
-                                    <div className="row mb-4 mx-4">
+                                    <div className="d-flex row mb-4 mx-4 justify-content-between">
                                         <div className="col-6">
                                             <h5 className="text-uppercase fw-bold">Requisitions</h5>
-                                            <p className="text-muted">Invoice #{selectedRequisition.id}</p>
-                                            <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                                            <p className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
+                                            <p className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
+                                        <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
+                                        <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+
+                                        </div>
+                                        <div className="col-3">
+                                        <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                                  
                                         </div>
                                         {/* <div className="col-6 text-end">
                 <h6 className="fw-bold">{invoiceData.companyName}</h6>
@@ -848,23 +855,47 @@ const ReqElt = ({ getData, group }) => {
                                     </div>
 
 
-                                    <div className="table-responsive mx-4 mb-5 pb-5">
-                                        <table className="table table-bordered">
+                                    <div className="table-responsive mx-4 mb-4">
+                                        <table style={{border: '1px solid black'}} className="table">
                                             <thead>
                                                 <tr>
-                                                    <th className="fw-bold">Description</th>
-                                                    <th className="fw-bold text-end">Quantity</th>
-                                                    <th className="fw-bold text-end">Unit</th>
+                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Description</th>
+                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Quantity</th>
+                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Unit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td>{item.name}</td>
-                                                        <td>{item.quantity}</td>
-                                                        <td>{item.unit}</td>
+                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.name}</td>
+                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.quantity}</td>
+                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.unit}</td>
                                                     </tr>
                                                 ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="table-responsive mx-2 mb-5 pb-5">
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By DH</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By PM</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By HR</th>
+                                                    <th  style={{border: '1px solid black', fontSize: '12px'}}className="fw-bold text-end">Approved By ED</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By MD</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                    
+                                                    <tr>
+                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
+                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_pm}</td>
+                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_hr}</td>
+                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
+                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
+                                                    </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -872,7 +903,7 @@ const ReqElt = ({ getData, group }) => {
                                     <div className="my-4 "></div>
 
                                     <p className="mt-5 mx-3">
-                                        <strong>Head Office :</strong> Khaja IT Park (2nd to 6th Floor)
+                                        <strong>Head Office :</strong> Khaja IT Park, 2nd to 7th Floor, Mirpur Road, Dhaka-1207.
                                     </p>
                                     <p className="mb-1 mx-3">
                                         <strong>Phone:</strong> 02-8091188, +88 01550 666 800|
@@ -882,8 +913,9 @@ const ReqElt = ({ getData, group }) => {
                                         <div className="container">
 
                                             <p>
-                                                <a className="text-white" href="https://www.facebook.com/elaeltd">Facebook</a> |
-                                                <a className="text-white" href="https://www.e-laeltd.com">Website</a>
+                                                <a className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
+                                                <span> | </span> 
+                                                <a className="text-white" href="https://www.e-laeltd.com">https://www.e-laeltd.com</a>
                                             </p>
                                         </div>
                                     </div>

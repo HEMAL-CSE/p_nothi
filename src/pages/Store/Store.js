@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
+import jsPDF from 'jspdf';
+import autoTable from "jspdf-autotable";
 import Modal from 'react-modal'
 import '../../App.css'
 
@@ -341,6 +343,47 @@ const Store = () => {
   }
 
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    let tableData = data.map((item, index) => {
+      return {
+        index: index + 1,
+        assignableStatus: item.assignable === 0 ? 'Non Assignable' : 'Assignable',
+        ...item
+      }
+    })
+    
+    autoTable(doc ,{
+      head: [['SL No', 'Floor', 'Room', 'Department', 'Asset Name', 'Assignable', 'Quantity']],
+      // columns: [
+      //   {header: 'SL No', dataKey: 'index'},
+      //   { header: 'Floor', dataKey: 'floor_name' },
+      //   { header: 'Room', dataKey: 'room_name' },
+      //   { header: 'Department', dataKey: 'department_name' },
+      //   { header: 'Item', dataKey: 'item_name' },
+      //   { header: 'Assignable', dataKey: 'assignableStatus' },
+      // ],
+      body: tableData.map(item => [item.index, item.floor_name, item.room_name, item.department_name, item.item_name, item.assignableStatus, item.quantity]),
+    });
+
+    doc.save('assets.pdf');
+
+    // <th scope="col text-start">SL No</th>
+    // <th scope="col">Floor</th>
+    // <th scope="col">Room</th>
+    // <th scope="col">Department</th>
+    // <th scope="col">Asset Name</th>
+    // <th scope="col">Assignable</th>
+    // <th scope="col">Quantity</th>
+
+    // <td className='px-3'>{item.floor_name}</td>
+    // <td className='px-3'>{item.room_name}</td>
+    // <td className='px-3'>{item.department_name}</td>
+    // <td className='px-3'>{item.item_name}</td>
+    // <td className='px-3'>{item.assignable == 0 ? 'Non Assignable' : 'Assignable'}</td>
+    // <td className='px-3'>{item.quantity}</td>
+  };
 
   useEffect(() => {
 
@@ -738,6 +781,11 @@ const Store = () => {
 
             <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button> */}
           </div>
+
+          <div className='d-flex align-items-center justify-content-end'>
+            <p>Print PDF</p>
+            <button onClick={generatePDF} className='btn btn-dark mx-2'>Print</button> 
+            </div>
           {
 
             <div>

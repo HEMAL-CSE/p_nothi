@@ -596,7 +596,7 @@ export const Notice = () => {
           <h2 className='text-center mb-4 text-decoration-underline'>Office Notice</h2>
 
           <p className='mx-4'>{notice.notice_desc}</p>
-          {notice.notice_file != 'null' && <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{ cursor: 'pointer' }}>Notice File</a>}
+          {notice.notice_file != 'null' && <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue mx-4' style={{ cursor: 'pointer' }}>Notice File</a>}
           <h5 className='mt-4 mx-4'>Notice For: {notice.notice_for}</h5>
           {
             notice.notice_for == 'Department' &&

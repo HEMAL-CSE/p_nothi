@@ -6,6 +6,8 @@ import { BiPlus } from 'react-icons/bi';
 import { toast, ToastContainer } from 'react-toastify';
 import Modal from 'react-modal'
 import moment from 'moment';
+import logo from '../../assets/logo.png'
+
 
 
 export const Notice = () => {
@@ -552,9 +554,13 @@ export const Notice = () => {
             // height: "10%",
 
             zIndex: 10,
+            padding: '0px',
             // top: "5%",
             left: "30%",
             right: "10%",
+            display: "flex",
+            flexDirection: "column", 
+            justifyContent: 'space-between',
             // bottom: "5%",
             overflow: "auto",
             WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
@@ -570,25 +576,68 @@ export const Notice = () => {
           setDetailsOpen(false)
         }}
       >
-        <div>
-          <p>Date: {moment(notice.notice_date).format('DD/MM/yyyy')}</p>
+        <div className=''>
+        <div className='bg-blue pb-3'>
+
+</div>
+
+          <div className=" d-flex flex-column  ">
+            <img
+              src={logo}
+
+              alt="E-Learning & Earning Ltd."
+              height={121}
+              width={132}
+              className="p-3 my-2"
+            />
+            <p className='mx-4'>Date: {moment(notice.notice_date).format('DD/MM/yyyy')}</p>
+
+          </div>
           <h2 className='text-center mb-4 text-decoration-underline'>Office Notice</h2>
-          <p>{notice.notice_desc}</p>
+
+          <p className='mx-4'>{notice.notice_desc}</p>
           {notice.notice_file != 'null' && <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue' style={{ cursor: 'pointer' }}>Notice File</a>}
-          <h5 className='mt-4'>Notice For: {notice.notice_for}</h5>
+          <h5 className='mt-4 mx-4'>Notice For: {notice.notice_for}</h5>
           {
             notice.notice_for == 'Department' &&
-            <h6>Department: {notice.department_name}</h6>
+            <h6 className='mx-4'>Department: {notice.department_name}</h6>
           }
           {
             notice.notice_for == 'Department' && notice.department == 2 &&
-            <h6>Branch: {notice.branch_name}</h6>
+            <h6 className='mx-4'>Branch: {notice.branch_name}</h6>
           }
 
           {
             notice.notice_for == 'Individual' &&
-            <h6>Employee: {notice.employee_name}</h6>
+            <h6 className='mx-4'>Employee: {notice.employee_name}</h6>
           }
+
+          <div className="my-4"></div>
+
+
+        </div>
+
+        <div>
+          <p className="mx-4">
+            <strong>Head Office :</strong> Khaja IT Park, 2nd to 7th Floor, Mirpur Road, Dhaka-1207.
+          </p>
+          <p className=" mx-4">
+            <strong>Phone:</strong> 02-8091188, +88 01550 666 800|
+            <strong> Email:</strong> info@e-laeltd.com
+          </p>
+          <div className="bg-success text-white text-center  p-1">
+            <div className="">
+
+              <p>
+                <a className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
+                <span> | </span>
+                <a className="text-white" href="https://www.e-laeltd.com">https://www.e-laeltd.com</a>
+              </p>
+            </div>
+          </div>
+          <div className='bg-blue pb-3'>
+
+          </div>
         </div>
       </Modal>
     </div>

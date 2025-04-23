@@ -42,7 +42,7 @@ const Login = () => {
                     console.log(res2.data);
 
 
-                    navigator('/employee/general')
+                    navigator('/employee/dashboard')
                 })
 
                 toast('Logged In')

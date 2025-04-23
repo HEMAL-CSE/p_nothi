@@ -695,10 +695,7 @@ const ReqHq = ({ getData, group }) => {
                                                 width={132}
                                                 className="p-3"
                                             />
-                                            {/* <div>
-            <h5 className="mb-0 fw-bold text-success">E-Learning & Earning Ltd.</h5>
-            <small className="text-muted">Excellence in Learning</small>
-          </div> */}
+
                                         </div>
                                     </header>
                                     <div className="d-flex row mb-4 mx-4 justify-content-between">

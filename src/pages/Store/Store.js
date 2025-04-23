@@ -837,8 +837,6 @@ const Store = () => {
               <TableFooter range={range} slice={slice} setSlice={setSlice} data={data} setPage={setPage} page={page} />
             </div>
 
-
-
           }
         </div>
 

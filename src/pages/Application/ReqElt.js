@@ -89,42 +89,44 @@ const ReqElt = ({ getData, group }) => {
     const pendingData = () => {
 
 
-        if (['7', '9', '15'].includes(localStorage.getItem('role'))) {
+        if (['6','7', '9', '15'].includes(localStorage.getItem('role'))) {
 
             const employee_id = localStorage.getItem('employee_id')
             axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
                 setDepartment(res.data[0].department)
                 setJob_desg(res.data[0].designation.toLowerCase())
                 setJob_branch(res.data[0].branch_id)
-                console.log(res.data[0].department);
-                if (res.data[0].department == 3 || res.data[0].department == 14) {
-                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_pm=APPROVED`).then(res2 => {
-                        setPendings(group(res2.data))
-                        console.log(res2.data);
+                console.log(res.data[0].division_id);
+                // if (res.data[0].department == 3 || res.data[0].department == 14 || localStorage.getItem('role') == '6') {
+                //     axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_adh=APPROVED`).then(res2 => {
+                //         setPendings(group(res2.data))
+                //         console.log(res2.data);
 
-                    })
-                } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('project manager')) {
-                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_dc=APPROVED`).then(res2 => {
+                //     })
+                // }  
+                if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_dc=APPROVED&&division=${res.data[0].division_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
                 } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
 
-                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_coord=APPROVED&&division=${res.data[0].division_id}&&branch_id=${res.data[0].branch_id}&&reporting_officer_id=${employee_id}`).then(res2 => {
+                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?division=${res.data[0].division_id}&&branch_id=${res.data[0].branch_id}&&reporting_officer_id=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
-                } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
+                } 
+                // else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
 
 
-                    axios.get(`https://server.promisenothi.com/employees/requisition_elt?reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
-                        setPendings(group(res2.data))
-                        console.log(res2.data);
+                //     axios.get(`https://server.promisenothi.com/employees/requisition_elt?reporting_officer=${employee_id}&&branch=${res.data[0].branch_id}`).then(res2 => {
+                //         setPendings(group(res2.data))
+                //         console.log(res2.data);
 
-                    })
-                }
+                //     })
+                // }
                 //  else {
                 //     axios.get(`https://server.promisenothi.com/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
                 //         setPendings(group(res2.data))
@@ -172,6 +174,16 @@ const ReqElt = ({ getData, group }) => {
                     toast('Approved')
                 })
 
+            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_adh=${true}&&id=${id}`).then(res => {
+                    toast('Approved')
+                })
+
+            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_agm=${true}&&id=${id}`).then(res => {
+                    toast('Approved')
+                })
+
             }
         })
 
@@ -199,6 +211,16 @@ const ReqElt = ({ getData, group }) => {
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_coord=${true}&&id=${id}`).then(res => {
+                    toast('Approved')
+                })
+
+            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_adh=${true}&&id=${id}`).then(res => {
+                    toast('Approved')
+                })
+
+            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+                axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_agm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
@@ -337,15 +359,14 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Approved By Coordinator</th>
                                 <th>Approved By DH</th>
-                                <th>Approved By PM</th>
-                                <th>Approved By HR/Admin</th>
+                                <th>Approved By ADH</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
                                 <th>Received</th>
-                                {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
+                                {['7', '6', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
 
                             </tr>
                         </thead>
@@ -361,14 +382,7 @@ const ReqElt = ({ getData, group }) => {
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                                        <td>{job_desg == 'coordinator' && item.approved_coord == 'PENDING' ?
-                                            <td>
-                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
-                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
-                                            </td> :
-                                            <td>{item.approved_coord}</td>
-
-                                        }</td>
+                      
                                         <td>{job_desg == 'divisional coordinator' && item.approved_dc == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
@@ -377,20 +391,20 @@ const ReqElt = ({ getData, group }) => {
                                             <td>{item.approved_dc}</td>
 
                                         }</td>
-                                        <td>{job_desg == 'project manager' && item.approved_pm == 'PENDING' ?
+                                        <td>{job_desg == 'assistant divisional head' && item.approved_adh == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
                                                 <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
                                             </td> :
-                                            <td>{item.approved_pm}</td>
+                                            <td>{item.approved_adh}</td>
 
                                         }</td>
-                                        {['3', '14'].includes(department) && item.approved_hr == 'PENDING' ?
+                                        {['6'].includes(localStorage.getItem('role')) && item.approved_agm == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
                                                 <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
                                             </td> :
-                                            <td>{item.approved_hr}</td>
+                                            <td>{item.approved_agm}</td>
 
                                         }
                                         <td><Approval approved={item.approved_admin} /></td>
@@ -399,7 +413,7 @@ const ReqElt = ({ getData, group }) => {
 
                                         <td><Approval approved={item.sent_from_store} /></td>
                                         <td><Approval approved={item.received} /></td>
-                                        {['7', '15'].includes(localStorage.getItem('role')) && <td>
+                                        {['7', '6', '15'].includes(localStorage.getItem('role')) && <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 setDecision('')
                                                 setEstimated_price('')
@@ -417,7 +431,7 @@ const ReqElt = ({ getData, group }) => {
                         </tbody>
                     </table> </div> : <div></div>}
 
-            {['3', '14'].includes(department) ?
+            {/* {['3', '14'].includes(department) ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions(Elearning Training)</label>
                     <table className='table mt-3'>
@@ -427,10 +441,9 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Approved By Coordinator</th>
                                 <th>Approved By DH</th>
-                                <th>Approved By PM</th>
-                                <th>Approved By HR/Admin</th>
+                                <th>Approved By ADH</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
@@ -451,7 +464,6 @@ const ReqElt = ({ getData, group }) => {
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                                        <td><Approval approved={item.approved_coord} /></td>
                                         <td><Approval approved={item.approved_dc} /></td>
                                         <td><Approval approved={item.approved_pm} /></td>
                                         {['3', '14'].includes(department) && item.approved_hr == 'PENDING' ?
@@ -484,7 +496,7 @@ const ReqElt = ({ getData, group }) => {
                                 ))
                             }
                         </tbody>
-                    </table> </div> : <div></div>}
+                    </table> </div> : <div></div>} */}
 
             {
                 ['2', '3', '4', '5', '6'].includes(localStorage.getItem('role')) &&
@@ -497,10 +509,9 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Approved By Coordinator</th>
                                 <th>Approved By DH</th>
-                                <th>Approved By PM</th>
-                                <th>Approved By HR/Admin</th>
+                                <th>Approved By ADH</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
@@ -522,10 +533,16 @@ const ReqElt = ({ getData, group }) => {
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                                        <td><Approval approved={item.approved_coord} /></td>
                                         <td><Approval approved={item.approved_dc} /></td>
-                                        <td><Approval approved={item.approved_pm} /></td>
-                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_adh} /></td>
+                                        {['6'].includes(localStorage.getItem('role')) && item.approved_agm == 'PENDING' ?
+                                            <td>
+                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
+                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
+                                            </td> :
+                                            <td><Approval approved={item.approved_agm} /></td>
+
+                                        }
                                         <td>
                                             {
                                                 item.approved_admin == 'PENDING' && ['2'].includes(localStorage.getItem('role')) ?
@@ -571,10 +588,9 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Branch</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Approved By Coordinator</th>
                                 <th>Approved By DC</th>
-                                <th>Approved By PM</th>
-                                <th>Approved By HR/Admin</th>
+                                <th>Approved By ADH</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send from store</th>
@@ -597,10 +613,9 @@ const ReqElt = ({ getData, group }) => {
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
-                                        <td><Approval approved={item.approved_coord} /></td>
                                         <td><Approval approved={item.approved_dc} /></td>
-                                        <td><Approval approved={item.approved_pm} /></td>
-                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_adh} /></td>
+                                        <td><Approval approved={item.approved_agm} /></td>
                                         <td><Approval approved={item.approved_admin} /></td>
 
                                         <td>
@@ -654,10 +669,9 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Item Quantity</th>
-                                <th>Approved By Coordinator</th>
                                 <th>Approved By DH</th>
-                                <th>Approved By PM</th>
-                                <th>Approved By HR/Admin</th>
+                                <th>Approved By ADH</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Send</th>
@@ -679,10 +693,9 @@ const ReqElt = ({ getData, group }) => {
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.quantity}</td>
-                                        <td><Approval approved={item.approved_coord} /></td>
                                         <td><Approval approved={item.approved_dc} /></td>
-                                        <td><Approval approved={item.approved_pm} /></td>
-                                        <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_adh} /></td>
+                                        <td><Approval approved={item.approved_agm} /></td>
                                         <td><Approval approved={item.approved_admin} /></td>
                                         <td>{item.total_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 

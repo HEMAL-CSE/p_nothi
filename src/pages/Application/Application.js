@@ -650,10 +650,11 @@ export const Application = () => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Approved By Coordinator</th>
-                                <th>Approved By DC</th>
-                                <th>Approved By PM</th>
-                                <th>Approved By HR</th>
+                                {/* <th>Approved By Coordinator</th> */}
+                                <th>Approved By DH</th>
+                                <th>Approved By ADH</th>
+                                {/* <th>Approved By PM</th> */}
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Received</th>
@@ -672,10 +673,9 @@ export const Application = () => {
                                                 setDetailsOpen(true)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
-                                        <td>{item.approved_coord}</td>
                                         <td>{item.approved_dc}</td>
-                                        <td>{item.approved_pm}</td>
-                                        <td>{item.approved_hr}</td>
+                                        <td>{item.approved_adh}</td>
+                                        <td>{item.approved_agm}</td>
                                         <td>{item.approved_admin}</td>
                                         <td>{item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >

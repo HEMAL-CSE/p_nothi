@@ -48,7 +48,9 @@ const EditJobInfo = ({ isOpen, setIsOpen, profile }) => {
 
     useEffect(() => {
 
-        setdivisions(divisionsdata)
+        axios.get('https://server.promisenothi.com/employees/divisions').then(res => {
+            setdivisions(res.data)
+        })
     }, [])
 
     const getBranches = (division_id) => {

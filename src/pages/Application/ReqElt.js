@@ -905,7 +905,7 @@ const ReqElt = ({ getData, group }) => {
                                     
                                                     <tr>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_adc}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_adh}</td>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_agm}</td>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>

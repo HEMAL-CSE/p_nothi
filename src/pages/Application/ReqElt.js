@@ -854,6 +854,7 @@ const ReqElt = ({ getData, group }) => {
                                             <p className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
                                         <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
                                         <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+                                        <p className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
 
                                         </div>
                                         <div className="col-3">
@@ -894,7 +895,7 @@ const ReqElt = ({ getData, group }) => {
                                             <thead>
                                                 <tr>
                                                     <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By DH</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By ADH</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By ADC</th>
                                                     <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By AGM</th>
                                                     <th  style={{border: '1px solid black', fontSize: '12px'}}className="fw-bold text-end">Approved By ED</th>
                                                     <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By MD</th>
@@ -904,7 +905,7 @@ const ReqElt = ({ getData, group }) => {
                                     
                                                     <tr>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_adh}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_adc}</td>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_agm}</td>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
                                                         <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>

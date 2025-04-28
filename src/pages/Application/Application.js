@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import Modal from 'react-modal'
 import ReqHq from './ReqHq'
 import ReqElt from './ReqElt'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+import logo from '../../assets/logo.png'
+import moment from 'moment'
 
 
 export const Application = () => {
@@ -46,10 +50,38 @@ export const Application = () => {
 
     const [edit_date, setEdit_date] = useState('')
     const [edit_item_type, setEdit_item_type] = useState('')
+    const [selectedRequisition, setSelectedRequisition] = useState({})
     
 
 
+    const printRef = useRef(null);
 
+    const handleDownloadPdf = async (e) => {
+        e.preventDefault()
+      const element = printRef.current;
+      if (!element) {
+        return;
+      }
+  
+      const canvas = await html2canvas(element, {
+        scale: 2,
+      });
+      const data = canvas.toDataURL("image/png");
+  
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: "a4",
+      });
+  
+      const imgProperties = pdf.getImageProperties(data);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+  
+      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+  
+      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("examplepdf.pdf");
+    };
 
     //get item types
     useEffect(() => {
@@ -717,12 +749,11 @@ export const Application = () => {
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
-                                        <td>
-                                            <button onClick={e => {
-                                                setDetails(item.item_details)
-                                                setDetailsOpen(true)
-                                            }} className='btn btn-warning'>Details</button>
-                                        </td>
+                                        <td><button onClick={e => {
+                                            setDetails(item.item_details)
+                                            setSelectedRequisition(item)
+                                            setDetailsOpen(true)
+                                        }} className='btn btn-warning'>Details</button></td>
                                         <td>{item.approved_coord}</td>
                                         <td>{item.approved_dc}</td>
                                         <td>{item.approved_pm}</td>
@@ -742,7 +773,7 @@ export const Application = () => {
                         </tbody>
                     </table> </div>}
 
-            <Modal
+                    <Modal
                 style={{
                     content: {
                         width: "50%",
@@ -767,9 +798,21 @@ export const Application = () => {
                     setDetailsOpen(false)
                 }}
             >
-                <table className='table m-4'>
+
+<div className='m-2'>
+                    <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
+                        handleDownloadPdf(e)
+                    }} className='btn btn-secondary text-center m-2'>Click Here</button>
+                </div>
+
+                {/* PDF Print DIV */}
+                <div >
+                    <div className="col-6">
+
+                    </div>
+                    {/* <table className='table m-5'>
                     <thead>
-                        <th>Name</th>
+                        <th>Item Name</th>
                         <th>Quantity</th>
 
                     </thead>
@@ -784,7 +827,126 @@ export const Application = () => {
                             ))
                         }
                     </tbody>
-                </table>
+                </table> */}
+
+                    <div className="container mt-4">
+                        <div className="row">
+                            <div className="col-lg-9 offset-md-2">
+                                <div ref={printRef} className="card shadow">
+                                    <header className="bg-white align-items-center justify-content-between">
+                                        <div className='bg-blue p-2'>
+
+                                        </div>
+                                        <div className="d-flex align-items-center">
+                                            <img
+                                                src={logo}
+
+                                                alt="E-Learning & Earning Ltd."
+                                                height={121}
+                                                width={132}
+                                                className="p-3"
+                                            />
+                                            {/* <div>
+            <h5 className="mb-0 fw-bold text-success">E-Learning & Earning Ltd.</h5>
+            <small className="text-muted">Excellence in Learning</small>
+          </div> */}
+                                        </div>
+                                    </header>
+                                    <div className="d-flex row mb-4 mx-4 justify-content-between">
+                                        <div className="col-6">
+                                            <h5 className="text-uppercase fw-bold">Requisitions</h5>
+                                            <p className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
+                                            <p className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
+                                        <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
+                                        <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+
+                                        </div>
+                                        <div className="col-3">
+                                        <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+                                  
+                                        </div>
+                                        {/* <div className="col-6 text-end">
+                <h6 className="fw-bold">{invoiceData.companyName}</h6>
+                <p className="text-muted mb-1">{invoiceData.companyAddress}</p>
+                <p className="text-muted">{invoiceData.companyCityStateZip}</p>
+              </div> */}
+                                    </div>
+
+
+                                    <div className="table-responsive mx-4 mb-4">
+                                        <table style={{border: '1px solid black'}} className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Description</th>
+                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Quantity</th>
+                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Unit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {details.map(item => (
+                                                    <tr>
+                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.name}</td>
+                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.quantity}</td>
+                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.unit}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="table-responsive mx-2 mb-5 pb-5">
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By DH</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By ADH</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By AGM</th>
+                                                    <th  style={{border: '1px solid black', fontSize: '12px'}}className="fw-bold text-end">Approved By ED</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By MD</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                    
+                                                    <tr>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_adh}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_agm}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
+                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="my-4 "></div>
+
+                                    <p className="mt-5 mx-3">
+                                        <strong>Head Office :</strong> Khaja IT Park, 2nd to 7th Floor, Mirpur Road, Dhaka-1207.
+                                    </p>
+                                    <p className="mb-1 mx-3">
+                                        <strong>Phone:</strong> 02-8091188, +88 01550 666 800|
+                                        <strong> Email:</strong> info@e-laeltd.com
+                                    </p>
+                                    <div className="bg-success text-white text-center mt-auto">
+                                        <div className="container">
+
+                                            <p>
+                                                <a className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
+                                                <span> | </span> 
+                                                <a className="text-white" href="https://www.e-laeltd.com">https://www.e-laeltd.com</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className='bg-blue p-2'>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Modal>
 
         </div>

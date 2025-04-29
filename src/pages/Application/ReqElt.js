@@ -364,7 +364,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
-                                <th>Send from store</th>
+                                <th>Send from Accounts</th>
                                 <th>Received</th>
                                 {['7', '6', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
 
@@ -514,7 +514,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
-                                <th>Send from store</th>
+                                <th>Send from Accounts</th>
                                 <th>Received</th>
                                 <th>Comments</th>
 
@@ -594,7 +594,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
-                                <th>Send from store</th>
+                                <th>Send from Accounts</th>
                                 <th>Received</th>
                                 <th>Comments</th>
 

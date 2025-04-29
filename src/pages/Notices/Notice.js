@@ -550,13 +550,13 @@ export const Notice = () => {
       <Modal
         style={{
           content: {
-            width: "50%",
+            width: "35%",
             // height: "10%",
 
             zIndex: 10,
             padding: '0px',
             // top: "5%",
-            left: "30%",
+            left: "40%",
             right: "10%",
             display: "flex",
             flexDirection: "column", 
@@ -593,11 +593,11 @@ export const Notice = () => {
             <p className='mx-4'>Date: {moment(notice.notice_date).format('DD/MM/yyyy')}</p>
 
           </div>
-          <h2 className='text-center mb-4 text-decoration-underline'>Office Notice</h2>
+          <h3 className='text-center mb-4 text-decoration-underline'>Office Notice</h3>
 
           <p className='mx-4'>{notice.notice_desc}</p>
           {notice.notice_file != 'null' && <a target='_blank' href={notice.notice_file} className='text-decoration-underline text-blue mx-4' style={{ cursor: 'pointer' }}>Notice File</a>}
-          <h5 className='mt-4 mx-4'>Notice For: {notice.notice_for}</h5>
+          <h6 className='mt-4 mx-4'>Notice For: {notice.notice_for}</h6>
           {
             notice.notice_for == 'Department' &&
             <h6 className='mx-4'>Department: {notice.department_name}</h6>

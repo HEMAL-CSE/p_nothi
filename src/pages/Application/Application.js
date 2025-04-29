@@ -178,7 +178,8 @@ export const Application = () => {
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
             setDepartment(res.data[0].department)
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
-
+            console.log(requisition_url);
+            
 
             axios.get(`https://server.promisenothi.com/employees/${requisition_url}?employee_id=${employee_id}`).then(res => {
 
@@ -684,7 +685,7 @@ export const Application = () => {
                                 <th>Item Details</th>
                                 {/* <th>Approved By Coordinator</th> */}
                                 <th>Approved By DH</th>
-                                <th>Approved By ADH</th>
+                                <th>Approved By ADC</th>
                                 {/* <th>Approved By PM</th> */}
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
@@ -703,6 +704,7 @@ export const Application = () => {
                                             <button onClick={e => {
                                                 setDetails(item.item_details)
                                                 setDetailsOpen(true)
+                                                setSelectedRequisition(item)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.approved_dc}</td>
@@ -859,6 +861,7 @@ export const Application = () => {
                                             <p className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
                                         <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
                                         <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+                                        <p className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
 
                                         </div>
                                         <div className="col-3">
@@ -899,7 +902,7 @@ export const Application = () => {
                                             <thead>
                                                 <tr>
                                                     <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By DH</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By ADH</th>
+                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By ADC</th>
                                                     <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By AGM</th>
                                                     <th  style={{border: '1px solid black', fontSize: '12px'}}className="fw-bold text-end">Approved By ED</th>
                                                     <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By MD</th>

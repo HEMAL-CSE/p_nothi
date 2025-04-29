@@ -33,29 +33,29 @@ const ReqElt = ({ getData, group }) => {
 
     const handleDownloadPdf = async (e) => {
         e.preventDefault()
-      const element = printRef.current;
-      if (!element) {
-        return;
-      }
-  
-      const canvas = await html2canvas(element, {
-        scale: 2,
-      });
-      const data = canvas.toDataURL("image/png");
-  
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: "a4",
-      });
-  
-      const imgProperties = pdf.getImageProperties(data);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-  
-      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-  
-      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("examplepdf.pdf");
+        const element = printRef.current;
+        if (!element) {
+            return;
+        }
+
+        const canvas = await html2canvas(element, {
+            scale: 2,
+        });
+        const data = canvas.toDataURL("image/png");
+
+        const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "px",
+            format: "a4",
+        });
+
+        const imgProperties = pdf.getImageProperties(data);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+
+        const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+
+        pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("examplepdf.pdf");
     };
 
 
@@ -89,7 +89,7 @@ const ReqElt = ({ getData, group }) => {
     const pendingData = () => {
 
 
-        if (['6','7', '9', '15'].includes(localStorage.getItem('role'))) {
+        if (['6', '7', '9', '15'].includes(localStorage.getItem('role'))) {
 
             const employee_id = localStorage.getItem('employee_id')
             axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
@@ -117,7 +117,7 @@ const ReqElt = ({ getData, group }) => {
                         console.log(res2.data);
 
                     })
-                } 
+                }
                 // else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
 
 
@@ -174,12 +174,12 @@ const ReqElt = ({ getData, group }) => {
                     toast('Approved')
                 })
 
-            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_adh=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
-            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_agm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
@@ -214,12 +214,12 @@ const ReqElt = ({ getData, group }) => {
                     toast('Approved')
                 })
 
-            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_adh=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
-            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_agm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
@@ -360,7 +360,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By DH</th>
-                                <th>Approved By ADH</th>
+                                <th>Approved By ADC</th>
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
@@ -382,7 +382,7 @@ const ReqElt = ({ getData, group }) => {
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
-                      
+
                                         <td>{job_desg == 'divisional coordinator' && item.approved_dc == 'PENDING' ?
                                             <td>
                                                 <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
@@ -510,7 +510,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By DH</th>
-                                <th>Approved By ADH</th>
+                                <th>Approved By ADC</th>
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
@@ -558,6 +558,7 @@ const ReqElt = ({ getData, group }) => {
 
 
                                         <td><Approval approved={item.sent_from_store} /></td>
+                                        <td><Approval approved={item.received} /></td>
                                         <td>
                                             <button className='btn btn-warning' onClick={e => {
                                                 getComments(item.id)
@@ -569,7 +570,7 @@ const ReqElt = ({ getData, group }) => {
                                                 setComment_id('')
                                             }}>Comment</button>
                                         </td>
-                                        <td><Approval approved={item.received} /></td>
+
                                     </tr>
                                 ))
                             }
@@ -589,7 +590,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By DC</th>
-                                <th>Approved By ADH</th>
+                                <th>Approved By ADC</th>
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
@@ -611,6 +612,7 @@ const ReqElt = ({ getData, group }) => {
                                                 setDetails(item.item_details)
                                                 setSelectedRequisition(item)
                                                 setDetailsOpen(true)
+
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td><Approval approved={item.approved_dc} /></td>
@@ -670,7 +672,7 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Item Details</th>
                                 <th>Item Quantity</th>
                                 <th>Approved By DH</th>
-                                <th>Approved By ADH</th>
+                                <th>Approved By ADC</th>
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
@@ -794,7 +796,7 @@ const ReqElt = ({ getData, group }) => {
                 }}
             >
 
-<div className='m-2'>
+                <div className='m-2'>
                     <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
                         handleDownloadPdf(e)
                     }} className='btn btn-secondary text-center m-2'>Click Here</button>
@@ -849,17 +851,17 @@ const ReqElt = ({ getData, group }) => {
                                     </header>
                                     <div className="d-flex row mb-4 mx-4 justify-content-between">
                                         <div className="col-6">
-                                            <h5 className="text-uppercase fw-bold">Requisitions</h5>
-                                            <p className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
-                                            <p className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
-                                        <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
-                                        <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
-                                        <p className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
+                                            <h6 className="text-uppercase fw-bold">Requisitions</h6>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
+                                            <p style={{ fontSize: '12px' }}  className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
 
                                         </div>
                                         <div className="col-3">
-                                        <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
-                                  
+                                            <p style={{ fontSize: '12px' }} className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+
                                         </div>
                                         {/* <div className="col-6 text-end">
                 <h6 className="fw-bold">{invoiceData.companyName}</h6>
@@ -870,65 +872,91 @@ const ReqElt = ({ getData, group }) => {
 
 
                                     <div className="table-responsive mx-4 mb-4">
-                                        <table style={{border: '1px solid black'}} className="table">
+                                        <table style={{ border: '1px solid black' }} className="table">
                                             <thead>
                                                 <tr>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Description</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Quantity</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Unit</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px'  }} className="fw-bold text-end">Description</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px'  }} className="fw-bold text-end">Quantity</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px'  }} className="fw-bold text-end">Unit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.name}</td>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.quantity}</td>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.unit}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px'  }} className='text-end'>{item.name}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px'  }} className='text-end'>{item.quantity}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px'  }} className='text-end'>{item.unit}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
 
-                                    <div className="table-responsive mx-2 mb-5 pb-5">
+                                    <div style={{width: '92%'}} className="  table-responsive mx-auto mb-5 pb-5">
                                         <table className="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By DH</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By ADC</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By AGM</th>
-                                                    <th  style={{border: '1px solid black', fontSize: '12px'}}className="fw-bold text-end">Approved By ED</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By MD</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By DH</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By ADC</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By AGM</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By ED</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By MD</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                    
-                                                    <tr>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_adh}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_agm}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
-                                                    </tr>
+
+                                                <tr >
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_dc}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_adh}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_agm}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_admin}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
 
-                                    <div className="my-4 "></div>
+                                    <div className="my-5 "></div>
 
-                                    <p className="mt-5 mx-3">
+                                    <div className='mx-3 d-flex justify-content-between'>
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>AGM</p>
+                                        </div>
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>CEO</p>
+                                        </div>
+
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>ED</p>
+                                        </div>
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>MD</p>
+                                        </div>
+
+
+                                    </div>
+
+                                    <p style={{ fontSize: '12px' }} className="mt-4 mb-0 pb-0 mx-3">
                                         <strong>Head Office :</strong> Khaja IT Park, 2nd to 7th Floor, Mirpur Road, Dhaka-1207.
                                     </p>
-                                    <p className="mb-1 mx-3">
+                                    <p style={{ fontSize: '12px' }} className="mt-0 mb-1 pt-0 mx-3">
                                         <strong>Phone:</strong> 02-8091188, +88 01550 666 800|
                                         <strong> Email:</strong> info@e-laeltd.com
                                     </p>
-                                    <div className="bg-success text-white text-center mt-auto">
+                                    <div className="bg-success text-white text-center pb-0">
                                         <div className="container">
 
-                                            <p>
+                                            <p className='my-0'>
                                                 <a className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
-                                                <span> | </span> 
+                                                <span> | </span>
                                                 <a className="text-white" href="https://www.e-laeltd.com">https://www.e-laeltd.com</a>
                                             </p>
                                         </div>

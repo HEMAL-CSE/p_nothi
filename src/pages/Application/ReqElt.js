@@ -179,16 +179,16 @@ const ReqElt = ({ getData, group }) => {
                     toast('Approved')
                 })
 
-            }else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+            }else if (res.data[0].designation.toLowerCase().includes('assistant general manager')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_agm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
             }
+            pendingData()
+        
         })
 
-
-        pendingData()
     }
 
     const reject = (e, id) => {

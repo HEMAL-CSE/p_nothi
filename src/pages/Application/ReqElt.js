@@ -498,6 +498,11 @@ const ReqElt = ({ getData, group }) => {
                         </tbody>
                     </table> </div> : <div></div>} */}
 
+
+
+
+
+
             {
                 ['2', '3', '4', '5', '6'].includes(localStorage.getItem('role')) &&
                 <div>
@@ -517,7 +522,6 @@ const ReqElt = ({ getData, group }) => {
                                 <th>Send from Accounts</th>
                                 <th>Received</th>
                                 <th>Comments</th>
-
 
                             </tr>
                         </thead>

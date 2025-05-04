@@ -51,36 +51,36 @@ export const Application = () => {
     const [edit_date, setEdit_date] = useState('')
     const [edit_item_type, setEdit_item_type] = useState('')
     const [selectedRequisition, setSelectedRequisition] = useState({})
-    
+
 
 
     const printRef = useRef(null);
 
     const handleDownloadPdf = async (e) => {
         e.preventDefault()
-      const element = printRef.current;
-      if (!element) {
-        return;
-      }
-  
-      const canvas = await html2canvas(element, {
-        scale: 2,
-      });
-      const data = canvas.toDataURL("image/png");
-  
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: "a4",
-      });
-  
-      const imgProperties = pdf.getImageProperties(data);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-  
-      const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-  
-      pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("examplepdf.pdf");
+        const element = printRef.current;
+        if (!element) {
+            return;
+        }
+
+        const canvas = await html2canvas(element, {
+            scale: 2,
+        });
+        const data = canvas.toDataURL("image/png");
+
+        const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "px",
+            format: "a4",
+        });
+
+        const imgProperties = pdf.getImageProperties(data);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+
+        const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+
+        pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("examplepdf.pdf");
     };
 
     //get item types
@@ -178,6 +178,7 @@ export const Application = () => {
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
             setDepartment(res.data[0].department)
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
+            console.log(requisition_url);
 
 
             axios.get(`https://server.promisenothi.com/employees/${requisition_url}?employee_id=${employee_id}`).then(res => {
@@ -471,7 +472,8 @@ export const Application = () => {
 
     // received
     const received = (e, id) => {
-        axios.put(`https://server.promisenothi.com/employees/received?id=${id}&&received=1`).then(res => {
+        var received_url = department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `received_elt` : `received`
+        axios.put(`https://server.promisenothi.com/employees/${received_url}?id=${id}&&received=1`).then(res => {
             toast('Received')
             getData()
         })
@@ -480,15 +482,15 @@ export const Application = () => {
     const deleteData = (e, id) => {
         e.preventDefault()
 
-        if(window.confirm('Do you want to delete this?')){
-          axios.delete(`https://server.promisenothi.com/employees/requisition/delete?id=${id}`).then(res => {
-            toast('Deleted')
-            getData()
-        })  
+        if (window.confirm('Do you want to delete this?')) {
+            axios.delete(`https://server.promisenothi.com/employees/requisition/delete?id=${id}`).then(res => {
+                toast('Deleted')
+                getData()
+            })
         }
-    
-        
-      }
+
+
+    }
 
 
     return (
@@ -517,7 +519,7 @@ export const Application = () => {
             {/* Add Requisition */}
             {localStorage.getItem('role') != '11' && <div>
                 <label> Start Date:</label>
-                <input value={requisition_date} style={{width: 300}} onChange={e => setRequisition_date(e.target.value)} className='input' type='date' />
+                <input value={requisition_date} style={{ width: 300 }} onChange={e => setRequisition_date(e.target.value)} className='input' type='date' />
 
                 <label> Select Item Type:</label>
                 <select value={item_type} onChange={e => {
@@ -684,7 +686,7 @@ export const Application = () => {
                                 <th>Item Details</th>
                                 {/* <th>Approved By Coordinator</th> */}
                                 <th>Approved By DH</th>
-                                <th>Approved By ADH</th>
+                                <th>Approved By ADC</th>
                                 {/* <th>Approved By PM</th> */}
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
@@ -703,6 +705,7 @@ export const Application = () => {
                                             <button onClick={e => {
                                                 setDetails(item.item_details)
                                                 setDetailsOpen(true)
+                                                setSelectedRequisition(item)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.approved_dc}</td>
@@ -773,7 +776,7 @@ export const Application = () => {
                         </tbody>
                     </table> </div>}
 
-                    <Modal
+            <Modal
                 style={{
                     content: {
                         width: "50%",
@@ -799,7 +802,7 @@ export const Application = () => {
                 }}
             >
 
-<div className='m-2'>
+                <div className='m-2'>
                     <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
                         handleDownloadPdf(e)
                     }} className='btn btn-secondary text-center m-2'>Click Here</button>
@@ -857,13 +860,14 @@ export const Application = () => {
                                             <h5 className="text-uppercase fw-bold">Requisitions</h5>
                                             <p className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
                                             <p className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
-                                        <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
-                                        <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+                                            <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
+                                            <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+                                            <p className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
 
                                         </div>
                                         <div className="col-3">
-                                        <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
-                                  
+                                            <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+
                                         </div>
                                         {/* <div className="col-6 text-end">
                 <h6 className="fw-bold">{invoiceData.companyName}</h6>
@@ -874,20 +878,20 @@ export const Application = () => {
 
 
                                     <div className="table-responsive mx-4 mb-4">
-                                        <table style={{border: '1px solid black'}} className="table">
+                                        <table style={{ border: '1px solid black' }} className="table">
                                             <thead>
                                                 <tr>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Description</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Quantity</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Unit</th>
+                                                    <th style={{ border: '1px solid black' }} className="fw-bold text-end">Description</th>
+                                                    <th style={{ border: '1px solid black' }} className="fw-bold text-end">Quantity</th>
+                                                    <th style={{ border: '1px solid black' }} className="fw-bold text-end">Unit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.name}</td>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.quantity}</td>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.unit}</td>
+                                                        <td style={{ border: '1px solid black' }} className='text-end'>{item.name}</td>
+                                                        <td style={{ border: '1px solid black' }} className='text-end'>{item.quantity}</td>
+                                                        <td style={{ border: '1px solid black' }} className='text-end'>{item.unit}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -898,22 +902,22 @@ export const Application = () => {
                                         <table className="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By DH</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold">Approved By ADH</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By AGM</th>
-                                                    <th  style={{border: '1px solid black', fontSize: '12px'}}className="fw-bold text-end">Approved By ED</th>
-                                                    <th style={{border: '1px solid black', fontSize: '12px'}} className="fw-bold text-end">Approved By MD</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold">Approved By DH</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold">Approved By ADC</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Approved By AGM</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Approved By ED</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Approved By MD</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                    
-                                                    <tr>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_dc}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_adh}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_agm}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
-                                                        <td className='text-end' style={{fontSize: '12px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
-                                                    </tr>
+
+                                                <tr>
+                                                    <td className='text-end' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_dc}</td>
+                                                    <td className='text-end' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_adh}</td>
+                                                    <td className='text-end' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_agm}</td>
+                                                    <td className='text-end' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_admin}</td>
+                                                    <td className='text-end' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -932,7 +936,7 @@ export const Application = () => {
 
                                             <p>
                                                 <a className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
-                                                <span> | </span> 
+                                                <span> | </span>
                                                 <a className="text-white" href="https://www.e-laeltd.com">https://www.e-laeltd.com</a>
                                             </p>
                                         </div>

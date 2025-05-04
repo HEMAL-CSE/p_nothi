@@ -49,7 +49,9 @@ const Hierarchy = () => {
     useEffect(() => {
 
         if (dept == 2) {
-            setdivisions(divisionsdata)
+            axios.get('https://server.promisenothi.com/employees/divisions').then(res => {
+                setdivisions(res.data)
+            })
 
         }
     }, [dept])

@@ -62,12 +62,15 @@ const ReqElt = ({ getData, group }) => {
             format: "a4",
         });
 
+        var width = pdf.internal.pageSize.getWidth();
+        var height = pdf.internal.pageSize.getHeight();
+
         const imgProperties = pdf.getImageProperties(data);
         const pdfWidth = pdf.internal.pageSize.getWidth();
 
         const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
-        pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.addImage(data, "PNG", 0, 0, pdfWidth, height);
         pdf.save("examplepdf.pdf");
     };
 
@@ -79,7 +82,7 @@ const ReqElt = ({ getData, group }) => {
             axios.get(`https://server.promisenothi.com/employees/requisition_elt?admin=1`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
-                const { slice, range } = paginate(group(res.data), page, 6)
+                const { slice, range } = paginate(group(res.data), page, 10)
                 setSlice(slice)
                 setRange(range)
 
@@ -621,9 +624,9 @@ const ReqElt = ({ getData, group }) => {
                                 ))
                             }
                         </tbody>
-                    </table> 
-                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={6} />
-                    </div>
+                    </table>
+                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={10} />
+                </div>
             }
 
             {
@@ -1008,7 +1011,7 @@ const ReqElt = ({ getData, group }) => {
                                             </p>
                                         </div>
                                     </div>
-                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center'>
+                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center my-0'>
                                         All rights reserved by @ Promise E-nothi
 
                                     </p>

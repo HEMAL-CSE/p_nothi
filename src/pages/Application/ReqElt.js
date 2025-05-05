@@ -431,74 +431,6 @@ const ReqElt = ({ getData, group }) => {
                         </tbody>
                     </table> </div> : <div></div>}
 
-            {/* {['3', '14'].includes(department) ?
-                <div>
-                    <label className='text-center mt-4'>Pending Requisitions(Elearning Training)</label>
-                    <table className='table mt-3'>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Branch</th>
-                                <th>Item Type</th>
-                                <th>Item Details</th>
-                                <th>Approved By DH</th>
-                                <th>Approved By ADH</th>
-                                <th>Approved By AGM</th>
-                                <th>Approved By ED</th>
-                                <th>Approved By MD</th>
-                                <th>Send from store</th>
-                                <th>Received</th>
-                                {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                pendings.map(item => (
-                                    <tr>
-                                        <td>{item.user_name}</td>
-                                        <td>{item.branch_name}</td>
-                                        <td>{item.item_type_name}</td>
-                                        <td><button onClick={e => {
-                                            setDetails(item.item_details)
-                                            setSelectedRequisition(item)
-                                            setDetailsOpen(true)
-                                        }} className='btn btn-warning'>Details</button></td>
-                                        <td><Approval approved={item.approved_dc} /></td>
-                                        <td><Approval approved={item.approved_pm} /></td>
-                                        {['3', '14'].includes(department) && item.approved_hr == 'PENDING' ?
-                                            <td>
-                                                <button onClick={e => approve(e, item.id)} className='btn btn-success mx-2 my-1'>Approve</button>
-                                                <button onClick={e => reject(e, item.id)} className='btn btn-danger mx-2'>Reject</button>
-                                            </td> :
-                                            <td><Approval approved={item.approved_hr} /></td>
-
-                                        }
-                                        <td><Approval approved={item.approved_admin} /></td>
-                                        <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
-
-
-                                        <td><Approval approved={item.sent_from_store} /></td>
-                                        <td><Approval approved={item.received} /></td>
-                                        {['7', '15'].includes(localStorage.getItem('role')) && <td>
-                                            <button className='btn btn-warning' onClick={e => {
-                                                setDecision('')
-                                                setEstimated_price('')
-                                                setDecision_modal(true)
-                                                setDecision_id(item.id)
-                                                setDecision(item.decision_making)
-                                                setComment_id('')
-                                                getComments(item.id)
-                                            }}>Comment</button>
-                                        </td>}
-
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table> </div> : <div></div>} */}
-
-
 
 
 
@@ -654,9 +586,6 @@ const ReqElt = ({ getData, group }) => {
                         </tbody>
                     </table> </div>
             }
-
-
-
 
 
             {

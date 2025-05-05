@@ -337,7 +337,7 @@ const AllEmployeeInfo = () => {
                     </thead>
                     <tbody>
                         {
-                            data.filter(item => item.designation == 'Divisional Coordinator').map(item => (
+                            data.filter(item => item.designation == 'Divisional Head').map(item => (
                                 <tr>
                                     <td className='px-3'>{item.user_name}</td>
                                     <td className='px-3'>{item.employee_id}</td>

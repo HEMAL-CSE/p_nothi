@@ -648,6 +648,7 @@ const ReqHq = ({ getData, group }) => {
                     setDetailsOpen(false)
                 }}
             >
+
                 <div className='m-2'>
                     <span className='fw-bold'>PDF Download:</span> <button onClick={e => {
                         handleDownloadPdf(e)
@@ -695,21 +696,25 @@ const ReqHq = ({ getData, group }) => {
                                                 width={132}
                                                 className="p-3"
                                             />
-
+                                            {/* <div>
+            <h5 className="mb-0 fw-bold text-success">E-Learning & Earning Ltd.</h5>
+            <small className="text-muted">Excellence in Learning</small>
+          </div> */}
                                         </div>
                                     </header>
                                     <div className="d-flex row mb-4 mx-4 justify-content-between">
                                         <div className="col-6">
-                                            <h5 className="text-uppercase fw-bold">Requisitions</h5>
-                                            <p className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
-                                            <p className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
-                                        <p className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
-                                        <p className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+                                            <h6 className="text-uppercase fw-bold">Requisitions</h6>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
 
                                         </div>
                                         <div className="col-3">
-                                        <p className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
-                                  
+                                            <p style={{ fontSize: '12px' }} className="text-muted">Date: {moment(selectedRequisition.requisition_date).format('DD/MM/yyyy')}</p>
+
                                         </div>
                                         {/* <div className="col-6 text-end">
                 <h6 className="fw-bold">{invoiceData.companyName}</h6>
@@ -720,70 +725,99 @@ const ReqHq = ({ getData, group }) => {
 
 
                                     <div className="table-responsive mx-4 mb-4">
-                                        <table style={{border: '1px solid black'}} className="table">
+                                        <table style={{ border: '1px solid black' }} className="table">
                                             <thead>
                                                 <tr>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Description</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Quantity</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Unit</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Description</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.name}</td>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.quantity}</td>
-                                                        <td style={{border: '1px solid black'}} className='text-end'>{item.unit}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.name}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.quantity}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.unit}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
 
-                                    <div className="table-responsive mx-4 mb-5 pb-5">
+                                  <div style={{ width: '92%' }} className="  table-responsive mx-auto mb-5 pb-5">
                                         <table className="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold">Approved By HOD</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Approved By HR</th>
-                                                    <th  style={{border: '1px solid black'}}className="fw-bold text-end">Approved By ED</th>
-                                                    <th style={{border: '1px solid black'}} className="fw-bold text-end">Approved By MD</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By HOD</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By Admin</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By ED</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By MD</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                    
-                                                    <tr>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_hod}</td>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_hr}</td>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.approved_admin}</td>
-                                                        <td className='text-end' style={{fontSize: '14px', border: '1px solid black'}}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
-                                                    </tr>
+
+                                                <tr >
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_hod}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_hr}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_admin}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
 
-                                    <div className="my-4 "></div>
+                                    <div className="my-5 "></div>
 
-                                    <p className="mt-5 mx-3">
+                                    <div className='mx-3 d-flex justify-content-between'>
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>AGM</p>
+                                        </div>
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>CEO</p>
+                                        </div>
+
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>ED</p>
+                                        </div>
+
+                                        <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>MD</p>
+                                        </div>
+
+
+                                    </div>
+
+                                    <p style={{ fontSize: '12px' }} className="mt-4 mb-0 pb-0 mx-3">
                                         <strong>Head Office :</strong> Khaja IT Park, 2nd to 7th Floor, Mirpur Road, Dhaka-1207.
                                     </p>
-                                    <p className="mb-1 mx-3">
-                                        <strong>Phone:</strong> 02-8091188, +88 01550 666 800|
+                                    <p style={{ fontSize: '12px' }} className="mt-0 mb-1 pt-0 mx-3">
+                                        <strong>Phone:</strong> 02-8091188, +88 01550 666 800 |
                                         <strong> Email:</strong> info@e-laeltd.com
                                     </p>
-                                    <div className="bg-success text-white text-center mt-auto">
+
+
+                                    <div className="bg-success text-white text-center pb-0">
                                         <div className="container">
 
-                                            <p>
-                                                <a className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
-                                                <span> | </span> 
-                                                <a className="text-white" href="https://www.e-laeltd.com">https://www.e-laeltd.com</a>
+                                            <p className='my-0'>
+                                                <a style={{ fontSize: '12px' }} className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
+                                                <span> | </span>
+                                                <a style={{ fontSize: '12px' }} className="text-white" href="https://www.promisenothi.com">https://www.promisenothi.com</a>
                                             </p>
                                         </div>
                                     </div>
-                                    <div className='bg-blue p-2'>
+                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center'>
+                                        All rights reserved by @ Promise E-nothi
 
-                                    </div>
+                                    </p>
                                 </div>
 
 

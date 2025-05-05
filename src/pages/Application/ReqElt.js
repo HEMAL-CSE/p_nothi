@@ -130,13 +130,13 @@ const ReqElt = ({ getData, group }) => {
 
                 //     })
                 // }  
-                if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+                if (res.data[0].department == 2 && res.data[0].designation.toLowerCase() == 'assistant divisional head') {
                     axios.get(`https://server.promisenothi.com/employees/requisition_elt?approved_dc=APPROVED&&division=${res.data[0].division_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
                     })
-                } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional head')) {
+                } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase() == 'divisional head') {
 
                     axios.get(`https://server.promisenothi.com/employees/requisition_elt?division=${res.data[0].division_id}&&branch_id=${res.data[0].branch_id}&&reporting_officer_id=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
@@ -181,6 +181,8 @@ const ReqElt = ({ getData, group }) => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
+            console.log(res.data[0].department == 2 && res.data[0].designation.toLowerCase() == 'assistant divisional head');
+            
             if (res.data[0].department == 3 || res.data[0].department == 14) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_hr=${true}&&id=${id}`).then(res => {
                     toast('Approved')
@@ -190,7 +192,7 @@ const ReqElt = ({ getData, group }) => {
                     toast('Approved')
                 })
 
-            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional head')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase() == 'divisional head') {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_dc=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
@@ -200,7 +202,9 @@ const ReqElt = ({ getData, group }) => {
                     toast('Approved')
                 })
 
-            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase() == 'assistant divisional head') {
+               
+
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_adh=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
@@ -223,6 +227,7 @@ const ReqElt = ({ getData, group }) => {
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
+            
             if (res.data[0].department == 3 || res.data[0].department == 14) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_hr=${true}&&id=${id}`).then(res => {
                     toast('Rejected')
@@ -232,7 +237,7 @@ const ReqElt = ({ getData, group }) => {
                     toast('Rejected')
                 })
 
-            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional head')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase() == 'divisional head') {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_dc=${true}&&id=${id}`).then(res => {
                     toast('Rejected')
                 })
@@ -242,7 +247,7 @@ const ReqElt = ({ getData, group }) => {
                     toast('Rejected')
                 })
 
-            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
+            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase() == 'assistant divisional head') {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_adh=${true}&&id=${id}`).then(res => {
                     toast('Rejected')
                 })

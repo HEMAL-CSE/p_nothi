@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import "./TableFooter.css";
 import paginate from "../utils/pagination";
 
-const TableFooter = ({ range, setPage, page, slice, data, setSlice }) => {
+const TableFooter = ({ range, setPage, page, slice, data, setSlice, pageNumber }) => {
     //   useEffect(() => {
     //     if (slice.length < 1 && page !== 1) {
     //       setPage(page - 1);
@@ -16,7 +16,7 @@ const TableFooter = ({ range, setPage, page, slice, data, setSlice }) => {
     const handlePageChange = (newPage) => {
         if (newPage < 1 || newPage > totalPages) return;
         setPage(newPage);
-        const { slice } = paginate(data, newPage, 12);
+        const { slice } = paginate(data, newPage, pageNumber);
         setSlice(slice);
     };
 
@@ -68,7 +68,7 @@ const TableFooter = ({ range, setPage, page, slice, data, setSlice }) => {
     return (
         <div className="tableFooter">
             <button
-                className={`button ${page === 1 ? 'disabled' : ''}`}
+                className={`button1 ${page === 1 ? 'disabled' : ''}`}
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page === 1}
                 aria-label="Previous page"
@@ -82,7 +82,7 @@ const TableFooter = ({ range, setPage, page, slice, data, setSlice }) => {
                 ) : (
                     <button
                         key={item}
-                        className={`button ${page === item ? 'activeButton' : 'inactiveButton'}`}
+                        className={`button1 ${page === item ? 'activeButton' : 'inactiveButton'}`}
                         onClick={() => handlePageChange(item)}
                     >
                         {item}
@@ -91,7 +91,7 @@ const TableFooter = ({ range, setPage, page, slice, data, setSlice }) => {
             ))}
 
             <button
-                className={`button ${page === totalPages ? 'disabled' : ''}`}
+                className={`button1 ${page === totalPages ? 'disabled' : ''}`}
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page === totalPages}
                 aria-label="Next page"

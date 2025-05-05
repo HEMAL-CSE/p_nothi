@@ -844,7 +844,7 @@ const Store = () => {
                   }
                 </tbody>
               </table>
-              <TableFooter range={range} slice={slice} setSlice={setSlice} data={data} setPage={setPage} page={page} />
+              <TableFooter range={range} slice={slice} setSlice={setSlice} data={data} setPage={setPage} page={page} pageNumber={12} />
             </div>
 
           }

@@ -180,7 +180,7 @@ const ReqElt = ({ getData, group }) => {
                 })
 
 
-            }else if (res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+            } else if (res.data[0].designation.toLowerCase().includes('assistant general manager')) {
 
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_agm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
@@ -188,7 +188,7 @@ const ReqElt = ({ getData, group }) => {
 
             }
             pendingData()
-        
+
         })
 
     }
@@ -221,7 +221,7 @@ const ReqElt = ({ getData, group }) => {
                     toast('Rejected')
                 })
 
-            } else if ( res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+            } else if (res.data[0].designation.toLowerCase().includes('assistant general manager')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_agm=${true}&&id=${id}`).then(res => {
                     toast('Rejected')
                 })
@@ -788,7 +788,7 @@ const ReqElt = ({ getData, group }) => {
                                         <div className="col-6">
                                             <h6 className="text-uppercase fw-bold">Requisitions</h6>
                                             <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">REQ ID #{selectedRequisition.id}</p>
-                                            <p style={{ fontSize: '12px' }}  className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
+                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
                                             <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
                                             <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
                                             <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
@@ -810,24 +810,24 @@ const ReqElt = ({ getData, group }) => {
                                         <table style={{ border: '1px solid black' }} className="table">
                                             <thead>
                                                 <tr>
-                                                    <th style={{ border: '1px solid black', fontSize: '12px'  }} className="fw-bold text-end">Description</th>
-                                                    <th style={{ border: '1px solid black', fontSize: '12px'  }} className="fw-bold text-end">Quantity</th>
-                                                    <th style={{ border: '1px solid black', fontSize: '12px'  }} className="fw-bold text-end">Unit</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Description</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td style={{ border: '1px solid black', fontSize: '12px'  }} className='text-end'>{item.name}</td>
-                                                        <td style={{ border: '1px solid black', fontSize: '12px'  }} className='text-end'>{item.quantity}</td>
-                                                        <td style={{ border: '1px solid black', fontSize: '12px'  }} className='text-end'>{item.unit}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.name}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.quantity}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.unit}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
 
-                                    <div style={{width: '92%'}} className="  table-responsive mx-auto mb-5 pb-5">
+                                    <div style={{ width: '92%' }} className="  table-responsive mx-auto mb-5 pb-5">
                                         <table className="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -886,19 +886,22 @@ const ReqElt = ({ getData, group }) => {
                                         <strong>Phone:</strong> 02-8091188, +88 01550 666 800 |
                                         <strong> Email:</strong> info@e-laeltd.com
                                     </p>
+
+
                                     <div className="bg-success text-white text-center pb-0">
                                         <div className="container">
 
                                             <p className='my-0'>
-                                                <a className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
+                                                <a style={{ fontSize: '12px' }} className="text-white" href="https://www.facebook.com/elaeltd">https://www.facebook.com/elaeltd</a>
                                                 <span> | </span>
-                                                <a className="text-white" href="https://www.e-laeltd.com">https://www.e-laeltd.com</a>
+                                                <a style={{ fontSize: '12px' }} className="text-white" href="https://www.promisenothi.com">https://www.promisenothi.com</a>
                                             </p>
                                         </div>
                                     </div>
-                                    <div className='bg-blue p-2'>
+                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center'>
+                                        All rights reserved by @ Promise E-nothi
 
-                                    </div>
+                                    </p>
                                 </div>
 
 

@@ -179,16 +179,18 @@ const ReqElt = ({ getData, group }) => {
                     toast('Approved')
                 })
 
-            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+
+            }else if (res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/approve?approved_agm=${true}&&id=${id}`).then(res => {
                     toast('Approved')
                 })
 
             }
+            pendingData()
+        
         })
 
-
-        pendingData()
     }
 
     const reject = (e, id) => {
@@ -197,31 +199,31 @@ const ReqElt = ({ getData, group }) => {
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
             if (res.data[0].department == 3 || res.data[0].department == 14) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_hr=${true}&&id=${id}`).then(res => {
-                    toast('Approved')
+                    toast('Rejected')
                 })
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('project manager')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_pm=${true}&&id=${id}`).then(res => {
-                    toast('Approved')
+                    toast('Rejected')
                 })
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('divisional coordinator')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_dc=${true}&&id=${id}`).then(res => {
-                    toast('Approved')
+                    toast('Rejected')
                 })
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('coordinator')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_coord=${true}&&id=${id}`).then(res => {
-                    toast('Approved')
+                    toast('Rejected')
                 })
 
             } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant divisional head')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_adh=${true}&&id=${id}`).then(res => {
-                    toast('Approved')
+                    toast('Rejected')
                 })
 
-            } else if (res.data[0].department == 2 && res.data[0].designation.toLowerCase().includes('assistant general manager')) {
+            } else if ( res.data[0].designation.toLowerCase().includes('assistant general manager')) {
                 axios.put(`https://server.promisenothi.com/employees/requisition_elt/reject?approved_agm=${true}&&id=${id}`).then(res => {
-                    toast('Approved')
+                    toast('Rejected')
                 })
 
             }

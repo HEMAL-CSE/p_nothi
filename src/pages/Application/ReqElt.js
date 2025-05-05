@@ -96,6 +96,9 @@ const ReqElt = ({ getData, group }) => {
 
             axios.get(`https://server.promisenothi.com/employees/requisition_elt?admin=1&&division=${division_id}&&branch=${branch_id}`).then(res => {
                 setAdminData(group(res.data))
+                const { slice, range } = paginate(group(res.data), page, 10)
+                setSlice(slice)
+                setRange(range)
                 // console.log(res.data);
 
             })

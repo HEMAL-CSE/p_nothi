@@ -759,7 +759,7 @@ const ReqHq = ({ getData, group }) => {
                                                     <th style={{ border: '1px solid black', fontSize: '12px',width: '150px' }} className="fw-bold text-end">Description</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
-                                                    {/* <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th> */}
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Price</th>
                                                 </tr>
                                             </thead>
@@ -769,8 +769,8 @@ const ReqHq = ({ getData, group }) => {
                                                         <td style={{ border: '1px solid black', fontSize: '12px', width: '250px' }} className='text-end'>{item.name}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.quantity}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.unit}</td>
-                                                        {/* <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.price}</td> */}
-                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{parseInt(item.price) * parseInt(item.quantity)}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.price}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{parseFloat(item.price) * parseFloat(item.quantity)}</td>
                                                     </tr>
                                                 ))}
                                                 <tr>

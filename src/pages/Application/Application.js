@@ -74,12 +74,14 @@ export const Application = () => {
             format: "a4",
         });
 
+        var height = pdf.internal.pageSize.getHeight();
+
         const imgProperties = pdf.getImageProperties(data);
         const pdfWidth = pdf.internal.pageSize.getWidth();
 
         const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
-        pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.addImage(data, "PNG", 0, 0, pdfWidth, height);
         pdf.save("examplepdf.pdf");
     };
 

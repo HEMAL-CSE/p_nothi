@@ -930,7 +930,7 @@ const ReqElt = ({ getData, group }) => {
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
                                                     {/* <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th> */}
-                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Total Price</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end"> Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -944,7 +944,7 @@ const ReqElt = ({ getData, group }) => {
                                                     </tr>
                                                 ))}
                                                 <tr>
-                                                    <td colSpan={3} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total</td>
+                                                    <td colSpan={3} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total Price</td>
                                                     <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, {price, quantity}) => n + parseInt(price) * parseInt(quantity), 0)}</td>
                                                 </tr>
                                             </tbody>

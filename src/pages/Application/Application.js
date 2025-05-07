@@ -900,7 +900,7 @@ export const Application = () => {
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Description</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
-                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th>
+                                                    {/* <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th> */}
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Total Price</th>
                                                 </tr>
                                             </thead>
@@ -910,12 +910,12 @@ export const Application = () => {
                                                         <td style={{ border: '1px solid black', fontSize: '12px', width: '150px' }} className='text-end'>{item.name}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.quantity}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.unit}</td>
-                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.price}</td>
+                                                        {/* <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.price}</td> */}
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{parseInt(item.price) * parseInt(item.quantity)}</td>
                                                     </tr>
                                                 ))}
                                                 <tr>
-                                                    <td colSpan={4} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total</td>
+                                                    <td colSpan={3} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total</td>
                                                     <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, {price, quantity}) => n + parseInt(price) * parseInt(quantity), 0)}</td>
                                                 </tr>
                                             </tbody>

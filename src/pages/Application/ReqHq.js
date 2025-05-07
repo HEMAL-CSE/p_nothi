@@ -47,12 +47,14 @@ const ReqHq = ({ getData, group }) => {
             format: "a4",
         });
 
+        var height = pdf.internal.pageSize.getHeight();
+
         const imgProperties = pdf.getImageProperties(data);
         const pdfWidth = pdf.internal.pageSize.getWidth();
 
         const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
-        pdf.addImage(data, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.addImage(data, "PNG", 0, 0, pdfWidth, height);
         pdf.save("examplepdf.pdf");
     };
 
@@ -143,6 +145,13 @@ const ReqHq = ({ getData, group }) => {
             axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_hr=${true}&&id=${id}`).then(res => {
                 toast('Approved')
             })
+        } else if (localStorage.getItem('role') == '6') {
+                console.log('agm');
+                
+            axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_agm=${true}&&id=${id}`).then(res => {
+                toast('Approved')
+            })
+
         } else {
             axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_hod=${true}&&id=${id}`).then(res => {
                 toast('Approved')
@@ -158,6 +167,12 @@ const ReqHq = ({ getData, group }) => {
             axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_hr=${true}&&id=${id}`).then(res => {
                 toast('Rejected')
             })
+        } else if (localStorage.getItem('role') == '6') {
+
+            axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_agm=${true}&&id=${id}`).then(res => {
+                toast('Approved')
+            })
+
         } else {
             axios.put(`https://server.promisenothi.com/employees/requisition/reject?approved_hod=${true}&&id=${id}`).then(res => {
                 toast('Rejected')
@@ -309,6 +324,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By {['7', '15'].includes(localStorage.getItem('role')) ? 'HOD' : 'HR/Admin'}</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Approve/Reject</th>
@@ -331,6 +347,7 @@ const ReqHq = ({ getData, group }) => {
                                             setDetailsOpen(true)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td>{department == 3 ? <Approval approved={item.approved_hod} /> : <Approval approved={item.approved_hr} />}</td>
+                                        <td>{<Approval approved={item.approved_agm} />}</td>
                                         <td>{<Approval approved={item.approved_admin} />}</td>
                                         <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
@@ -382,7 +399,8 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Item Details</th>
 
                                 <th>Approved By HOD</th>
-                                <th>Approved By HR</th>
+                                <th>Approved By HR/Admin</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By MD</th>
                                 <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved By ED'}</th>
                                 <th>Send from store</th>
@@ -406,14 +424,23 @@ const ReqHq = ({ getData, group }) => {
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td><Approval approved={item.approved_hod} /></td>
                                         <td><Approval approved={item.approved_hr} /></td>
+                                        <td>{
+                                                item.approved_agm == 'PENDING' && ['6'].includes(localStorage.getItem('role')) ?
+                                                    <div>
+                                                        <button onClick={e => approve(e, item.id)} className='btn btn-success m-2'>Approve</button>
+                                                        <button onClick={e => reject(e, item.id)} className='btn btn-danger'>Reject</button>
+                                                    </div>
+                                                    : <Approval approved={item.approved_agm} />
+
+                                            }</td>
                                         <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         <td>
                                             {
                                                 item.approved_admin == 'PENDING' && ['2'].includes(localStorage.getItem('role')) ?
                                                     <div>
-                                                        <button onClick={e => approveAdmin(e, item.id)} className='btn btn-primary m-2'>Approve</button>
-                                                        <button onClick={e => rejectAdmin(e, item.id)} className='btn btn-primary'>Reject</button>
+                                                        <button onClick={e => approveAdmin(e, item.id)} className='btn btn-success m-2'>Approve</button>
+                                                        <button onClick={e => rejectAdmin(e, item.id)} className='btn btn-danger'>Reject</button>
                                                     </div>
                                                     : <Approval approved={item.approved_admin} />
 
@@ -455,6 +482,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Item Details</th>
                                 <th>Approved By HOD</th>
                                 <th>Approved By HR</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approve</th>
                                 <th>Send from store</th>
@@ -479,6 +507,7 @@ const ReqHq = ({ getData, group }) => {
                                         </td>
                                         <td><Approval approved={item.approved_hod} /></td>
                                         <td><Approval approved={item.approved_hr} /></td>
+                                        <td><Approval approved={item.approved_agm} /></td>
                                         <td><Approval approved={item.approved_admin} /></td>
 
                                         <td>
@@ -745,12 +774,13 @@ const ReqHq = ({ getData, group }) => {
                                         </table>
                                     </div>
 
-                                  <div style={{ width: '92%' }} className="  table-responsive mx-auto mb-5 pb-5">
+                                    <div style={{ width: '92%' }} className="  table-responsive mx-auto mb-5 pb-5">
                                         <table className="table table-bordered">
                                             <thead>
                                                 <tr>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By HOD</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By Admin</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By AGM</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By ED</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By MD</th>
                                                 </tr>
@@ -760,6 +790,7 @@ const ReqHq = ({ getData, group }) => {
                                                 <tr >
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_hod}</td>
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_hr}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_agm}</td>
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_admin}</td>
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
                                                 </tr>
@@ -767,7 +798,7 @@ const ReqHq = ({ getData, group }) => {
                                         </table>
                                     </div>
 
-                                    <div className="my-5 "></div>
+                                    <div className="my-0 "></div>
 
                                     <div className='mx-3 d-flex justify-content-between'>
 
@@ -814,7 +845,7 @@ const ReqHq = ({ getData, group }) => {
                                             </p>
                                         </div>
                                     </div>
-                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center'>
+                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center my-0'>
                                         All rights reserved by @ Promise E-nothi
 
                                     </p>

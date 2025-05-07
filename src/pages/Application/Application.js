@@ -636,7 +636,8 @@ export const Application = () => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By HOD</th>
-                                <th>Approved By HR</th>
+                                <th>Approved By HR/Admin</th>
+                                <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
                                 <th>Received</th>
@@ -659,6 +660,7 @@ export const Application = () => {
                                         </td>
                                         <td>{item.approved_hod}</td>
                                         <td>{item.approved_hr}</td>
+                                        <td>{item.approved_agm}</td>
                                         <td>{item.approved_admin}</td>
                                         <td>{item.estimated_price > 15000 ? item.approved_md : 'Invalid'}</td>
                                         <td>{item.received != 'PENDING' ? item.received : <button className='btn btn-success' onClick={e => received(e, item.id)} >
@@ -927,6 +929,7 @@ export const Application = () => {
                                                 <tr>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By HOD</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By Admin</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By AGM</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By ED</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end p-2 m-0">Approved By MD</th>
                                                 </tr>
@@ -936,6 +939,7 @@ export const Application = () => {
                                                 <tr >
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_hod}</td>
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_hr}</td>
+                                                    <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_agm}</td>
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.approved_admin}</td>
                                                     <td className='text-end p-2 m-0' style={{ fontSize: '12px', border: '1px solid black' }}>{selectedRequisition.total_price > 5000 ? selectedRequisition.approved_md : 'Invalid'}</td>
                                                 </tr>

@@ -947,7 +947,7 @@ export const Application = () => {
                                         </table>
                                     </div>}
 
-                                    <div className="my-5 "></div>
+                                    <div className="my-0 "></div>
 
                                     <div className='mx-3 d-flex justify-content-between'>
 

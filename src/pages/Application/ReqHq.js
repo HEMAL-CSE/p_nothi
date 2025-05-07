@@ -766,7 +766,7 @@ const ReqHq = ({ getData, group }) => {
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td style={{ border: '1px solid black', fontSize: '12px', width: '150px' }} className='text-end'>{item.name}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px', width: '250px' }} className='text-end'>{item.name}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.quantity}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.unit}</td>
                                                         {/* <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.price}</td> */}
@@ -808,7 +808,10 @@ const ReqHq = ({ getData, group }) => {
                                     <div className="my-0 "></div>
 
                                     <div className='mx-3 d-flex justify-content-between'>
-
+                                    <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>Admin</p>
+                                        </div>
                                         <div className='text-center'>
                                             <hr style={{ width: '100px' }} />
                                             <p className='fw-bold'>AGM</p>
@@ -829,6 +832,8 @@ const ReqHq = ({ getData, group }) => {
                                             <hr style={{ width: '100px' }} />
                                             <p className='fw-bold'>MD</p>
                                         </div>
+
+                                        
 
 
                                     </div>

@@ -944,7 +944,7 @@ const ReqElt = ({ getData, group }) => {
                                                     </tr>
                                                 ))}
                                                 <tr>
-                                                    <td colSpan={3} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total Price</td>
+                                                    <td colSpan={4} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total Price</td>
                                                     <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, {price, quantity}) => n + parseInt(price) * parseInt(quantity), 0)}</td>
                                                 </tr>
                                             </tbody>

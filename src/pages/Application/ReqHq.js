@@ -738,7 +738,6 @@ const ReqHq = ({ getData, group }) => {
                                             <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Name: {selectedRequisition.user_name}</p>
                                             <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Department: {selectedRequisition.department_name}</p>
                                             <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Designation: {selectedRequisition.designation}</p>
-                                            <p style={{ fontSize: '12px' }} className="text-muted p-0 m-0">Branch: {selectedRequisition.branch_name}</p>
 
                                         </div>
                                         <div className="col-3">
@@ -755,21 +754,29 @@ const ReqHq = ({ getData, group }) => {
 
                                     <div className="table-responsive mx-4 mb-4">
                                         <table style={{ border: '1px solid black' }} className="table">
-                                            <thead>
+                                        <thead>
                                                 <tr>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Description</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Total Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.name}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px', width: '150px' }} className='text-end'>{item.name}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.quantity}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.unit}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.price}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{parseInt(item.price) * parseInt(item.quantity)}</td>
                                                     </tr>
                                                 ))}
+                                                <tr>
+                                                    <td colSpan={4} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total</td>
+                                                    <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, {price, quantity}) => n + parseInt(price) * parseInt(quantity), 0)}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -845,7 +852,7 @@ const ReqHq = ({ getData, group }) => {
                                             </p>
                                         </div>
                                     </div>
-                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center my-0'>
+                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center mb-2'>
                                         All rights reserved by @ Promise E-nothi
 
                                     </p>

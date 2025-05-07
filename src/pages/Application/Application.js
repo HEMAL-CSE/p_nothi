@@ -51,6 +51,7 @@ export const Application = () => {
     const [edit_date, setEdit_date] = useState('')
     const [edit_item_type, setEdit_item_type] = useState('')
     const [selectedRequisition, setSelectedRequisition] = useState({})
+    const [details_total, setDetails_total] = useState(0)
 
 
 
@@ -100,7 +101,7 @@ export const Application = () => {
                 // console.log(res.data);
 
                 setItems(res.data.map(res => {
-                    return { ...res, quantity: '', unit: '', checked: false }
+                    return { ...res, quantity: '', unit: '', price: '', checked: false }
                 }))
 
             })
@@ -128,7 +129,8 @@ export const Application = () => {
                             requisition_id: res.data.id,
                             name: item.name,
                             quantity: item.quantity,
-                            unit: item.unit
+                            unit: item.unit,
+                            price: item.price
                         }).then(res => {
 
                         })
@@ -158,7 +160,7 @@ export const Application = () => {
                     ...e,
                     [value]: {
                         ...existing,
-                        item_details: [...existing.item_details, { 'name': item.item_name, 'quantity': item.item_quantity, 'unit': item.item_unit }]
+                        item_details: [...existing.item_details, { 'name': item.item_name, 'quantity': item.item_quantity, 'unit': item.item_unit, 'price': item.item_price }]
                     }
                 }
             }, {})
@@ -588,13 +590,21 @@ export const Application = () => {
 
                                     }} placeholder='quantity' />
 
-                                    <input className='form-control' onChange={e => {
+                                    <input className='form-control mx-2' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.unit = e.target.value
                                         clone[i] = obj
                                         setItems([...clone])
                                     }} placeholder='unit' />
+
+                                    <input className='form-control' onChange={e => {
+                                        var clone = [...items]
+                                        var obj = clone[i]
+                                        obj.price = e.target.value
+                                        clone[i] = obj
+                                        setItems([...clone])
+                                    }} placeholder='Unit price' />
                                 </div>
                             </div>
                         ))
@@ -607,6 +617,7 @@ export const Application = () => {
                                 name: '',
                                 quantity: '',
                                 unit: '',
+                                price: '',
                                 checked: false,
                             }])
                         } className='btn btn-primary'>Add More</button>
@@ -889,16 +900,24 @@ export const Application = () => {
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Description</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Total Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {details.map(item => (
                                                     <tr>
-                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.name}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px', width: '150px' }} className='text-end'>{item.name}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.quantity}</td>
                                                         <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.unit}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{item.price}</td>
+                                                        <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end'>{parseInt(item.price) * parseInt(item.quantity)}</td>
                                                     </tr>
                                                 ))}
+                                                <tr>
+                                                    <td colSpan={4} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total</td>
+                                                    <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, {price, quantity}) => n + parseInt(price) * parseInt(quantity), 0)}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -996,7 +1015,7 @@ export const Application = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center'>
+                                    <p style={{ fontSize: '12px' }} className='bg-blue text-white text-center mb-2'>
                                         All rights reserved by @ Promise E-nothi
 
                                     </p>

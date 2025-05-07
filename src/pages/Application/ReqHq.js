@@ -808,7 +808,10 @@ const ReqHq = ({ getData, group }) => {
                                     <div className="my-0 "></div>
 
                                     <div className='mx-3 d-flex justify-content-between'>
-                                    
+                                    <div className='text-center'>
+                                            <hr style={{ width: '100px' }} />
+                                            <p className='fw-bold'>Admin</p>
+                                        </div>
                                         <div className='text-center'>
                                             <hr style={{ width: '100px' }} />
                                             <p className='fw-bold'>AGM</p>

@@ -756,7 +756,7 @@ const ReqHq = ({ getData, group }) => {
                                         <table style={{ border: '1px solid black' }} className="table">
                                         <thead>
                                                 <tr>
-                                                    <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Description</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px',width: '150px' }} className="fw-bold text-end">Description</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th>

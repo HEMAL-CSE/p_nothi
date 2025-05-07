@@ -649,7 +649,7 @@ export const Application = () => {
                                 <th>Item Type</th>
                                 <th>Item Details</th>
                                 <th>Approved By HOD</th>
-                                <th>Approved By HR/Admin</th>
+                                <th>Approved By Admin</th>
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>

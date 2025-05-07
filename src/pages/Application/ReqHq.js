@@ -323,7 +323,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Department</th>
                                 <th>Item Type</th>
                                 <th>Item Details</th>
-                                <th>Approved By {['7', '15'].includes(localStorage.getItem('role')) ? 'HOD' : 'HR/Admin'}</th>
+                                <th>Approved By {['7', '15'].includes(localStorage.getItem('role')) ? 'HOD' : 'Admin'}</th>
                                 <th>Approved By AGM</th>
                                 <th>Approved By ED</th>
                                 <th>Approved By MD</th>
@@ -399,7 +399,7 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Item Details</th>
 
                                 <th>Approved By HOD</th>
-                                <th>Approved By HR/Admin</th>
+                                <th>Approved By Admin</th>
                                 <th>Approved By AGM</th>
                                 <th>Approved By MD</th>
                                 <th>{localStorage.getItem('role') == '2' ? 'Approve' : 'Approved By ED'}</th>

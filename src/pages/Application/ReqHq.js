@@ -79,11 +79,17 @@ const ReqHq = ({ getData, group }) => {
 
 
     const admintData = () => {
-        if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
+        if ([ '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
+
+            })
+        } else if(['2'].includes(localStorage.getItem('role'))){
+            axios.get(`https://server.promisenothi.com/employees/requisition?approved_agm=1`).then(res => {
+                setAdminData(group(res.data))
+                // console.log(res.data);       
 
             })
         }

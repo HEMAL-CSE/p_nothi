@@ -663,7 +663,7 @@ export const Application = () => {
                             </div>
                         ))
                     }
-<p>যদি রিকুইজিশনের বাউচার বা ইনভয়েস থাকলে এখানে Choice file এ ক্লিক করুন।</p>
+<p className='mt-3'>যদি রিকুইজিশনের বাউচার বা ইনভয়েস থাকলে এখানে Choice file এ ক্লিক করুন।</p>
                     <input onChange={e => {
                         console.log(e.target.files);
 
@@ -1079,12 +1079,12 @@ export const Application = () => {
                                     </p>
                                 </div>
                                     
-                                    <h3>Brochures</h3>
+                                    <h3 className='mt-3 text-success '>Brochures</h3>
 
                                     {
                                         brochures.map(item => (
                                             <div>
-                                            <a target='_blank' href={item.image}>{item.image}</a>
+                                            <a target='_blank' className='btn btn-warning' href={item.image}>File Link</a>
                                             </div>
                                         ))
                                     }

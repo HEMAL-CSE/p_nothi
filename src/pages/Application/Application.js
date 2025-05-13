@@ -573,7 +573,7 @@ export const Application = () => {
                 <div className='border border-1 m-2 p-2'>
                     {
                         items.map((item, i) => (
-                            <div className='d-flex justify-content-between'>
+                            <div className='d-flex justify-content-between align-items-center'>
                                 <div className='d-flex align-items-center'>
                                     <input className='mx-2' type='checkbox' onChange={
                                         (e) => {
@@ -595,7 +595,7 @@ export const Application = () => {
                                     } />
                                     {
                                         item.id == null ?
-                                            <input className='form-control mx-2' onChange={e => {
+                                            <input className='form-control mx-1' onChange={e => {
                                                 var clone = [...items]
                                                 var obj = clone[i]
                                                 obj.name = e.target.value
@@ -609,8 +609,8 @@ export const Application = () => {
                                             <p className='fw-bold my-2'>{item.name}</p>}
 
                                 </div>
-                                <div className='d-flex m-2'>
-                                    <input className='form-control mx-2' onChange={e => {
+                                <div className='d-flex m-2 align-items-center justify-content-center'>
+                                    <input style={{ width: '150px'}} className='form-control mx-1' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.quantity = e.target.value
@@ -621,7 +621,7 @@ export const Application = () => {
 
                                     }} placeholder='পরিমাণ (সংখ্যা)' />
 
-                                    <input className='form-control mx-2' onChange={e => {
+                                    <input  style={{ width: '150px'}}className='form-control mx-1' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.unit = e.target.value
@@ -629,16 +629,15 @@ export const Application = () => {
                                         setItems([...clone])
                                     }} placeholder='ইউনিট (একক)' />
 
-                                    <input className='form-control' onChange={e => {
+                                    <input style={{ width: '150px'}} className='form-control' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.price = e.target.value
                                         clone[i] = obj
                                         setItems([...clone])
                                     }} placeholder='প্রতি ইউনিট দাম' />
-
-                                    <p><strong>মোট দাম
-                                    :</strong>{items[i].quantity * items[i].price}</p>
+                                
+                                    <p className='m-0'><strong>মোট দাম:</strong>{items[i].quantity * items[i].price}</p>
                                 </div>
                             </div>
                         ))
@@ -664,7 +663,7 @@ export const Application = () => {
                             </div>
                         ))
                     }
-
+<p>যদি রিকুইজিশনের বাউচার বা ইনভয়েস থাকলে এখানে Choice file এ ক্লিক করুন।</p>
                     <input onChange={e => {
                         console.log(e.target.files);
 

@@ -27,6 +27,7 @@ const ReqHq = ({ getData, group }) => {
     const [comment_id, setComment_id] = useState('')
     const [detailsOpen, setDetailsOpen] = useState(false)
     const [details, setDetails] = useState([])
+    const [brochures, setBrochures] = useState([])
     const printRef = useRef(null);
 
     const handleDownloadPdf = async (e) => {
@@ -79,14 +80,14 @@ const ReqHq = ({ getData, group }) => {
 
 
     const admintData = () => {
-        if ([ '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
+        if (['3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
 
             })
-        } else if(['2'].includes(localStorage.getItem('role'))){
+        } else if (['2'].includes(localStorage.getItem('role'))) {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_agm=1`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);       
@@ -94,6 +95,18 @@ const ReqHq = ({ getData, group }) => {
             })
         }
 
+    }
+
+    const getBrochures = (requisition_id) => {
+        const employee_id = localStorage.getItem('employee_id')
+        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
+            var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
+            axios.get(`https://server.promisenothi.com/employees/${requisition_url}/brochures?requisition_id=${requisition_id}`).then(res => {
+                setBrochures(res.data)
+                console.log(res.data);
+
+            })
+        })
     }
 
     const mddata = () => {
@@ -152,8 +165,8 @@ const ReqHq = ({ getData, group }) => {
                 toast('Approved')
             })
         } else if (localStorage.getItem('role') == '6') {
-                console.log('agm');
-                
+            console.log('agm');
+
             axios.put(`https://server.promisenothi.com/employees/requisition/approve?approved_agm=${true}&&id=${id}`).then(res => {
                 toast('Approved')
             })
@@ -351,6 +364,7 @@ const ReqHq = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
+                                            getBrochures(item.id)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td>{department == 3 ? <Approval approved={item.approved_hod} /> : <Approval approved={item.approved_hr} />}</td>
                                         <td>{<Approval approved={item.approved_agm} />}</td>
@@ -427,18 +441,19 @@ const ReqHq = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
+                                            getBrochures(item.id)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td><Approval approved={item.approved_hod} /></td>
                                         <td><Approval approved={item.approved_hr} /></td>
                                         <td>{
-                                                item.approved_agm == 'PENDING' && ['6'].includes(localStorage.getItem('role')) ?
-                                                    <div>
-                                                        <button onClick={e => approve(e, item.id)} className='btn btn-success m-2'>Approve</button>
-                                                        <button onClick={e => reject(e, item.id)} className='btn btn-danger'>Reject</button>
-                                                    </div>
-                                                    : <Approval approved={item.approved_agm} />
+                                            item.approved_agm == 'PENDING' && ['6'].includes(localStorage.getItem('role')) ?
+                                                <div>
+                                                    <button onClick={e => approve(e, item.id)} className='btn btn-success m-2'>Approve</button>
+                                                    <button onClick={e => reject(e, item.id)} className='btn btn-danger'>Reject</button>
+                                                </div>
+                                                : <Approval approved={item.approved_agm} />
 
-                                            }</td>
+                                        }</td>
                                         <td>{item.total_price > 5000 || item.estimated_price > 5000 ? <Approval approved={item.approved_md} /> : 'Invalid'}</td>
 
                                         <td>
@@ -509,6 +524,7 @@ const ReqHq = ({ getData, group }) => {
                                                 setDetails(item.item_details)
                                                 setSelectedRequisition(item)
                                                 setDetailsOpen(true)
+                                                getBrochures(item.id)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td><Approval approved={item.approved_hod} /></td>
@@ -581,6 +597,7 @@ const ReqHq = ({ getData, group }) => {
                                                 setDetails(item.item_details)
                                                 setSelectedRequisition(item)
                                                 setDetailsOpen(true)
+                                                getBrochures(item.id)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.quantity}</td>
@@ -760,9 +777,9 @@ const ReqHq = ({ getData, group }) => {
 
                                     <div className="table-responsive mx-4 mb-4">
                                         <table style={{ border: '1px solid black' }} className="table">
-                                        <thead>
+                                            <thead>
                                                 <tr>
-                                                    <th style={{ border: '1px solid black', fontSize: '12px',width: '150px' }} className="fw-bold text-end">Description</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px', width: '150px' }} className="fw-bold text-end">Description</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th>
@@ -781,7 +798,7 @@ const ReqHq = ({ getData, group }) => {
                                                 ))}
                                                 <tr>
                                                     <td colSpan={4} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total Price</td>
-                                                    <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, {price, quantity}) => n + parseFloat(price) * parseFloat(quantity), 0)}</td>
+                                                    <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, { price, quantity }) => n + parseFloat(price) * parseFloat(quantity), 0)}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -814,7 +831,7 @@ const ReqHq = ({ getData, group }) => {
                                     <div className="my-0 "></div>
 
                                     <div className='mx-3 d-flex justify-content-between'>
-                                    <div className='text-center'>
+                                        <div className='text-center'>
                                             <hr style={{ width: '100px' }} />
                                             <p className='fw-bold'>Admin</p>
                                         </div>
@@ -839,7 +856,7 @@ const ReqHq = ({ getData, group }) => {
                                             <p className='fw-bold'>MD</p>
                                         </div>
 
-                                        
+
 
 
                                     </div>
@@ -869,7 +886,15 @@ const ReqHq = ({ getData, group }) => {
                                     </p>
                                 </div>
 
+                                <h3>Brochures</h3>
 
+                                {
+                                    brochures.map(item => (
+                                        <div>
+                                            <a target='_blank' href={item.image}>{item.image}</a>
+                                        </div>
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>

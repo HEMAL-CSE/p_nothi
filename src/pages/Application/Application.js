@@ -52,6 +52,8 @@ export const Application = () => {
     const [edit_item_type, setEdit_item_type] = useState('')
     const [selectedRequisition, setSelectedRequisition] = useState({})
     const [details_total, setDetails_total] = useState(0)
+    const [brochures, setBrochures] = useState([])
+    const [brochureDetails, setBrochureDetails] = useState([])
 
 
 
@@ -109,6 +111,18 @@ export const Application = () => {
 
 
 
+    const getBrochures = (requisition_id) => {
+        const employee_id = localStorage.getItem('employee_id')
+         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
+            var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
+            axios.get(`https://server.promisenothi.com/employees/${requisition_url}/brochures?requisition_id=${requisition_id}`).then(res => {
+                setBrochures(res.data)
+                console.log(res.data);
+                
+            })
+        })
+    }
+
     // add requisitions
     const addData = e => {
 
@@ -136,6 +150,23 @@ export const Application = () => {
                         })
                     }
                 })
+
+                
+
+                if(brochureDetails.length > 0){
+                    let formData =new FormData()
+                    formData.append('requisition_id', res.data.id)
+                    for(var i = 0; i < brochureDetails.length; i++){
+                        formData.append('images', brochureDetails[i])
+                    }
+
+                    axios.post(`https://server.promisenothi.com/employees/${requisition_url}/brochures/add`, formData).then(res => {
+                        toast('Submitted')
+                        
+                    })
+                    
+                }
+                   
 
                 toast('Submitted')
                 getData()
@@ -573,7 +604,7 @@ export const Application = () => {
                                                 console.log(items);
 
 
-                                            }} placeholder='Name' /> :
+                                            }} placeholder='বিবরণ' /> :
 
                                             <p className='fw-bold my-2'>{item.name}</p>}
 
@@ -588,7 +619,7 @@ export const Application = () => {
                                         console.log(items);
 
 
-                                    }} placeholder='quantity' />
+                                    }} placeholder='পরিমাণ (সংখ্যা)' />
 
                                     <input className='form-control mx-2' onChange={e => {
                                         var clone = [...items]
@@ -596,7 +627,7 @@ export const Application = () => {
                                         obj.unit = e.target.value
                                         clone[i] = obj
                                         setItems([...clone])
-                                    }} placeholder='unit' />
+                                    }} placeholder='ইউনিট (একক)' />
 
                                     <input className='form-control' onChange={e => {
                                         var clone = [...items]
@@ -604,7 +635,10 @@ export const Application = () => {
                                         obj.price = e.target.value
                                         clone[i] = obj
                                         setItems([...clone])
-                                    }} placeholder='Unit price' />
+                                    }} placeholder='প্রতি ইউনিট দাম' />
+
+                                    <p><strong>মোট দাম
+                                    :</strong>{items[i].quantity * items[i].price}</p>
                                 </div>
                             </div>
                         ))
@@ -622,6 +656,26 @@ export const Application = () => {
                             }])
                         } className='btn btn-primary'>Add More</button>
                     </div>
+
+                    {
+                        brochureDetails.map((item, i) => (
+                            <div>
+                                <p>{item.name} </p>
+                            </div>
+                        ))
+                    }
+
+                    <input onChange={e => {
+                        console.log(e.target.files);
+
+                        [...e.target.files].map(file => {
+                            setBrochureDetails(prev => [...prev, file ])
+                        })
+                        
+                        
+                        console.log(brochureDetails);
+                        
+                    }} className='input' type='file' multiple/>
 
                 </div>
 
@@ -722,6 +776,7 @@ export const Application = () => {
                                                 setDetails(item.item_details)
                                                 setDetailsOpen(true)
                                                 setSelectedRequisition(item)
+                                                getBrochures(item.id)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.approved_dc}</td>
@@ -1023,7 +1078,16 @@ export const Application = () => {
 
                                     </p>
                                 </div>
+                                    
+                                    <h3>Brochures</h3>
 
+                                    {
+                                        brochures.map(item => (
+                                            <div>
+                                            <a target='_blank' href={item.image}>{item.image}</a>
+                                            </div>
+                                        ))
+                                    }
 
                             </div>
                         </div>

@@ -43,6 +43,7 @@ const ReqElt = ({ getData, group }) => {
     const [page, setPage] = useState(1);
     const [slice, setSlice] = useState([])
     const [range, setRange] = useState([])
+    const [brochures, setBrochures] = useState([])
 
     const handleDownloadPdf = async (e) => {
         e.preventDefault()
@@ -132,7 +133,17 @@ const ReqElt = ({ getData, group }) => {
         }
 
     }
+    const getBrochures = (requisition_id) => {
+        const employee_id = localStorage.getItem('employee_id')
+        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
+            var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
+            axios.get(`https://server.promisenothi.com/employees/${requisition_url}/brochures?requisition_id=${requisition_id}`).then(res => {
+                setBrochures(res.data)
+                console.log(res.data);
 
+            })
+        })
+    }
 
 
 
@@ -457,6 +468,7 @@ const ReqElt = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
+                                            getBrochures(item.id)
                                         }} className='btn btn-warning'>Details</button></td>
 
                                         <td>{job_desg == 'divisional head' && item.approved_dc == 'PENDING' ?
@@ -593,6 +605,7 @@ const ReqElt = ({ getData, group }) => {
                                             setDetails(item.item_details)
                                             setSelectedRequisition(item)
                                             setDetailsOpen(true)
+                                            getBrochures(item.id)
                                         }} className='btn btn-warning'>Details</button></td>
                                         <td><Approval approved={item.approved_dc} /></td>
                                         <td><Approval approved={item.approved_adh} /></td>
@@ -675,7 +688,7 @@ const ReqElt = ({ getData, group }) => {
                                                 setDetails(item.item_details)
                                                 setSelectedRequisition(item)
                                                 setDetailsOpen(true)
-
+                                                getBrochures(item.id)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td><Approval approved={item.approved_dc} /></td>
@@ -752,6 +765,7 @@ const ReqElt = ({ getData, group }) => {
                                                 setDetails(item.item_details)
                                                 setSelectedRequisition(item)
                                                 setDetailsOpen(true)
+                                                getBrochures(item.id)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.quantity}</td>
@@ -1037,7 +1051,15 @@ const ReqElt = ({ getData, group }) => {
                                     </p>
                                 </div>
 
+                                <h3>Brochures</h3>
 
+                                {
+                                    brochures.map(item => (
+                                        <div>
+                                            <a target='_blank' href={item.image}>{item.image}</a>
+                                        </div>
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>

@@ -1079,7 +1079,7 @@ export const Application = () => {
                                     </p>
                                 </div>
                                     
-                                    <h3 className='mt-3 text-success '>Brochures</h3>
+                                    <h3 className='mt-3 text-success border border-success'>Brochures</h3>
 
                                     {
                                         brochures.map(item => (

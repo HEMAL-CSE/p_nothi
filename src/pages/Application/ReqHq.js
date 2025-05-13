@@ -886,15 +886,15 @@ const ReqHq = ({ getData, group }) => {
                                     </p>
                                 </div>
 
-                                <h3>Brochures</h3>
+                                <h3 className='mt-3 text-success border border-success'>Brochures</h3>
 
-                                {
-                                    brochures.map(item => (
-                                        <div>
-                                            <a target='_blank' href={item.image}>{item.image}</a>
-                                        </div>
-                                    ))
-                                }
+{
+    brochures.map(item => (
+        <div>
+        <a target='_blank' className='btn btn-warning' href={item.image}>File Link</a>
+        </div>
+    ))
+}
                             </div>
                         </div>
                     </div>

@@ -722,6 +722,7 @@ export const Application = () => {
                                                 setDetails(item.item_details)
                                                 setDetailsOpen(true)
                                                 setSelectedRequisition(item)
+                                                getBrochures(item.id)
                                             }} className='btn btn-warning'>Details</button>
                                         </td>
                                         <td>{item.approved_hod}</td>

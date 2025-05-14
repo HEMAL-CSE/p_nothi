@@ -6,6 +6,7 @@ import Feautures from '../assets/img/feature.png'
 import banner1 from '../assets/img/banner1.png'
 import banner2 from '../assets/img/banner2.png'
 import banner3 from '../assets/img/banner3.png'
+import logo1 from '../assets/logo1.jpg'
 // import banner2 from '../assets/carosel.jpg'
 // import feature from './images/feature.png'
 // import vegetable from './images/vegetable.png'
@@ -40,15 +41,23 @@ const Home = () => {
         <div className="row gx-5 py-3 align-items-center">
           <div className="col-lg-3">
             <div className="d-flex align-items-center justify-content-start">
-              <BsPhoneVibrate className='text-success2 fs-1 me-2' />
-              <h2 className="mb-0">+01550-666800 </h2>
+              {/* <BsPhoneVibrate className='text-success2 fs-1 me-2' /> */}
+              <h2 className="mb-0">
+                <img 
+                    src={logo1} 
+                  alt="E-Learning & Earning Ltd. Logo" 
+                 style={{ height: '40px' }} />
+              </h2>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="d-flex align-items-center justify-content-center">
               <a href="index.html" className="navbar-brand ms-lg-5">
-                <h3 className="m-0 display-4 text-success2"><span className="text-secondary">Promise</span> Nothi</h3>
-              </a>
+          <h6 className="m-0" style={{ fontSize: '30px', fontFamily: 'Helvetica Neue, sans-serif', fontWeight: 700, color: '#007bff' }}>
+            <span  style={{ fontSize: 'inherit', color: '#159F42' }}>E-Nothi</span>
+           <span className=" ms-2" style={{ fontSize: 'inherit', color: '#159F42'}}>by E-Learning and Earning Ltd.</span>
+         </h6>
+    </a>
             </div>
           </div>
           <div className="col-lg-2">
@@ -115,7 +124,7 @@ const Home = () => {
               {/* <button className="get-started-button">Get Started →</button> */}
               <div className="carousel-caption my-4 top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-end justify-content-start">
                 <div className="text-start p-5" style={{ maxWidth: '900px' }}>
-                  <h3 className="text-white px-5 bg-success w-75 rounded">Promise Nothi</h3>
+                  <h3 className="text-white px-5 bg-success w-75 rounded">E-Nothi</h3>
                   <h1 style={{ fontSize: '70px' }} className="display-1 text-dark mb-md-4">Smart System For <br />Office Management</h1>
                   <a href="" className="btn btn-success2 text-white py-md-3 px-md-5 me-3">Explore</a>
                   <a href="" className="btn btn-secondary py-md-3 px-md-5">Contact</a>

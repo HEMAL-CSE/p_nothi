@@ -91,6 +91,7 @@ const ReqElt = ({ getData, group }) => {
         } else if (['2'].includes(localStorage.getItem('role'))) {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_agm=1`).then(res => {
                 setAdminData(group(res.data))
+                console.log(group(res.data))
                 const { slice, range } = paginate(group(res.data), page, 10)
                 setSlice(slice)
                 setRange(range)

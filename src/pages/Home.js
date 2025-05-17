@@ -124,7 +124,7 @@ const Home = () => {
               {/* <button className="get-started-button">Get Started →</button> */}
               <div className="carousel-caption my-4 top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-end justify-content-start">
                 <div className="text-start p-5" style={{ maxWidth: '900px' }}>
-                  <h3 className="text-white px-5 bg-success w-75 rounded">E-Nothi</h3>
+                  <h4 className="text-white px-5 bg-success w-85 rounded">E-Nothi by E-Learning and Earning Ltd.</h4>
                   <h1 style={{ fontSize: '70px' }} className="display-1 text-dark mb-md-4">Smart System For <br />Office Management</h1>
                   <a href="" className="btn btn-success2 text-white py-md-3 px-md-5 me-3">Explore</a>
                   <a href="" className="btn btn-secondary py-md-3 px-md-5">Contact</a>

@@ -18,7 +18,8 @@ import { HiDocumentSearch } from 'react-icons/hi'
 import { TbHierarchy } from 'react-icons/tb'
 import { useNotificationCenter } from 'react-toastify/addons/use-notification-center'
 import Navbar from '../../Components/Navbar'
-import { Calendar } from 'lucide-react'
+import { Calendar, PenLineIcon } from 'lucide-react'
+import { GoReport } from 'react-icons/go'
 
 
 const Employeelayout = ({ children }) => {
@@ -144,6 +145,15 @@ const Employeelayout = ({ children }) => {
       pathname: '/employee/store',
       roles: ['1', '2', '3', '4', '5', '6', '7','12', '11', '15'],
       icon: BiStore,
+      submenu: []
+    },
+
+
+    {
+      name: 'Daily Work Report',
+      pathname: '/employee/workreport',
+      roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
+      icon: GoReport,
       submenu: []
     },
 

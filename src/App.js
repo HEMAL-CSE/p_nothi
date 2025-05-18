@@ -22,6 +22,7 @@ import Purchase from './pages/Purchase/Purchase';
 import { ECommerce } from './pages/e-commerce/ecommerce';
 import { Notice } from './pages/Notices/Notice';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Workreport from './pages/workreport';
 // import Attendance from './pages/Attendance/Attendance';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';
@@ -55,6 +56,7 @@ function App() {
         <Route element={<Application/>} exact path='/employee/application'/>
         <Route element={<Hierarchy/>} exact path='/employee/hierarchy'/>
         <Route element={<Purchase/>} exact path='/employee/purchase'/>
+        <Route element={<Workreport/>} exact path='/employee/workreport'/>
 
         {/* <Route element={<Attendance/>} exact path='/employee/purchase'/> */}
 

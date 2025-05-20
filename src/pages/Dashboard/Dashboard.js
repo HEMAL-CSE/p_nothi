@@ -82,7 +82,7 @@ const Dashboard = () => {
   return (
     <div>
       <Navbar color="light" light expand="md" className="shadow-sm px-4 mb-3">
-        <NavbarBrand className="fw-bold">👨‍💼 Dashboard</NavbarBrand>
+        <NavbarBrand className="fw-bold">👨‍💼 Dashboard Overview:</NavbarBrand>
         <Nav className="ms-auto" navbar>
           <NavItem className="me-3">
             <NavLink href="#"><Bell /></NavLink>

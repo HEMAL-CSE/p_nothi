@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
+import logo1 from '../Auth/logo2.png'
 
 const Register = () => {
     const [name, setName] = useState('')
@@ -52,6 +53,7 @@ const Register = () => {
                         <div className="d-flex align-items-center justify-content-center">
                             {/* <a href="index.html" className="navbar-brand"> */}
                             <h1 className="m-0 display-4 text-success2">Authentication</h1>
+                            
                             {/* </a> */}
                         </div>
                     </div>

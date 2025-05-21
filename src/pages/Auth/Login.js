@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
+import logo2 from '../Auth/logo2.png'
 
 const Login = () => {
     const [employee_idoremail, setEmployee_idoremail] = useState('')
@@ -67,7 +68,9 @@ const Login = () => {
                     <div className="">
                         <div className="d-flex align-items-center justify-content-center">
                             {/* <a href="index.html" className="navbar-brand"> */}
-                            <h1 className="m-0 display-4 text-success2">Authentication</h1>
+                            {/* <h1 className="m-0 display-4 text-success2">Authentication</h1> */}
+
+                        <img  src={logo2} alt="E-Learning & Earning Ltd. Logo" style={{ height: '130px', marginTop: '20px' }} /> 
                             {/* </a> */}
                         </div>
                     </div>
@@ -76,9 +79,9 @@ const Login = () => {
             </div>
 
 
-            <div className='col-lg-5 py-5 mt-5 d-flex flex-column justify-content-between align-items-center border border-2 '>
+            <div className='col-lg-5 py-5 mt-5 d-flex flex-column justify-content-between align-items-center border border-2'>
 
-                <h3 className='text-success'>Login</h3>
+                <h3 className='text-success'>Login: E-Nothi</h3>
                 <form onSubmit={handleSubmit} className=' m-4 d-flex flex-column justify-content-center align-items-center'>
                     <div className='mb-4'>
                         <label>Employee ID or Email</label>

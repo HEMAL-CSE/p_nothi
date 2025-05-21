@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Toast } from "bootstrap";
+import Modal from 'react-modal'
+import moment from 'moment'
 
 const Workreport = () => {
 
@@ -16,7 +18,6 @@ const Workreport = () => {
         const [dept, setdept] = useState('')
     
         const [employees, setEmployees] = useState([])
-    
     
         const [employee, setEmployee] = useState({})
     
@@ -93,28 +94,23 @@ const Workreport = () => {
             }
         }
 
-
-           useEffect(() => {
+        useEffect(() => {
                   axios.get('https://server.promisenothi.com/employees/departments').then(res => {
                       setDepartments(res.data)
                   })
               }, [])
             
   
-
   return (
     <div className="container py-4">
       <ToastContainer />
       <div className="row justify-content-center">
-        <div className="col-12 col-md-10 col-lg-8">
-          <h2 className="mb-4 text-center fw-bold text-primary border-3 pb-0"
-            style={{ fontSize: "2rem", letterSpacing: "0.5px" }}>
-          📝 Daily Work Report </h2>
 
-       <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+         <h2 className="mb-2 text-center fw-bold text-primary border-3 pb-0"
+            style={{ fontSize: "2rem", letterSpacing: "0.5px" }}> 📝 Daily Work Report </h2>
+ <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
                     <div className='d-flex flex-column w-50'>
                         <label> Job Department: </label>
-
                         <select onChange={e => {
                             setdept(e.target.value)
                         }} className='select'>
@@ -166,13 +162,15 @@ const Workreport = () => {
                             <table className='mt-10 table'>
                                 <thead>
                                     <tr>
-                                        <th scope="col text-start">Name</th>
-                                        <th scope="col">Employee ID</th>
-                                        <th scope="col">Designation</th>
-                                        <th scope="col">Phone Number</th>
+                                        <th scope="col text-start"> Date</th>
+                                        <th className="px-2" scope="col "> Employee Name</th>
+                                    
+                                        <th className="px-3" scope="col">Employee ID</th>
+                                        <th className="px-3" scope="col">Designation</th>
+                                        <th className="px-3" scope="col">Phone Number</th>
                                        
-                                        {/* <th scope="col">Status</th> */}
-                                        <th>Details</th>
+                                        <th className="px-3" scope="col">Submission Status</th>
+                                        <th className="px-3" scope="col">Details</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -180,17 +178,20 @@ const Workreport = () => {
 
                                         employees.map(item => (
                                             <tr>
+                                                <td className='px-3 text-start'>{item.Date}</td>
                                                 <td className='px-3 text-start'>{item.user_name}</td>
                                                 <td className='px-3'>{item.employee_id}</td>
                                                 
-                                                <td className='px-3'>{item.mobile_no}</td>
+                                                {/* <td className='px-3'>{item.mobile_no}</td> */}
                                                
                                                 <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
+                                                <td className='px-3'>{item.mobile_no}</td>
+                                                <td className='px-3'> <button type="button" class="btn btn-success">Submitted</button></td>
                                                 <td className='px-3'>
                                                     <button onClick={(e) => {
                                                         setIsOpen(true)
                                                         setSelectedEmployee(item)
-                                                    }} className='btn btn-warning'>Details</button>
+                                                    }} className='btn btn-warning' >Details</button>
                                                 </td>
                                             </tr>
                                         ))
@@ -198,9 +199,139 @@ const Workreport = () => {
                                 </tbody>
                             </table>
                         </div>
-
                     }
-                </div>
+
+                        <Modal
+                                    style={{
+                                        content: {
+                                            width: "70%",
+                                            height: "70%",
+                                            zIndex: 10,
+                                            top: "5%",
+                                            left: "10%",
+                                            right: "10%",
+                                            bottom: "5%",
+                                            overflow: "auto",
+                                            WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                                            MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                                            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+                                            borderRadius: "5px",
+                                            border: "1px solid #ccc",
+                                        },
+                                        overlay: { zIndex: 10000 }
+                                    }}
+                                    isOpen={isOpen}
+                                    onRequestClose={() => {
+                                        setIsOpen(false)
+                                    }}
+                                >
+                    
+                                    <div className="container-fluid px-5 d-none d-lg-block">
+                                        <div className="row gx-5 py-3 align-items-center">
+                                            <div className="col-lg-3">
+                                                {/* <div className="d-flex align-items-center justify-content-start">
+                                                  <BsPhoneVibrate className='text-success2 fs-1 me-2' />
+                                                  <h2 className="mb-0">+012 345 6789</h2>
+                                              </div> */}
+                                            </div>
+                                            <div className="col-lg-6">
+                                                <div className="d-flex align-items-center justify-content-center">
+                                                    <a href="#" className="navbar-brand ms-lg-5">
+                                                        <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Employee</span> Profile</h1>
+                                                    </a>
+                                                </div>
+                                            </div>
+                    
+                                        </div>
+                                    </div>
+                    
+                                    {
+                                        Object.keys(employee).length != 0 &&
+                                        <div className='d-flex p-3 flex-column bg-card align-items-start'>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Name:</span> {employee.user_name}
+                                            </div>
+                    
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Father Name:</span> {employee.father_name}
+                                            </div>
+                    
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Mother Name:</span> {employee.mother_name}
+                                            </div>
+                    
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>NID:</span> {employee.nid}
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Present Address:</span> {employee.present_address}
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Division:</span> {employee.division_name}
+                    
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>District:</span> {employee.district_name}
+                    
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Upazila:</span> {employee.upazila_name}
+                    
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Village:</span> {employee.village}
+                    
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Blood Group:</span> {employee.blood_group}
+                    
+                                            </div>
+                                        </div>
+                                    }
+                    
+                                   
+                                    <h2 className='mt-3'>Job Info</h2>
+                    
+                                    {
+                                        Object.keys(job_info).length != 0 && job_info != undefined &&
+                                        <div className='d-flex p-3 flex-column bg-card align-items-start'>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Job Title:</span> {job_info.title}
+                                            </div>
+                    
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Job Department:</span> {job_info.department_name}
+                                            </div>
+                    
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Job Designation:</span> {job_info.designation}
+                                            </div>
+                    
+                                            {job_info.department == 2 && <div className='m-2'>
+                                                <span className='fw-bold'>Branch:</span> {job_info.branch_name}
+                                            </div>}
+                    
+                                            {job_info.department == 2 && <div className='m-2'>
+                                                <span className='fw-bold'>Division:</span> {job_info.division_name}
+                                            </div>}
+                    
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Job Type:</span> {job_info.type}
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Joining Date:</span> {moment(job_info.joining_date).format('DD/MM/yyyy')}
+                                            </div>
+                                            <div className='m-2'>
+                                                <span className='fw-bold'>Location:</span> {job_info.location}
+                    
+                                            </div>
+                                        </div>
+                                    }
+                    
+                            </Modal>
+                </div> 
+
+  <div className="col-12 col-md-10 col-lg-8">
 
 
 {/* 1st Slot */}

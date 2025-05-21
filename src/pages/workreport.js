@@ -1,19 +1,42 @@
 // Workreport.jsx
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import { Toast } from "bootstrap";
 
 const Workreport = () => {
-  const [text, setText] = useState("");
-  const [text1, setText1] = useState("");
-  const [text2, setText2] = useState("");
-  const [text3, setText3] = useState("");
-  const [text4, setText4] = useState("");
+    const [report1, setReport1] = useState("");
+    const [report2, setReport2] = useState("");
+    const [report3, setReport3] = useState("");
+    const [report4, setReport4] = useState("");
+    const [report5, setReport5] = useState("");
 
-  // const [items, setItems] = useState([])
+    const [data, setData] = useState([]);
+
+    const addData = (e, slot_number, report) => {
+      let employee_id = localStorage.getItem('employee_id')
+      axios.post(`https://server.promisenothi.com/employees/daily_work_report/add`, {
+        employee_id,
+        slot_number,
+        report,
+        report_date: new Date().toISOString()
+      }).then(res => {
+        toast('Report Submitted')
+      })
+      
+    }
+
+    const getData = () => {
+      axios.get(`https://server.promisenothi.com/employees/daily_work_report`).then(res => {
+        setData(res.data)
+      })
+    }
   
 
   return (
     <div className="container py-4">
+      <ToastContainer />
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8">
           <h2 className="mb-4 text-center fw-bold text-primary border-3 pb-0"
@@ -40,13 +63,13 @@ const Workreport = () => {
           placeholder="Enter work update here..."
           id="text1"
           style={{ height: "100%", minHeight: "130px", resize: "none" }}
-          value={text}
-          onChange={(e) => setText(e.target.value)}/>
+          value={report1}
+          onChange={(e) => setReport1(e.target.value)}/>
       </div>
     </div> 
        <br/>
     <div className="text-end">
-          <button type="submit" className="btn btn-primary px-3">
+          <button onClick={(e) => addData(e, 1, report1)} type="submit" className="btn btn-primary px-3">
             Submit
           </button>
         </div> <br/>
@@ -72,13 +95,13 @@ const Workreport = () => {
           placeholder="Enter work update here..."
           id="text1"
           style={{ height: "100%", minHeight: "130px", resize: "none" }}
-          value={text}
-          onChange={(e) => setText(e.target.value)}/>
+          value={report2}
+          onChange={(e) => setReport2(e.target.value)}/>
       </div>
     </div> <br/>
 
   <div className="text-end">
-          <button type="submit" className="btn btn-primary px-3">
+          <button onClick={(e) => addData(e, 2, report2)} type="submit" className="btn btn-primary px-3">
             Submit
           </button>
       </div> <br/>
@@ -103,13 +126,13 @@ const Workreport = () => {
           placeholder="Enter work update here..."
           id="text1"
           style={{ height: "100%", minHeight: "130px", resize: "none" }}
-          value={text}
-          onChange={(e) => setText(e.target.value)}/>
+          value={report3}
+          onChange={(e) => setReport3(e.target.value)}/>
       </div>
     </div> <br/>
 
       <div className="text-end">
-          <button type="submit" className="btn btn-primary px-3">
+          <button onClick={(e) => addData(e, 3, report3)} type="submit" className="btn btn-primary px-3">
             Submit
           </button>
         </div> <br/>
@@ -134,13 +157,13 @@ const Workreport = () => {
           placeholder="Enter work update here..."
           id="text1"
           style={{ height: "100%", minHeight: "130px", resize: "none" }}
-          value={text}
-          onChange={(e) => setText(e.target.value)}/>
+          value={report4}
+          onChange={(e) => setReport4(e.target.value)}/>
       </div>
     </div> <br/>
 
      <div className="text-end">
-          <button type="submit" className="btn btn-primary px-3">
+          <button onClick={(e) => addData(e, 4, report4)} type="submit" className="btn btn-primary px-3">
             Submit
           </button>
         </div> <br/>
@@ -166,13 +189,13 @@ const Workreport = () => {
           placeholder="Enter work update here..."
           id="text1"
           style={{ height: "100%", minHeight: "130px", resize: "none" }}
-          value={text}
-          onChange={(e) => setText(e.target.value)}/>
+          value={report5}
+          onChange={(e) => setReport5(e.target.value)}/>
       </div>
     </div> <br/>
 
            <div className="text-end">
-          <button type="submit" className="btn btn-primary px-3">
+          <button   onClick={(e) => addData(e, 5, report5)} type="submit" className="btn btn-primary px-3">
             Submit
           </button>
         </div>

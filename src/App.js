@@ -23,6 +23,8 @@ import { ECommerce } from './pages/e-commerce/ecommerce';
 import { Notice } from './pages/Notices/Notice';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Workreport from './pages/workreport';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 // import Attendance from './pages/Attendance/Attendance';
 
 // import { Leaveinfo } from './pages/LeaveInformation/Leaveinfo';

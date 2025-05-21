@@ -6,6 +6,25 @@ import { toast, ToastContainer } from "react-toastify";
 import { Toast } from "bootstrap";
 
 const Workreport = () => {
+
+    const [isOpen, setIsOpen] = useState(false)
+    const [selectedEmployee, setSelectedEmployee] = useState({})
+    const [division, setdivision] = useState('')
+    const [divisions, setdivisions] = useState([])
+    const [branches, setBranches] = useState([])
+    const [branch, setBranch] = useState('')
+    const [dept, setdept] = useState('')
+
+    const [employees, setEmployees] = useState([])
+
+
+    const [employee, setEmployee] = useState({})
+
+    const [education, setEducation] = useState([])
+
+
+    const [departments, setDepartments] = useState([])
+
     const [report1, setReport1] = useState("");
     const [report2, setReport2] = useState("");
     const [report3, setReport3] = useState("");
@@ -32,6 +51,28 @@ const Workreport = () => {
         setData(res.data)
       })
     }
+
+    const getBranches = (division_id) => {
+            axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
+                setBranches(res.data)
+            })
+        }
+
+        const getEmployees = () => {
+                if (branch != '') {
+                    axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
+                        setEmployees(res.data)
+                    })
+                } else if (dept == 2 && branch == '' && division != '') {
+                    axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
+                        setEmployees(res.data)
+                    })
+                } else {
+                    axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
+                        setEmployees(res.data)
+                    })
+                }
+            }
   
 
   return (
@@ -42,6 +83,98 @@ const Workreport = () => {
           <h2 className="mb-4 text-center fw-bold text-primary border-3 pb-0"
             style={{ fontSize: "2rem", letterSpacing: "0.5px" }}>
           📝 Daily Work Report </h2>
+
+       <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+                    <div className='d-flex flex-column w-50'>
+                        <label> Job Department: </label>
+
+                        <select onChange={e => {
+                            setdept(e.target.value)
+                        }} className='select'>
+                            <option>Select</option>
+                            {
+                                departments.filter(e => e.id != 3).map(item => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))
+                            }
+                        </select>
+
+                        {dept == 2 &&
+                            <div>
+                                <label>Division</label>
+
+                                <select value={division} onChange={e => {
+
+                                    setdivision(e.target.value)
+                                    getBranches(e.target.value)
+                                }} className='select' >
+                                    <option >Select</option>
+                                    {
+                                        divisions.map(item => (
+                                            <option value={item.id}>{item.name}</option>
+                                        ))
+                                    }
+                                </select>
+
+                                <label>Branch</label>
+
+                                <select value={branch} onChange={e => {
+
+                                    setBranch(e.target.value)
+
+                                }} className='select' >
+                                    <option >Select</option>
+                                    {
+                                        branches.map(item => (
+                                            <option value={item.id}>{item.name}</option>
+                                        ))
+                                    }
+                                </select></div>}
+
+                        <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
+                    </div>
+                    {
+
+                        <div>
+                            <table className='mt-10 table'>
+                                <thead>
+                                    <tr>
+                                        <th scope="col text-start">Name</th>
+                                        <th scope="col">Employee ID</th>
+                                        <th scope="col">Designation</th>
+                                        <th scope="col">Phone Number</th>
+                                       
+                                        <th scope="col">Status</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+
+                                        employees.map(item => (
+                                            <tr>
+                                                <td className='px-3 text-start'>{item.user_name}</td>
+                                                <td className='px-3'>{item.employee_id}</td>
+                                                
+                                                <td className='px-3'>{item.mobile_no}</td>
+                                               
+                                                <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
+                                                <td className='px-3'>
+                                                    <button onClick={(e) => {
+                                                        setIsOpen(true)
+                                                        setSelectedEmployee(item)
+                                                    }} className='btn btn-warning'>Details</button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+                </div>
+
 
 {/* 1st Slot */}
       <div className="d-flex border rounded-4 p-0 overflow-hidden shadow-sm" style={{ minHeight: "132px" }}>
@@ -203,7 +336,7 @@ const Workreport = () => {
         </div>
       </div>
 
-      
+
     </div>
 
   );

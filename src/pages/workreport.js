@@ -1,5 +1,5 @@
 // Workreport.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,23 +7,26 @@ import { Toast } from "bootstrap";
 
 const Workreport = () => {
 
-    const [isOpen, setIsOpen] = useState(false)
-    const [selectedEmployee, setSelectedEmployee] = useState({})
-    const [division, setdivision] = useState('')
-    const [divisions, setdivisions] = useState([])
-    const [branches, setBranches] = useState([])
-    const [branch, setBranch] = useState('')
-    const [dept, setdept] = useState('')
-
-    const [employees, setEmployees] = useState([])
-
-
-    const [employee, setEmployee] = useState({})
-
-    const [education, setEducation] = useState([])
-
-
-    const [departments, setDepartments] = useState([])
+        const [isOpen, setIsOpen] = useState(false)
+        const [selectedEmployee, setSelectedEmployee] = useState({})
+        const [division, setdivision] = useState('')
+        const [divisions, setdivisions] = useState([])
+        const [branches, setBranches] = useState([])
+        const [branch, setBranch] = useState('')
+        const [dept, setdept] = useState('')
+    
+        const [employees, setEmployees] = useState([])
+    
+    
+        const [employee, setEmployee] = useState({})
+    
+        const [education, setEducation] = useState([])
+    
+        const [job_info, setJob_info] = useState({})
+    
+        const [experience, setExperience] = useState([])
+    
+        const [departments, setDepartments] = useState([])
 
     const [report1, setReport1] = useState("");
     const [report2, setReport2] = useState("");
@@ -52,27 +55,51 @@ const Workreport = () => {
       })
     }
 
-    const getBranches = (division_id) => {
+     useEffect(() => {
+            axios.get('https://server.promisenothi.com/employees/departments').then(res => {
+                setDepartments(res.data)
+            })
+        }, [])
+    
+        useEffect(() => {
+    
+            if (dept == 2) {
+                axios.get('https://server.promisenothi.com/employees/divisions').then(res => {
+                    setdivisions(res.data)
+                })
+    
+            }
+        }, [dept])
+    
+        const getBranches = (division_id) => {
             axios.get(`https://server.promisenothi.com/employees/branches?division_id=${division_id}`).then(res => {
                 setBranches(res.data)
             })
         }
-
+    
         const getEmployees = () => {
-                if (branch != '') {
-                    axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
-                        setEmployees(res.data)
-                    })
-                } else if (dept == 2 && branch == '' && division != '') {
-                    axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
-                        setEmployees(res.data)
-                    })
-                } else {
-                    axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
-                        setEmployees(res.data)
-                    })
-                }
+            if (branch != '') {
+                axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_id=${branch}`).then(res => {
+                    setEmployees(res.data)
+                })
+            } else if (dept == 2 && branch == '' && division != '') {
+                axios.get(`https://server.promisenothi.com/employees?department=${dept}&&branch_division_id=${division}`).then(res => {
+                    setEmployees(res.data)
+                })
+            } else {
+                axios.get(`https://server.promisenothi.com/employees?department=${dept}`).then(res => {
+                    setEmployees(res.data)
+                })
             }
+        }
+
+
+           useEffect(() => {
+                  axios.get('https://server.promisenothi.com/employees/departments').then(res => {
+                      setDepartments(res.data)
+                  })
+              }, [])
+            
   
 
   return (
@@ -144,7 +171,7 @@ const Workreport = () => {
                                         <th scope="col">Designation</th>
                                         <th scope="col">Phone Number</th>
                                        
-                                        <th scope="col">Status</th>
+                                        {/* <th scope="col">Status</th> */}
                                         <th>Details</th>
                                     </tr>
                                 </thead>

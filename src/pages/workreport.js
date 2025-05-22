@@ -61,7 +61,7 @@ const Workreport = () => {
       employee_id, // Ensure numeric value
       slot_number,
       report,
-      report_date: report_date.toISOString()
+      report_date: report_date
     }).then(res => {
       toast('Report Submitted');
     }).catch(error => {

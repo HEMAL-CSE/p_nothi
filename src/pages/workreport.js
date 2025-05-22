@@ -43,17 +43,28 @@ const Workreport = () => {
     const [data, setData] = useState([]);
 
     const addData = (e, slot_number, report) => {
-      let employee_id = localStorage.getItem('employee_id')
-      axios.post(`https://server.promisenothi.com/employees/daily_work_report/add`, {
-        employee_id,
-        slot_number,
-        report,
-        report_date: new Date().toISOString()
-      }).then(res => {
-        toast('Report Submitted')
-      })
-      
-    }
+//   const employee_main_id = localStorage.getItem('employee_main_id').trim(); // Trim whitespace
+//   const employee_main_id = '202330235';
+const employee_id = localStorage.getItem('employee_id');
+  // Add validation
+//   if (!employee_main_id || isNaN(employee_main_id)) {
+//     toast.error('Invalid employee ID');
+//     return;
+//   }
+
+  console.log('Sending employee_id:', employee_id); // Debug log
+
+  axios.post(`https://server.promisenothi.com/employees/daily_work_report/add`, {
+    employee_id, // Ensure numeric value
+    slot_number,
+    report,
+    report_date: new Date().toISOString()
+  }).then(res => {
+    toast('Report Submitted');
+  }).catch(error => {
+    console.error('Submission error:', error);
+  });
+};
 
     const getData = () => {
       axios.get(`https://server.promisenothi.com/employees/daily_work_report`).then(res => {
@@ -111,6 +122,7 @@ const Workreport = () => {
     // New function to fetch work report details
     const fetchWorkReports = async (employee_id) => {
         try {
+            console.log('Fetching work reports for employee:', employee_id, 'on date:', workreport_date);
             setIsLoading(true);
             const response = await axios.get(`https://server.promisenothi.com/employees/daily_work_report/details`, {
                 params: {
@@ -118,22 +130,26 @@ const Workreport = () => {
                     report_date: workreport_date
                 }
             });
+            console.log('Fetched work reports:', response.data);
             setWorkReports(response.data);
         } catch (error) {
+            console.error('Error fetching work reports:', error);
             toast.error('Error fetching work reports');
             setWorkReports([]);
         } finally {
-        setIsLoading(false);
-    }
+            setIsLoading(false);
+        }
     };
 
     // Updated details button handler
     const handleDetailsClick = (employee) => {
+        console.log('Details button clicked for employee:', employee);
         if (!workreport_date || moment(workreport_date).isValid() === false) {
-    toast.error('Please select a valid date first');
-    return;
-}
-        
+            toast.error('Please select a valid date first');
+            console.warn('Invalid date selected:', workreport_date);
+            return;
+        }
+
         setSelectedEmployee(employee);
         fetchWorkReports(employee.employee_id);
         setIsOpen(true);
@@ -142,15 +158,16 @@ const Workreport = () => {
   
   return (
     <div className="container py-4">
-      <ToastContainer />
-      <div className="row justify-content-center">
-
-         <h2 className="mb-2 text-center fw-bold text-primary border-3 pb-0"
-            style={{ fontSize: "2rem", letterSpacing: "0.5px" }}> 📝 Daily Work Report </h2>
- <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
-
-    <label> Start Date:</label>
-                <input value={workreport_date} style={{ width: 300 }} onChange={e => setWorkreport_date(e.target.value)} className='input' type='date' />
+            <ToastContainer />
+            <div className="row justify-content-center">
+                <h2 className="mb-2 text-center fw-bold text-primary border-3 pb-0"
+                    style={{ fontSize: "2rem", letterSpacing: "0.5px" }}> 📝 Daily Work Report </h2>
+                <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+                    <label> Select Date: </label>
+                    <input value={workreport_date} style={{ width: 300 }} onChange={e => {
+                        console.log('Date selected:', e.target.value);
+                        setWorkreport_date(e.target.value);
+                    }} className='input' type='date' />
                     <div className='d-flex flex-column w-50'>
                         <label> Job Department: </label>
                         <select onChange={e => {
@@ -241,203 +258,145 @@ const Workreport = () => {
                     }
 
                         <Modal
-                                    style={{
-                                        content: {
-                                            width: "70%",
-                                            height: "70%",
-                                            zIndex: 10,
-                                            top: "5%",
-                                            left: "10%",
-                                            right: "10%",
-                                            bottom: "5%",
-                                            overflow: "auto",
-                                            WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                                            MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                                            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
-                                            borderRadius: "5px",
-                                            border: "1px solid #ccc",
-                                        },
-                                        overlay: { zIndex: 10000 }
-                                    }}
-                                    isOpen={isOpen}
-                                    onRequestClose={() => {
-    setIsOpen(false);
-    setWorkReports([]); // Clear previous data
-}}
+    style={{
+        content: {
+            width: "70%",
+            height: "70%",
+            zIndex: 10,
+            top: "5%",
+            left: "10%",
+            right: "10%",
+            bottom: "5%",
+            overflow: "auto",
+            WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+        },
+        overlay: { zIndex: 10000 }
+    }}
+    isOpen={isOpen}
+    onRequestClose={() => {
+        console.log('Modal closed, clearing work reports');
+        setIsOpen(false);
+        setWorkReports([]); // Clear previous data
+    }}
+>
+    {isLoading && <div className="text-center">Loading reports...</div>}
 
-                                >
-                                {isLoading && <div className="text-center">Loading reports...</div>}
-                    
-                                    <div className="container-fluid px-5 d-none d-lg-block">
-                                        <div className="row gx-5 py-3 align-items-center">
-                                            <div className="col-lg-3">
-                                                {/* <div className="d-flex align-items-center justify-content-start">
-                                                  <BsPhoneVibrate className='text-success2 fs-1 me-2' />
-                                                  <h2 className="mb-0">+012 345 6789</h2>
-                                              </div> */}
-                                            </div>
-                                            <div className="col-lg-6">
-                                                <div className="d-flex align-items-center justify-content-center">
-                                                    <a href="#" className="navbar-brand ms-lg-5">
-                                                        <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Employee</span> Profile</h1>
-                                                    </a>
-                                                </div>
-                                            </div>
-                    
-                                        </div>
-                                    </div>
-                    
-                                    {
-                                        Object.keys(employee).length != 0 &&
-                                        <div className='d-flex p-3 flex-column bg-card align-items-start'>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Name:</span> {employee.user_name}
-                                            </div>
-                    
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Father Name:</span> {employee.father_name}
-                                            </div>
-                    
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Mother Name:</span> {employee.mother_name}
-                                            </div>
-                    
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>NID:</span> {employee.nid}
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Present Address:</span> {employee.present_address}
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Division:</span> {employee.division_name}
-                    
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>District:</span> {employee.district_name}
-                    
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Upazila:</span> {employee.upazila_name}
-                    
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Village:</span> {employee.village}
-                    
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Blood Group:</span> {employee.blood_group}
-                    
-                                            </div>
-                                        </div>
-                                    }
-                    
-                                   
-                                    <h2 className='mt-3'>Job Info</h2>
-                    
-                                    {
-                                        Object.keys(job_info).length != 0 && job_info != undefined &&
-                                        <div className='d-flex p-3 flex-column bg-card align-items-start'>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Job Title:</span> {job_info.title}
-                                            </div>
-                    
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Job Department:</span> {job_info.department_name}
-                                            </div>
-                    
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Job Designation:</span> {job_info.designation}
-                                            </div>
-                    
-                                            {job_info.department == 2 && <div className='m-2'>
-                                                <span className='fw-bold'>Branch:</span> {job_info.branch_name}
-                                            </div>}
-                    
-                                            {job_info.department == 2 && <div className='m-2'>
-                                                <span className='fw-bold'>Division:</span> {job_info.division_name}
-                                            </div>}
-                    
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Job Type:</span> {job_info.type}
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Joining Date:</span> {moment(job_info.joining_date).format('DD/MM/yyyy')}
-                                            </div>
-                                            <div className='m-2'>
-                                                <span className='fw-bold'>Location:</span> {job_info.location}
-                    
-                                            </div>
-                                        </div>
-                                    }
-
-                                    {/* Existing personal info */}
-        <div className='m-2'>
-            <span className='fw-bold'>Selected Date:</span> 
-            {moment(workreport_date).format('DD/MM/YYYY')}
+    <div className="container-fluid px-5 d-none d-lg-block">
+        <div className="row gx-5 py-3 align-items-center">
+            <div className="col-lg-3">
+                {/* Additional content can go here */}
+            </div>
+            <div className="col-lg-6">
+                <div className="d-flex align-items-center justify-content-center">
+                    <a href="#" className="navbar-brand ms-lg-5">
+                        <h1 className="m-2 display-5 fw-bold text-success2">
+                            <span className="text-success2">Employee</span> Info
+                        </h1>
+                    </a>
+                </div>
+            </div>
         </div>
-        
-        {/* Work Reports Section */}
-        <div className="mt-4">
-            <h3>Daily Work Reports</h3>
-            <div className="row">
-                {/* Slot 1 */}
-                <div className="col-md-4 mb-3">
-                    <div className="card h-100">
-                        <div className="card-header bg-light">Slot 1 (9:00 AM - 12:00 PM)</div>
-                        <div className="card-body">
-                            {workReports.find(r => r.slot_number === 1)?.report || 
-                            <span className="text-muted">No report submitted</span>}
-                        </div>
+    </div>
+
+    {/* Employee Info */}
+    {Object.keys(selectedEmployee).length !== 0 && (
+        <div className='d-flex p-3 flex-column bg-card align-items-start'>
+            <div className='m-2'>
+                <span className='fw-bold'>Name:</span> {selectedEmployee.user_name}
+            </div>
+            {/* <div className='m-2'>
+                <span className='fw-bold'>Father Name:</span> {selectedEmployee.father_name}
+            </div>
+            <div className='m-2'>
+                <span className='fw-bold'>Mother Name:</span> {selectedEmployee.mother_name}
+            </div>
+            <div className='m-2'>
+                <span className='fw-bold'>NID:</span> {selectedEmployee.nid}
+            </div> */}
+            <div className='m-2'>
+                <span className='fw-bold'>Present Address:</span> {selectedEmployee.present_address}
+            </div>
+        </div>
+    )}
+
+    <div className="d-flex align-items-center justify-content-center">
+        <a href="#" className="navbar-brand ms-lg-5">
+            <h1 className="m-2 display-5 fw-bold text-success2">
+                <span className="text-success2">Employee</span> Work Report
+            </h1>
+        </a>
+    </div>
+    <div className='m-2'>
+        <span className='fw-bold'>Selected Date: </span> 
+        {moment(workreport_date).format('DD/MM/YYYY')}
+    </div>
+
+    {/* Work Reports Section */}
+    <div className="mt-4">
+        <h3>Daily Work Reports</h3>
+        <div className="row">
+            {/* Slot 1 */}
+            <div className="col-md-4 mb-3">
+                <div className="card h-100">
+                    <div className="card-header bg-light">Slot 1 (9:00 AM - 12:00 PM)</div>
+                    <div className="card-body">
+                        {workReports.find(r => r.slot_number === 1)?.report || 
+                        <span className="text-muted">No report submitted</span>}
                     </div>
                 </div>
+            </div>
 
-                {/* Slot 2 */}
-                <div className="col-md-4 mb-3">
-                    <div className="card h-100">
-                        <div className="card-header bg-light">Slot 2 (12:00 PM - 2:00 PM)</div>
-                        <div className="card-body">
-                            {workReports.find(r => r.slot_number === 2)?.report || 
-                            <span className="text-muted">No report submitted</span>}
-                        </div>
+            {/* Slot 2 */}
+            <div className="col-md-4 mb-3">
+                <div className="card h-100">
+                    <div className="card-header bg-light">Slot 2 (12:00 PM - 2:00 PM)</div>
+                    <div className="card-body">
+                        {workReports.find(r => r.slot_number === 2)?.report || 
+                        <span className="text-muted">No report submitted</span>}
                     </div>
                 </div>
+            </div>
 
-                {/* Slot 3 */}
-                <div className="col-md-4 mb-3">
-                    <div className="card h-100">
-                        <div className="card-header bg-light">Slot 3 (2:00 PM - 4:00 PM)</div>
-                        <div className="card-body">
-                            {workReports.find(r => r.slot_number === 3)?.report || 
-                            <span className="text-muted">No report submitted</span>}
-                        </div>
+            {/* Slot 3 */}
+            <div className="col-md-4 mb-3">
+                <div className="card h-100">
+                    <div className="card-header bg-light">Slot 3 (2:00 PM - 4:00 PM)</div>
+                    <div className="card-body">
+                        {workReports.find(r => r.slot_number === 3)?.report || 
+                        <span className="text-muted">No report submitted</span>}
                     </div>
                 </div>
+            </div>
 
-                {/* Slot 4 */}
-                <div className="col-md-6 mb-3">
-                    <div className="card h-100">
-                        <div className="card-header bg-light">Slot 4 (4:00 PM - 6:00 PM)</div>
-                        <div className="card-body">
-                            {workReports.find(r => r.slot_number === 4)?.report || 
-                            <span className="text-muted">No report submitted</span>}
-                        </div>
+            {/* Slot 4 */}
+            <div className="col-md-6 mb-3">
+                <div className="card h-100">
+                    <div className="card-header bg-light">Slot 4 (4:00 PM - 6:00 PM)</div>
+                    <div className="card-body">
+                        {workReports.find(r => r.slot_number === 4)?.report || 
+                        <span className="text-muted">No report submitted</span>}
                     </div>
                 </div>
+            </div>
 
-                {/* Slot 5 */}
-                <div className="col-md-6 mb-3">
-                    <div className="card h-100">
-                        <div className="card-header bg-light">Slot 5 (6:00 PM - 8:00 PM)</div>
-                        <div className="card-body">
-                            {workReports.find(r => r.slot_number === 5)?.report || 
-                            <span className="text-muted">No report submitted</span>}
-                        </div>
+            {/* Slot 5 */}
+            <div className="col-md-6 mb-3">
+                <div className="card h-100">
+                    <div className="card-header bg-light">Slot 5 (6:00 PM - 8:00 PM)</div>
+                    <div className="card-body">
+                        {workReports.find(r => r.slot_number === 5)?.report || 
+                        <span className="text-muted">No report submitted</span>}
                     </div>
                 </div>
             </div>
         </div>
-                    
-                            </Modal>
+    </div>
+</Modal>
+
                 </div> 
 
   <div className="col-12 col-md-10 col-lg-8">

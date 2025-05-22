@@ -72,7 +72,7 @@ const ReqElt = ({ getData, group }) => {
         const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
         pdf.addImage(data, "PNG", 0, 0, pdfWidth, height);
-        pdf.save("examplepdf.pdf");
+        pdf.save("requisition.pdf");
     };
 
 

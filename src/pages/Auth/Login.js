@@ -26,6 +26,7 @@ const Login = () => {
                 localStorage.setItem('role', res.data.role)
                 localStorage.setItem('user_id', res.data.user_id)
                 localStorage.setItem('token', res.data.token)
+                localStorage.setItem('db_id', res.data.db_id)
                 toast('Logged In')
             })
         } else {
@@ -36,10 +37,12 @@ const Login = () => {
                 localStorage.setItem('role', res.data.role)
                 localStorage.setItem('user_id', res.data.user_id)
                 localStorage.setItem('token', res.data.token)
+                localStorage.setItem('db_id', res.data.db_id)
 
 
                 axios.get(`https://server.promisenothi.com/employees/?user_id=${res.data.user_id}`).then(res2 => {
                     localStorage.setItem('employee_id', res2.data[0].id)
+                    localStorage.setItem('employee_main_id', res2.data[0].employee_id)
                     console.log(res2.data);
 
 
@@ -49,8 +52,6 @@ const Login = () => {
                 toast('Logged In')
             })
         }
-
-
 
     }
 

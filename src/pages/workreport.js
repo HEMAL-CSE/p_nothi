@@ -325,9 +325,9 @@ const employee_id = localStorage.getItem('employee_id');
 
     <div className="d-flex align-items-center justify-content-center">
         <a href="#" className="navbar-brand ms-lg-5">
-            <h1 className="m-2 display-5 fw-bold text-success2">
+            <h3 className="m-2 display-5 fw-bold text-success2">
                 <span className="text-success2">Employee</span> Work Report
-            </h1>
+            </h3>
         </a>
     </div>
     <div className='m-2'>

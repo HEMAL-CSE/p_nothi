@@ -162,7 +162,7 @@ const Workreport = () => {
             }} className='select'>
               <option>Select</option>
               {
-                departments.filter(e => e.id != 3).map(item => (
+                departments.map(item => (
                   <option value={item.id}>{item.name}</option>
                 ))
               }

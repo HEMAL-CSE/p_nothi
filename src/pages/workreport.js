@@ -9,6 +9,16 @@ import moment from 'moment'
 
 const Workreport = () => {
 
+  // Declare your state variables here using useState
+  const [isOpen1, setIsOpen1] = useState(false)
+  const [jobtitle, setjobtitle] = useState(''); // Initialize with an empty string or suitable default
+  const [jobdeg, setjobdeg] = useState('');
+  const [jobtype, setjobtype] = useState('');
+  const [joining, setjoining] = useState('');
+  const [joblocation, setjoblocation] = useState('');
+  // const [jobtitle, setjobtitle] = useState('');
+
+
   const [isOpen, setIsOpen] = useState(false)
   const [selectedEmployee, setSelectedEmployee] = useState({})
   const [division, setdivision] = useState('')
@@ -40,6 +50,10 @@ const Workreport = () => {
   const [report3, setReport3] = useState("");
   const [report4, setReport4] = useState("");
   const [report5, setReport5] = useState("");
+
+
+  // Edit Modal Section
+
 
   const [employee_data, setEmployee_data] = useState({})
 
@@ -130,6 +144,26 @@ const Workreport = () => {
       setWorkReports(response.data);
       setSelectedEmployee(employee)
       setIsOpen(true)
+    } catch (error) {
+      console.error('Error fetching work reports:', error);
+      toast.error('Error fetching work reports');
+      setWorkReports([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+  // Edit part
+
+  // New function to fetch work report details
+  const getWorkReportDetailsedit1 = async (employee) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`https://server.promisenothi.com/employees/daily_work_report?employee_id=${employee.id}&&report_date=${workreport_date}`);
+      setWorkReports(response.data);
+      setSelectedEmployee(employee)
+      setIsOpen1(true)
     } catch (error) {
       console.error('Error fetching work reports:', error);
       toast.error('Error fetching work reports');
@@ -385,7 +419,74 @@ const Workreport = () => {
             </div>
           </Modal>
 
+          {/* Edit Section On Modal */}
+
+
         </div>}
+
+        <Modal
+          style={{
+            content: {
+              width: "80%",
+              height: "80%",
+              zIndex: 10,
+              top: "5%",
+              left: "10%",
+              right: "10%",
+              bottom: "5%",
+              overflow: "auto",
+              WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+              MozBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+              boxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+            },
+            overlay: { zIndex: 10000 }
+          }}
+          isOpen1={isOpen1}
+          onRequestClose={() => {
+            setIsOpen1(false)
+          }}
+        >
+          <div className='details'>
+            {/* <h2>Cow Purchase</h2> */}
+            <ToastContainer />
+            <div className="container-fluid px-5 d-none d-lg-block">
+              <div className="row gx-5 py-3 align-items-center">
+                <div className="col-lg-3">
+                  {/* <div className="d-flex align-items-center justify-content-start">
+                              <BsPhoneVibrate className='text-success2 fs-1 me-2' />
+                              <h2 className="mb-0">+012 345 6789</h2>
+                          </div> */}
+                </div>
+                <div className="col-lg-6">
+                  <div className="d-flex align-items-center justify-content-center">
+                    <a href="#" className="navbar-brand ms-lg-5">
+                      <h1 className="m-2 display-5 fw-bold text-success2"><span className="text-success2">Work</span> Report</h1>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <form>
+
+              <label> Job Type:</label>
+              <input value={jobtype} onChange={e => setjobtype(e.target.value)} className='input' type='text' />
+
+              <label> Joining Date:</label>
+              <input value={joining} onChange={e => setjoining(e.target.value)} className='input' type='date' />
+
+              <label> Job Location:</label>
+              <input value={joblocation} onChange={e => setjoblocation(e.target.value)} className='input' type='text' />
+
+              <button onClick={addData} className='button'>Submit</button>
+
+            </form>
+          </div>
+        </Modal>
+
 
         <div className="col-12 col-md-10 col-lg-8">
 
@@ -422,9 +523,17 @@ const Workreport = () => {
           </div>
           <br />
           <div className="text-end">
+
+
+            <button onClick={() => getWorkReportDetailsedit1()} type="submit" className="btn btn-primary px-3 me-3">
+              Update / Edit
+            </button>
             <button onClick={(e) => addData(e, 1, report1)} type="submit" className="btn btn-primary px-3">
               Submit
             </button>
+
+
+
           </div> <br />
 
 
@@ -455,6 +564,10 @@ const Workreport = () => {
           </div> <br />
 
           <div className="text-end">
+            <button onClick={() => getWorkReportDetailsedit1()} type="submit" className="btn btn-primary px-3 me-3">
+              Update / Edit
+            </button>
+
             <button onClick={(e) => addData(e, 2, report2)} type="submit" className="btn btn-primary px-3">
               Submit
             </button>
@@ -487,6 +600,10 @@ const Workreport = () => {
           </div> <br />
 
           <div className="text-end">
+            <button onClick={() => getWorkReportDetailsedit1()} type="submit" className="btn btn-primary px-3 me-3">
+              Update / Edit
+            </button>
+
             <button onClick={(e) => addData(e, 3, report3)} type="submit" className="btn btn-primary px-3">
               Submit
             </button>
@@ -519,6 +636,10 @@ const Workreport = () => {
           </div> <br />
 
           <div className="text-end">
+            <button onClick={() => getWorkReportDetailsedit1()} type="submit" className="btn btn-primary px-3 me-3">
+              Update / Edit
+            </button>
+
             <button onClick={(e) => addData(e, 4, report4)} type="submit" className="btn btn-primary px-3">
               Submit
             </button>
@@ -552,6 +673,10 @@ const Workreport = () => {
           </div> <br />
 
           <div className="text-end">
+            <button onClick={() => getWorkReportDetailsedit1()} type="submit" className="btn btn-primary px-3 me-3">
+              Update / Edit
+            </button>
+
             <button onClick={(e) => addData(e, 5, report5)} type="submit" className="btn btn-primary px-3">
               Submit
             </button>

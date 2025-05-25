@@ -439,7 +439,7 @@ const Workreport = () => {
                 fontWeight: "500",
                 fontSize: "0.88rem",
                 textAlign: "center"
-              }}> 12:00 AM - 2:00 PM
+              }}> 12:00 PM - 2:00 PM
             </div>
 
             {/* Right Text Area Section */}

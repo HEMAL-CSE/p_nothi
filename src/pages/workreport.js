@@ -184,7 +184,7 @@ const Workreport = () => {
         {['1', '2', '9'].includes(localStorage.getItem('role')) && <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
 
           {/* Selected date */}
-          <br/>
+          <br />
           <div
             className="d-flex align-items-center"
             style={{ gap: '8px', maxWidth: 400 }}
@@ -193,7 +193,7 @@ const Workreport = () => {
             <label
               htmlFor="workreportDate"
               className="d-flex align-items-center fw-bold text-primary mb-0"
-              style={{ whiteSpace: 'nowrap', userSelect: 'none' }}
+              style={{ whiteSpace: 'nowrap', userSelect: 'none', fontSize: '17px' }}
             >
               <span role="img" aria-label="calendar" style={{ marginRight: 6, }}>
                 📅
@@ -217,10 +217,12 @@ const Workreport = () => {
 
           {/* Job Dept Search Option */}
           <div className='d-flex flex-column w-50 '>
-            <label className="d-flex align-items-center fw-bold text-primary mb-0" > Job Department: </label>
+            <label style={{ fontSize: '18px' }} className="d-flex align-items-center fw-bold text-primary mb-0" > Job Department: </label>
             <select onChange={e => {
               setdept(e.target.value)
-            }} className='select'>
+            }} className='select'
+            style={{ padding: '7px'}}
+            >
               <option>Select</option>
               {
                 departments.map(item => (
@@ -230,36 +232,41 @@ const Workreport = () => {
             </select>
 
             {dept == 2 &&
-              <div>
-                <label>Division</label>
+              <div style={{ display: 'flex', gap: '21px', alignItems: 'center', padding: '09px 0' }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontWeight: 500 }}>Division</label>
+                  <select
+                    value={division}
+                    onChange={e => {
+                      setdivision(e.target.value)
+                      getBranches(e.target.value)
+                    }}
+                    className='select'
+                    style={{ padding: '7px', minWidth: '150px' }}
+                  >
+                    <option>Select</option>
+                    {divisions.map(item => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                  </select>
+                </div>
 
-                <select value={division} onChange={e => {
-
-                  setdivision(e.target.value)
-                  getBranches(e.target.value)
-                }} className='select' >
-                  <option >Select</option>
-                  {
-                    divisions.map(item => (
-                      <option value={item.id}>{item.name}</option>
-                    ))
-                  }
-                </select> <br/>
-
-                <label>Branch</label>
-
-                <select value={branch} onChange={e => {
-
-                  setBranch(e.target.value)
-
-                }} className='select' >
-                  <option >Select</option>
-                  {
-                    branches.map(item => (
-                      <option value={item.id}>{item.name}</option>
-                    ))
-                  }
-                </select> <br/> </div>}
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label style={{ fontWeight: 500 }}>Branch</label>
+                  <select
+                    value={branch}
+                    onChange={e => setBranch(e.target.value)}
+                    className='select'
+                    style={{ padding: '7px', minWidth: '150px' }}
+                  >
+                    <option>Select</option>
+                    {branches.map(item => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            }
 
             <button onClick={getEmployees} className='btn btn-primary my-3'>Submit</button>
           </div>
@@ -462,19 +469,19 @@ const Workreport = () => {
             <label
               htmlFor="workreportDate"
               className="d-flex align-items-center fw-bold text-primary mb-0"
-              style={{ whiteSpace: 'nowrap', userSelect: 'none' }}>
+              style={{ whiteSpace: 'nowrap', userSelect: 'none', fontSize: '17px' }} >
               <span role="img" aria-label="calendar" style={{ marginRight: 6, }}>
                 📅 </span>
               Select Date:
             </label>
 
-{/* 1st Slot , Date Feild section*/}
-            <input  value={report_date} style={{ width: 400 }} onChange={e => {
-            console.log('Date selected:', e.target.value);
-            setReport_date(e.target.value);
-          }} className="form-control border-primary shadow-sm" type='date' />
-          </div> <br/>
-{/* 1st Slot right site  */}
+            {/* 1st Slot , Date Feild section*/}
+            <input value={report_date} style={{ width: 400 }} onChange={e => {
+              console.log('Date selected:', e.target.value);
+              setReport_date(e.target.value);
+            }} className="form-control border-primary shadow-sm" type='date' />
+          </div> <br />
+          {/* 1st Slot right site  */}
           <div className="d-flex border rounded-4 p-0 overflow-hidden shadow-sm" style={{ minHeight: "162px" }}>
             {/* Left Time Slot Section (Narrowed) */}
             <div

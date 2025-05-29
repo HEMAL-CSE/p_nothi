@@ -90,7 +90,7 @@ const ReqHq = ({ getData, group }) => {
         } else if (['2'].includes(localStorage.getItem('role'))) {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_agm=1`).then(res => {
                 setAdminData(group(res.data))
-                console.log(group(res.data));       
+                console.log(group(res.data));
 
             })
         }
@@ -338,6 +338,7 @@ const ReqHq = ({ getData, group }) => {
                     <table className='table mt-3'>
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Item Type</th>
@@ -357,6 +358,21 @@ const ReqHq = ({ getData, group }) => {
                             {
                                 pendings.map(item => (
                                     <tr>
+                                        <td>
+                                            <div style={{
+                                                backgroundColor: '#FFD700',  // সুন্দর হলুদ
+                                                padding: '3px 06px',
+                                                borderRadius: '5px',
+                                                fontWeight: '500',
+                                                fontSize: '13.5px',
+                                                display: 'inline-block',
+                                                minWidth: '050px',
+                                                textAlign: 'center',
+                                                border: '1px solid #ccc'
+                                            }}>
+                                                {moment(item.requisition_date).format('DD/MM/YYYY')}
+                                            </div>
+                                        </td>
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
@@ -413,6 +429,7 @@ const ReqHq = ({ getData, group }) => {
                     <table className='table mt-3'>
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Item Type</th>
@@ -434,6 +451,21 @@ const ReqHq = ({ getData, group }) => {
                             {
                                 adminData.map(item => (
                                     <tr>
+                                        <td>
+                                            <div style={{
+                                                backgroundColor: '#FFD700',  // সুন্দর হলুদ
+                                                padding: '3px 06px',
+                                                borderRadius: '5px',
+                                                fontWeight: '500',
+                                                fontSize: '13.5px',
+                                                display: 'inline-block',
+                                                minWidth: '050px',
+                                                textAlign: 'center',
+                                                border: '1px solid #ccc'
+                                            }}>
+                                                {moment(item.requisition_date).format('DD/MM/YYYY')}
+                                            </div>
+                                        </td>
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
@@ -497,6 +529,7 @@ const ReqHq = ({ getData, group }) => {
                     <table className='table mt-3'>
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Item Type</th>
@@ -516,6 +549,21 @@ const ReqHq = ({ getData, group }) => {
                             {
                                 pendings.map(item => (
                                     <tr>
+                                        <td>
+                                            <div style={{
+                                                backgroundColor: '#FFD700',  // সুন্দর হলুদ
+                                                padding: '3px 06px',
+                                                borderRadius: '5px',
+                                                fontWeight: '500',
+                                                fontSize: '13.5px',
+                                                display: 'inline-block',
+                                                minWidth: '050px',
+                                                textAlign: 'center',
+                                                border: '1px solid #ccc'
+                                            }}>
+                                                {moment(item.requisition_date).format('DD/MM/YYYY')}
+                                            </div>
+                                        </td>
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
@@ -572,6 +620,7 @@ const ReqHq = ({ getData, group }) => {
                     <table className='table mt-3'>
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Item Type</th>
@@ -589,6 +638,21 @@ const ReqHq = ({ getData, group }) => {
                             {
                                 pendings.map(item => (
                                     <tr>
+                                        <td>
+                                            <div style={{
+                                                backgroundColor: '#FFD700',  // সুন্দর হলুদ
+                                                padding: '3px 06px',
+                                                borderRadius: '5px',
+                                                fontWeight: '500',
+                                                fontSize: '13.5px',
+                                                display: 'inline-block',
+                                                minWidth: '050px',
+                                                textAlign: 'center',
+                                                border: '1px solid #ccc'
+                                            }}>
+                                                {moment(item.requisition_date).format('DD/MM/YYYY')}
+                                            </div>
+                                        </td>
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
@@ -888,13 +952,13 @@ const ReqHq = ({ getData, group }) => {
 
                                 <h3 className='mt-3 text-success border border-success'>Brochures</h3>
 
-{
-    brochures.map(item => (
-        <div>
-        <a target='_blank' className='btn btn-warning' href={item.image}>File Link</a>
-        </div>
-    ))
-}
+                                {
+                                    brochures.map(item => (
+                                        <div>
+                                            <a target='_blank' className='btn btn-warning' href={item.image}>File Link</a>
+                                        </div>
+                                    ))
+                                }
                             </div>
                         </div>
                     </div>

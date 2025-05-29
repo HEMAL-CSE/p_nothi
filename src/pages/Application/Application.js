@@ -85,7 +85,7 @@ export const Application = () => {
         const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
         pdf.addImage(data, "PNG", 0, 0, pdfWidth, height);
-        pdf.save("examplepdf.pdf");
+        pdf.save("Requisition.pdf");
     };
 
     //get item types
@@ -113,12 +113,12 @@ export const Application = () => {
 
     const getBrochures = (requisition_id) => {
         const employee_id = localStorage.getItem('employee_id')
-         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
+        axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
             axios.get(`https://server.promisenothi.com/employees/${requisition_url}/brochures?requisition_id=${requisition_id}`).then(res => {
                 setBrochures(res.data)
                 console.log(res.data);
-                
+
             })
         })
     }
@@ -151,22 +151,22 @@ export const Application = () => {
                     }
                 })
 
-                
 
-                if(brochureDetails.length > 0){
-                    let formData =new FormData()
+
+                if (brochureDetails.length > 0) {
+                    let formData = new FormData()
                     formData.append('requisition_id', res.data.id)
-                    for(var i = 0; i < brochureDetails.length; i++){
+                    for (var i = 0; i < brochureDetails.length; i++) {
                         formData.append('images', brochureDetails[i])
                     }
 
                     axios.post(`https://server.promisenothi.com/employees/${requisition_url}/brochures/add`, formData).then(res => {
                         toast('Submitted')
-                        
+
                     })
-                    
+
                 }
-                   
+
 
                 toast('Submitted')
                 getData()
@@ -610,7 +610,7 @@ export const Application = () => {
 
                                 </div>
                                 <div className='d-flex m-2 align-items-center justify-content-center'>
-                                    <input style={{ width: '150px'}} className='form-control mx-1' onChange={e => {
+                                    <input style={{ width: '150px' }} className='form-control mx-1' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.quantity = e.target.value
@@ -621,7 +621,7 @@ export const Application = () => {
 
                                     }} placeholder='পরিমাণ (সংখ্যা)' />
 
-                                    <input  style={{ width: '150px'}}className='form-control mx-1' onChange={e => {
+                                    <input style={{ width: '150px' }} className='form-control mx-1' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.unit = e.target.value
@@ -629,14 +629,14 @@ export const Application = () => {
                                         setItems([...clone])
                                     }} placeholder='ইউনিট (একক)' />
 
-                                    <input style={{ width: '150px'}} className='form-control' onChange={e => {
+                                    <input style={{ width: '150px' }} className='form-control' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.price = e.target.value
                                         clone[i] = obj
                                         setItems([...clone])
                                     }} placeholder='প্রতি ইউনিট দাম' />
-                                
+
                                     <p className='m-0'><strong>মোট দাম:</strong>{items[i].quantity * items[i].price}</p>
                                 </div>
                             </div>
@@ -663,18 +663,18 @@ export const Application = () => {
                             </div>
                         ))
                     }
-<p className='mt-3'>যদি রিকুইজিশনের বাউচার বা ইনভয়েস থাকলে এখানে Choice file এ ক্লিক করুন।</p>
+                    <p className='mt-3'>যদি রিকুইজিশনের বাউচার বা ইনভয়েস থাকলে এখানে Choice file এ ক্লিক করুন।</p>
                     <input onChange={e => {
                         console.log(e.target.files);
 
                         [...e.target.files].map(file => {
-                            setBrochureDetails(prev => [...prev, file ])
+                            setBrochureDetails(prev => [...prev, file])
                         })
-                        
-                        
+
+
                         console.log(brochureDetails);
-                        
-                    }} className='input' type='file' multiple/>
+
+                    }} className='input' type='file' multiple />
 
                 </div>
 
@@ -697,6 +697,7 @@ export const Application = () => {
                     <table className='table mt-3'>
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Item Type</th>
@@ -714,6 +715,23 @@ export const Application = () => {
                             {
                                 data.map(item => (
                                     <tr >
+                                        <td> 
+                                            <div style={{
+                                                backgroundColor: '#FFD700',  // সুন্দর হলুদ
+                                                padding: '3px 06px',
+                                                borderRadius: '5px',
+                                                fontWeight: '500',
+                                                fontSize: '13.5px',
+                                                display: 'inline-block',
+                                                minWidth: '050px',
+                                                textAlign: 'center',
+                                                border: '1px solid #ccc'
+                                            }}>
+                                                {moment(item.requisition_date).format('DD/MM/YYYY')}
+                                            </div>
+                                        </td>
+
+
                                         <td>{item.user_name}</td>
                                         <td>{item.department_name}</td>
                                         <td>{item.item_type_name}</td>
@@ -734,7 +752,7 @@ export const Application = () => {
                                             Received
                                         </button>}</td>
                                         <td>
-                                            <button className='btn btn-warning m-2' onClick={e => deleteData(e, item.id)}>Edit</button>
+                                            {/* <button className='btn btn-warning m-2' onClick={e => deleteData(e, item.id)}>Edit</button> */}
                                             <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
                                         </td>
                                     </tr>
@@ -952,7 +970,7 @@ export const Application = () => {
                                         <table style={{ border: '1px solid black' }} className="table">
                                             <thead>
                                                 <tr>
-                                                    <th style={{ border: '1px solid black', fontSize: '12px',width: '150px' }} className="fw-bold text-end">Description</th>
+                                                    <th style={{ border: '1px solid black', fontSize: '12px', width: '150px' }} className="fw-bold text-end">Description</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Quantity</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit</th>
                                                     <th style={{ border: '1px solid black', fontSize: '12px' }} className="fw-bold text-end">Unit Price</th>
@@ -971,7 +989,7 @@ export const Application = () => {
                                                 ))}
                                                 <tr>
                                                     <td colSpan={4} style={{ border: '1px solid black', fontSize: '12px' }} className='text-center fw-bold'>Total Price</td>
-                                                    <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, {price, quantity}) => n + parseFloat(price) * parseFloat(quantity), 0)}</td>
+                                                    <td style={{ border: '1px solid black', fontSize: '12px' }} className='text-end fw-bold'>{details.reduce((n, { price, quantity }) => n + parseFloat(price) * parseFloat(quantity), 0)}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1026,7 +1044,7 @@ export const Application = () => {
                                     <div className="my-0 "></div>
 
                                     <div className='mx-3 d-flex justify-content-between'>
-                                    <div className='text-center'>
+                                        <div className='text-center'>
                                             <hr style={{ width: '100px' }} />
                                             <p className='fw-bold'>Admin</p>
                                         </div>
@@ -1078,16 +1096,16 @@ export const Application = () => {
 
                                     </p>
                                 </div>
-                                    
-                                    <h3 className='mt-3 text-success border border-success'>Brochures</h3>
 
-                                    {
-                                        brochures.map(item => (
-                                            <div>
+                                <h3 className='mt-3 text-success border border-success'>Brochures</h3>
+
+                                {
+                                    brochures.map(item => (
+                                        <div>
                                             <a target='_blank' className='btn btn-warning' href={item.image}>File Link</a>
-                                            </div>
-                                        ))
-                                    }
+                                        </div>
+                                    ))
+                                }
 
                             </div>
                         </div>

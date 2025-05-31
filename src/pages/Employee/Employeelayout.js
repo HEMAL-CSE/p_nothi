@@ -112,7 +112,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Hierarchy',
       pathname: '/employee/hierarchy',
-      roles: ['1', '2', '3', '4', '5', '6', '7','12', '15'],
+      roles: ['2', '3', '4', '5', '6', '7','12'],
       icon: TbHierarchy,
       submenu: []
     },

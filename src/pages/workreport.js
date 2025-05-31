@@ -281,7 +281,7 @@ const Workreport = () => {
 
                     <th className="px-3" scope="col">Employee ID</th>
                     <th className="px-3" scope="col">Designation</th>
-                    <th className="px-3" scope="col">Phone Number</th>
+                    {/* <th className="px-3" scope="col">Phone Number</th> */}
 
                     <th className="px-3" scope="col">Submission Status</th>
                     <th className="px-3" scope="col">Details</th>
@@ -299,7 +299,7 @@ const Workreport = () => {
                         {/* <td className='px-3'>{item.mobile_no}</td> */}
 
                         <td className='px-3'>{item.designation != null ? item.designation.toUpperCase() : ''}</td>
-                        <td className='px-3'>{item.mobile_no}</td>
+                        {/* <td className='px-3'>{item.mobile_no}</td> */}
                         <td className='px-3'> <button type="button" class="btn btn-success">Submitted</button></td>
                         <td className='px-3'>
                           <button onClick={() => getWorkReportDetails(item)} className='btn btn-warning'>Details</button>

@@ -143,7 +143,7 @@ const Dashboard = () => {
                 <div className="d-flex justify-content-between align-items-center w-100 ps-3">
                   <div className="text-center flex-grow-1">
                     <h5 className="fw-semibold mb-1 text-dark">Total Departments</h5>
-                    <p className="mb-0 fw-bold text-primary" style={{ fontSize: '18px' }}>100</p>
+                    <p className="mb-0 fw-bold text-primary" style={{ fontSize: '18px' }}>18</p>
                   </div>
                   <div
                     className="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center ms-3"

@@ -50,10 +50,11 @@ const Workreport = () => {
   const [report4, setReport4] = useState("");
   const [report5, setReport5] = useState("");
 
+// ADC section add
+
+
 
   // Edit Modal Section
-
-
   const [employee_data, setEmployee_data] = useState({})
 
   const [data, setData] = useState([]);
@@ -318,9 +319,9 @@ const Workreport = () => {
                 width: "70%",
                 height: "70%",
                 zIndex: 10,
-                top: "5%",
-                left: "10%",
-                right: "10%",
+                top: "06%",
+                left: "15%",
+                right: "12%",
                 bottom: "5%",
                 overflow: "auto",
                 WebkitBoxShadow: "0 5px 15px rgba(0, 0, 0, 0.5)",

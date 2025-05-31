@@ -17,7 +17,7 @@ const Sidebar = ({ elements, name }) => {
 
     const navigator = useNavigate();
     return (
-        <div className='w-25 '>
+        <div className='w-22-custom'>
             <div className='row  sticky-top'>
                 <div className='w-100 bg-elearning col-md-2 col-auto min-vh-100'>
                     {/* <a className='text-decoration-none text-white d-none d-sm-inline d-flex align-items-center'>

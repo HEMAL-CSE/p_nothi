@@ -24,6 +24,7 @@ import { Notice } from './pages/Notices/Notice';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Workreport from './pages/workreport';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import WorkreportAdc from './pages/workreportadc';
 
 // import Attendance from './pages/Attendance/Attendance';
 
@@ -59,6 +60,8 @@ function App() {
         <Route element={<Hierarchy/>} exact path='/employee/hierarchy'/>
         <Route element={<Purchase/>} exact path='/employee/purchase'/>
         <Route element={<Workreport/>} exact path='/employee/workreport'/>
+        <Route element={<WorkreportAdc/>} exact path='/employee/workreportadc'/>
+
 
         {/* <Route element={<Attendance/>} exact path='/employee/purchase'/> */}
 

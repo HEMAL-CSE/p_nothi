@@ -7,6 +7,9 @@ import moment from 'moment'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import logo from '../../assets/logo.png'
+import paginate from '../../utils/pagination'
+import TableFooter from '../../Components/TableFooter'
+
 
 const ReqHq = ({ getData, group }) => {
     const role = localStorage.getItem('role')
@@ -29,6 +32,10 @@ const ReqHq = ({ getData, group }) => {
     const [details, setDetails] = useState([])
     const [brochures, setBrochures] = useState([])
     const printRef = useRef(null);
+
+    const [page, setPage] = useState(1);
+    const [slice, setSlice] = useState([])
+    const [range, setRange] = useState([])
 
     const handleDownloadPdf = async (e) => {
         e.preventDefault()
@@ -85,12 +92,19 @@ const ReqHq = ({ getData, group }) => {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
+                const { slice, range } = paginate(group(res.data), page, 10)
+                setSlice(slice)
+                setRange(range)
 
             })
         } else if (['2'].includes(localStorage.getItem('role'))) {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_agm=1`).then(res => {
                 setAdminData(group(res.data))
                 console.log(group(res.data));
+
+                const { slice, range } = paginate(group(res.data), page, 10)
+                setSlice(slice)
+                setRange(range)
 
             })
         }
@@ -104,6 +118,10 @@ const ReqHq = ({ getData, group }) => {
             axios.get(`https://server.promisenothi.com/employees/${requisition_url}/brochures?requisition_id=${requisition_id}`).then(res => {
                 setBrochures(res.data)
                 console.log(res.data);
+                // Add paginate
+                const { slice, range } = paginate(group(res.data), page, 10)
+                setSlice(slice)
+                setRange(range)
 
             })
         })
@@ -117,11 +135,7 @@ const ReqHq = ({ getData, group }) => {
 
             })
         }
-
     }
-
-
-
 
     const pendingData = () => {
 
@@ -134,10 +148,19 @@ const ReqHq = ({ getData, group }) => {
                         setPendings(group(res2.data))
                         console.log(res2.data);
 
+                        // Paginate add
+                        const { slice, range } = paginate(group(res.data), page, 10)
+                        setSlice(slice)
+                        setRange(range)
+
                     })
                 } else {
                     axios.get(`https://server.promisenothi.com/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
+                        // Paginate add
+                        const { slice, range } = paginate(group(res.data), page, 10)
+                        setSlice(slice)
+                        setRange(range)
                     })
                 }
 
@@ -148,11 +171,13 @@ const ReqHq = ({ getData, group }) => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
 
+
             })
         } else if (['1'].includes(localStorage.getItem('role'))) {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_admin=APPROVED&&md=1`).then(res2 => {
                 setPendings(group(res2.data))
                 console.log(res2.data);
+
 
             })
         }
@@ -313,8 +338,6 @@ const ReqHq = ({ getData, group }) => {
                 getData()
             })
         }
-
-
     }
 
     useEffect(() => {
@@ -330,12 +353,14 @@ const ReqHq = ({ getData, group }) => {
     }, [])
 
 
+
     return (
         <div>
             {['7', '9', '15'].includes(role) && department != 2 ?
                 <div>
                     <label className='text-center mt-4'>Pending Requisitions (Head Office)</label>
                     <table className='table mt-3'>
+
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -374,7 +399,13 @@ const ReqHq = ({ getData, group }) => {
                                             </div>
                                         </td>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>
+                                            <div style={{
+                                                fontWeight: '500',
+                                                fontSize: '14px', }}>
+                                                {item.department_name}
+                                            </div>
+                                        </td>
                                         <td>{item.item_type_name}</td>
                                         <td><button onClick={e => {
                                             setDetails(item.item_details)
@@ -425,7 +456,7 @@ const ReqHq = ({ getData, group }) => {
             {
                 ['2', '3', '4', '5', '6'].includes(localStorage.getItem('role')) &&
                 <div>
-                    <label className='text-center mt-4'>Requisitions</label>
+                    <label className='text-center mt-4'>Requisitions (Head Office):</label>
                     <table className='table mt-3'>
                         <thead>
                             <tr>
@@ -467,7 +498,13 @@ const ReqHq = ({ getData, group }) => {
                                             </div>
                                         </td>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>
+                                            <div style={{
+                                                fontWeight: '500',
+                                                fontSize: '14px', }}>
+                                                {item.department_name}
+                                            </div>
+                                        </td>
                                         <td>{item.item_type_name}</td>
                                         <td><button onClick={e => {
                                             setDetails(item.item_details)
@@ -519,13 +556,16 @@ const ReqHq = ({ getData, group }) => {
                                 ))
                             }
                         </tbody>
-                    </table> </div>
+                    </table>
+                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={10} />
+
+                </div>
             }
 
             {
                 localStorage.getItem('role') == '1' &&
                 <div>
-                    <label className='text-center mt-4'>Requisitions</label>
+                    <label className='text-center mt-4'>Requisitions (Head Office):</label>
                     <table className='table mt-3'>
                         <thead>
                             <tr>
@@ -565,7 +605,13 @@ const ReqHq = ({ getData, group }) => {
                                             </div>
                                         </td>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>
+                                            <div style={{
+                                                fontWeight: '500',
+                                                fontSize: '14px', }}>
+                                                {item.department_name}
+                                            </div>
+                                        </td>
                                         <td>{item.item_type_name}</td>
                                         <td>
                                             <button onClick={e => {
@@ -616,7 +662,7 @@ const ReqHq = ({ getData, group }) => {
                 // store manager
                 localStorage.getItem('role') == '11' &&
                 <div>
-                    <label className='text-center mt-4'>Requisitions</label>
+                    <label className='text-center mt-4'>Requisitions (Head Office):</label>
                     <table className='table mt-3'>
                         <thead>
                             <tr>
@@ -654,7 +700,13 @@ const ReqHq = ({ getData, group }) => {
                                             </div>
                                         </td>
                                         <td>{item.user_name}</td>
-                                        <td>{item.department_name}</td>
+                                        <td>
+                                            <div style={{
+                                                fontWeight: '500',
+                                                fontSize: '14px', }}>
+                                                {item.department_name}
+                                            </div>
+                                        </td>
                                         <td>{item.item_type_name}</td>
                                         <td>
                                             <button onClick={e => {
@@ -919,8 +971,6 @@ const ReqHq = ({ getData, group }) => {
                                             <hr style={{ width: '100px' }} />
                                             <p className='fw-bold'>MD</p>
                                         </div>
-
-
 
 
                                     </div>

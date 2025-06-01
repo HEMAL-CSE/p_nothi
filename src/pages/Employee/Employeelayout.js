@@ -112,7 +112,7 @@ const Employeelayout = ({ children }) => {
     {
       name: 'Hierarchy',
       pathname: '/employee/hierarchy',
-      roles: ['2', '3', '4', '5', '6', '7','12'],
+      roles: ['4', '5', '7'],
       icon: TbHierarchy,
       submenu: []
     },
@@ -156,6 +156,15 @@ const Employeelayout = ({ children }) => {
       icon: GoReport,
       submenu: []
     },
+
+    {
+      name: 'ADC Work Report ',
+      pathname: '/employee/workreportadc',
+      roles: ['1', '2'],
+      icon: GoReport,
+      submenu: []
+    },
+
 
 
     {

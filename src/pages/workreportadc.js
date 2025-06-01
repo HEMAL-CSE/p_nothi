@@ -1,4 +1,3 @@
-// Workreport.jsx
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
@@ -7,7 +6,7 @@ import { Toast } from "bootstrap";
 import Modal from 'react-modal'
 import moment from 'moment'
 
-const Workreport = () => {
+const WorkreportAdc = () => {
 
   // Declare your state variables here using useState
   const [jobtitle, setjobtitle] = useState(''); // Initialize with an empty string or suitable default
@@ -50,7 +49,11 @@ const Workreport = () => {
   const [report4, setReport4] = useState("");
   const [report5, setReport5] = useState("");
 
-// ADC section add
+//   ADC Add
+  const assistantDivisionHeads = [
+  "202200267", "202200473", "202200306", "202200422",
+  "202200385", "20220030", "202200148"
+];
 
 
   // Edit Modal Section
@@ -59,15 +62,9 @@ const Workreport = () => {
   const [data, setData] = useState([]);
 
   const addData = (e, slot_number, report) => {
-    //   const employee_main_id = localStorage.getItem('employee_main_id').trim(); // Trim whitespace
-    //   const employee_main_id = '202330235';
+    
     const employee_id = localStorage.getItem('employee_id');
-    // Add validation
-    //   if (!employee_main_id || isNaN(employee_main_id)) {
-    //     toast.error('Invalid employee ID');
-    //     return;
-    //   }
-
+    
     console.log('Sending employee_id:', employee_id); // Debug log
 
     axios.post(`https://server.promisenothi.com/employees/daily_work_report/add`, {
@@ -152,36 +149,13 @@ const Workreport = () => {
   };
 
 
-  // Edit part
-
-  // New function to fetch work report details
-  // const getWorkReportDetailsedit1 = async (employee) => {
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await axios.get(`https://server.promisenothi.com/employees/daily_work_report?employee_id=${employee.id}&&report_date=${workreport_date}`);
-  //     setWorkReports(response.data);
-  //     setSelectedEmployee(employee)
-  //     setIsOpen1(true)
-  //   } catch (error) {
-  //     console.error('Error fetching work reports:', error);
-  //     toast.error('Error fetching work reports');
-  //     setWorkReports([]);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // Updated details button handler
-
-
-
   return (
     <div className="container py-4">
       <ToastContainer />
       <div className="row justify-content-center">
-        <h2 className="mb-2 text-center fw-bold text-primary border-3 pb-0"
-          style={{ fontSize: "2rem", letterSpacing: "0.5px" }}> 📝 Daily Work Report </h2>
-        {['1', '2', '9'].includes(localStorage.getItem('role')) && <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
+        <h3 className="mb-2 text-center fw-bold text-primary border-3 pb-0"
+          style={{ fontSize: "2rem", letterSpacing: "0.5px" }}> 📝 Daily Work Report For ADC </h3>
+        {['1', '2',].includes(localStorage.getItem('role')) && <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
 
           {/* Selected date */}
           <br />
@@ -251,20 +225,7 @@ const Workreport = () => {
                   </select>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <label style={{ fontWeight: 500 }}>Branch</label>
-                  <select
-                    value={branch}
-                    onChange={e => setBranch(e.target.value)}
-                    className='select'
-                    style={{ padding: '7px', minWidth: '150px' }}
-                  >
-                    <option>Select</option>
-                    {branches.map(item => (
-                      <option key={item.id} value={item.id}>{item.name}</option>
-                    ))}
-                  </select>
-                </div>
+                
               </div>
             }
 
@@ -277,6 +238,8 @@ const Workreport = () => {
                 <thead>
                   <tr>
                     {/* <th scope="col text-start"> Date</th> */}
+                    <th className="px-2" scope="col "> Report Date</th>
+
                     <th className="px-2" scope="col "> Employee Name</th>
 
                     <th className="px-3" scope="col">Employee ID</th>
@@ -292,7 +255,8 @@ const Workreport = () => {
 
                     employees.map((item, index) => (
                       <tr key={`${item.employee_id}-${index}`}>
-                        {/* <td className='px-3 text-start'>{item.Date}</td> */}
+
+                        <td className='px-3 text-start'>{item.Date}</td>
                         <td className='px-3 text-start'>{item.user_name}</td>
                         <td className='px-3'>{item.employee_id}</td>
 
@@ -453,202 +417,7 @@ const Workreport = () => {
 
         </div>}
 
-        <div className="col-12 col-md-10 col-lg-8">
 
-          {/* 1st Slot */}
-          {/* Selected Time */}
-          <div
-            className="d-flex align-items-center"
-            style={{ gap: '8px', maxWidth: 320, marginTop: '8px' }}>
-
-            <label
-              htmlFor="workreportDate"
-              className="d-flex align-items-center fw-bold text-primary mb-0"
-              style={{ whiteSpace: 'nowrap', userSelect: 'none', fontSize: '17px' }} >
-              <span role="img" aria-label="calendar" style={{ marginRight: 6, }}>
-                📅 </span>
-              Select Date:
-            </label>
-
-            {/* 1st Slot , Date Feild section*/}
-            <input value={report_date} style={{ width: 400 }} onChange={e => {
-              console.log('Date selected:', e.target.value);
-              setReport_date(e.target.value);
-            }} className="form-control border-primary shadow-sm" type='date' />
-          </div> <br />
-          {/* 1st Slot right site  */}
-          <div className="d-flex border rounded-4 p-0 overflow-hidden shadow-sm" style={{ minHeight: "162px" }}>
-            {/* Left Time Slot Section (Narrowed) */}
-            <div
-              className="bg-light d-flex align-items-center justify-content-center px-2"
-              style={{
-                minWidth: "101px", // ⬅️ Reduced from 120px
-                borderRight: "1px solid #dee2e6",
-                fontWeight: "700",
-                fontSize: "0.88rem",
-                textAlign: "center"
-              }}> 9:00 AM - 12:00 PM
-            </div>
-
-            {/* Right Text Area Section */}
-            <div className="flex-grow-1">
-              <textarea
-                className="form-control border-0 h-100 rounded-0 p-3"
-                placeholder="Enter work update here..."
-                id="text1"
-                style={{ height: "100%", minHeight: "130px", resize: "none" }}
-                value={report1}
-                onChange={(e) => setReport1(e.target.value)} />
-            </div>
-          </div>
-          <br />
-          <div className="text-end">
-
-            <button onClick={(e) => addData(e, 1, report1)} type="submit" className="btn btn-primary px-3">
-              Submit
-            </button>
-
-
-
-          </div> <br />
-
-
-          {/* 2nd Slot */}
-          <div className="d-flex border rounded-4 p-0 overflow-hidden shadow-sm" style={{ minHeight: "162px" }}>
-            {/* Left Time Slot Section (Narrowed) */}
-            <div
-              className="bg-light d-flex align-items-center justify-content-center px-2"
-              style={{
-                minWidth: "101px", // ⬅️ Reduced from 120px
-                borderRight: "1px solid #dee2e6",
-                fontWeight: "700",
-                fontSize: "0.88rem",
-                textAlign: "center"
-              }}> 12:00 PM - 2:00 PM
-            </div>
-
-            {/* Right Text Area Section */}
-            <div className="flex-grow-1">
-              <textarea
-                className="form-control border-0 h-100 rounded-0 p-3"
-                placeholder="Enter work update here..."
-                id="text1"
-                style={{ height: "100%", minHeight: "130px", resize: "none" }}
-                value={report2}
-                onChange={(e) => setReport2(e.target.value)} />
-            </div>
-          </div> <br />
-
-          <div className="text-end">
-            {/* <button onClick={() => getWorkReportDetailsedit1()} type="submit" className="btn btn-primary px-3 me-3">
-              Update / Edit
-            </button> */}
-
-            <button onClick={(e) => addData(e, 2, report2)} type="submit" className="btn btn-primary px-3">
-              Submit
-            </button>
-          </div> <br />
-
-          {/* 3rd Slot */}
-          <div className="d-flex border rounded-4 p-0 overflow-hidden shadow-sm" style={{ minHeight: "162px" }}>
-            {/* Left Time Slot Section (Narrowed) */}
-            <div
-              className="bg-light d-flex align-items-center justify-content-center px-2"
-              style={{
-                minWidth: "101px", // ⬅️ Reduced from 120px
-                borderRight: "1px solid #dee2e6",
-                fontWeight: "700",
-                fontSize: "0.88rem",
-                textAlign: "center"
-              }}> 2:00 PM - 4:00 PM
-            </div>
-
-            {/* Right Text Area Section */}
-            <div className="flex-grow-1">
-              <textarea
-                className="form-control border-0 h-100 rounded-0 p-3"
-                placeholder="Enter work update here..."
-                id="text1"
-                style={{ height: "100%", minHeight: "130px", resize: "none" }}
-                value={report3}
-                onChange={(e) => setReport3(e.target.value)} />
-            </div>
-          </div> <br />
-
-          <div className="text-end">
-            <button onClick={(e) => addData(e, 3, report3)} type="submit" className="btn btn-primary px-3">
-              Submit
-            </button>
-          </div> <br />
-
-          {/* 4th Slot */}
-          <div className="d-flex border rounded-4 p-0 overflow-hidden shadow-sm" style={{ minHeight: "162px" }}>
-            {/* Left Time Slot Section (Narrowed) */}
-            <div
-              className="bg-light d-flex align-items-center justify-content-center px-2"
-              style={{
-                minWidth: "101px", // ⬅️ Reduced from 120px
-                borderRight: "1px solid #dee2e6",
-                fontWeight: "700",
-                fontSize: "0.88rem",
-                textAlign: "center"
-              }}> 4:00 PM - 6:00 PM
-            </div>
-
-            {/* Right Text Area Section */}
-            <div className="flex-grow-1">
-              <textarea
-                className="form-control border-0 h-100 rounded-0 p-3"
-                placeholder="Enter work update here..."
-                id="text1"
-                style={{ height: "100%", minHeight: "130px", resize: "none" }}
-                value={report4}
-                onChange={(e) => setReport4(e.target.value)} />
-            </div>
-          </div> <br />
-
-          <div className="text-end">
-
-            <button onClick={(e) => addData(e, 4, report4)} type="submit" className="btn btn-primary px-3">
-              Submit
-            </button>
-          </div> <br />
-
-
-          {/* Last Slot */}
-          <div className="d-flex border rounded-4 p-0 overflow-hidden shadow-sm" style={{ minHeight: "160px" }}>
-            {/* Left Time Slot Section (Narrowed) */}
-            <div
-              className="bg-light d-flex align-items-center justify-content-center px-2"
-              style={{
-                minWidth: "101px", // ⬅️ Reduced from 120px
-                borderRight: "1px solid #dee2e6",
-                fontWeight: "700",
-                fontSize: "0.88rem",
-                textAlign: "center"
-              }}> 6:00 PM - 8:00 PM
-            </div>
-
-            {/* Right Text Area Section */}
-            <div className="flex-grow-1">
-              <textarea
-                className="form-control border-0 h-100 rounded-0 p-3"
-                placeholder="Enter work update here..."
-                id="text1"
-                style={{ height: "100%", minHeight: "130px", resize: "none" }}
-                value={report5}
-                onChange={(e) => setReport5(e.target.value)} />
-            </div>
-          </div> <br />
-
-          <div className="text-end">
-
-            <button onClick={(e) => addData(e, 5, report5)} type="submit" className="btn btn-primary px-3">
-              Submit
-            </button>
-          </div>
-
-        </div>
       </div>
 
 
@@ -657,4 +426,4 @@ const Workreport = () => {
   );
 };
 
-export default Workreport;
+export default WorkreportAdc;

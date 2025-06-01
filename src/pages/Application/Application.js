@@ -241,6 +241,7 @@ export const Application = () => {
             axios.get(`https://server.promisenothi.com/employees/requisition?admin=1`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
+                
 
             })
         }

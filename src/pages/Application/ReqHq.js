@@ -87,12 +87,12 @@ const ReqHq = ({ getData, group }) => {
 
 
     const admintData = () => {
-        if (['3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
+        if (['3', '4', '5', '6', '15'].includes(localStorage.getItem('role'))) {
 
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
-                const { slice, range } = paginate(group(res.data), page, 10)
+                const { slice, range } = paginate(group(res.data), page, 8)
                 setSlice(slice)
                 setRange(range)
 
@@ -102,7 +102,7 @@ const ReqHq = ({ getData, group }) => {
                 setAdminData(group(res.data))
                 console.log(group(res.data));
 
-                const { slice, range } = paginate(group(res.data), page, 10)
+                const { slice, range } = paginate(group(res.data), page, 8)
                 setSlice(slice)
                 setRange(range)
 
@@ -119,7 +119,7 @@ const ReqHq = ({ getData, group }) => {
                 setBrochures(res.data)
                 console.log(res.data);
                 // Add paginate
-                const { slice, range } = paginate(group(res.data), page, 10)
+                const { slice, range } = paginate(group(res.data), page, 8)
                 setSlice(slice)
                 setRange(range)
 
@@ -149,7 +149,7 @@ const ReqHq = ({ getData, group }) => {
                         console.log(res2.data);
 
                         // Paginate add
-                        const { slice, range } = paginate(group(res.data), page, 10)
+                        const { slice, range } = paginate(group(res.data), page, 8)
                         setSlice(slice)
                         setRange(range)
 
@@ -158,7 +158,7 @@ const ReqHq = ({ getData, group }) => {
                     axios.get(`https://server.promisenothi.com/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         // Paginate add
-                        const { slice, range } = paginate(group(res.data), page, 10)
+                        const { slice, range } = paginate(group(res.data), page, 8)
                         setSlice(slice)
                         setRange(range)
                     })
@@ -480,7 +480,7 @@ const ReqHq = ({ getData, group }) => {
                         </thead>
                         <tbody>
                             {
-                                adminData.map(item => (
+                                slice.map(item => (
                                     <tr>
                                         <td>
                                             <div style={{
@@ -557,7 +557,7 @@ const ReqHq = ({ getData, group }) => {
                             }
                         </tbody>
                     </table>
-                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={10} />
+                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={8} />
 
                 </div>
             }

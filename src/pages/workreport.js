@@ -276,7 +276,7 @@ const Workreport = () => {
               <table className='mt-10 table'>
                 <thead>
                   <tr>
-                    {/* <th scope="col text-start"> Date</th> */}
+                    <th scope="col text-start"> Date</th>
                     <th className="px-2" scope="col "> Employee Name</th>
 
                     <th className="px-3" scope="col">Employee ID</th>
@@ -292,7 +292,7 @@ const Workreport = () => {
 
                     employees.map((item, index) => (
                       <tr key={`${item.employee_id}-${index}`}>
-                        {/* <td className='px-3 text-start'>{item.Date}</td> */}
+                       <td>{moment(workreport_date).format('DD/MM/YYYY')}</td>
                         <td className='px-3 text-start'>{item.user_name}</td>
                         <td className='px-3'>{item.employee_id}</td>
 
@@ -302,7 +302,7 @@ const Workreport = () => {
                         {/* <td className='px-3'>{item.mobile_no}</td> */}
                         <td className='px-3'> <button type="button" class="btn btn-success">Submitted</button></td>
                         <td className='px-3'>
-                          <button onClick={() => getWorkReportDetails(item)} className='btn btn-warning'>Details</button>
+                          <button onClick={() => getWorkReportDetails(item)} className='btn btn-warning'>View Report</button>
                         </td>
                       </tr>
                     ))

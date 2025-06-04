@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -13,9 +13,30 @@ const WorkreportAdc = () => {
   const [workreport_date, setWorkreport_date] = useState('');
   const [workReports, setWorkReports] = useState([]);
   const [fetchingEmployees, setFetchingEmployees] = useState(false);
+  const [employeeReports, setEmployeeReports] = useState({}); // To store reports for each employee
 
-  // ADC employee IDs
-  const assistantDivisionCoordinators = ["5", "6", "442", "33", "521", "513", "441", "446", "490"];
+  // ADC employee IDs with their predefined branches
+  const assistantDivisionCoordinators = {
+    "5": { branch: "Khulna" },//202200306
+    "6": { branch: "Rangpur" },//202200422
+    "442": { branch: "Mymensingh" },//202200451
+    "33": { branch: "Hill Tracks" },//20220030
+    "521": { branch: "Rajshahi" },//202200473
+    "513": { branch: "Dhaka-1" },// 202200497
+    "441": { branch: "Dhaka-2" },//202200147
+    "446": { branch: "Chattogram" },// 202200269
+    "490": { branch: "Barisal" }// 202200385
+  };
+
+  // Function to update designation
+  const updateDesignation = (employee) => {
+    return {
+      ...employee,
+      designation: employee.designation 
+        ? employee.designation.replace('Head', 'Coordinator') 
+        : 'Assistant Divisional Coordinator'
+    };
+  };
 
   const getAdcEmployees = () => {
     if (!workreport_date) {
@@ -27,18 +48,29 @@ const WorkreportAdc = () => {
 
     axios.get('https://server.promisenothi.com/employees')
       .then(res => {
-        // Filter employees to only show ADC (employee IDs 5 and 6)
-        const adcEmployees = res.data.filter(employee => {
-          // Check both possible ID fields
-          const empId = employee.id?.toString() || employee.employee_id?.toString();
-          return assistantDivisionCoordinators.includes(empId);
-        });
+        const adcEmployees = res.data
+          .filter(employee => {
+            const empId = employee.id?.toString() || employee.employee_id?.toString();
+            return Object.keys(assistantDivisionCoordinators).includes(empId);
+          })
+          .map(employee => {
+            const empId = employee.id?.toString() || employee.employee_id?.toString();
+            return {
+              ...updateDesignation(employee),
+              branch: assistantDivisionCoordinators[empId]?.branch || 'N/A'
+            };
+          });
 
         if (adcEmployees.length === 0) {
           toast.info('No ADC employees found');
         }
 
         setEmployees(adcEmployees);
+        
+        // Fetch reports for each employee
+        adcEmployees.forEach(employee => {
+          fetchEmployeeReports(employee);
+        });
       })
       .catch(error => {
         console.error('Error fetching employees:', error);
@@ -49,18 +81,41 @@ const WorkreportAdc = () => {
       });
   };
 
-  const getWorkReportDetails = async (employee) => {
+  const fetchEmployeeReports = async (employee) => {
     try {
-      setIsLoading(true);
       const response = await axios.get(
         `https://server.promisenothi.com/employees/daily_work_report?employee_id=${employee.id || employee.employee_id}&report_date=${workreport_date}`
       );
+      
+      setEmployeeReports(prev => ({
+        ...prev,
+        [`${employee.id || employee.employee_id}`]: response.data
+      }));
+    } catch (error) {
+      console.error('Error fetching work reports:', error);
+      // Don't show toast here to avoid multiple error messages
+    }
+  };
 
-      if (response.data.length === 0) {
+  const getWorkReportDetails = async (employee) => {
+    try {
+      setIsLoading(true);
+      const employeeId = employee.id || employee.employee_id;
+      
+      // Check if we already have reports for this employee
+      if (employeeReports[employeeId]) {
+        setWorkReports(employeeReports[employeeId]);
+      } else {
+        const response = await axios.get(
+          `https://server.promisenothi.com/employees/daily_work_report?employee_id=${employeeId}&report_date=${workreport_date}`
+        );
+        setWorkReports(response.data);
+      }
+
+      if (workReports.length === 0) {
         toast.info('No reports found for selected date');
       }
 
-      setWorkReports(response.data);
       setSelectedEmployee(employee);
       setIsOpen(true);
     } catch (error) {
@@ -69,6 +124,13 @@ const WorkreportAdc = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Function to check if employee has submitted any report for the selected date
+  const hasSubmittedReport = (employee) => {
+    const employeeId = employee.id || employee.employee_id;
+    const reports = employeeReports[employeeId] || [];
+    return reports.length > 0;
   };
 
   return (
@@ -104,10 +166,10 @@ const WorkreportAdc = () => {
               />
             </div>
 
-            {/* Fixed Department Display */}
+            {/* Department Display */}
             <div className='d-flex flex-column w-50 mt-3'>
               <label style={{ fontSize: '19px' }} className="d-flex align-items-center fw-bold text-primary mb-0">
-                Department: <span className="ms-2 text-dark">Assistant Division Coordinator</span>
+                Department: <span className="ms-2 text-dark">Assistant Divisional Coordinator</span>
               </label>
             </div>
 
@@ -128,8 +190,8 @@ const WorkreportAdc = () => {
                     <tr>
                       <th>Report Date</th>
                       <th>Employee Name</th>
-                      {/* <th>Employee ID</th> */}
                       <th>Designation</th>
+                      <th>Branch</th>
                       <th>Status</th>
                       <th>Details</th>
                     </tr>
@@ -139,24 +201,37 @@ const WorkreportAdc = () => {
                       <tr key={`${item.id || item.employee_id}-${workreport_date}`}>
                         <td>{moment(workreport_date).format('DD/MM/YYYY')}</td>
                         <td>{item.user_name || item.name}</td>
-                        {/* <td>{item.id || item.employee_id}</td> */}
-                        <td>{item.designation?.toUpperCase() || 'N/A'}</td>
+                        <td>{item.designation.toUpperCase()}</td>
+                        <td>{item.branch}</td>
                         <td>
-                          <span
-                            className="badge bg-success text-white px-4 py-2 d-inline-block"
-                            style={{
-                              borderRadius: '6px',
-                              fontSize: '14px',
-                              fontWeight: '500',
-                              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                            }}
-                          >
-                            <i className="bi bi-check-circle-fill me-2"></i>
-                            Submitted
-                          </span>
+                          {hasSubmittedReport(item) ? (
+                            <span
+                              className="badge bg-success text-white px-4 py-2 d-inline-block"
+                              style={{
+                                borderRadius: '6px',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                              }}
+                            >
+                              <i className="bi bi-check-circle-fill me-2"></i>
+                              Submitted
+                            </span>
+                          ) : (
+                            <span
+                              className="badge bg-danger text-white px-4 py-2 d-inline-block"
+                              style={{
+                                borderRadius: '6px',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                              }}
+                            >
+                              <i className="bi bi-x-circle-fill me-2"></i>
+                              Not Submitted
+                            </span>
+                          )}
                         </td>
-
-
                         <td>
                           <button
                             onClick={() => getWorkReportDetails(item)}
@@ -164,11 +239,11 @@ const WorkreportAdc = () => {
                             style={{
                               fontSize: '15px',
                               borderRadius: '6px',
-                              letterSpacing: '0.3px',}}>
+                              letterSpacing: '0.3px',
+                            }}>
                             <i className="bi bi-eye-fill me-2"></i>
                             View Report
                           </button>
-
                         </td>
                       </tr>
                     ))}
@@ -221,8 +296,8 @@ const WorkreportAdc = () => {
                     <div className="card-body">
                       <div className="row">
                         <div className="col-md-6">
-                          <p><strong>Employee ID:</strong> {selectedEmployee.id || selectedEmployee.employee_id}</p>
                           <p><strong>Designation:</strong> {selectedEmployee.designation}</p>
+                          <p><strong>Branch:</strong> {selectedEmployee.branch}</p>
                         </div>
                         <div className="col-md-6">
                           <p><strong>Date:</strong> {moment(workreport_date).format('DD/MM/YYYY')}</p>

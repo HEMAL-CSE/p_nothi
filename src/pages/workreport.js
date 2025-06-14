@@ -50,8 +50,8 @@ const Workreport = () => {
   const [report4, setReport4] = useState("");
   const [report5, setReport5] = useState("");
 
-// ADC section add
-
+// Submission statusadd
+const [employeeReportStatus, setEmployeeReportStatus] = useState({});
 
   // Edit Modal Section
   const [employee_data, setEmployee_data] = useState({})

@@ -178,8 +178,6 @@ export const Application = () => {
     }
 
 
-
-
     const group = (data) => {
         let result = Object.values(
             data.reduce((e, item) => {

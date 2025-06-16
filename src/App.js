@@ -25,6 +25,8 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Workreport from './pages/workreport';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WorkreportAdc from './pages/workreportadc';
+import Approved from './pages/Approved';
+
 
 // import Attendance from './pages/Attendance/Attendance';
 
@@ -61,6 +63,8 @@ function App() {
         <Route element={<Purchase/>} exact path='/employee/purchase'/>
         <Route element={<Workreport/>} exact path='/employee/workreport'/>
         <Route element={<WorkreportAdc/>} exact path='/employee/workreportadc'/>
+
+        <Route element={<Approved/>} exact path='/employee/approved'/>
 
 
         {/* <Route element={<Attendance/>} exact path='/employee/purchase'/> */}

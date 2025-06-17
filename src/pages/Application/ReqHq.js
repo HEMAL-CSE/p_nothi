@@ -87,7 +87,7 @@ const ReqHq = ({ getData, group }) => {
 
 
     const admintData = () => {
-        if (['3', '4', '5', '6', '15'].includes(localStorage.getItem('role'))) {
+        if (['3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
                 setAdminData(group(res.data))
@@ -149,7 +149,7 @@ const ReqHq = ({ getData, group }) => {
                         console.log(res2.data);
 
                         // Paginate add
-                        const { slice, range } = paginate(group(res.data), page, 6)
+                        const { slice, range } = paginate(group(res2.data), page, 6)
                         setSlice(slice)
                         setRange(range)
 
@@ -381,7 +381,7 @@ const ReqHq = ({ getData, group }) => {
                         </thead>
                         <tbody>
                             {
-                                pendings.map(item => (
+                                slice.map(item => (
                                     <tr>
                                         <td>
                                             <div style={{
@@ -452,7 +452,7 @@ const ReqHq = ({ getData, group }) => {
                             }
                         </tbody>
                     </table>
-                     <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={6} />
+                     <TableFooter range={range} slice={slice} setSlice={setSlice} data={pendings} setPage={setPage} page={page} pageNumber={6} />
                     
                      </div> : <div></div>}
 

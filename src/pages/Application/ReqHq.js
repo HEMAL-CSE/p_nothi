@@ -117,11 +117,11 @@ const ReqHq = ({ getData, group }) => {
             var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
             axios.get(`https://server.promisenothi.com/employees/${requisition_url}/brochures?requisition_id=${requisition_id}`).then(res => {
                 setBrochures(res.data)
-                console.log(res.data);
-                // Add paginate
-                const { slice, range } = paginate(group(res.data), page, 6)
-                setSlice(slice)
-                setRange(range)
+                // console.log(res.data);
+                // // Add paginate
+                // const { slice, range } = paginate(group(res.data), page, 6)
+                // setSlice(slice)
+                // setRange(range)
 
             })
         })

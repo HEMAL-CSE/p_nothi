@@ -149,7 +149,7 @@ const ReqHq = ({ getData, group }) => {
                         console.log(res2.data);
 
                         // Paginate add
-                        const { slice, range } = paginate(group(res2.data), page, 6)
+                        const { slice, range } = paginate(group(res2.data), page, 10)
                         setSlice(slice)
                         setRange(range)
 
@@ -158,7 +158,7 @@ const ReqHq = ({ getData, group }) => {
                     axios.get(`https://server.promisenothi.com/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         // Paginate add
-                        const { slice, range } = paginate(group(res.data), page, 6)
+                        const { slice, range } = paginate(group(res.data), page, 10)
                         setSlice(slice)
                         setRange(range)
                     })

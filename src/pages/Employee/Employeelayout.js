@@ -125,14 +125,6 @@ const Employeelayout = ({ children }) => {
     },
 
     {
-      name: 'Approved Requsition',
-      pathname: '/employee/approved',
-      roles: ['1', '2', '3', '4', '5', '6', '7','12', '11', '15'],
-      icon: GrDocumentConfig,
-      submenu: []
-    },
-
-    {
       name: 'Notice',
       pathname: '/employee/Notice',
       roles: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '15'],
@@ -173,7 +165,13 @@ const Employeelayout = ({ children }) => {
       submenu: []
     },
 
-
+   {
+      name: 'Approved Requsition',
+      pathname: '/employee/approved',
+      roles: ['1', '2', '3', '4', '5', '6', '7','12', '11', '15'],
+      icon: GrDocumentConfig,
+      submenu: []
+    },
 
     {
       name: 'Attendance',

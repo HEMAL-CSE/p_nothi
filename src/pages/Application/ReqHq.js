@@ -92,7 +92,7 @@ const ReqHq = ({ getData, group }) => {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
-                const { slice, range } = paginate(group(res.data), page, 6)
+                const { slice, range } = paginate(group(res.data), page, 7)
                 setSlice(slice)
                 setRange(range)
 
@@ -102,7 +102,7 @@ const ReqHq = ({ getData, group }) => {
                 setAdminData(group(res.data))
                 console.log(group(res.data));
 
-                const { slice, range } = paginate(group(res.data), page, 6)
+                const { slice, range } = paginate(group(res.data), page, 7)
                 setSlice(slice)
                 setRange(range)
 
@@ -149,7 +149,7 @@ const ReqHq = ({ getData, group }) => {
                         console.log(res2.data);
 
                         // Paginate add
-                        const { slice, range } = paginate(group(res2.data), page, 10)
+                        const { slice, range } = paginate(group(res2.data), page, 7)
                         setSlice(slice)
                         setRange(range)
 
@@ -158,7 +158,7 @@ const ReqHq = ({ getData, group }) => {
                     axios.get(`https://server.promisenothi.com/employees/requisition?reporting_officer=${employee_id}`).then(res2 => {
                         setPendings(group(res2.data))
                         // Paginate add
-                        const { slice, range } = paginate(group(res.data), page, 10)
+                        const { slice, range } = paginate(group(res2.data), page, 7)
                         setSlice(slice)
                         setRange(range)
                     })
@@ -452,7 +452,7 @@ const ReqHq = ({ getData, group }) => {
                             }
                         </tbody>
                     </table>
-                     <TableFooter range={range} slice={slice} setSlice={setSlice} data={pendings} setPage={setPage} page={page} pageNumber={6} />
+                     <TableFooter range={range} slice={slice} setSlice={setSlice} data={pendings} setPage={setPage} page={page} pageNumber={7} />
                     
                      </div> : <div></div>}
 
@@ -560,7 +560,7 @@ const ReqHq = ({ getData, group }) => {
                             }
                         </tbody>
                     </table>
-                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={6} />
+                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={adminData} setPage={setPage} page={page} pageNumber={7} />
 
                 </div>
             }

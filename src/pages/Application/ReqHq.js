@@ -67,25 +67,6 @@ const ReqHq = ({ getData, group }) => {
     };
 
 
-    // const invoiceData = {
-    //   invoiceNumber: 'REQ-2025-0001',
-    //   companyName: 'Your Name',
-    //   companyAddress: '123 Business Street',
-    //   companyCityStateZip: 'City, State 12345',
-    //   billTo: {
-    //     clientName: 'Client Name',
-    //     clientAddress: 'Client Address',
-    //     clientCityStateZip: 'City, State ZIP',
-    //   },
-    //   items: [
-    //     { description: 'Web Design Service', quantity: 1, unitPrice: 1500.00 },
-    //     { description: 'Hosting Setup', quantity: 1, unitPrice: 250.00 },
-    //   ],
-
-    // };
-
-
-
     const admintData = () => {
         if (['3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
@@ -377,6 +358,8 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Received</th>
                                 {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
                                 <th>Delete</th>
+                                <th>Move Archived</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -402,7 +385,8 @@ const ReqHq = ({ getData, group }) => {
                                         <td>
                                             <div style={{
                                                 fontWeight: '500',
-                                                fontSize: '14px', }}>
+                                                fontSize: '14px',
+                                            }}>
                                                 {item.department_name}
                                             </div>
                                         </td>
@@ -447,14 +431,21 @@ const ReqHq = ({ getData, group }) => {
                                             <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
                                         </td>
 
+                                        <td>
+                                            <button onClick={() => {}}
+                                                type="button" className="btn btn-primary px-3" >
+                                                Move to 
+                                            </button>
+                                        </td>
+
                                     </tr>
                                 ))
                             }
                         </tbody>
                     </table>
-                     <TableFooter range={range} slice={slice} setSlice={setSlice} data={pendings} setPage={setPage} page={page} pageNumber={7} />
-                    
-                     </div> : <div></div>}
+                    <TableFooter range={range} slice={slice} setSlice={setSlice} data={pendings} setPage={setPage} page={page} pageNumber={7} />
+
+                </div> : <div></div>}
 
             {
                 ['2', '3', '4', '5', '6'].includes(localStorage.getItem('role')) &&
@@ -478,6 +469,8 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Decision Making</th>
                                 <th>Received</th>
                                 <th>Delete</th>
+                                <th>Move Archived</th>
+
 
                             </tr>
                         </thead>
@@ -504,7 +497,8 @@ const ReqHq = ({ getData, group }) => {
                                         <td>
                                             <div style={{
                                                 fontWeight: '500',
-                                                fontSize: '14px', }}>
+                                                fontSize: '14px',
+                                            }}>
                                                 {item.department_name}
                                             </div>
                                         </td>
@@ -554,6 +548,12 @@ const ReqHq = ({ getData, group }) => {
                                         <td><Approval approved={item.received} /></td>
                                         <td>
                                             <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => {}}
+                                                type="button" className="btn btn-primary px-3" >
+                                                Move  
+                                            </button>
                                         </td>
                                     </tr>
                                 ))
@@ -611,7 +611,8 @@ const ReqHq = ({ getData, group }) => {
                                         <td>
                                             <div style={{
                                                 fontWeight: '500',
-                                                fontSize: '14px', }}>
+                                                fontSize: '14px',
+                                            }}>
                                                 {item.department_name}
                                             </div>
                                         </td>
@@ -706,7 +707,8 @@ const ReqHq = ({ getData, group }) => {
                                         <td>
                                             <div style={{
                                                 fontWeight: '500',
-                                                fontSize: '14px', }}>
+                                                fontSize: '14px',
+                                            }}>
                                                 {item.department_name}
                                             </div>
                                         </td>

@@ -1,98 +1,118 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import Modal from 'react-modal';
-import moment from 'moment';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Modal from "react-modal";
+import moment from "moment";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 // Set modal styles
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 const modalStyles = {
   content: {
-    width: '80%',
-    maxHeight: '90vh',
-    margin: 'auto',
-    padding: '20px',
-    overflow: 'auto'
-  }
+    width: "80%",
+    maxHeight: "90vh",
+    margin: "auto",
+    padding: "20px",
+    overflow: "auto",
+  },
 };
 
 const RequisitionSystem = () => {
   // Core state
   const [allRequisitions, setAllRequisitions] = useState([]);
+  console.log("🚀 ~ RequisitionSystem ~ allRequisitions:", allRequisitions);
   const [displayedReqs, setDisplayedReqs] = useState([]);
-  const [currentView, setCurrentView] = useState('all');
+  const [currentView, setCurrentView] = useState("all");
   const [selectedReq, setSelectedReq] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const printRef = useRef();
-  const userRole = localStorage.getItem('role');
+  const userRole = localStorage.getItem("role");
+  const [isTabActive, setIsTabActive] = useState("all");
 
-  // Fetch all requisitions
-  const fetchAllRequisitions = async () => {
+  const fetchAllRequisitions = () => {
     setIsLoading(true);
-    try {
-      const { data } = await axios.get('https://server.promisenothi.com/employees/requisition');
-      // Ensure each requisition has item_details array
-      const processedData = data.map(req => ({
-        ...req,
-        item_details: req.item_details || []
-      }));
-      setAllRequisitions(processedData);
-      filterRequisitions(processedData, currentView);
-    } catch (error) {
-      toast.error('Failed to load requisitions');
-    } finally {
-      setIsLoading(false);
-    }
+
+    axios
+      .get("https://server.promisenothi.com/employees/requisition")
+      .then((response) => {
+        const rawData = response.data;
+
+        // Remove duplicates based on 'id' (or another unique field)
+        const uniqueData = Array.from(
+          new Map(
+            rawData.map((item) => [
+              item.id,
+              {
+                ...item,
+                item_details: Array.isArray(item.item_details)
+                  ? item.item_details
+                  : [],
+              },
+            ])
+          ).values()
+        );
+
+        setAllRequisitions(uniqueData);
+        filterRequisitions(uniqueData, isTabActive);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch requisitions:", error);
+        toast.error("Failed to load requisitions");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // Filter requisitions by status
   const filterRequisitions = (requisitions, view) => {
     let filtered = [];
-    
-    switch(view) {
-      case 'pending':
-        filtered = requisitions.filter(req => 
-          req.approved_admin !== 'APPROVED' && 
-          req.approved_admin !== 'REJECTED' && 
-          req.approved_agm !== 'REJECTED' && 
-          req.approved_hod !== 'REJECTED'
+
+    switch (view) {
+      case "pending":
+        filtered = requisitions.filter(
+          (req) =>
+            req.approved_admin !== "APPROVED" &&
+            req.approved_admin !== "REJECTED" &&
+            req.approved_agm !== "REJECTED" &&
+            req.approved_hod !== "REJECTED"
         );
         break;
-        
-      case 'approved':
-        filtered = requisitions.filter(req => 
-          req.approved_admin === 'APPROVED'
+
+      case "approved":
+        filtered = requisitions.filter(
+          (req) => req.approved_admin === "APPROVED"
         );
         break;
-        
-      case 'rejected':
-        filtered = requisitions.filter(req => 
-          req.approved_admin === 'REJECTED' || 
-          req.approved_agm === 'REJECTED' || 
-          req.approved_hod === 'REJECTED'
+
+      case "rejected":
+        filtered = requisitions.filter(
+          (req) =>
+            req.approved_admin === "REJECTED" ||
+            req.approved_agm === "REJECTED" ||
+            req.approved_hod === "REJECTED"
         );
         break;
-        
+
       default: // all
         filtered = [...requisitions];
     }
-    
+
     setDisplayedReqs(filtered);
     setCurrentView(view);
   };
 
   // Approval actions
   const handleApproval = async (id, isApproval) => {
-    const endpoint = isApproval ? 'approve' : 'reject';
-    const status = isApproval ? 'APPROVED' : 'REJECTED';
-    
+    const endpoint = isApproval ? "approve" : "reject";
+    const status = isApproval ? "APPROVED" : "REJECTED";
+
     try {
       await axios.put(
         `https://server.promisenothi.com/employees/requisition/${endpoint}?approved_admin=${status}&id=${id}`
       );
-      toast.success(isApproval ? 'Approved successfully' : 'Rejected');
+      toast.success(isApproval ? "Approved successfully" : "Rejected");
       fetchAllRequisitions();
     } catch (error) {
       toast.error(`Action failed: ${error.message}`);
@@ -102,90 +122,110 @@ const RequisitionSystem = () => {
   // PDF generation
   const generatePDF = async () => {
     if (!selectedReq) return;
-    
+
     try {
       const canvas = await html2canvas(printRef.current);
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgData = canvas.toDataURL("image/png");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save(`requisition_${selectedReq.id}.pdf`);
     } catch (error) {
-      toast.error('Failed to generate PDF');
+      toast.error("Failed to generate PDF");
     }
   };
 
   // Initial load
   useEffect(() => {
     fetchAllRequisitions();
-  }, []);
+  }, [isTabActive]);
+
+  const handleTabChange = (tab) => {
+    setIsTabActive(tab);
+    filterRequisitions(allRequisitions, tab);
+  };
 
   if (isLoading) {
-    return <div className="container py-4 text-center">Loading requisitions...</div>;
+    return (
+      <div className="container py-4 text-center">Loading requisitions...</div>
+    );
   }
 
   return (
     <div className="container py-4">
+      <h4 style={{
+        fontSize: '1.7em',
+        fontWeight: '600',
+        color: '#333',
+        textAlign: 'center', /* Centers the text inside the h2 */
+        padding: '5px 20px',
+        backgroundColor: '#ffffff',
+        borderRadius: '8px',
+        boxShadow: '0 3px 12px rgba(0, 0, 0, 0.1)',
+        maxWidth: 'fit-content', /* Makes the background fit the text width */
+        margin: '0 auto' /* Centers the h2 block itself if its parent allows */
+      }}>
+        Approved Requisition (Head Office): </h4> <br />
+
       {/* View Selector */}
       <div className="d-flex mb-4 border-bottom pb-3 flex-wrap">
         <button
-          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${
-            currentView === 'all' ? 'btn-primary' : 'btn-outline-primary'
-          }`}
-          onClick={() => filterRequisitions(allRequisitions, 'all')}
+          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${isTabActive === "all" ? "btn-primary" : "btn-outline-primary"
+            }`}
+          onClick={() => handleTabChange("all")}
         >
           All Requisitions
-          <span className="badge bg-dark ms-2">
-            {allRequisitions.length}
-          </span>
+          <span className="badge bg-dark ms-2">{allRequisitions.length}</span>
         </button>
-        
+
         <button
-          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${
-            currentView === 'pending' ? 'btn-warning' : 'btn-outline-warning'
-          }`}
-          onClick={() => filterRequisitions(allRequisitions, 'pending')}
+          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${isTabActive === "pending" ? "btn-warning" : "btn-outline-warning"
+            }`}
+          onClick={() => handleTabChange("pending")}
         >
           Pending
           <span className="badge bg-dark ms-2">
             {
-              allRequisitions.filter(req => 
-                req.approved_admin !== 'APPROVED' && 
-                req.approved_admin !== 'REJECTED' && 
-                req.approved_agm !== 'REJECTED' && 
-                req.approved_hod !== 'REJECTED'
+              allRequisitions.filter(
+                (req) =>
+                  req.approved_admin !== "APPROVED" &&
+                  req.approved_admin !== "REJECTED" &&
+                  req.approved_agm !== "REJECTED" &&
+                  req.approved_hod !== "REJECTED"
               ).length
             }
           </span>
         </button>
-        
+
         <button
-          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${
-            currentView === 'approved' ? 'btn-success' : 'btn-outline-success'
-          }`}
-          onClick={() => filterRequisitions(allRequisitions, 'approved')}
+          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${isTabActive === "approved" ? "btn-success" : "btn-outline-success"
+            }`}
+          onClick={() => handleTabChange("approved")}
         >
           Approved (ED)
           <span className="badge bg-dark ms-2">
-            {allRequisitions.filter(req => req.approved_admin === 'APPROVED').length}
+            {
+              allRequisitions.filter((req) => req.approved_admin === "APPROVED")
+                .length
+            }
           </span>
         </button>
-        
+
         <button
-          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${
-            currentView === 'rejected' ? 'btn-danger' : 'btn-outline-danger'
-          }`}
-          onClick={() => filterRequisitions(allRequisitions, 'rejected')}
+          className={`btn btn-lg flex-grow-1 mx-2 mb-2 ${isTabActive === "rejected" ? "btn-danger" : "btn-outline-danger"
+            }`}
+          onClick={() => handleTabChange("rejected")}
         >
           Rejected
           <span className="badge bg-dark ms-2">
             {
-              allRequisitions.filter(req => 
-                req.approved_admin === 'REJECTED' || 
-                req.approved_agm === 'REJECTED' || 
-                req.approved_hod === 'REJECTED'
+              allRequisitions.filter(
+                (req) =>
+                  req.approved_admin === "REJECTED" ||
+                  req.approved_agm === "REJECTED" ||
+                  req.approved_hod === "REJECTED"
               ).length
             }
           </span>
@@ -204,46 +244,52 @@ const RequisitionSystem = () => {
               <th>Status</th>
               {/* <th>Total Items</th>
               <th>Total Amount</th> */}
-              {currentView === 'pending' && <th>Actions</th>}
+              {currentView === "pending" && <th>Actions</th>}
               <th>Details</th>
             </tr>
           </thead>
           <tbody>
             {displayedReqs.length > 0 ? (
-              displayedReqs.map(req => {
+              displayedReqs.map((req) => {
                 // Determine status for display
                 let status, statusClass;
-                if (req.approved_admin === 'APPROVED') {
-                  status = 'Approved by ED';
-                  statusClass = 'success';
-                } else if (req.approved_admin === 'REJECTED') {
-                  status = 'Rejected by ED';
-                  statusClass = 'danger';
-                } else if (req.approved_agm === 'REJECTED') {
-                  status = 'Rejected by AGM';
-                  statusClass = 'danger';
-                } else if (req.approved_hod === 'REJECTED') {
-                  status = 'Rejected by HOD';
-                  statusClass = 'danger';
-                } else if (req.approved_agm === 'APPROVED') {
-                  status = 'Pending ED';
-                  statusClass = 'warning';
-                } else if (req.approved_hod === 'APPROVED') {
-                  status = 'Pending AGM';
-                  statusClass = 'warning';
+                if (req.approved_admin === "APPROVED") {
+                  status = "Approved by ED";
+                  statusClass = "success";
+                } else if (req.approved_admin === "REJECTED") {
+                  status = "Rejected by ED";
+                  statusClass = "danger";
+                } else if (req.approved_agm === "REJECTED") {
+                  status = "Rejected by AGM";
+                  statusClass = "danger";
+                } else if (req.approved_hod === "REJECTED") {
+                  status = "Rejected by HOD";
+                  statusClass = "danger";
+                } else if (req.approved_agm === "APPROVED") {
+                  status = "Pending ED";
+                  statusClass = "warning";
+                } else if (req.approved_hod === "APPROVED") {
+                  status = "Pending AGM";
+                  statusClass = "warning";
                 } else {
-                  status = 'Pending HOD';
-                  statusClass = 'warning';
+                  status = "Pending HOD";
+                  statusClass = "warning";
                 }
 
                 // Calculate totals safely
                 const totalItems = req.item_details?.length || 0;
-                const totalAmount = req.item_details?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0;
+                const totalAmount =
+                  req.item_details?.reduce(
+                    (sum, item) => sum + item.price * item.quantity,
+                    0
+                  ) || 0;
 
                 return (
-                  <tr key={req.id} className={statusClass === 'danger' ? 'table-danger' : ''}>
+                  <tr
+                    key={req.id}
+                    className={statusClass === "danger" ? "table-danger" : ""}>
                     <td>{req.id}</td>
-                    <td>{moment(req.requisition_date).format('DD/MM/YYYY')}</td>
+                    <td>{moment(req.requisition_date).format("DD/MM/YYYY")}</td>
                     <td>{req.user_name}</td>
                     <td>{req.department_name}</td>
                     <td>
@@ -253,38 +299,35 @@ const RequisitionSystem = () => {
                     </td>
                     {/* <td>{totalItems}</td>
                     <td>{totalAmount.toLocaleString()}</td> */}
-                    
-                    {currentView === 'pending' && (
+
+                    {currentView === "pending" && (
                       <td>
                         <div className="d-flex gap-2">
-                          {req.approved_agm === 'APPROVED' && (
+                          {req.approved_agm === "APPROVED" && (
                             <>
                               <button
                                 className="btn btn-sm btn-success"
                                 onClick={() => handleApproval(req.id, true)}
-                                disabled={userRole !== '2'} // Only ED can approve
+                                disabled={userRole !== "2"} // Only ED can approve
                               >
                                 Approve
                               </button>
                               <button
                                 className="btn btn-sm btn-danger"
                                 onClick={() => handleApproval(req.id, false)}
-                                disabled={userRole !== '2'} // Only ED can reject
+                                disabled={userRole !== "2"} // Only ED can reject
                               >
-                                Reject
-                              </button>
+                                Reject </button>
                             </>
                           )}
                         </div>
                       </td>
                     )}
-                    
+
                     <td>
                       <button
                         className="btn btn-sm btn-info"
-                        onClick={() => setSelectedReq(req)}
-                      >
-                        View Details
+                        onClick={() => setSelectedReq(req)}> View Details
                       </button>
                     </td>
                   </tr>
@@ -292,7 +335,10 @@ const RequisitionSystem = () => {
               })
             ) : (
               <tr>
-                <td colSpan={currentView === 'pending' ? 9 : 8} className="text-center py-4">
+                <td
+                  colSpan={currentView === "pending" ? 9 : 8}
+                  className="text-center py-4"
+                >
                   No {currentView} requisitions found
                 </td>
               </tr>
@@ -305,8 +351,7 @@ const RequisitionSystem = () => {
       <Modal
         isOpen={!!selectedReq}
         onRequestClose={() => setSelectedReq(null)}
-        style={modalStyles}
-      >
+        style={modalStyles} >
         {selectedReq && (
           <div>
             <div className="d-flex justify-content-between mb-3">
@@ -315,58 +360,83 @@ const RequisitionSystem = () => {
                 <button className="btn btn-primary me-2" onClick={generatePDF}>
                   Download PDF
                 </button>
-                <button className="btn btn-secondary" onClick={() => setSelectedReq(null)}>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setSelectedReq(null)}>
                   Close
                 </button>
               </div>
             </div>
-            
+
             <div ref={printRef} className="p-3">
               {/* Header */}
               <div className="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
                 <div>
                   <h2 className="mb-1">Requisition #{selectedReq.id}</h2>
                   <p className="text-muted mb-0">
-                    {moment(selectedReq.requisition_date).format('DD MMMM YYYY')}
+                    {moment(selectedReq.requisition_date).format(
+                      "DD MMMM YYYY")}
                   </p>
                 </div>
                 <div className="text-end">
-                  <p className="mb-1"><strong>Status:</strong> 
-                    {selectedReq.approved_admin === 'APPROVED' ? (
+                  <p className="mb-1">
+                    <strong>Status:</strong>
+                    {selectedReq.approved_admin === "APPROVED" ? (
                       <span className="text-success ms-2">Approved by ED</span>
-                    ) : selectedReq.approved_admin === 'REJECTED' ? (
+                    ) : selectedReq.approved_admin === "REJECTED" ? (
                       <span className="text-danger ms-2">Rejected by ED</span>
-                    ) : selectedReq.approved_agm === 'REJECTED' ? (
+                    ) : selectedReq.approved_agm === "REJECTED" ? (
                       <span className="text-danger ms-2">Rejected by AGM</span>
-                    ) : selectedReq.approved_hod === 'REJECTED' ? (
+                    ) : selectedReq.approved_hod === "REJECTED" ? (
                       <span className="text-danger ms-2">Rejected by HOD</span>
-                    ) : selectedReq.approved_agm === 'APPROVED' ? (
-                      <span className="text-warning ms-2">Pending ED Approval</span>
-                    ) : selectedReq.approved_hod === 'APPROVED' ? (
-                      <span className="text-warning ms-2">Pending AGM Approval</span>
+                    ) : selectedReq.approved_agm === "APPROVED" ? (
+                      <span className="text-warning ms-2">
+                        Pending ED Approval
+                      </span>
+                    ) : selectedReq.approved_hod === "APPROVED" ? (
+                      <span className="text-warning ms-2">
+                        Pending AGM Approval
+                      </span>
                     ) : (
-                      <span className="text-warning ms-2">Pending HOD Approval</span>
+                      <span className="text-warning ms-2">
+                        Pending HOD Approval
+                      </span>
                     )}
                   </p>
                 </div>
               </div>
-              
+
               {/* Requester Info */}
               <div className="row mb-4">
                 <div className="col-md-6">
                   <h5>Requester Information</h5>
-                  <p><strong>Name:</strong> {selectedReq.user_name}</p>
-                  <p><strong>Department:</strong> {selectedReq.department_name}</p>
-                  <p><strong>Designation:</strong> {selectedReq.designation}</p>
+                  <p>
+                    <strong>Name:</strong> {selectedReq.user_name}
+                  </p>
+                  <p>
+                    <strong>Department:</strong> {selectedReq.department_name}
+                  </p>
+                  <p>
+                    <strong>Designation:</strong> {selectedReq.designation}
+                  </p>
                 </div>
                 <div className="col-md-6">
                   <h5>Approval Path</h5>
-                  <p><strong>HOD:</strong> {selectedReq.approved_hod || 'Pending'}</p>
-                  <p><strong>AGM:</strong> {selectedReq.approved_agm || 'Pending'}</p>
-                  <p><strong>ED:</strong> {selectedReq.approved_admin || 'Pending'}</p>
+                  <p>
+                    <strong>HOD:</strong>{" "}
+                    {selectedReq.approved_hod || "Pending"}
+                  </p>
+                  <p>
+                    <strong>AGM:</strong>{" "}
+                    {selectedReq.approved_agm || "Pending"}
+                  </p>
+                  <p>
+                    <strong>ED:</strong>{" "}
+                    {selectedReq.approved_admin || "Pending"}
+                  </p>
                 </div>
               </div>
-              
+
               {/* Items Table */}
               <h5 className="mb-3">Requested Items</h5>
               <table className="table table-bordered">
@@ -387,31 +457,40 @@ const RequisitionSystem = () => {
                         <td>{item.quantity}</td>
                         <td>{item.unit}</td>
                         <td>{item.price?.toLocaleString()}</td>
-                        <td>{(item.price * item.quantity)?.toLocaleString()}</td>
+                        <td>
+                          {(item.price * item.quantity)?.toLocaleString()}
+                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="text-center">No items found</td>
+                      <td colSpan="5" className="text-center">
+                        No items found
+                      </td>
                     </tr>
                   )}
                   <tr className="table-active">
-                    <td colSpan="4" className="text-end"><strong>Grand Total</strong></td>
-                    <td><strong>
-                      {selectedReq.item_details?.reduce((sum, item) => sum + (item.price * item.quantity), 0)?.toLocaleString()}
-                    </strong></td>
+                    <td colSpan="4" className="text-end">
+                      <strong>Grand Total</strong>
+                    </td>
+                    <td>
+                      <strong>
+                        {selectedReq.item_details
+                          ?.reduce(
+                            (sum, item) => sum + item.price * item.quantity, 0)
+                          ?.toLocaleString()}
+                      </strong>
+                    </td>
                   </tr>
                 </tbody>
               </table>
-              
+
               {/* Additional Info */}
               {selectedReq.comments && (
                 <div className="mt-4">
                   <h5>Comments</h5>
                   <div className="card">
-                    <div className="card-body">
-                      {selectedReq.comments}
-                    </div>
+                    <div className="card-body">{selectedReq.comments}</div>
                   </div>
                 </div>
               )}
@@ -423,4 +502,4 @@ const RequisitionSystem = () => {
   );
 };
 
-export default RequisitionSystem;
+export default RequisitionSystem; 

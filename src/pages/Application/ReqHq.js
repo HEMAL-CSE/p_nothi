@@ -68,29 +68,47 @@ const ReqHq = ({ getData, group }) => {
 
 
     const admintData = () => {
-        if (['3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
+        if (["3", "4", "5", "6"].includes(localStorage.getItem("role"))) {
+            axios
+                .get(
+                    'https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED'
+            )
+                .then((res) => {
+                    // Step 1: Filter the data
+                    const filtered = res.data.filter(
+                        (item) => item.approved_admin !== "APPROVED"
+                    );
 
-            axios.get(`https://server.promisenothi.com/employees/requisition?approved_hr=APPROVED`).then(res => {
-                setAdminData(group(res.data))
-                // console.log(res.data);
-                const { slice, range } = paginate(group(res.data), page, 7)
-                setSlice(slice)
-                setRange(range)
+                    // Step 2: Group the filtered data
+                    const grouped = group(filtered);
+                    setAdminData(grouped);
 
-            })
-        } else if (['2'].includes(localStorage.getItem('role'))) {
-            axios.get(`https://server.promisenothi.com/employees/requisition?approved_agm=1`).then(res => {
-                setAdminData(group(res.data))
-                console.log(group(res.data));
+                    // Step 3: Paginate the grouped data
+                    const { slice, range } = paginate(grouped, page, 7);
+                    setSlice(slice);
+                    setRange(range);
+                });
+        } else if (["2"].includes(localStorage.getItem("role"))) {
+            axios
+                .get(
+                    'https://server.promisenothi.com/employees/requisition?approved_agm=1'
+            )
+                .then((res) => {
+                    const filtered = res.data.filter(
+                        (item) => item.approved_admin !== "APPROVED"
+                    );
 
-                const { slice, range } = paginate(group(res.data), page, 7)
-                setSlice(slice)
-                setRange(range)
+                    // Step 2: Group the filtered data
+                    const grouped = group(filtered);
+                    setAdminData(grouped);
 
-            })
+                    // Step 3: Paginate the grouped data
+                    const { slice, range } = paginate(grouped, page, 7);
+                    setSlice(slice);
+                    setRange(range);
+                });
         }
-
-    }
+    };
 
     const getBrochures = (requisition_id) => {
         const employee_id = localStorage.getItem('employee_id')
@@ -358,7 +376,6 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Received</th>
                                 {['7', '15'].includes(localStorage.getItem('role')) && <th>Comments</th>}
                                 <th>Delete</th>
-                                <th>Move Archived</th>
 
                             </tr>
                         </thead>
@@ -431,13 +448,6 @@ const ReqHq = ({ getData, group }) => {
                                             <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
                                         </td>
 
-                                        <td>
-                                            <button onClick={() => {}}
-                                                type="button" className="btn btn-primary px-3" >
-                                                Move to 
-                                            </button>
-                                        </td>
-
                                     </tr>
                                 ))
                             }
@@ -469,8 +479,6 @@ const ReqHq = ({ getData, group }) => {
                                 <th>Decision Making</th>
                                 <th>Received</th>
                                 <th>Delete</th>
-                                <th>Move Archived</th>
-
 
                             </tr>
                         </thead>
@@ -549,12 +557,7 @@ const ReqHq = ({ getData, group }) => {
                                         <td>
                                             <button className='btn btn-danger' onClick={e => deleteData(e, item.id)}>Delete</button>
                                         </td>
-                                        <td>
-                                            <button onClick={() => {}}
-                                                type="button" className="btn btn-primary px-3" >
-                                                Move  
-                                            </button>
-                                        </td>
+
                                     </tr>
                                 ))
                             }

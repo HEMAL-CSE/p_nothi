@@ -11,17 +11,16 @@ Modal.setAppElement("#root");
 const modalStyles = {
   content: {
     width: "60%",
-    maxHeight: "75vh",
+    maxHeight: "70vh",
     margin: "auto",
     padding: "20px",
     overflow: "auto",
   },
 };
 
-const RequisitionSystem = () => {
+const ApprovedElt = () => {
   // Core state
   const [allRequisitions, setAllRequisitions] = useState([]);
-  console.log("🚀 ~ RequisitionSystem ~ allRequisitions:", allRequisitions);
   const [displayedReqs, setDisplayedReqs] = useState([]);
   const [currentView, setCurrentView] = useState("all");
   const [selectedReq, setSelectedReq] = useState(null);
@@ -34,11 +33,11 @@ const RequisitionSystem = () => {
     setIsLoading(true);
 
     axios
-      .get("https://server.promisenothi.com/employees/requisition")
+      .get("https://server.promisenothi.com/employees/requisition_elt?admin=1")
       .then((response) => {
         const rawData = response.data;
 
-        // Remove duplicates based on 'id' (or another unique field)
+        // Remove duplicates based on 'id'
         const uniqueData = Array.from(
           new Map(
             rawData.map((item) => [
@@ -76,7 +75,8 @@ const RequisitionSystem = () => {
             req.approved_admin !== "APPROVED" &&
             req.approved_admin !== "REJECTED" &&
             req.approved_agm !== "REJECTED" &&
-            req.approved_hod !== "REJECTED"
+            req.approved_dc !== "REJECTED" &&
+            req.approved_adh !== "REJECTED"
         );
         break;
 
@@ -91,7 +91,8 @@ const RequisitionSystem = () => {
           (req) =>
             req.approved_admin === "REJECTED" ||
             req.approved_agm === "REJECTED" ||
-            req.approved_hod === "REJECTED"
+            req.approved_dc === "REJECTED" ||
+            req.approved_adh === "REJECTED"
         );
         break;
 
@@ -110,7 +111,7 @@ const RequisitionSystem = () => {
 
     try {
       await axios.put(
-        `https://server.promisenothi.com/employees/requisition/${endpoint}?approved_admin=${status}&id=${id}`
+        `https://server.promisenothi.com/employees/requisition_elt/${endpoint}?approved_admin=${status}&id=${id}`
       );
       toast.success(isApproval ? "Approved successfully" : "Rejected");
       fetchAllRequisitions();
@@ -159,15 +160,15 @@ const RequisitionSystem = () => {
         fontSize: '1.7em',
         fontWeight: '600',
         color: '#333',
-        textAlign: 'center', /* Centers the text inside the h2 */
+        textAlign: 'center',
         padding: '5px 20px',
         backgroundColor: '#ffffff',
         borderRadius: '8px',
         boxShadow: '0 3px 12px rgba(0, 0, 0, 0.1)',
-        maxWidth: 'fit-content', /* Makes the background fit the text width */
-        margin: '0 auto' /* Centers the h2 block itself if its parent allows */
+        maxWidth: 'fit-content',
+        margin: '0 auto'
       }}>
-        Approved Requisition (Head Office): </h4> <br />
+        Approved Requisition (E-Learning All Branch): </h4> <br />
 
       {/* View Selector */}
       <div className="d-flex mb-4 border-bottom pb-3 flex-wrap">
@@ -193,7 +194,8 @@ const RequisitionSystem = () => {
                   req.approved_admin !== "APPROVED" &&
                   req.approved_admin !== "REJECTED" &&
                   req.approved_agm !== "REJECTED" &&
-                  req.approved_hod !== "REJECTED"
+                  req.approved_dc !== "REJECTED" &&
+                  req.approved_adh !== "REJECTED"
               ).length
             }
           </span>
@@ -225,7 +227,8 @@ const RequisitionSystem = () => {
                 (req) =>
                   req.approved_admin === "REJECTED" ||
                   req.approved_agm === "REJECTED" ||
-                  req.approved_hod === "REJECTED"
+                  req.approved_dc === "REJECTED" ||
+                  req.approved_adh === "REJECTED"
               ).length
             }
           </span>
@@ -240,10 +243,8 @@ const RequisitionSystem = () => {
               <th>Req ID</th>
               <th>Date</th>
               <th>Requester</th>
-              <th>Department</th>
+              <th>Branch</th>
               <th>Status</th>
-              {/* <th>Total Items</th>
-              <th>Total Amount</th> */}
               {currentView === "pending" && <th>Actions</th>}
               <th>Details</th>
             </tr>
@@ -262,27 +263,25 @@ const RequisitionSystem = () => {
                 } else if (req.approved_agm === "REJECTED") {
                   status = "Rejected by AGM";
                   statusClass = "danger";
-                } else if (req.approved_hod === "REJECTED") {
-                  status = "Rejected by HOD";
+                } else if (req.approved_dc === "REJECTED") {
+                  status = "Rejected by DH";
+                  statusClass = "danger";
+                } else if (req.approved_adh === "REJECTED") {
+                  status = "Rejected by ADC";
                   statusClass = "danger";
                 } else if (req.approved_agm === "APPROVED") {
                   status = "Pending ED";
                   statusClass = "warning";
-                } else if (req.approved_hod === "APPROVED") {
+                } else if (req.approved_dc === "APPROVED") {
                   status = "Pending AGM";
                   statusClass = "warning";
+                } else if (req.approved_adh === "APPROVED") {
+                  status = "Pending DH";
+                  statusClass = "warning";
                 } else {
-                  status = "Pending HOD";
+                  status = "Pending ADC";
                   statusClass = "warning";
                 }
-
-                // Calculate totals safely
-                const totalItems = req.item_details?.length || 0;
-                const totalAmount =
-                  req.item_details?.reduce(
-                    (sum, item) => sum + item.price * item.quantity,
-                    0
-                  ) || 0;
 
                 return (
                   <tr
@@ -291,14 +290,12 @@ const RequisitionSystem = () => {
                     <td>{req.id}</td>
                     <td>{moment(req.requisition_date).format("DD/MM/YYYY")}</td>
                     <td>{req.user_name}</td>
-                    <td>{req.department_name}</td>
+                    <td>{req.branch_name}</td>
                     <td>
                       <span className={`badge bg-${statusClass}`}>
                         {status}
                       </span>
                     </td>
-                    {/* <td>{totalItems}</td>
-                    <td>{totalAmount.toLocaleString()}</td> */}
 
                     {currentView === "pending" && (
                       <td>
@@ -317,7 +314,8 @@ const RequisitionSystem = () => {
                                 onClick={() => handleApproval(req.id, false)}
                                 disabled={userRole !== "2"} // Only ED can reject
                               >
-                                Reject </button>
+                                Reject
+                              </button>
                             </>
                           )}
                         </div>
@@ -327,7 +325,8 @@ const RequisitionSystem = () => {
                     <td>
                       <button
                         className="btn btn-sm btn-info"
-                        onClick={() => setSelectedReq(req)}> View Details
+                        onClick={() => setSelectedReq(req)}>
+                        View Details
                       </button>
                     </td>
                   </tr>
@@ -336,7 +335,7 @@ const RequisitionSystem = () => {
             ) : (
               <tr>
                 <td
-                  colSpan={currentView === "pending" ? 9 : 8}
+                  colSpan={currentView === "pending" ? 7 : 6}
                   className="text-center py-4"
                 >
                   No {currentView} requisitions found
@@ -351,10 +350,10 @@ const RequisitionSystem = () => {
       <Modal
         isOpen={!!selectedReq}
         onRequestClose={() => setSelectedReq(null)}
-        style={modalStyles} >
+        style={modalStyles}>
         {selectedReq && (
           <div>
-            <div className="d-flex justify-content-between mb-3">
+            <div className="d-flex justify-content-between mb-5">
               <h3>Requisition Details</h3>
               <div>
                 <button className="btn btn-primary me-2" onClick={generatePDF}>
@@ -374,8 +373,7 @@ const RequisitionSystem = () => {
                 <div>
                   <h2 className="mb-1">Requisition #{selectedReq.id}</h2>
                   <p className="text-muted mb-0">
-                    {moment(selectedReq.requisition_date).format(
-                      "DD MMMM YYYY")}
+                    {moment(selectedReq.requisition_date).format("DD MMMM YYYY")}
                   </p>
                 </div>
                 <div className="text-end">
@@ -387,19 +385,25 @@ const RequisitionSystem = () => {
                       <span className="text-danger ms-2">Rejected by ED</span>
                     ) : selectedReq.approved_agm === "REJECTED" ? (
                       <span className="text-danger ms-2">Rejected by AGM</span>
-                    ) : selectedReq.approved_hod === "REJECTED" ? (
-                      <span className="text-danger ms-2">Rejected by HOD</span>
+                    ) : selectedReq.approved_dc === "REJECTED" ? (
+                      <span className="text-danger ms-2">Rejected by DH</span>
+                    ) : selectedReq.approved_adh === "REJECTED" ? (
+                      <span className="text-danger ms-2">Rejected by ADC</span>
                     ) : selectedReq.approved_agm === "APPROVED" ? (
                       <span className="text-warning ms-2">
                         Pending ED Approval
                       </span>
-                    ) : selectedReq.approved_hod === "APPROVED" ? (
+                    ) : selectedReq.approved_dc === "APPROVED" ? (
                       <span className="text-warning ms-2">
                         Pending AGM Approval
                       </span>
+                    ) : selectedReq.approved_adh === "APPROVED" ? (
+                      <span className="text-warning ms-2">
+                        Pending DH Approval
+                      </span>
                     ) : (
                       <span className="text-warning ms-2">
-                        Pending HOD Approval
+                        Pending ADC Approval
                       </span>
                     )}
                   </p>
@@ -414,7 +418,7 @@ const RequisitionSystem = () => {
                     <strong>Name:</strong> {selectedReq.user_name}
                   </p>
                   <p>
-                    <strong>Department:</strong> {selectedReq.department_name}
+                    <strong>Branch:</strong> {selectedReq.branch_name}
                   </p>
                   <p>
                     <strong>Designation:</strong> {selectedReq.designation}
@@ -423,8 +427,12 @@ const RequisitionSystem = () => {
                 <div className="col-md-6">
                   <h5>Approval Path</h5>
                   <p>
-                    <strong>HOD:</strong>{" "}
-                    {selectedReq.approved_hod || "Pending"}
+                    <strong>ADC:</strong>{" "}
+                    {selectedReq.approved_adh || "Pending"}
+                  </p>
+                  <p>
+                    <strong>DH:</strong>{" "}
+                    {selectedReq.approved_dc || "Pending"}
                   </p>
                   <p>
                     <strong>AGM:</strong>{" "}
@@ -502,4 +510,4 @@ const RequisitionSystem = () => {
   );
 };
 
-export default RequisitionSystem; 
+export default ApprovedElt;

@@ -26,6 +26,7 @@ import Workreport from './pages/workreport';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WorkreportAdc from './pages/workreportadc';
 import Approved from './pages/Approved';
+import ApprovedElt from './pages/ApprovedElt';
 
 
 // import Attendance from './pages/Attendance/Attendance';
@@ -65,6 +66,8 @@ function App() {
         <Route element={<WorkreportAdc/>} exact path='/employee/workreportadc'/>
 
         <Route element={<Approved/>} exact path='/employee/approved'/>
+        <Route element={<ApprovedElt/>} exact path='/employee/approvedelt'/>
+
 
 
         {/* <Route element={<Attendance/>} exact path='/employee/purchase'/> */}

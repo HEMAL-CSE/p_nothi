@@ -81,21 +81,34 @@ const ReqElt = ({ getData, group }) => {
         if (['3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
             axios.get(`https://server.promisenothi.com/employees/requisition_elt?admin=1`).then(res => {
-                setAdminData(group(res.data))
-                // console.log(res.data);
-                const { slice, range } = paginate(group(res.data), page, 10)
-                setSlice(slice)
-                setRange(range)
+                // Step 1: Filter the data
+          const filtered = res.data.filter(
+            (item) => item.approved_admin !== "APPROVED"
+          );
 
+          // Step 2: Group the filtered data
+          const grouped = group(filtered);
+          setAdminData(grouped);
+
+          // Step 3: Paginate the grouped data
+          const { slice, range } = paginate(grouped, page, 10);
+          setSlice(slice);
+          setRange(range);
             })
         } else if (['2'].includes(localStorage.getItem('role'))) {
             axios.get(`https://server.promisenothi.com/employees/requisition?approved_agm=1`).then(res => {
-                setAdminData(group(res.data))
-                console.log(group(res.data))
-                const { slice, range } = paginate(group(res.data), page, 10)
-                setSlice(slice)
-                setRange(range)
-                // console.log(res.data);       
+                const filtered = res.data.filter(
+            (item) => item.approved_admin !== "APPROVED"
+          );
+
+          // Step 2: Group the filtered data
+          const grouped = group(filtered);
+          setAdminData(grouped);
+
+          // Step 3: Paginate the grouped data
+          const { slice, range } = paginate(grouped, page, 10);
+          setSlice(slice);
+          setRange(range);       
 
             })
         }
@@ -106,10 +119,19 @@ const ReqElt = ({ getData, group }) => {
         if (['2', '3', '4', '5', '6'].includes(localStorage.getItem('role'))) {
 
             axios.get(`https://server.promisenothi.com/employees/requisition_elt?admin=1&&division=${division_id}&&branch=${branch_id}`).then(res => {
-                setAdminData(group(res.data))
-                const { slice, range } = paginate(group(res.data), page, 10)
+                // Step 1: Filter the data
+          const filtered = res.data.filter(
+            (item) => item.approved_admin !== "APPROVED"
+          );
+
+          // Step 2: Group the filtered data
+          const grouped = group(filtered);
+          setAdminData(grouped);
+
+                const { slice, range } = paginate(grouped, page, 10)
                 setSlice(slice)
                 setRange(range)
+                
                 // console.log(res.data);
 
             })
@@ -137,7 +159,7 @@ const ReqElt = ({ getData, group }) => {
     const getBrochures = (requisition_id) => {
         const employee_id = localStorage.getItem('employee_id')
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {
-            var requisition_url = res.data[0].department == 2 && ['9', '10'].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
+            var requisition_url = res.data[0].department == 2 && ['9', '10',].includes(localStorage.getItem('role')) ? `requisition_elt` : `requisition`
             axios.get(`https://server.promisenothi.com/employees/${requisition_url}/brochures?requisition_id=${requisition_id}`).then(res => {
                 setBrochures(res.data)
                 console.log(res.data);
@@ -145,7 +167,6 @@ const ReqElt = ({ getData, group }) => {
             })
         })
     }
-
 
 
     const pendingData = () => {
@@ -780,7 +801,6 @@ const ReqElt = ({ getData, group }) => {
             {
 
 
-
                 // store manager
                 localStorage.getItem('role') == '11' &&
                 <div>
@@ -880,7 +900,6 @@ const ReqElt = ({ getData, group }) => {
                 }}
             >
                 <div className='details'>
-
 
                     {
                         comments.map(comment => (

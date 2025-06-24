@@ -203,9 +203,6 @@ export const Application = () => {
 
     const getData = () => {
 
-
-
-
         const employee_id = localStorage.getItem('employee_id')
 
         axios.get(`https://server.promisenothi.com/employees/job_info?employee_id=${employee_id}`).then(res => {

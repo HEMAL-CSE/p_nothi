@@ -240,6 +240,7 @@ const RequisitionSystem = () => {
               <th>Req ID</th>
               <th>Date</th>
               <th>Requester</th>
+              <th>Designation</th>
               <th>Department</th>
               <th>Status</th>
               {/* <th>Total Items</th>
@@ -291,7 +292,9 @@ const RequisitionSystem = () => {
                     <td>{req.id}</td>
                     <td>{moment(req.requisition_date).format("DD/MM/YYYY")}</td>
                     <td>{req.user_name}</td>
+                    <td>{req.designation}</td>
                     <td>{req.department_name}</td>
+
                     <td>
                       <span className={`badge bg-${statusClass}`}>
                         {status}

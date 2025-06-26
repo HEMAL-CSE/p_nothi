@@ -174,7 +174,7 @@ const Employeelayout = ({ children }) => {
     },
 
     {
-      name: 'Approved Requsition (Branch)',
+      name: 'Approved Requsition (All Branch)',
       pathname: '/employee/approvedelt',
       roles: ['1', '2', '3', '4', '5', '6', '7','12', '11', '15'],
       icon: GrDocumentConfig,

@@ -308,16 +308,14 @@ const WorkreportAdc = () => {
 
                   <h4 className="mb-3">Daily Activities</h4>
                   <div className="row g-3">
-                    {[1, 2, 3, 4, 5].map(slot => (
+                    {[1, 2, 3, 4].map(slot => (
                       <div className="col-md-4" key={slot}>
                         <div className="card h-100">
                           <div className="card-header bg-light">
                             Slot {slot} (
-                            {slot === 1 && '9:00 AM - 12:00 PM'}
-                            {slot === 2 && '12:00 PM - 2:00 PM'}
-                            {slot === 3 && '2:00 PM - 4:00 PM'}
-                            {slot === 4 && '4:00 PM - 6:00 PM'}
-                            {slot === 5 && '6:00 PM - 8:00 PM'}
+                            {slot === 1 && '9:00 AM - 2:00 PM'}
+                            {slot === 2 && '2:00 PM - 6:00 PM'}
+                            {slot === 3 && '6:00 PM - 8:00 PM'}
                             )
                           </div>
                           <div className="card-body">

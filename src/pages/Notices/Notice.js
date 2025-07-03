@@ -441,6 +441,7 @@ export const Notice = () => {
         <table className='table mt-3'>
           <thead>
             <tr>
+              <th>Date</th>
               <th>Notice From</th>
               <th>Designation</th>
               <th>Notice For</th>
@@ -452,6 +453,7 @@ export const Notice = () => {
             {
               all_data.map(item => (
                 <tr>
+                  <th>{item.notice_date}</th>
                   <td>{item.poster_name}</td>
                   <td>{item.designation}</td>
                   <td>{item.notice_for}</td>
@@ -478,6 +480,7 @@ export const Notice = () => {
         <table className='table mt-3'>
           <thead>
             <tr>
+              <th>Date</th>
               <th>Notice From</th>
               <th>Designation</th>
               <th>Notice For</th>
@@ -515,6 +518,7 @@ export const Notice = () => {
         <table className='table mt-3'>
           <thead>
             <tr>
+              <th>Date</th>
               <th>Notice From</th>
               <th>Designation</th>
               <th>Notice For</th>
@@ -526,6 +530,7 @@ export const Notice = () => {
             {
               individual_data.map(item => (
                 <tr>
+                  <td>{item.notice_date}</td>
                   <td>{item.poster_name}</td>
                   <td>{item.designation}</td>
                   <td>{item.notice_for}</td>

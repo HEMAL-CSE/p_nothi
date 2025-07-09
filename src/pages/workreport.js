@@ -149,7 +149,7 @@ const Workreport = () => {
         <h2 className="mb-2 text-center fw-bold text-primary border-3 pb-0"
           style={{ fontSize: "2rem", letterSpacing: "0.5px" }}> 📝 Daily Work Report </h2>
 
-        {['1', '2', '9'].includes(localStorage.getItem('role')) && (
+        {['1', '2', '3', '4', '5', '6','9', '15'].includes(localStorage.getItem('role')) && (
           <div className='border border-1 border-black p-2 m-4 d-flex flex-column align-items-center'>
             {/* Date Selection */}
             <div className="d-flex align-items-center" style={{ gap: '8px', maxWidth: 400 }}>

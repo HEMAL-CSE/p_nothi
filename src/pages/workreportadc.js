@@ -23,20 +23,31 @@ const WorkreportAdc = () => {
     "33": { branch: "Hill Tracks" },//20220030
     "521": { branch: "Rajshahi" },//202200473
     "513": { branch: "Dhaka-1" },// 202200497
-    "441": { branch: "Dhaka-2" },//202200147
+    "441": { branch: "Dhaka" },//202200147
     "446": { branch: "Chattogram" },// 202200269
-    "490": { branch: "Barisal" }// 202200385
+    "490": { branch: "Barisal" },// 202200385
+    "597": { branch: "Dhaka-2" },//202200532
+
   };
 
   // Function to update designation
   const updateDesignation = (employee) => {
+  const empId = employee.id?.toString() || employee.employee_id?.toString();
+  if (empId === '441') {
     return {
       ...employee,
-      designation: employee.designation 
-        ? employee.designation.replace('Head', 'Coordinator') 
-        : 'Assistant Divisional Coordinator'
+      designation: 'Head of Assistant Divisional Coordinator'
     };
+  }
+
+  return {
+    ...employee,
+    designation: employee.designation 
+      ? employee.designation.replace('Head', 'Coordinator') 
+      : 'Assistant Divisional Coordinator'
   };
+};
+
 
   const getAdcEmployees = () => {
     if (!workreport_date) {
@@ -308,7 +319,7 @@ const WorkreportAdc = () => {
 
                   <h4 className="mb-3">Daily Activities</h4>
                   <div className="row g-3">
-                    {[1, 2, 3, 4].map(slot => (
+                    {[1, 2, 3].map(slot => (
                       <div className="col-md-4" key={slot}>
                         <div className="card h-100">
                           <div className="card-header bg-light">

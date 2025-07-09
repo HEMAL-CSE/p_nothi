@@ -16,6 +16,7 @@ const Sidebar = ({ elements, name }) => {
     const { hash, pathname, search } = location;
 
     const navigator = useNavigate();
+    
     return (
         <div className='w-22-custom'>
             <div className='row  sticky-top'>

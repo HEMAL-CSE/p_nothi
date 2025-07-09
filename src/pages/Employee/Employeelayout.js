@@ -161,6 +161,7 @@ const Employeelayout = ({ children }) => {
       name: 'ADC Work Report ',
       pathname: '/employee/workreportadc',
       roles: ['1', '2'],
+      allowIds: ['441'], // ✅ Add this custom field for ID-based access
       icon: GoReport,
       submenu: []
     },

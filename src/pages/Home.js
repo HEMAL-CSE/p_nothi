@@ -63,10 +63,9 @@ const Home = () => {
           <div className="col-lg-2">
 
             <div className="d-flex align-items-center justify-content-end">
-              <a className="btn btn-success2 btn-square rounded-circle me-2" href="https://freewebsitecode.com/"><FaTwitter /></a>
-              <a className="btn btn-success2 btn-square rounded-circle me-2" href="https://facebook.com/freewebsitecode/"><FaFacebook /></a>
-              <a className="btn btn-success2 btn-square rounded-circle me-2" href="https://freewebsitecode.com/"><FaLinkedin /></a>
-              <a className="btn btn-success2 btn-square rounded-circle" href="https://youtube.com/freewebsitecode/"><FaYoutube /></a>
+              <a className="btn btn-success2 btn-square rounded-circle me-2" href="https://www.facebook.com/elaeltd.official/"><FaFacebook /></a>
+              <a className="btn btn-success2 btn-square rounded-circle me-2" href="https://www.linkedin.com/company/e-learning-and-earning-ltd/"><FaLinkedin /></a>
+              <a className="btn btn-success2 btn-square rounded-circle" href="https://www.youtube.com/@elaeltd.official"><FaYoutube /></a>
             </div>
 
           </div>

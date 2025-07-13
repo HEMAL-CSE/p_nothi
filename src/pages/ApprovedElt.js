@@ -368,7 +368,8 @@ const ApprovedElt = () => {
         </table>
       </div>
 
-      {/* Details Modal */}
+      {/* Details Button on Modal */}
+
       <Modal
         style={{
           content: {

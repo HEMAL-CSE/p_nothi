@@ -298,7 +298,6 @@ export const Leaveinfo = () => {
       }
 
 
-
       <table className='table mt-5'>
         <thead>
           <tr>

@@ -236,7 +236,7 @@ export const Application = () => {
             axios.get(`https://server.promisenothi.com/employees/requisition?admin=1`).then(res => {
                 setAdminData(group(res.data))
                 // console.log(res.data);
-                
+
 
             })
         }
@@ -550,10 +550,10 @@ export const Application = () => {
             {/* Add Requisition */}
             {localStorage.getItem('role') != '11' && <div>
                 <label> Start Date:</label>
-                <input value={requisition_date} style={{ width: 300 }} onChange={e => setRequisition_date(e.target.value)} className='input' type='date' />
+                <input value={requisition_date} style={{ width: 400 }} onChange={e => setRequisition_date(e.target.value)} className='input' type='date' />
 
                 <label> Select Item Type:</label>
-                <select value={item_type} onChange={e => {
+                <select value={item_type} style={{ width: 400 }} onChange={e => {
                     setItem_type(e.target.value)
                     setOthers(false)
                 }} className='select' >
@@ -567,6 +567,22 @@ export const Application = () => {
 
                 <label>Item Details:</label>
                 <div className='border border-1 m-2 p-2'>
+                    {/* Tittle section add */}
+                    <div className="d-flex justify-content-between">
+                        {/* Left-side Label */}
+                        <div>
+                            <label style={{ marginLeft: "40%" }}>Description</label>
+                        </div>
+
+                        {/* Right-side Labels aligned right with spacing */}
+                        <div className="d-flex" style={{ gap: "5%", marginRight: "6%" }}>
+                            <label>Quantity</label>
+                            <label>Unit</label>
+                            <label>Unit Price</label>
+                            <label>Total Price</label>
+                        </div>
+                    </div>
+
                     {
                         items.map((item, i) => (
                             <div className='d-flex justify-content-between align-items-center'>
@@ -588,10 +604,12 @@ export const Application = () => {
                                             console.log(items);
 
                                         }
-                                    } />
+                                    } /> 
                                     {
                                         item.id == null ?
-                                            <input className='form-control mx-1' onChange={e => {
+                                            <textarea className='form-control mx-2' style={{ width: 400 }} onChange={e => {
+
+
                                                 var clone = [...items]
                                                 var obj = clone[i]
                                                 obj.name = e.target.value
@@ -606,7 +624,7 @@ export const Application = () => {
 
                                 </div>
                                 <div className='d-flex m-2 align-items-center justify-content-center'>
-                                    <input style={{ width: '150px' }} className='form-control mx-1' onChange={e => {
+                                    <textarea style={{ width: '150px' }} className='form-control mx-1' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.quantity = e.target.value
@@ -617,7 +635,7 @@ export const Application = () => {
 
                                     }} placeholder='পরিমাণ (সংখ্যা)' />
 
-                                    <input style={{ width: '150px' }} className='form-control mx-1' onChange={e => {
+                                    <textarea style={{ width: '150px' }} className='form-control mx-1' onChange={e => {
                                         var clone = [...items]
                                         var obj = clone[i]
                                         obj.unit = e.target.value
@@ -711,7 +729,7 @@ export const Application = () => {
                             {
                                 data.map(item => (
                                     <tr >
-                                        <td> 
+                                        <td>
                                             <div style={{
                                                 backgroundColor: '#FFD700',  // সুন্দর হলুদ
                                                 padding: '3px 06px',
